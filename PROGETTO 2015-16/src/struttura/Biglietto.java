@@ -109,6 +109,19 @@ public class Biglietto {
 		this.pagato = pagato;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		
+		Biglietto other = (Biglietto) obj;
+		
+		if((this.cliente.equals(other.getCliente())) && (this.partita.equals(other.getPartita()))){
+			result = true;
+		}
+		
+		return result;
+	}
+
 
 
 

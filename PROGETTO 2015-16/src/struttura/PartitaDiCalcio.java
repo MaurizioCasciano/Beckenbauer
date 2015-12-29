@@ -1,9 +1,17 @@
+/**
+ * Program: PartitaDiCalcio.java
+ * Purpose: classe che modella una partita di calcio 
+ * @author Maurizio Casciano & Gaetano Antonucci
+ * Last Modified: 29/12/2015 (GA)
+ */
+
 package struttura;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import user.Cliente;
+//import user.Cliente;
 
 public class PartitaDiCalcio {
 
@@ -89,8 +97,9 @@ public class PartitaDiCalcio {
 				+ ", squadraTrasferta = " + squadraTrasferta + "]";
 	}
 
+	
 
-	public void prenotaBiglietto(Cliente c){
+	/*public void prenotaBiglietto(Cliente c){
 		this.prenotazioni.add(new Prenotazione(c, this));
 	}
 	
@@ -101,8 +110,24 @@ public class PartitaDiCalcio {
 				
 			}
 		}
-	}
+	} */
 	
+	@Override
+	public boolean equals(Object obj) {	//(GA)
+		boolean result = false;
+		
+		PartitaDiCalcio other = (PartitaDiCalcio) obj;
+		
+		if((this.data.equals(other.data)) && (this.squadraCasa.equals(other.squadraCasa)) &&
+				(this.squadraTrasferta.equals(other.squadraTrasferta))){
+			result = true;
+		}
+		
+		return result;
+	}
+
+
+
 	private GregorianCalendar data;
 	private String dataString;
 	private Stadio stadio;
