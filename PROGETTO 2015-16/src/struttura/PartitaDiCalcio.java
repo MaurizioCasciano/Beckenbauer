@@ -13,19 +13,34 @@ public class PartitaDiCalcio {
 		this.stadio = stadio;
 		this.data = data;
 		this.dataString = DateFormat.getDateInstance(DateFormat.LONG).format(data.getTime());
+		
+		this.postiDisponibili = stadio.getCapienzaStadio();
 	}
+	
+	public PartitaDiCalcio(Squadra squadraCasa, Squadra squadraTrasferta, Stadio stadio, GregorianCalendar data, Sconti sconto) {
+		this.squadraCasa = squadraCasa;
+		this.squadraTrasferta = squadraTrasferta;
+		this.stadio = stadio;
+		this.data = data;
+		this.dataString = DateFormat.getDateInstance(DateFormat.LONG).format(data.getTime());
+		
+		this.postiDisponibili = stadio.getCapienzaStadio();
+		
+		this.sconto = sconto;
+	}
+	
 
 	/**
-	 * Restituisce la data in cui sarà disputata la partita.
-	 * @return La data in cui sarà disputata la partita.
+	 * Restituisce la data in cui sarï¿½ disputata la partita.
+	 * @return La data in cui sarï¿½ disputata la partita.
 	 */
 	public GregorianCalendar getData() {
 		return data;
 	}
 
 	/**
-	 * Restituisce lo stadio in cui sarà disputata la partita.
-	 * @return Lo stadio in cui sarà disputata la partita.
+	 * Restituisce lo stadio in cui sarï¿½ disputata la partita.
+	 * @return Lo stadio in cui sarï¿½ disputata la partita.
 	 */
 	public Stadio getStadio() {
 		return this.stadio;
@@ -46,7 +61,24 @@ public class PartitaDiCalcio {
 	public Squadra getSquadraTrasferta() {
 		return squadraTrasferta;
 	}
-
+	
+	/**
+	 * Retistituisce i posti ancora disponbili per la partita
+	 * @return posti disponibili
+	 */
+	public int getPostiDisponibili(){
+		return this.postiDisponibili;
+	}
+	
+	/**
+	 * Restituisce la politica di sconto della partita
+	 * @return politica di sconto se Ã¨ presente
+	 * @return null se la partita non ha una politica di sconto
+	 */
+	public Sconti getSconto(){
+		return this.sconto;
+	}
+	
 	public ArrayList<Prenotazione> getPrenotazioni() {
 		return prenotazioni;
 	}
@@ -71,15 +103,16 @@ public class PartitaDiCalcio {
 		}
 	}
 	
-	
-
-
-
-
-
 	private GregorianCalendar data;
 	private String dataString;
 	private Stadio stadio;
 	private Squadra squadraCasa, squadraTrasferta;
+	
+	private int postiDisponibili;	// (GA) di default Ã¨ il numero di posti disponibili dello stadio, 
+									// poi viene aggiornato il base alle vendite e alle prenotazioni
+	
+	private Sconti sconto;			// (GA) di default puÃ² essere null se la partita non ha nessuna politica
+									// di sconto associata
+	
 	private ArrayList<Prenotazione> prenotazioni;
 }

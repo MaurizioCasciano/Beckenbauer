@@ -21,10 +21,6 @@ public class Prenotazione {
 		return stadio;
 	}
 
-
-
-
-
 	private Cliente cliente;
 	private PartitaDiCalcio partita;
 	private Stadio stadio;
