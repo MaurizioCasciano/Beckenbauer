@@ -3,6 +3,9 @@ package graphics;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,19 +33,6 @@ public class Window extends JFrame {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.LIGHT_GRAY);
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem newItem = new JMenuItem("New");
-		fileMenu.add(newItem);
-		menuBar.add(fileMenu);
-
-		JMenu showMenu = new JMenu("Show");
-		JMenuItem partiteItem = new JMenuItem("Partite");
-		showMenu.add(partiteItem);
-		menuBar.add(showMenu);
-		this.setJMenuBar(menuBar);
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -64,7 +54,28 @@ public class Window extends JFrame {
 		} else if (this.utente instanceof Gestore) {
 			this.mainPanel.remove(this.identificationPanel);
 			this.mainPanel.repaint();
+
+			JMenuBar menuBar = new JMenuBar();
+			menuBar.setBackground(Color.LIGHT_GRAY);
+			JMenu partiteMenu = new JMenu("Partite");
+			JMenuItem newPartitaItem = new JMenuItem("New");
+
+			newPartitaItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Aggiungere componenti grafici scelta squadre e
+					// pulsante aggiungi
+				}
+			});
+
+			partiteMenu.add(newPartitaItem);
+			menuBar.add(partiteMenu);
+
 			// TODO aggiungere i componenti grafici opportuni alla modalità
+
+			this.setJMenuBar(menuBar);
+			this.revalidate();
 		}
 
 	}
