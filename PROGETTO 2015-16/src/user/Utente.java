@@ -9,7 +9,7 @@ import password.PasswordHash;
  * La classe Utente rappresenta l'Utente di un sistema informatico. Ogni Utente
  * è dotato di un nome, un cognome, una username ed una passwordHash.
  */
-public abstract class Utente implements Serializable, Cloneable{
+public abstract class Utente implements Serializable, Cloneable {
 
 	/**
 	 * Crea un nuovo Utente di un sistema informatico.
@@ -80,12 +80,27 @@ public abstract class Utente implements Serializable, Cloneable{
 		return PasswordHash.validatePassword(password, this.passwordHash);
 	}
 
+	/**
+	 * Restituisce una stringa (nome, cognome, username)rappresentante questo
+	 * Utente.
+	 * 
+	 * @return La stringa rappresentante questo Utente.
+	 */
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [nome = " + nome + ", cognome = " + cognome + ", username = "
 				+ username + "]";
 	}
 
+	/**
+	 * Controlla se l'oggetto passato in input è uguale a questo Utente. Due
+	 * Utenti sono uguali se e solo se hanno la stessa username.
+	 * 
+	 * @param obj
+	 *            L'oggetto da confrontare con questo Utente.
+	 * 
+	 * @return true se sono uguali, false altrimenti.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
