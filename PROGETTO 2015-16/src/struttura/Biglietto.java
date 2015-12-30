@@ -10,7 +10,7 @@ package struttura;
 import user.Cliente;
 
 public class Biglietto {
-	
+
 	public Biglietto(Cliente cliente, PartitaDiCalcio partita, String settore, int fila, int posto, double prezzo) {
 		this.cliente = cliente;
 		this.partita = partita;
@@ -18,12 +18,13 @@ public class Biglietto {
 		this.fila = fila;
 		this.posto = posto;
 		this.prezzo = prezzo;
-		
+
 		this.IDBiglietto = ++IDCounter;
 	}
 
 	/**
 	 * Restituisce l'ID del biglietto
+	 * 
 	 * @return IDBiglietto
 	 */
 	public int getIDBiglietto() {
@@ -32,6 +33,7 @@ public class Biglietto {
 
 	/**
 	 * Restituisce il cliente che ha prenotato/acquistato il biglietto
+	 * 
 	 * @return cliente
 	 */
 	public Cliente getCliente() {
@@ -40,6 +42,7 @@ public class Biglietto {
 
 	/**
 	 * Restituisce la partita a cui il biglieto fa riferimento
+	 * 
 	 * @return partita
 	 */
 	public PartitaDiCalcio getPartita() {
@@ -47,7 +50,8 @@ public class Biglietto {
 	}
 
 	/**
-	 * Restituisce il settore dello stadio in cui è locato il posto 
+	 * Restituisce il settore dello stadio in cui è locato il posto
+	 * 
 	 * @return settore
 	 */
 	public String getSettore() {
@@ -56,6 +60,7 @@ public class Biglietto {
 
 	/**
 	 * Restituisce la fila in cui è locato il posto
+	 * 
 	 * @return fila
 	 */
 	public int getFila() {
@@ -64,6 +69,7 @@ public class Biglietto {
 
 	/**
 	 * Restituisce il posto prenotato/acquistato dal cliente
+	 * 
 	 * @return posto
 	 */
 	public int getPosto() {
@@ -79,8 +85,9 @@ public class Biglietto {
 
 	/**
 	 * Restituisce lo stato biglietto in riferimento alle prenotazioni
-	 * @return true se il biglietto è stato prenotato, false se il biglietto è stato
-	 * 		   acquistato direttamente
+	 * 
+	 * @return true se il biglietto è stato prenotato, false se il biglietto è
+	 *         stato acquistato direttamente
 	 */
 	public boolean isPrenotato() {
 		return prenotato;
@@ -88,8 +95,9 @@ public class Biglietto {
 
 	/**
 	 * Restituisce lo stato del biglietto in riferimento alle vendite
-	 * @return true se il biglietto è stato comprato, quindi pagato, false se il
-	 * 		   biglietto è stato solo prenotato
+	 * 
+	 * @return true se il biglietto è stato comprato, quindi pagato, false se
+	 *         il biglietto è stato solo prenotato
 	 */
 	public boolean isPagato() {
 		return pagato;
@@ -111,19 +119,25 @@ public class Biglietto {
 
 	@Override
 	public boolean equals(Object obj) {
-		boolean result = false;
-		
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Biglietto other = (Biglietto) obj;
-		
-		if((this.cliente.equals(other.getCliente())) && (this.partita.equals(other.getPartita()))){
-			result = true;
-		}
-		
-		return result;
+		if (cliente == null) {
+			if (other.cliente != null)
+				return false;
+		} else if (!cliente.equals(other.cliente))
+			return false;
+		if (partita == null) {
+			if (other.partita != null)
+				return false;
+		} else if (!partita.equals(other.partita))
+			return false;
+		return true;
 	}
-
-
-
 
 	private int IDBiglietto;
 	private Cliente cliente;
@@ -131,10 +145,10 @@ public class Biglietto {
 	private String settore;
 	private int fila;
 	private int posto;
-	private double prezzo;	// (GA) Da calcolare automaticamente
+	private double prezzo; // (GA) Da calcolare automaticamente
 	private boolean prenotato;
 	private boolean pagato;
-	
+
 	// Iteratore
 	private static int IDCounter = 1;
 }

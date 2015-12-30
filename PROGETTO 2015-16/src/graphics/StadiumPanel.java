@@ -10,16 +10,32 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class FinalStadiumPanel extends JPanel {
+public class StadiumPanel extends JPanel {
 
-	public FinalStadiumPanel() {
-		super(new GridLayout(3, 1));
+	public StadiumPanel() {
+		super(new GridLayout(STADIUM_PANEL_ROWS, STADIUM_PANEL_COLUMNS));
+		this.init();
+	}
+
+	private void init() {
 		this.numeroPosti = 0;
 
-		this.northPanel = new JPanel(new GridLayout(8, 30));
+		this.initNorthPanel();
+		this.initCentrePanel();
+		this.initSouthPanel();
+		this.add(northPanel);
+		this.add(centrePanel);
+		this.add(southPanel);
+	}
+
+	private void initNorthPanel() {
+		final int NORTH_PANEL_ROWS = 8;
+		final int NORTH_PANEL_COLUMNS = 30;
+
+		this.northPanel = new JPanel(new GridLayout(NORTH_PANEL_ROWS, NORTH_PANEL_COLUMNS));
 		this.northPanel.setOpaque(false);
 
-		for (int i = 0; i < 8 * 30; i++) {
+		for (int i = 0; i < NORTH_PANEL_ROWS * NORTH_PANEL_COLUMNS; i++) {
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.setOpaque(false);
 
@@ -30,16 +46,31 @@ public class FinalStadiumPanel extends JPanel {
 
 			this.northPanel.add(panel);
 		}
+	}
 
-		/***********************************************************************/
+	private void initCentrePanel() {
+		final int CENTRE_PANEL_ROWS = 1;
+		final int CENTRE_PANEL_COLUMNS = 3;
 
-		this.centrePanel = new JPanel(new GridLayout(1, 3));
+		this.initCentreLeftPanel();
+		this.initCentreCentrePanel();
+		this.initCentreRightPanel();
+
+		this.centrePanel = new JPanel(new GridLayout(CENTRE_PANEL_ROWS, CENTRE_PANEL_COLUMNS));
 		this.centrePanel.setOpaque(false);
+		this.centrePanel.add(this.centreLeftPanel);
+		this.centrePanel.add(this.centreCentrePanel);
+		this.centrePanel.add(this.centreRightPanel);
+	}
 
-		this.centreLeftPanel = new JPanel(new GridLayout(8, 10));
+	private void initCentreLeftPanel() {
+		final int CENTRE_LEFT_PANEL_ROWS = 8;
+		final int CENTRE_LEFT_PANEL_COLUMNS = 10;
+
+		this.centreLeftPanel = new JPanel(new GridLayout(CENTRE_LEFT_PANEL_ROWS, CENTRE_LEFT_PANEL_COLUMNS));
 		this.centreLeftPanel.setOpaque(false);
 
-		for (int i = 0; i < 8 * 10; i++) {
+		for (int i = 0; i < CENTRE_LEFT_PANEL_ROWS * CENTRE_LEFT_PANEL_COLUMNS; i++) {
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.setOpaque(false);
 
@@ -48,11 +79,13 @@ public class FinalStadiumPanel extends JPanel {
 
 			this.centreLeftPanel.add(panel);
 		}
+	}
 
+	private void initCentreCentrePanel() {
 		this.centreCentrePanel = new BackgroundImagePanel(ImageLoader.loadImage("footballpitch.png"));
-		this.centreCentrePanel.setLayout(new BorderLayout());
-		this.centreCentrePanel.setOpaque(false);
+	}
 
+	private void initCentreRightPanel() {
 		this.centreRightPanel = new JPanel(new GridLayout(8, 10));
 		this.centreRightPanel.setOpaque(false);
 
@@ -65,12 +98,14 @@ public class FinalStadiumPanel extends JPanel {
 
 			this.centreRightPanel.add(panel);
 		}
+	}
 
-		this.centrePanel.add(this.centreLeftPanel);
-		this.centrePanel.add(this.centreCentrePanel);
-		this.centrePanel.add(this.centreRightPanel);
+	private void initSouthPanel() {
 
-		this.southPanel = new JPanel(new GridLayout(8, 30));
+		final int SOUTH_PANEL_ROWS = 8;
+		final int SOUTH_PANEL_COLUMNS = 30;
+
+		this.southPanel = new JPanel(new GridLayout(SOUTH_PANEL_ROWS, SOUTH_PANEL_COLUMNS));
 		this.southPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 30; i++) {
@@ -84,16 +119,11 @@ public class FinalStadiumPanel extends JPanel {
 
 			this.southPanel.add(panel);
 		}
-
-		this.add(northPanel);
-		this.add(centrePanel);
-		this.add(southPanel);
-
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		//stampa il background
+		// stampa il background
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.LIGHT_GRAY);
@@ -109,11 +139,14 @@ public class FinalStadiumPanel extends JPanel {
 
 	private int numeroPosti;
 
+	private static final int STADIUM_PANEL_ROWS = 3;
+	private static final int STADIUM_PANEL_COLUMNS = 1;
+
 	/***********************************************************************/
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new FinalStadiumPanel());
+		frame.add(new StadiumPanel());
 		frame.setSize(1000, 700);
 		frame.setVisible(true);
 	}
