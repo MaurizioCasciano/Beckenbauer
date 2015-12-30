@@ -81,7 +81,7 @@ public abstract class Utente implements Serializable, Cloneable {
 	}
 
 	/**
-	 * Restituisce una stringa (nome, cognome, username)rappresentante questo
+	 * Restituisce una stringa (nome, cognome, username) rappresentante questo
 	 * Utente.
 	 * 
 	 * @return La stringa rappresentante questo Utente.

@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -45,7 +44,7 @@ public class IdentificationPanel extends JPanel {
 		this.myBackGroundImage = bufferedImage;
 		this.setLayout(new BorderLayout());
 		this.initializeIdentificationBox();
-		this.add(identificationBox);
+		this.add(identificationBox, BorderLayout.CENTER);
 		this.strutturaSportiva = strutturaSportiva;
 	}
 
@@ -56,25 +55,12 @@ public class IdentificationPanel extends JPanel {
 		g2.drawImage(myBackGroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
 	}
 
-	@SuppressWarnings("unused")
-	private BufferedImage getScaledImage(BufferedImage image, int width, int height) {
-		BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = resizedImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-
-		g2.drawImage(image, 0, 0, width, height, null);
-		g2.dispose();
-		return resizedImage;
-	}
-
 	/**
 	 * Initializes the loginButton and adds it an ActionListener.
 	 */
 	private void initializeLoginButton() {
 		this.loginButton = new JButton(Assets.login);
 		this.loginButton.setToolTipText("Login");
-
-		JPanel panel = this;
 
 		this.loginButton.addActionListener(new ActionListener() {
 			@Override
@@ -89,8 +75,7 @@ public class IdentificationPanel extends JPanel {
 							cliente = strutturaSportiva.getCliente(loginUserNameTextField.getText());
 							if (cliente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
 
-								panel.getParent().repaint();
-								panel.getParent().remove(panel);
+								strutturaSportiva.setUtente(cliente);
 
 								JOptionPane.showMessageDialog(null,
 										"Modalità " + loginModeComboBox.getSelectedItem() + "\nBenvenuto "
@@ -117,8 +102,7 @@ public class IdentificationPanel extends JPanel {
 
 							if (gestore.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
 
-								panel.getParent().repaint();
-								panel.getParent().remove(panel);
+								strutturaSportiva.setUtente(gestore);
 
 								JOptionPane.showMessageDialog(null,
 										"Modalità " + loginModeComboBox.getSelectedItem() + "\nBenvenuto "
@@ -358,8 +342,9 @@ public class IdentificationPanel extends JPanel {
 						passwordRequirements.append("ed un carattere speciale (@#$%?£€^&+=).\n\n");
 						passwordRequirements.append("E' inoltra necessario che la lunghezza della password\n");
 						passwordRequirements.append("non sia inferiore ad 8 caratteri.");
-						
-						JOptionPane.showMessageDialog(null, passwordRequirements, e1.getMessage(), JOptionPane.ERROR_MESSAGE);
+
+						JOptionPane.showMessageDialog(null, passwordRequirements, e1.getMessage(),
+								JOptionPane.ERROR_MESSAGE);
 					}
 
 					catch (ClassNotFoundException e1) {

@@ -11,6 +11,7 @@ import user.AlreadyRegisteredUser;
 import user.Cliente;
 import user.Gestore;
 import user.UserNotFound;
+import user.Utente;
 
 public class StrutturaSportiva {
 	/**
@@ -28,12 +29,16 @@ public class StrutturaSportiva {
 		this.stadi = new ArrayList<>();
 		this.clienti = new GenericDB<>("Clienti");
 		this.gestori = new GenericDB<>("Gestori");
-
 		this.initGUI();
 	}
 
 	private void initGUI() {
 		this.myWindow = new Window(this.nome, this);
+	}
+
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+		this.myWindow.setUtente(this.utente);
 	}
 
 	/**
@@ -145,8 +150,9 @@ public class StrutturaSportiva {
 	// una struttura sportiva che comprenda più stadi
 	private ArrayList<Stadio> stadi;
 	private ArrayList<PartitaDiCalcio> partiteProgrammate;
-	@SuppressWarnings("unused")
 	private Window myWindow;
 	private GenericDB<Cliente> clienti;
 	private GenericDB<Gestore> gestori;
+
+	private Utente utente;
 }
