@@ -74,13 +74,7 @@ public class IdentificationPanel extends JPanel {
 						try {
 							cliente = strutturaSportiva.getCliente(loginUserNameTextField.getText());
 							if (cliente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-
 								strutturaSportiva.setUtente(cliente);
-
-								JOptionPane.showMessageDialog(null,
-										"Modalità " + loginModeComboBox.getSelectedItem() + "\nBenvenuto "
-												+ cliente.getNome(),
-										"Login", JOptionPane.INFORMATION_MESSAGE, Assets.clients);
 							} else {
 								JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
 										JOptionPane.INFORMATION_MESSAGE);
@@ -101,13 +95,7 @@ public class IdentificationPanel extends JPanel {
 							gestore = strutturaSportiva.getGestore(loginUserNameTextField.getText());
 
 							if (gestore.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-
 								strutturaSportiva.setUtente(gestore);
-
-								JOptionPane.showMessageDialog(null,
-										"Modalità " + loginModeComboBox.getSelectedItem() + "\nBenvenuto "
-												+ gestore.getNome(),
-										"Login", JOptionPane.INFORMATION_MESSAGE, Assets.managerIcon);
 							} else {
 								JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
 										JOptionPane.INFORMATION_MESSAGE);

@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import login.IdentificationPanel;
 import struttura.StrutturaSportiva;
@@ -50,10 +51,23 @@ public class Window extends JFrame {
 		if (this.utente instanceof Cliente) {
 			this.mainPanel.remove(this.identificationPanel);
 			this.mainPanel.repaint();
+
+			this.modalita = MODE.Cliente;
+
+			JOptionPane.showMessageDialog(this.mainPanel,
+					"Modalità " + this.modalita + "\nBenvenuto " + utente.getNome(), "Benvenuto",
+					JOptionPane.INFORMATION_MESSAGE, Assets.clients);
+
 			// TODO aggiungere i componenti grafici opportuni alla modalità
 		} else if (this.utente instanceof Gestore) {
 			this.mainPanel.remove(this.identificationPanel);
 			this.mainPanel.repaint();
+
+			this.modalita = MODE.Gestore;
+
+			JOptionPane.showMessageDialog(this.mainPanel,
+					"Modalità " + this.modalita + "\nBenvenuto " + utente.getNome(), "Login",
+					JOptionPane.INFORMATION_MESSAGE, Assets.managerIcon);
 
 			JMenuBar menuBar = new JMenuBar();
 			menuBar.setBackground(Color.LIGHT_GRAY);
@@ -86,4 +100,5 @@ public class Window extends JFrame {
 	private IdentificationPanel identificationPanel;
 
 	private Utente utente;
+	private MODE modalita;
 }
