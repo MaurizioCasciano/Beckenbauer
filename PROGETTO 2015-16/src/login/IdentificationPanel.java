@@ -330,8 +330,7 @@ public class IdentificationPanel extends JPanel {
 								String.valueOf(registerPasswordField.getPassword()));
 
 						strutturaSportiva.addCliente(cliente);
-						panel.getParent().repaint();
-						panel.getParent().remove(panel);
+						strutturaSportiva.setUtente(cliente);
 						JOptionPane.showMessageDialog(null, "Registration Successfully");
 					} catch (WeakPasswordException e1) {
 
