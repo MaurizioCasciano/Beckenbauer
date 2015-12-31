@@ -148,6 +148,7 @@ public class StadiumPanel extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new StadiumPanel());
 		frame.setSize(1000, 700);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 }

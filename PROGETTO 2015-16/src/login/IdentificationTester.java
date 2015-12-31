@@ -10,8 +10,7 @@ public class IdentificationTester {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
 		JFrame frame = new JFrame();
-		Assets.init();
-		frame.add(new IdentificationPanel(Assets.cubes, null), BorderLayout.EAST);
+		frame.add(new IdentificationPanel(Assets.getCubes(), null), BorderLayout.EAST);
 		
 		frame.setSize(1200, 700);
 		frame.setLocationRelativeTo(null);

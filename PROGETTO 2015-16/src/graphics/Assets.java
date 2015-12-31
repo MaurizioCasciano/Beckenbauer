@@ -6,26 +6,6 @@ import javax.swing.ImageIcon;
 
 public class Assets {
 
-	/**
-	 * Loads mages.
-	 */
-	public static void init() {
-		Assets.greenField = ImageLoader.loadImage("GreenField1280x720.jpg");
-		// Assets.ballSchoes =
-		// ImageLoader.loadImage("Hello3d&Schoes1280-720.jpg");
-		Assets.loginBackground = ImageLoader.loadImage("blue_circles_abstraction_81512_1920x1080.jpg");
-		Assets.cubeWallpaper = ImageLoader.loadImage("cube.jpg");
-		Assets.lava = ImageLoader.loadImage("lava-2560x1600.jpg");
-		Assets.cubes = ImageLoader.loadImage("Black&BlueCubes1280x720.jpg");
-		Assets.stadium = ImageLoader.loadImage("mappa_stadio_1400.png");
-		Assets.stadiumMap = ImageLoader.loadImage("mappa_stadio_1400.png");
-
-		Assets.managerIcon = new ImageIcon(ImageLoader.loadImage("Office-Customer-Male-Light-icon.png"));
-		Assets.customerIcon = new ImageIcon(ImageLoader.loadImage("User-Clients-icon.png"));
-		Assets.login = new ImageIcon(ImageLoader.loadImage("login.png"));
-		Assets.registerIcon = new ImageIcon(ImageLoader.loadImage("Add-Male-User.png"));
-	}
-
 	public static BufferedImage getSoccerPitch() {
 		if (Assets.soccerPitch == null) {
 			Assets.soccerPitch = ImageLoader.loadImage("footballpitch.png");
@@ -95,7 +75,7 @@ public class Assets {
 			Assets.blueSeat = new ImageIcon(ImageLoader.loadImage("Blue-Seat-icon.png"));
 		}
 
-		return blueSeat;
+		return Assets.blueSeat;
 	}
 
 	public static ImageIcon getBlueSeatRollover() {
@@ -103,7 +83,7 @@ public class Assets {
 			blueSeatRollover = new ImageIcon(ImageLoader.loadImage("Blue-Seat-icon-Rollover.png"));
 		}
 
-		return blueSeatRollover;
+		return Assets.blueSeatRollover;
 	}
 
 	public static BufferedImage greenField, ballSchoes, cubeWallpaper, loginBackground, lava, cubes, stadium,
