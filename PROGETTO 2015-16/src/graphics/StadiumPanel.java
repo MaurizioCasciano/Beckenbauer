@@ -9,7 +9,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class StadiumPanel extends JPanel {
 
 	public StadiumPanel() {
@@ -82,7 +81,7 @@ public class StadiumPanel extends JPanel {
 	}
 
 	private void initCentreCentrePanel() {
-		this.centreCentrePanel = new BackgroundImagePanel(ImageLoader.loadImage("footballpitch.png"));
+		this.centreCentrePanel = new BackgroundImagePanel(Assets.getSoccerPitch());
 	}
 
 	private void initCentreRightPanel() {
@@ -133,6 +132,7 @@ public class StadiumPanel extends JPanel {
 		g2.fill(roundRectangle);
 	}
 
+	private static final long serialVersionUID = -1931003973640128793L;
 	private JPanel northPanel, centrePanel, southPanel;
 
 	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;

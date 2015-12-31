@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,11 +24,10 @@ public class Window extends JFrame {
 		this.setSize(Window.WIDTH, Window.HEIGHT);
 		this.setMinimumSize(new Dimension(Window.WIDTH, Window.HEIGHT));
 
-		Assets.init();
-		this.mainPanel = new BackgroundImagePanel(Assets.greenFiel);
+		this.mainPanel = new BackgroundImagePanel(Assets.getGreenField());
 		this.mainPanel.setLayout(new BorderLayout());
 
-		this.identificationPanel = new IdentificationPanel(Assets.cubes, strutturaSportiva);
+		this.identificationPanel = new IdentificationPanel(Assets.getCubes(), strutturaSportiva);
 		this.mainPanel.add(this.identificationPanel, BorderLayout.EAST);
 
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -40,7 +38,8 @@ public class Window extends JFrame {
 	}
 
 	/**
-	 * Imposta l'utente attualmente loggato.
+	 * Imposta l'utente attualmente loggato ed aggiorna l'interfaccia grafica di
+	 * conseguenza.
 	 * 
 	 * @param utente
 	 *            L'utente loggato.
@@ -56,7 +55,7 @@ public class Window extends JFrame {
 
 			JOptionPane.showMessageDialog(this.mainPanel,
 					"Modalità " + this.modalita + "\nBenvenuto " + utente.getNome(), "Benvenuto",
-					JOptionPane.INFORMATION_MESSAGE, Assets.clients);
+					JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
 
 			// TODO aggiungere i componenti grafici opportuni alla modalità
 		} else if (this.utente instanceof Gestore) {
@@ -67,7 +66,7 @@ public class Window extends JFrame {
 
 			JOptionPane.showMessageDialog(this.mainPanel,
 					"Modalità " + this.modalita + "\nBenvenuto " + utente.getNome(), "Login",
-					JOptionPane.INFORMATION_MESSAGE, Assets.managerIcon);
+					JOptionPane.INFORMATION_MESSAGE, Assets.getManagerIcon());
 
 			JMenuBar menuBar = new JMenuBar();
 			menuBar.setBackground(Color.LIGHT_GRAY);

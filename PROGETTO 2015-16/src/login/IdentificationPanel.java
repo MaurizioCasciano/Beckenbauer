@@ -26,8 +26,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import graphics.Assets;
 import graphics.MODE;
+import graphics.Assets;
 import graphics.BackgroundImagePanel;
 import password.Password;
 import password.WeakPasswordException;
@@ -59,7 +59,7 @@ public class IdentificationPanel extends JPanel {
 	 * Initializes the loginButton and adds it an ActionListener.
 	 */
 	private void initializeLoginButton() {
-		this.loginButton = new JButton(Assets.login);
+		this.loginButton = new JButton(Assets.getLoginIcon());
 		this.loginButton.setToolTipText("Login");
 
 		this.loginButton.addActionListener(new ActionListener() {
@@ -158,7 +158,7 @@ public class IdentificationPanel extends JPanel {
 		this.initializeLoginUserNameTextField();
 		this.initializeLoginModeComboBox();
 
-		this.loginComponentsPanel = new BackgroundImagePanel(Assets.bluCircles);
+		this.loginComponentsPanel = new BackgroundImagePanel(Assets.getLoginBackground());
 		this.loginComponentsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.loginComponentsPanel.add(loginUserNameTextField);
 		this.loginComponentsPanel.add(loginPasswordField);
@@ -287,7 +287,7 @@ public class IdentificationPanel extends JPanel {
 	}
 
 	private void initializeRegisterButton() {
-		this.registerButton = new JButton(Assets.signup);
+		this.registerButton = new JButton(Assets.getRegisterIcon());
 		this.registerButton.setToolTipText("Sign-Up");
 
 		JPanel panel = this;
