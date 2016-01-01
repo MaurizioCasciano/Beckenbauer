@@ -28,7 +28,7 @@ public abstract class Utente implements Serializable, Cloneable {
 	 *             Indica che la password scelta non rispecchia i requisiti
 	 *             minimi di sicurezza.
 	 */
-	public Utente(String nome, String cognome, String username, String password) throws WeakPasswordException {
+	protected Utente(String nome, String cognome, String username, String password) throws WeakPasswordException {
 
 		if (!Password.check(password)) {
 			throw new WeakPasswordException();
