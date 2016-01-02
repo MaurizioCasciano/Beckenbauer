@@ -1,6 +1,8 @@
 package objectsTable;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -84,6 +86,16 @@ public class PartitaTableModel extends RowObjectTableModel<Partita> {
 				if (!e.getValueIsAdjusting()) {
 					System.out.println(model.getRow(table.getSelectedRow()));
 				}
+			}
+		});
+
+		table.getTableHeader().addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int col = table.columnAtPoint(e.getPoint());
+				String name = table.getColumnName(col);
+				System.out.println("Column index selected " + col + " " + name);
 			}
 		});
 
