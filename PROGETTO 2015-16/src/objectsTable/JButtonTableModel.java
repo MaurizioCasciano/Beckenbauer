@@ -4,15 +4,13 @@ import java.util.*;
 import java.awt.BorderLayout;
 import javax.swing.*;
 
-@SuppressWarnings("unchecked")
-public class JButtonTableModel extends RowTableModel<JButton> {
+public class JButtonTableModel extends RowObjectTableModel<JButton> {
 
 	private static final long serialVersionUID = -2669056263334698191L;
-	private static String[] COLUMN_NAMES = { "Text", "Tool Tip Text", "Enabled", "Visible" };
+	private static final String[] COLUMN_NAMES = { "Text", "Tool Tip Text", "Enabled", "Visible" };
 
-	JButtonTableModel() {
-		super(Arrays.asList(COLUMN_NAMES));
-		setRowClass(JButton.class);
+	public JButtonTableModel() {
+		super(new ArrayList<>(Arrays.asList(COLUMN_NAMES)), JButton.class);
 
 		setColumnClass(2, Boolean.class);
 		setColumnClass(3, Boolean.class);
@@ -37,10 +35,10 @@ public class JButtonTableModel extends RowTableModel<JButton> {
 	}
 
 	@Override
-	public void setValueAt(Object value, int row, int column) {
-		JButton button = getRow(row);
+	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		JButton button = getRow(rowIndex);
 
-		switch (column) {
+		switch (columnIndex) {
 		case 0:
 			button.setText((String) value);
 			break;
@@ -55,7 +53,7 @@ public class JButtonTableModel extends RowTableModel<JButton> {
 			break;
 		}
 
-		fireTableCellUpdated(row, column);
+		fireTableCellUpdated(rowIndex, columnIndex);
 	}
 
 	public static void main(String[] args) {
