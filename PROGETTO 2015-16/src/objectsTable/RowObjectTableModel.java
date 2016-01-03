@@ -90,17 +90,16 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 */
 
 	public Class<?> getColumnClass(int column) {
-		Class<?> columnClass = null;
+		Class<?> columnClass = Object.class;
 
-		// Get the class, if set, for the specified column
+		for (int row = 0; row < getRowCount(); row++) {
+			Object o = getValueAt(row, column);
 
-		if (column < columnClasses.length)
-			columnClass = columnClasses[column];
-
-		// Get the default class
-
-		if (columnClass == null)
-			columnClass = super.getColumnClass(column);
+			if (o != null) {
+				columnClass = o.getClass();
+				break;
+			}
+		}
 
 		return columnClass;
 	}

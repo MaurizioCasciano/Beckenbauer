@@ -38,7 +38,11 @@ public class Partita {
 	}
 
 	public GregorianCalendar getDate() {
-		return date;
+		return this.date;
+	}
+
+	public void setDate(GregorianCalendar date) {
+		this.date = date;
 	}
 
 	public String getFormattedDate() {
@@ -54,10 +58,6 @@ public class Partita {
 			e.printStackTrace();
 			// la data non viene modificata
 		}
-	}
-
-	public void setDate(GregorianCalendar date) {
-		this.date = date;
 	}
 
 	@Override
