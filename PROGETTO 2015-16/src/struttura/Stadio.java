@@ -15,6 +15,14 @@ public class Stadio {
 		this.scontoStadio = sconto;
 	}
 
+	public String getNome() {
+		return this.nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

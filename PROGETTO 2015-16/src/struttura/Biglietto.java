@@ -11,7 +11,7 @@ import user.Cliente;
 
 public class Biglietto {
 
-	public Biglietto(Cliente cliente, PartitaDiCalcio partita, String settore, int fila, int posto, double prezzo) {
+	public Biglietto(Cliente cliente, Partita partita, String settore, int fila, int posto, double prezzo) {
 		this.cliente = cliente;
 		this.partita = partita;
 		this.settore = settore;
@@ -45,7 +45,7 @@ public class Biglietto {
 	 * 
 	 * @return partita
 	 */
-	public PartitaDiCalcio getPartita() {
+	public Partita getPartita() {
 		return partita;
 	}
 
@@ -141,7 +141,7 @@ public class Biglietto {
 
 	private int IDBiglietto;
 	private Cliente cliente;
-	private PartitaDiCalcio partita;
+	private Partita partita;
 	private String settore;
 	private int fila;
 	private int posto;

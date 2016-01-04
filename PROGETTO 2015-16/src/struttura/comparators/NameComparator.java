@@ -1,13 +1,15 @@
-package struttura;
+package struttura.comparators;
 
 import java.util.Comparator;
+
+import struttura.Partita;
 
 /**
  * Una classe di smistamento (Call-Back), che impone un ordinamento totale su
  * una collezione di PartitaDiCalcio, basandosi sull'ordine lessicografico
  * crescente rispetto al nome delle squadre che si affrontano.
  */
-public class NameComparator implements Comparator<PartitaDiCalcio> {
+public class NameComparator implements Comparator<Partita> {
 
 	/**
 	 * Confronta due PartitaDiCalcio, in base ai nomi delle squadre che si
@@ -38,13 +40,13 @@ public class NameComparator implements Comparator<PartitaDiCalcio> {
 	 *         trasferta della seconda patita.
 	 */
 	@Override
-	public int compare(PartitaDiCalcio partita1, PartitaDiCalcio partita2) {
-		int result1 = partita1.getSquadraCasa().getNome().compareTo(partita2.getSquadraCasa().getNome());
+	public int compare(Partita partita1, Partita partita2) {
+		int result1 = partita1.getSquadraInCasa().getNome().compareTo(partita2.getSquadraInCasa().getNome());
 		if (result1 != 0) {
 			return result1;
 		}
 
-		int result2 = partita1.getSquadraTrasferta().getNome().compareTo(partita2.getSquadraTrasferta().getNome());
+		int result2 = partita1.getSquadraInTrasferta().getNome().compareTo(partita2.getSquadraInTrasferta().getNome());
 		if (result2 != 0) {
 			return result2;
 		}

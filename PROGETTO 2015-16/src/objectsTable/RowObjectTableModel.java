@@ -18,7 +18,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 * @param columnNames
 	 *            <code>ArrayList</code> containing the names of the new columns
 	 */
-	protected RowObjectTableModel(ArrayList<String> columnNames, Class<T> rowClass) {
+	protected RowObjectTableModel(String[] columnNames, Class<T> rowClass) {
 		this(new ArrayList<T>(), columnNames, rowClass);
 	}
 
@@ -39,7 +39,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 * @param rowClass
 	 *            the class of row data to be added to the model
 	 */
-	protected RowObjectTableModel(ArrayList<T> modelData, ArrayList<String> columnNames, Class<T> rowClass) {
+	protected RowObjectTableModel(ArrayList<T> modelData, String[] columnNames, Class<T> rowClass) {
 		setDataAndColumnNames(modelData, columnNames);
 		setRowClass(rowClass);
 	}
@@ -54,7 +54,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 * @param columnNames
 	 *            <code>List</code> containing the names of the new columns
 	 */
-	protected void setDataAndColumnNames(ArrayList<T> modelData, ArrayList<String> columnNames) {
+	protected void setDataAndColumnNames(ArrayList<T> modelData, String[] columnNames) {
 		this.tableObjects = modelData;
 		this.columnNames = columnNames;
 		this.columnClasses = new Class[getColumnCount()];
@@ -125,7 +125,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 * @return the number of columns in the model
 	 */
 	public int getColumnCount() {
-		return columnNames.size();
+		return columnNames.length;
 	}
 
 	/**
@@ -139,17 +139,17 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	public String getColumnName(int column) {
 		Object columnName = null;
 
-		if (column < columnNames.size()) {
-			columnName = columnNames.get(column);
+		if (column < columnNames.length) {
+			columnName = columnNames[column];
 		}
 
 		return (columnName == null) ? super.getColumnName(column) : columnName.toString();
 	}
 
 	/**
-	 * Returns the number of rows in this table model.
+	 * Restituisce il numero di righe in questo TableModel.
 	 *
-	 * @return the number of rows in the model
+	 * @return il numero di righe in questo TableModel.
 	 */
 	public int getRowCount() {
 		return tableObjects.size();
@@ -185,7 +185,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 * @param rowData
 	 *            data of the row being added
 	 */
-	public void addRow(T rowData) {
+	protected void addRow(T rowData) {
 		insertRow(getRowCount(), rowData);
 	}
 
@@ -469,7 +469,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 
 	private static final long serialVersionUID = 831989111979834244L;
 	protected ArrayList<T> tableObjects;
-	protected ArrayList<String> columnNames;
+	protected String[] columnNames;
 	protected Class<?>[] columnClasses;
 	protected Boolean[] isColumnEditable;
 	private Class<?> rowClass = Object.class;

@@ -1,12 +1,10 @@
 package struttura;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
 import database.GenericDB;
 import graphics.*;
+import struttura.filters.Filter;
 import user.AlreadyRegisteredUser;
 import user.Cliente;
 import user.Gestore;
@@ -19,9 +17,6 @@ public class StrutturaSportiva {
 	 * 
 	 * @param nome
 	 *            Il nome della StrutturaSportiva.
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 * @throws IOException
 	 */
 	public StrutturaSportiva(String nome) {
 		this.nome = nome;
@@ -50,7 +45,7 @@ public class StrutturaSportiva {
 		return nome;
 	}
 
-	public void addPartita(PartitaDiCalcio p) {
+	public void addPartita(Partita p) {
 		this.partiteProgrammate.add(p);
 	}
 
@@ -63,71 +58,26 @@ public class StrutturaSportiva {
 	 * 
 	 * @return Tutte le partite programmate.
 	 */
-	public ArrayList<PartitaDiCalcio> getPartiteProgrammate() {
+	public ArrayList<Partita> getPartiteProgrammate() {
 		return this.partiteProgrammate;
 	}
 
 	/**
-	 * Restituisce le partite programmate nella data (settimana) indicata.
+	 * Restituisce le partite programmate filtrate dal Filtro passato in input.
 	 * 
 	 * @param myFilter
-	 *            Il filtro da utilizzare.
-	 * @param data
-	 *            La data(settimana) da utilizzare.
-	 * @return Le partite programmate nella data (settimana) indicata.
+	 *            Il filtro da applicare.
+	 * @return Le partite programmate dopo l'applicazione del filtro.
 	 */
-	public ArrayList<PartitaDiCalcio> getPartiteProgrammate(Filter myFilter, GregorianCalendar data) {
-		ArrayList<PartitaDiCalcio> filteredByWeek = new ArrayList<>();
+	public ArrayList<Partita> getPartiteProgrammate(Filter myFilter) {
+		ArrayList<Partita> filteredByWeek = new ArrayList<>();
 
 		for (int i = 0; i < this.partiteProgrammate.size(); i++) {
-			if (myFilter.accept(this.partiteProgrammate.get(i), data)) {
+			if (myFilter.accept(this.partiteProgrammate.get(i))) {
 				filteredByWeek.add(this.partiteProgrammate.get(i));
 			}
 		}
 		return filteredByWeek;
-	}
-
-	/**
-	 * Restituisce le partite programmate nello stadio indicato.
-	 * 
-	 * @param myFilter
-	 *            Il filtro da utilizzare.
-	 * @param stadio
-	 *            Lo stadio da utilizzare.
-	 * @return Le partite programmate nello stadio indicato.
-	 */
-	public ArrayList<PartitaDiCalcio> getPartiteProgrammate(Filter myFilter, Stadio stadio) {
-		ArrayList<PartitaDiCalcio> filteredByStadium = new ArrayList<>();
-
-		for (int i = 0; i < this.partiteProgrammate.size(); i++) {
-			if (myFilter.accept(this.partiteProgrammate.get(i), stadio)) {
-				filteredByStadium.add(this.partiteProgrammate.get(i));
-			}
-		}
-		return filteredByStadium;
-	}
-
-	/**
-	 * Restituisce le partite programmate non ancora iniziate, ordinate secondo
-	 * il comparatore indicato.
-	 * 
-	 * @param myComparator
-	 *            Il comparatore da utilizzare.
-	 * @return Le partite programmate non ancora iniziate, ordinate secondo il
-	 *         comparatore.
-	 */
-	public ArrayList<PartitaDiCalcio> getPartiteProgrammate(Comparator<PartitaDiCalcio> myComparator) {
-		ArrayList<PartitaDiCalcio> stillToPlay = new ArrayList<>();
-		Filter myFilter = new MatchFilter();
-
-		for (int i = 0; i < this.partiteProgrammate.size(); i++) {
-			if (myFilter.accept(this.partiteProgrammate.get(i))) {
-				stillToPlay.add(this.partiteProgrammate.get(i));
-			}
-		}
-
-		stillToPlay.sort(myComparator);
-		return stillToPlay;
 	}
 
 	public void addCliente(Cliente cliente) throws ClassNotFoundException, IOException, AlreadyRegisteredUser {
@@ -149,7 +99,7 @@ public class StrutturaSportiva {
 	private String nome;
 	// una struttura sportiva che comprenda più stadi
 	private ArrayList<Stadio> stadi;
-	private ArrayList<PartitaDiCalcio> partiteProgrammate;
+	private ArrayList<Partita> partiteProgrammate;
 	private Window myWindow;
 	private GenericDB<Cliente> clienti;
 	private GenericDB<Gestore> gestori;

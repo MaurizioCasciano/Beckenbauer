@@ -1,6 +1,5 @@
 package objectsTable;
 
-import java.util.*;
 import java.awt.BorderLayout;
 import javax.swing.*;
 
@@ -10,7 +9,7 @@ public class JButtonTableModel extends RowObjectTableModel<JButton> {
 	private static final String[] COLUMN_NAMES = { "Text", "Tool Tip Text", "Enabled", "Visible" };
 
 	public JButtonTableModel() {
-		super(new ArrayList<>(Arrays.asList(COLUMN_NAMES)), JButton.class);
+		super(COLUMN_NAMES, JButton.class);
 
 		setColumnClass(2, Boolean.class);
 		setColumnClass(3, Boolean.class);

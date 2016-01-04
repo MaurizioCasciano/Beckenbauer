@@ -4,7 +4,7 @@ import user.Cliente;
 
 public class Prenotazione {
 
-	public Prenotazione(Cliente cliente, PartitaDiCalcio partita) {
+	public Prenotazione(Cliente cliente, Partita partita) {
 		this.cliente = cliente;
 		this.partita = partita;
 		this.stadio = partita.getStadio();
@@ -14,7 +14,7 @@ public class Prenotazione {
 	public Cliente getCliente() {
 		return cliente;
 	}
-	public PartitaDiCalcio getPartita() {
+	public Partita getPartita() {
 		return partita;
 	}
 	public Stadio getStadio() {
@@ -22,6 +22,6 @@ public class Prenotazione {
 	}
 
 	private Cliente cliente;
-	private PartitaDiCalcio partita;
+	private Partita partita;
 	private Stadio stadio;
 }
