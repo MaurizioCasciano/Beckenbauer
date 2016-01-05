@@ -1,4 +1,4 @@
-package login;
+package graphics.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
+
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -59,64 +61,11 @@ public class IdentificationPanel extends JPanel {
 	 * Initializes the loginButton and adds it an ActionListener.
 	 */
 	private void initializeLoginButton() {
-		this.loginButton = new JButton(Assets.getLoginIcon());
+		this.loginButton = new JButton();
+		this.loginButton.setAction(new LoginAction());
+		// MUST SET all properties after set action, otherwise will be deleted
+		this.loginButton.setIcon(Assets.getLoginIcon());
 		this.loginButton.setToolTipText("Login");
-
-		this.loginButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean loginIsAllFilledIn = (loginUserNameTextField.getText().length() > 0)
-						&& (loginPasswordField.getPassword().length >= Password.MINIMUM_LENGTH);
-
-				if (loginIsAllFilledIn) {
-					if (loginModeComboBox.getSelectedItem().equals(MODE.Cliente)) {
-
-						try {
-							cliente = strutturaSportiva.getCliente(loginUserNameTextField.getText());
-							if (cliente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-								strutturaSportiva.setUtente(cliente);
-							} else {
-								JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
-										JOptionPane.INFORMATION_MESSAGE);
-							}
-						} catch (ClassNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						} catch (UserNotFound e1) {
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getMessage(),
-									JOptionPane.INFORMATION_MESSAGE);
-						}
-
-					} else if (loginModeComboBox.getSelectedItem().equals(MODE.Gestore)) {
-
-						try {
-							gestore = strutturaSportiva.getGestore(loginUserNameTextField.getText());
-
-							if (gestore.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-								strutturaSportiva.setUtente(gestore);
-							} else {
-								JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
-										JOptionPane.INFORMATION_MESSAGE);
-							}
-						} catch (ClassNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						} catch (UserNotFound e1) {
-							// e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getMessage(),
-									JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-				} else if (!loginIsAllFilledIn) {
-					JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-		});
-
 	}
 
 	/**
@@ -129,6 +78,8 @@ public class IdentificationPanel extends JPanel {
 		this.loginPasswordField.setCaretColor(Color.BLUE);
 		this.loginPasswordField.setBorder(BorderFactory.createEmptyBorder());
 		this.loginPasswordField.addMouseListener(new ShowHidePasswordListener());
+		// ActionEvent is dispatched by the JTextField when enter is pressed.
+		this.loginPasswordField.setAction(new LoginAction());
 	}
 
 	/**
@@ -410,6 +361,63 @@ public class IdentificationPanel extends JPanel {
 		this.identificationBox = Box.createVerticalBox();
 		this.identificationBox.add(this.loginComponentsPanel);
 		this.identificationBox.add(this.registerComponentsPanel);
+	}
+
+	public class LoginAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			boolean loginIsAllFilledIn = (loginUserNameTextField.getText().length() > 0)
+					&& (loginPasswordField.getPassword().length >= Password.MINIMUM_LENGTH);
+
+			if (loginIsAllFilledIn) {
+				if (loginModeComboBox.getSelectedItem().equals(MODE.Cliente)) {
+
+					try {
+						cliente = strutturaSportiva.getCliente(loginUserNameTextField.getText());
+						if (cliente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
+							strutturaSportiva.setUtente(cliente);
+						} else {
+							JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (UserNotFound e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getMessage(),
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+
+				} else if (loginModeComboBox.getSelectedItem().equals(MODE.Gestore)) {
+
+					try {
+						gestore = strutturaSportiva.getGestore(loginUserNameTextField.getText());
+
+						if (gestore.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
+							strutturaSportiva.setUtente(gestore);
+						} else {
+							JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (UserNotFound e1) {
+						// e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getMessage(),
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			} else if (!loginIsAllFilledIn) {
+				JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
 	}
 
 	private static final long serialVersionUID = 5940403846029260534L;

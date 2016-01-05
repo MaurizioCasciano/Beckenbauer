@@ -1,4 +1,4 @@
-package login;
+package graphics.login;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

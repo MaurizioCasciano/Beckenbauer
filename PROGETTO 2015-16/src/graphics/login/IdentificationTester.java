@@ -1,4 +1,4 @@
-package login;
+package graphics.login;
 
 import java.awt.BorderLayout;
 import java.sql.SQLException;

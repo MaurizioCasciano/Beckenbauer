@@ -3,6 +3,7 @@ package objectsTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -33,6 +34,11 @@ public class PartitaTable extends JTable {
 
 	public PartitaTable() {
 		super(new PartitaTableModel());
+		this.init();
+	}
+
+	public PartitaTable(ArrayList<Partita> partite) {
+		super(new PartitaTableModel(partite));
 		this.init();
 	}
 
@@ -93,7 +99,7 @@ public class PartitaTable extends JTable {
 		 * background e lo stesso bordo.
 		 */
 
-		//System.out.println(this);
+		// System.out.println(this);
 
 		c.setBackground(Color.WHITE);
 		((JComponent) c).setBorder(new LineBorder(Color.BLACK));

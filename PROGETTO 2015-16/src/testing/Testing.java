@@ -45,30 +45,36 @@ public class Testing {
 			}
 		}
 
-		Stadio stadio1 = new Stadio("Stadio1", 100);
-		Stadio stadio2 = new Stadio("Stadio2", 100);
-		Stadio stadio3 = new Stadio("Stadio3", 100);
+		Stadio sanSiro = new Stadio("San Siro", 81277);
+		Stadio stadioOlimpico = new Stadio("Stadio Olimpico", 73261);
+		Stadio juventusStadium = new Stadio("Juventus Stadium", 41475);
 
-		sS.addStadio(stadio1);
-		sS.addStadio(stadio2);
-		sS.addStadio(stadio3);
+		sS.addStadio(sanSiro);
+		sS.addStadio(stadioOlimpico);
+		sS.addStadio(juventusStadium);
 
-		Squadra sq1 = new Squadra("Squadra1");
-		Squadra sq2 = new Squadra("Squadra2");
-		Squadra sq3 = new Squadra("Squadra3");
+		Squadra milan = new Squadra("Milan");
+		Squadra inter = new Squadra("Inter");
+		Squadra roma = new Squadra("Roma");
+		Squadra lazio = new Squadra("Lazio");
+		Squadra juventus = new Squadra("Juventus");
+		Squadra torino = new Squadra("Torino");
 
-		Partita p1 = new Partita(sq1, sq2, stadio1, new GregorianCalendar(2016, Calendar.JANUARY, 31, 20, 45));
-		Partita p2 = new Partita(sq1, sq3, stadio1, new GregorianCalendar(2016, Calendar.JANUARY, 31, 20, 45));
-		Partita p3 = new Partita(sq2, sq3, stadio2, new GregorianCalendar(2016, Calendar.JANUARY, 31, 20, 45));
+		Partita p1 = new Partita(milan, inter, sanSiro, new GregorianCalendar(2016, Calendar.JANUARY, 31, 20, 45));
+		Partita p2 = new Partita(roma, lazio, stadioOlimpico,
+				new GregorianCalendar(2016, Calendar.JANUARY, 31, 20, 45));
+		Partita p3 = new Partita(juventus, torino, juventusStadium,
+				new GregorianCalendar(2016, Calendar.JANUARY, 31, 20, 45));
 
-		Partita p4 = new Partita(sq2, sq1, stadio2, new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
-		Partita p5 = new Partita(sq3, sq1, stadio3, new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
-		Partita p6 = new Partita(sq3, sq2, stadio3, new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
+		Partita p4 = new Partita(inter, milan, sanSiro, new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
+		Partita p5 = new Partita(lazio, roma, stadioOlimpico,
+				new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
+		Partita p6 = new Partita(torino, juventus, juventusStadium,
+				new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
 
 		sS.addPartita(p1);
 		sS.addPartita(p2);
 		sS.addPartita(p3);
-
 		sS.addPartita(p4);
 		sS.addPartita(p5);
 		sS.addPartita(p6);

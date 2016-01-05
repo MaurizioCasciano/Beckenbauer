@@ -10,7 +10,7 @@ import struttura.Stadio;
 public class PartitaTableModel extends RowObjectTableModel<Partita> {
 
 	private static final long serialVersionUID = 6082073225853493069L;
-	private static final String[] COLUMN_NAMES = { "Home", "Away", "Stadium", "Date" };
+	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Data" };
 
 	public PartitaTableModel() {
 		super(COLUMN_NAMES, Partita.class);
