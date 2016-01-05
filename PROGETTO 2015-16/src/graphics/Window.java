@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -68,8 +69,9 @@ public class Window extends JFrame {
 
 		PartitaTable partitaTable = new PartitaTable(this.strutturaSportiva.getPartiteProgrammate());
 		JScrollPane scrollPane = new JScrollPane(partitaTable);
-
-		this.mainPanel.add(scrollPane, BorderLayout.NORTH);
+		//scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
+		
+		this.mainPanel.add(scrollPane, BorderLayout.CENTER);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.LIGHT_GRAY);

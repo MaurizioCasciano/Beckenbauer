@@ -18,11 +18,13 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableRowSorter;
 
-import objectsTable.editors.GregorianCalendarCellEditor;
+import org.jdesktop.swingx.JXDatePicker;
+
+import objectsTable.editors.GregorianCalendarDatePickerCellEditor;
 import objectsTable.editors.SquadraCellEditor;
 import objectsTable.editors.StadioCellEditor;
 import objectsTable.filter.PartitaRowFilter;
-import objectsTable.renderers.GregorianCalendarCellRenderer;
+import objectsTable.renderers.GregorianCalendarDatePickerCellRenderer;
 import objectsTable.renderers.SquadraCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import struttura.Partita;
@@ -48,6 +50,7 @@ public class PartitaTable extends JTable {
 		this.setAutoCreateColumnsFromModel(true);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		this.setSelectionBackground(Color.GREEN);
+		this.getColumnModel().getColumn(3).setMinWidth(90);
 
 		this.setCellRenderers();
 		this.setCellEditors();
@@ -75,7 +78,9 @@ public class PartitaTable extends JTable {
 	private void setCellRenderers() {
 		this.setDefaultRenderer(Squadra.class, new SquadraCellRenderer());
 		this.setDefaultRenderer(Stadio.class, new StadioCellRenderer());
-		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarCellRenderer());
+		// this.setDefaultRenderer(GregorianCalendar.class, new
+		// GregorianCalendarCellRenderer());
+		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarDatePickerCellRenderer());
 	}
 
 	/**
@@ -84,7 +89,9 @@ public class PartitaTable extends JTable {
 	private void setCellEditors() {
 		this.setDefaultEditor(Squadra.class, new SquadraCellEditor());
 		this.setDefaultEditor(Stadio.class, new StadioCellEditor());
-		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarCellEditor());
+		// this.setDefaultEditor(GregorianCalendar.class, new
+		// GregorianCalendarCellEditor());
+		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDatePickerCellEditor());
 	}
 
 	@Override
@@ -101,8 +108,13 @@ public class PartitaTable extends JTable {
 
 		// System.out.println(this);
 
-		c.setBackground(Color.WHITE);
-		((JComponent) c).setBorder(new LineBorder(Color.BLACK));
+		if (c instanceof JXDatePicker) {
+			((JXDatePicker) c).getComponent(0).setBackground(Color.WHITE);
+			((JComponent) ((JXDatePicker) c).getComponent(0)).setBorder(new LineBorder(Color.BLACK));
+		} else {
+			c.setBackground(Color.WHITE);
+			((JComponent) c).setBorder(new LineBorder(Color.BLACK));
+		}
 
 		return c;
 	}

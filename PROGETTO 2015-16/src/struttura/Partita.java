@@ -148,7 +148,8 @@ public class Partita {
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [squadraInCasa=" + squadraInCasa.getNome() + ", squadraInTrasferta="
-				+ squadraInTrasferta.getNome() + ", stadio=" + stadio.getNome() + ", data=" + DATE_FORMAT.format(data.getTime()) + "]";
+				+ squadraInTrasferta.getNome() + ", stadio=" + stadio.getNome() + ", data="
+				+ DATE_FORMAT.format(data.getTime()) + "]";
 	}
 
 	@Override

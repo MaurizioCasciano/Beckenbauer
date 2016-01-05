@@ -34,7 +34,7 @@ import graphics.BackgroundImagePanel;
 import password.Password;
 import password.WeakPasswordException;
 import struttura.StrutturaSportiva;
-import user.AlreadyRegisteredUser;
+import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
 import user.UserNotFound;
@@ -98,6 +98,7 @@ public class IdentificationPanel extends JPanel {
 	 */
 	private void initializeLoginModeComboBox() {
 		this.loginModeComboBox = new JComboBox<>(MODALITA);
+		//this.loginModeComboBox.setSelectedIndex(-1);
 	}
 
 	/**
@@ -289,7 +290,7 @@ public class IdentificationPanel extends JPanel {
 						e1.printStackTrace();
 					} catch (IOException e1) {
 						e1.printStackTrace();
-					} catch (AlreadyRegisteredUser e1) {
+					} catch (AlreadyRegisteredUserException e1) {
 						JOptionPane.showMessageDialog(null, "Username already exists. TRY AGAIN.", "Error",
 								JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();

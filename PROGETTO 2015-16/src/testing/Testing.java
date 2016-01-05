@@ -3,7 +3,7 @@ package testing;
 import struttura.*;
 import struttura.filters.MatchByWeekFilter;
 import struttura.filters.MatchNotYetStartedFilter;
-import user.AlreadyRegisteredUser;
+import user.AlreadyRegisteredUserException;
 import user.Gestore;
 import user.UserNotFound;
 
@@ -39,7 +39,7 @@ public class Testing {
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (AlreadyRegisteredUser e1) {
+			} catch (AlreadyRegisteredUserException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

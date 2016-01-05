@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import database.GenericDB;
 import graphics.*;
 import struttura.filters.Filter;
-import user.AlreadyRegisteredUser;
+import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
 import user.UserNotFound;
@@ -80,7 +80,7 @@ public class StrutturaSportiva {
 		return filteredByWeek;
 	}
 
-	public void addCliente(Cliente cliente) throws ClassNotFoundException, IOException, AlreadyRegisteredUser {
+	public void addCliente(Cliente cliente) throws ClassNotFoundException, IOException, AlreadyRegisteredUserException {
 		this.clienti.add(cliente);
 	}
 
@@ -88,7 +88,7 @@ public class StrutturaSportiva {
 		return this.clienti.get(username);
 	}
 
-	public void addGestore(Gestore gestore) throws ClassNotFoundException, IOException, AlreadyRegisteredUser {
+	public void addGestore(Gestore gestore) throws ClassNotFoundException, IOException, AlreadyRegisteredUserException {
 		this.gestori.add(gestore);
 	}
 

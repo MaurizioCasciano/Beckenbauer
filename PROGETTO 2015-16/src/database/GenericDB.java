@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import user.AlreadyRegisteredUser;
+import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.UserNotFound;
 import user.Utente;
@@ -25,7 +25,7 @@ public class GenericDB<T extends Utente> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void add(T user) throws IOException, ClassNotFoundException, AlreadyRegisteredUser {
+	public void add(T user) throws IOException, ClassNotFoundException, AlreadyRegisteredUserException {
 
 		if (!this.fileDB.exists()) {
 			this.fileDB.createNewFile();
@@ -49,7 +49,7 @@ public class GenericDB<T extends Utente> {
 
 			for (T u : this.collection) {
 				if (u.equals(user)) {
-					throw new AlreadyRegisteredUser(user.getClass().getSimpleName() + " già presente nel database");
+					throw new AlreadyRegisteredUserException(user.getClass().getSimpleName() + " già presente nel database");
 				}
 			}
 
@@ -92,13 +92,13 @@ public class GenericDB<T extends Utente> {
 	private ObjectOutputStream objectOutputStream;
 
 	/**
-	 * @throws AlreadyRegisteredUser
+	 * @throws AlreadyRegisteredUserException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 * @throws UserNotFound
 	 ***************************************************************/
 	public static void main(String[] args)
-			throws ClassNotFoundException, IOException, AlreadyRegisteredUser, UserNotFound {
+			throws ClassNotFoundException, IOException, AlreadyRegisteredUserException, UserNotFound {
 		GenericDB<Cliente> clienti = new GenericDB<>("clienti");
 
 		@SuppressWarnings("unused")
