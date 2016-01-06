@@ -3,10 +3,14 @@ package objectsTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -66,7 +70,7 @@ public class PartitaTable extends JTable {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
-					System.out.println(getSelectedPartita());
+					// System.out.println(getSelectedPartita());
 				}
 			}
 		});
@@ -124,7 +128,19 @@ public class PartitaTable extends JTable {
 	}
 
 	public Partita getSelectedPartita() {
-		return ((PartitaTableModel) this.getModel()).getPartita(this.getSelectedRow());
+		// l'indice della riga selezionata nella parte visiva
+		int viewIndex = this.getSelectedRow();
+		//System.out.println("viewIndex = " + viewIndex);
+
+		if (viewIndex == -1) {
+			viewIndex = 0;
+		}
+
+		// (INDISPENSABILE PER POTER UTILIZZARE SORTING e FILTERING)
+		int modelIndex = this.convertRowIndexToModel(viewIndex);
+		//System.out.println("modelIndex =" + modelIndex);
+
+		return ((PartitaTableModel) this.getModel()).getPartita(modelIndex);
 	}
 
 	private static final long serialVersionUID = 2097698111433165339L;
@@ -150,8 +166,32 @@ public class PartitaTable extends JTable {
 		 * frame.add(partite, BorderLayout.CENTER);
 		 */
 
+		JButton button = new JButton("Show info");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				/*
+				 * int viewIndex = partite.getSelectedRow();
+				 * 
+				 * System.out.println("viewIndex = " + viewIndex);
+				 * 
+				 * int modelIndex =
+				 * partite.getRowSorter().convertRowIndexToModel(viewIndex);
+				 * System.out.println("modelIndex =" + modelIndex);
+				 */
+
+				System.out.println(partite.getSelectedPartita());
+			}
+		});
+
+		frame.add(button, BorderLayout.SOUTH);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+
+		Date data = new Date();
+		System.out.println(data);
 	}
 }

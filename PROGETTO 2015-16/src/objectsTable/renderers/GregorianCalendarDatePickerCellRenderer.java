@@ -26,8 +26,6 @@ public class GregorianCalendarDatePickerCellRenderer extends DefaultTableCellRen
 		JComponent defaultBorderComponent = (JComponent) super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
 
-		System.out.println(this.datePicker.getComponents().getClass().getTypeName());
-
 		if (isSelected) {
 			this.datePicker.getComponent(0).setForeground(table.getSelectionForeground());
 			this.datePicker.getComponent(0).setBackground(table.getSelectionBackground());
