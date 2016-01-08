@@ -13,6 +13,8 @@ import java.util.GregorianCalendar;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -27,14 +29,12 @@ import org.jdesktop.swingx.JXDatePicker;
 import objectsTable.editors.GregorianCalendarDatePickerCellEditor;
 import objectsTable.editors.SquadraCellEditor;
 import objectsTable.editors.StadioCellEditor;
-import objectsTable.filter.PartitaRowFilter;
 import objectsTable.renderers.GregorianCalendarDatePickerCellRenderer;
 import objectsTable.renderers.SquadraCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
-import struttura.filters.MatchNotYetStartedFilter;
 
 public class PartitaTable extends JTable {
 
@@ -49,6 +49,7 @@ public class PartitaTable extends JTable {
 	}
 
 	private void init() {
+		//this.setFillsViewportHeight(true);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setColumnSelectionAllowed(false);
 		this.setAutoCreateColumnsFromModel(true);
@@ -56,6 +57,9 @@ public class PartitaTable extends JTable {
 		this.setSelectionBackground(Color.GREEN);
 		this.getColumnModel().getColumn(3).setMinWidth(90);
 
+		this.addMouseListener(new RightClickRowSelectionListener());
+		this.setComponentPopupMenu(this.getPopupMenu());
+		
 		this.setCellRenderers();
 		this.setCellEditors();
 
@@ -63,7 +67,7 @@ public class PartitaTable extends JTable {
 				(PartitaTableModel) getModel());
 		this.setRowSorter(sorter);
 
-		sorter.setRowFilter(new PartitaRowFilter(new MatchNotYetStartedFilter()));
+		//sorter.setRowFilter(new PartitaRowFilter(new MatchNotYetStartedFilter()));
 
 		this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -123,6 +127,28 @@ public class PartitaTable extends JTable {
 		return c;
 	}
 
+	
+	
+	private JPopupMenu getPopupMenu(){
+		if(this.popupMenu == null){
+			this.popupMenu = new JPopupMenu();
+			
+			this.dettagliMenuItem = new JMenuItem("Dettagli");
+			this.popupMenu.add(this.dettagliMenuItem);
+			
+			this.prenotaMenuItem = new JMenuItem("Prenota");
+			this.popupMenu.add(this.prenotaMenuItem);
+			
+			this.acquistaMenuItem = new JMenuItem("Acquista");
+			this.popupMenu.add(this.acquistaMenuItem);
+		}
+		
+		
+		
+		return this.popupMenu;
+	}
+	
+	
 	public void addPartita(Partita p) {
 		((PartitaTableModel) this.getModel()).addRow(p);
 	}
@@ -130,7 +156,7 @@ public class PartitaTable extends JTable {
 	public Partita getSelectedPartita() {
 		// l'indice della riga selezionata nella parte visiva
 		int viewIndex = this.getSelectedRow();
-		//System.out.println("viewIndex = " + viewIndex);
+		// System.out.println("viewIndex = " + viewIndex);
 
 		if (viewIndex == -1) {
 			viewIndex = 0;
@@ -138,12 +164,14 @@ public class PartitaTable extends JTable {
 
 		// (INDISPENSABILE PER POTER UTILIZZARE SORTING e FILTERING)
 		int modelIndex = this.convertRowIndexToModel(viewIndex);
-		//System.out.println("modelIndex =" + modelIndex);
+		// System.out.println("modelIndex =" + modelIndex);
 
 		return ((PartitaTableModel) this.getModel()).getPartita(modelIndex);
 	}
 
 	private static final long serialVersionUID = 2097698111433165339L;
+	private JPopupMenu popupMenu;
+	private JMenuItem dettagliMenuItem, prenotaMenuItem, acquistaMenuItem;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Partite");
