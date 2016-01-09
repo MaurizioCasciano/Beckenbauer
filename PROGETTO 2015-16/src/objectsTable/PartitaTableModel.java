@@ -37,7 +37,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita> {
 	public Partita getPartita(int row) {
 		return super.getRow(row);
 	}
-
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Partita partita = getRow(rowIndex);

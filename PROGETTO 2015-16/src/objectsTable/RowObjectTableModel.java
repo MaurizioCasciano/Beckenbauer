@@ -235,7 +235,13 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 *            data of the row being added
 	 */
 	public void insertRow(int row, T rowData) {
+		
+		System.out.println("Before Adding: " + tableObjects.size());
+		
 		tableObjects.add(row, rowData);
+		
+		System.out.println("After Adding: " + tableObjects.size());
+		
 		fireTableRowsInserted(row, row);
 	}
 

@@ -22,6 +22,18 @@ public class Partita {
 		this.postiDisponibili = stadio.getCapienzaStadio();
 	}
 
+	/**
+	 * Crea una nuova partita con valori di default, usata per inserire una
+	 * nuova riga nella JTable delle partite, e poi permettere la modifica
+	 * all'utente.
+	 */
+	public Partita() {
+		this.squadraInCasa = new Squadra("");
+		this.squadraInTrasferta = new Squadra("");
+		this.stadio = new Stadio("", 0);
+		this.data = new GregorianCalendar();
+	}
+
 	public Partita(Squadra squadraCasa, Squadra squadraTrasferta, Stadio stadio, GregorianCalendar data,
 			Sconti sconto) {
 		this.squadraInCasa = squadraCasa;

@@ -16,6 +16,7 @@ public class StadiumSeatButton extends JButton {
 		this.setOpaque(true);
 		this.setBackground(backgroundColor);
 
+		
 		this.setRolloverIcon(Assets.getBlueSeatRollover());
 		this.setRolloverEnabled(true);
 		this.addActionListener(new ActionListener() {

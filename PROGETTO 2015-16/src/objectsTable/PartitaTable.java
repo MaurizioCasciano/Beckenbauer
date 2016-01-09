@@ -49,7 +49,7 @@ public class PartitaTable extends JTable {
 	}
 
 	private void init() {
-		//this.setFillsViewportHeight(true);
+		// this.setFillsViewportHeight(true);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setColumnSelectionAllowed(false);
 		this.setAutoCreateColumnsFromModel(true);
@@ -59,7 +59,7 @@ public class PartitaTable extends JTable {
 
 		this.addMouseListener(new RightClickRowSelectionListener());
 		this.setComponentPopupMenu(this.getPopupMenu());
-		
+
 		this.setCellRenderers();
 		this.setCellEditors();
 
@@ -67,7 +67,8 @@ public class PartitaTable extends JTable {
 				(PartitaTableModel) getModel());
 		this.setRowSorter(sorter);
 
-		//sorter.setRowFilter(new PartitaRowFilter(new MatchNotYetStartedFilter()));
+		// sorter.setRowFilter(new PartitaRowFilter(new
+		// MatchNotYetStartedFilter()));
 
 		this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -127,28 +128,50 @@ public class PartitaTable extends JTable {
 		return c;
 	}
 
-	
-	
-	private JPopupMenu getPopupMenu(){
-		if(this.popupMenu == null){
+	private JPopupMenu getPopupMenu() {
+		if (this.popupMenu == null) {
 			this.popupMenu = new JPopupMenu();
-			
+
 			this.dettagliMenuItem = new JMenuItem("Dettagli");
 			this.popupMenu.add(this.dettagliMenuItem);
-			
+
 			this.prenotaMenuItem = new JMenuItem("Prenota");
 			this.popupMenu.add(this.prenotaMenuItem);
-			
+
 			this.acquistaMenuItem = new JMenuItem("Acquista");
 			this.popupMenu.add(this.acquistaMenuItem);
+
+			this.addPartita = new JMenuItem("Add new Partita");
+			this.popupMenu.add(this.addPartita);
+			this.addPartita.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					((PartitaTableModel) getModel()).addPartita(new Partita());
+
+					editCellAt(0, 0);
+				}
+			});
+
+			this.removePartita = new JMenuItem("Remove Partita");
+			this.popupMenu.add(this.removePartita);
+			this.removePartita.addActionListener(new ActionListener() {
+
+				@SuppressWarnings("unchecked")
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					int viewIndex = getSelectedRow();
+					int modelIndex = convertRowIndexToModel(viewIndex);
+
+					((RowObjectTableModel<Partita>) getModel()).removeRows(modelIndex);
+				}
+			});
 		}
-		
-		
-		
+
 		return this.popupMenu;
 	}
-	
-	
+
 	public void addPartita(Partita p) {
 		((PartitaTableModel) this.getModel()).addRow(p);
 	}
@@ -172,6 +195,8 @@ public class PartitaTable extends JTable {
 	private static final long serialVersionUID = 2097698111433165339L;
 	private JPopupMenu popupMenu;
 	private JMenuItem dettagliMenuItem, prenotaMenuItem, acquistaMenuItem;
+
+	private JMenuItem addPartita, removePartita;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Partite");

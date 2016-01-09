@@ -2,14 +2,28 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.border.LineBorder;
 
-public class StadiumPanel extends JPanel {
+public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 	public StadiumPanel() {
 		super(new GridLayout(STADIUM_PANEL_ROWS, STADIUM_PANEL_COLUMNS));
@@ -25,13 +39,47 @@ public class StadiumPanel extends JPanel {
 		this.add(northPanel);
 		this.add(centrePanel);
 		this.add(southPanel);
+
+		this.setPreferredSize(new Dimension(1000, 700));
+
+		this.addMouseWheelListener(this);
+
+		MouseAdapter mouseAdapter = new MouseAdapter() {
+			private Point origin;
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				origin = new Point(e.getPoint());
+			}
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if (origin != null) {
+					JViewport viewPort = (JViewport) getParent();
+					if (viewPort != null) {
+						int deltaX = origin.x - e.getX();
+						int deltaY = origin.y - e.getY();
+
+						Rectangle view = viewPort.getViewRect();
+						view.x += deltaX;
+						view.y += deltaY;
+
+						scrollRectToVisible(view);
+					}
+				}
+			}
+		};
+
+		this.addMouseListener(mouseAdapter);
+		this.addMouseMotionListener(mouseAdapter);
 	}
 
 	private void initNorthPanel() {
 		final int NORTH_PANEL_ROWS = 8;
 		final int NORTH_PANEL_COLUMNS = 30;
 
-		this.northPanel = new JPanel(new GridLayout(NORTH_PANEL_ROWS, NORTH_PANEL_COLUMNS));
+		this.northPanel = new JPanel(
+				new GridLayout(NORTH_PANEL_ROWS, NORTH_PANEL_COLUMNS, HORIZONTAL_GAP, VERTICAL_GAP));
 		this.northPanel.setOpaque(false);
 
 		for (int i = 0; i < NORTH_PANEL_ROWS * NORTH_PANEL_COLUMNS; i++) {
@@ -39,8 +87,28 @@ public class StadiumPanel extends JPanel {
 			panel.setOpaque(false);
 
 			if ((i >= 3 && i <= 26) || (i >= 31 && i <= 58) || (i >= 61 && i <= 88) || (i >= 90 && i <= 239)) {
-				StadiumSeatButton posto = new StadiumSeatButton(++numeroPosti, Color.LIGHT_GRAY);
-				panel.add(posto);
+				// StadiumSeatButton posto = new
+				// StadiumSeatButton(++numeroPosti, Color.LIGHT_GRAY);
+				// panel.add(posto);
+
+				JButton button = new JButton();
+				SettoreStadio settoreStadio = new SettoreStadio();
+
+				button.add(settoreStadio);
+
+				button.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						settoreStadio.showNextCard();
+					}
+				});
+
+				panel.add(button);
+
+				panel.setOpaque(true);
+				// panel.setBorder(new LineBorder(Color.BLACK));
+				panel.setToolTipText("Posto n° " + ++numeroPosti);
 			}
 
 			this.northPanel.add(panel);
@@ -66,15 +134,20 @@ public class StadiumPanel extends JPanel {
 		final int CENTRE_LEFT_PANEL_ROWS = 8;
 		final int CENTRE_LEFT_PANEL_COLUMNS = 10;
 
-		this.centreLeftPanel = new JPanel(new GridLayout(CENTRE_LEFT_PANEL_ROWS, CENTRE_LEFT_PANEL_COLUMNS));
+		this.centreLeftPanel = new JPanel(
+				new GridLayout(CENTRE_LEFT_PANEL_ROWS, CENTRE_LEFT_PANEL_COLUMNS, HORIZONTAL_GAP, VERTICAL_GAP));
 		this.centreLeftPanel.setOpaque(false);
 
 		for (int i = 0; i < CENTRE_LEFT_PANEL_ROWS * CENTRE_LEFT_PANEL_COLUMNS; i++) {
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.setOpaque(false);
 
-			StadiumSeatButton posto = new StadiumSeatButton(++numeroPosti, Color.LIGHT_GRAY);
-			panel.add(posto);
+			// StadiumSeatButton posto = new StadiumSeatButton(++numeroPosti,
+			// Color.LIGHT_GRAY);
+			// panel.add(posto);
+
+			panel.setOpaque(true);
+			panel.setBorder(new LineBorder(Color.BLACK));
 
 			this.centreLeftPanel.add(panel);
 		}
@@ -85,15 +158,19 @@ public class StadiumPanel extends JPanel {
 	}
 
 	private void initCentreRightPanel() {
-		this.centreRightPanel = new JPanel(new GridLayout(8, 10));
+		this.centreRightPanel = new JPanel(new GridLayout(8, 10, HORIZONTAL_GAP, VERTICAL_GAP));
 		this.centreRightPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 10; i++) {
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.setOpaque(false);
 
-			StadiumSeatButton posto = new StadiumSeatButton(++numeroPosti, Color.LIGHT_GRAY);
-			panel.add(posto);
+			// StadiumSeatButton posto = new StadiumSeatButton(++numeroPosti,
+			// Color.LIGHT_GRAY);
+			// panel.add(posto);
+
+			panel.setOpaque(true);
+			panel.setBorder(new LineBorder(Color.BLACK));
 
 			this.centreRightPanel.add(panel);
 		}
@@ -104,7 +181,8 @@ public class StadiumPanel extends JPanel {
 		final int SOUTH_PANEL_ROWS = 8;
 		final int SOUTH_PANEL_COLUMNS = 30;
 
-		this.southPanel = new JPanel(new GridLayout(SOUTH_PANEL_ROWS, SOUTH_PANEL_COLUMNS));
+		this.southPanel = new JPanel(
+				new GridLayout(SOUTH_PANEL_ROWS, SOUTH_PANEL_COLUMNS, HORIZONTAL_GAP, VERTICAL_GAP));
 		this.southPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 30; i++) {
@@ -112,8 +190,12 @@ public class StadiumPanel extends JPanel {
 			panel.setOpaque(false);
 
 			if ((i <= 149) || (i >= 151 && i <= 178) || (i >= 181 && i <= 208) || (i >= 213 && i <= 236)) {
-				StadiumSeatButton posto = new StadiumSeatButton(++numeroPosti, Color.LIGHT_GRAY);
-				panel.add(posto);
+				// StadiumSeatButton posto = new
+				// StadiumSeatButton(++numeroPosti, Color.LIGHT_GRAY);
+				// panel.add(posto);
+
+				panel.setOpaque(true);
+				panel.setBorder(new LineBorder(Color.BLACK));
 			}
 
 			this.southPanel.add(panel);
@@ -132,6 +214,27 @@ public class StadiumPanel extends JPanel {
 		g2.fill(roundRectangle);
 	}
 
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		updatePreferredSize(e.getWheelRotation(), e.getPoint());
+	}
+
+	private void updatePreferredSize(int wheelRotation, Point mousePosition) {
+		double scaleFactor = (double) wheelRotation * 1.08;
+		scaleFactor = (wheelRotation > 0) ? 1 / scaleFactor : -scaleFactor;
+
+		int w = (int) (this.getWidth() * scaleFactor);
+		int h = (int) (this.getHeight() * scaleFactor);
+
+		this.setPreferredSize(new Dimension(w, h));
+
+		int offsetX = (int) (mousePosition.x * scaleFactor) - mousePosition.x;
+		int offsetY = (int) (mousePosition.y * scaleFactor) - mousePosition.y;
+
+		this.setLocation(this.getLocation().x - offsetX, this.getLocation().y - offsetY);
+		this.getParent().revalidate();
+	}
+
 	private static final long serialVersionUID = -1931003973640128793L;
 	private JPanel northPanel, centrePanel, southPanel;
 
@@ -142,12 +245,18 @@ public class StadiumPanel extends JPanel {
 	private static final int STADIUM_PANEL_ROWS = 3;
 	private static final int STADIUM_PANEL_COLUMNS = 1;
 
+	private static final int HORIZONTAL_GAP = 5, VERTICAL_GAP = 5;
+
 	/***********************************************************************/
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new StadiumPanel());
-		frame.setSize(1000, 700);
+
+		JScrollPane scrollPane = new JScrollPane(new StadiumPanel());
+
+		frame.add(scrollPane);
+		frame.setSize(1100, 700);
+
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
