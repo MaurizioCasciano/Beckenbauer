@@ -46,7 +46,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		this.add(centrePanel);
 		this.add(southPanel);
 
-		this.setPreferredSize(new Dimension(1000, 700));
+		this.setPreferredSize(new Dimension(1200, 700));
 
 		this.addMouseWheelListener(this);
 
@@ -250,23 +250,34 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		updatePreferredSize(StadiumPanel.this, e.getWheelRotation(), e.getPoint());
+		updatePreferredSize(StadiumPanel.this, e.getPreciseWheelRotation(), e.getPoint());
 	}
 
-	private void updatePreferredSize(JComponent component, int wheelRotation, Point mousePosition) {
-		double scaleFactor = (double) wheelRotation * 1.08;
-		scaleFactor = (wheelRotation > 0) ? 1 / scaleFactor : -scaleFactor;
+	/**
+	 * Updates the preferredSize of the component depending on the value of
+	 * preciseWheelRotation.
+	 * 
+	 * @param component
+	 *            The component to which update the preferred size.
+	 * @param preciseWheelRotation
+	 *            The wheel rotations of the mouse.
+	 * @param mousePosition
+	 *            The position of the mouse when MouseWheelEvent was generated.
+	 */
+	private void updatePreferredSize(JComponent component, double preciseWheelRotation, Point mousePosition) {
+		double zoomFactor = preciseWheelRotation * 1.08;
+		zoomFactor = (preciseWheelRotation > 0) ? 1 / zoomFactor : -zoomFactor;
 
-		int w = (int) (component.getWidth() * scaleFactor);
-		int h = (int) (component.getHeight() * scaleFactor);
+		int width = (int) (component.getWidth() * zoomFactor);
+		int height = (int) (component.getHeight() * zoomFactor);
 
-		this.setPreferredSize(new Dimension(w, h));
+		this.setPreferredSize(new Dimension(width, height));
 
-		int offsetX = (int) (mousePosition.x * scaleFactor) - mousePosition.x;
-		int offsetY = (int) (mousePosition.y * scaleFactor) - mousePosition.y;
+		int offsetX = (int) ((mousePosition.x * zoomFactor) - mousePosition.x);
+		int offsetY = (int) ((mousePosition.y * zoomFactor) - mousePosition.y);
 
 		component.setLocation(component.getLocation().x - offsetX, component.getLocation().y - offsetY);
-		component.getParent().revalidate();
+		component.revalidate();
 	}
 
 	public int getCapienza() {
@@ -301,7 +312,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(StadiumPanel.CAPIENZA_DEFAULT));
 
 		frame.add(scrollPane);
-		frame.setSize(1100, 700);
+		frame.pack();
 
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
