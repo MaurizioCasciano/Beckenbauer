@@ -10,17 +10,20 @@ import javax.swing.JPanel;
 
 public class SettoreStadio extends JPanel {
 
-	public SettoreStadio() {
+	public SettoreStadio(int posti) {
 		super(new CardLayout());
 
+		this.posti = posti;
 		this.labelPanelCard = new JPanel(new BorderLayout());
 
 		this.nameLabel = new JLabel("Settore", JLabel.CENTER);
 		this.labelPanelCard.add(this.nameLabel, BorderLayout.CENTER);
 
-		this.seatsPanelCard = new JPanel(new GridLayout(3, 3, 3, 3));
+		int sqrtPosti = (int) Math.floor(Math.sqrt(posti));
 
-		for (int i = 0; i < 9; i++) {
+		this.seatsPanelCard = new JPanel(new GridLayout(sqrtPosti, sqrtPosti, 3, 3));
+
+		for (int i = 0; i < posti; i++) {
 			this.seatsPanelCard.add(new StadiumSeatButton(i, Color.GREEN));
 		}
 
@@ -33,15 +36,11 @@ public class SettoreStadio extends JPanel {
 	}
 
 	public int getSeats() {
-		return seats;
-	}
-
-	public void setSeats(int seats) {
-		this.seats = seats;
+		return posti;
 	}
 
 	private static final long serialVersionUID = 4920370237665489993L;
-	private int seats;
+	private int posti;
 	private JPanel labelPanelCard, seatsPanelCard;
 	private JLabel nameLabel;
 }

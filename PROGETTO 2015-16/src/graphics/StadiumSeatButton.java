@@ -10,13 +10,12 @@ public class StadiumSeatButton extends JButton {
 
 	public StadiumSeatButton(int numeroPosto, Color backgroundColor) {
 		super();
-		this.setIcon(Assets.getBlueSeat());
+		// this.setIcon(Assets.getBlueSeat());
 		this.setBorder(null);
 		this.setToolTipText(numeroPosto + "");
 		this.setOpaque(true);
 		this.setBackground(backgroundColor);
 
-		
 		this.setRolloverIcon(Assets.getBlueSeatRollover());
 		this.setRolloverEnabled(true);
 		this.addActionListener(new ActionListener() {
