@@ -31,7 +31,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 		this.postiPerSettore = capienza / SETTORI_TOTALI;
 
-		System.out.println(this.postiPerSettore);
+		// System.out.println(this.postiPerSettore);
 
 		this.init();
 	}
@@ -48,36 +48,21 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 		this.setPreferredSize(new Dimension(1200, 700));
 
-		this.addMouseWheelListener(this);
-
-		MouseAdapter mouseAdapter = new MouseAdapter() {
-			private Point origin;
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				origin = new Point(e.getPoint());
-			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				if (origin != null) {
-					JViewport viewPort = (JViewport) getParent();
-					if (viewPort != null) {
-						int deltaX = origin.x - e.getX();
-						int deltaY = origin.y - e.getY();
-
-						Rectangle view = viewPort.getViewRect();
-						view.x += deltaX;
-						view.y += deltaY;
-
-						scrollRectToVisible(view);
-					}
-				}
-			}
-		};
-
-		this.addMouseListener(mouseAdapter);
-		this.addMouseMotionListener(mouseAdapter);
+		/*
+		 * Per monitorare il movimento della rotellina del mouse ed effettuare
+		 * lo zoom di conseguenza.
+		 */
+		this.addMouseWheelListener(this.myMouseAdapter);
+		/*
+		 * Per ottenere il punto in cui inizia il trascinamento del mouse.
+		 */
+		this.addMouseListener(this.myMouseAdapter);
+		/*
+		 * Per monitorare il trascinamento del mouse e calcolare il nuovo
+		 * rettangolo visibile del JViewport in base alla distanza percorsa
+		 * trascinando il mouse.
+		 */
+		this.addMouseMotionListener(this.myMouseAdapter);
 	}
 
 	private void initNorthPanel() {
@@ -95,6 +80,17 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 			if ((i >= 3 && i <= 26) || (i >= 31 && i <= 58) || (i >= 61 && i <= 88) || (i >= 90 && i <= 239)) {
 				JButton settoreButton = new JButton();
 				settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+				/*
+				 * Per ottenere il punto in cui inizia il trascinamento del
+				 * mouse.
+				 */
+				settoreButton.addMouseListener(this.myMouseAdapter);
+				/*
+				 * Per monitorare il trascinamento del mouse e calcolare il
+				 * nuovo rettangolo visibile del JViewport in base alla distanza
+				 * percorsa trascinando il mouse.
+				 */
+				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 				SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
 
@@ -149,6 +145,16 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 			JButton settoreButton = new JButton();
 			settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+			/*
+			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
+			 */
+			settoreButton.addMouseListener(this.myMouseAdapter);
+			/*
+			 * Per monitorare il trascinamento del mouse e calcolare il nuovo
+			 * rettangolo visibile del JViewport in base alla distanza percorsa
+			 * trascinando il mouse.
+			 */
+			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 			SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
 
@@ -181,6 +187,16 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 			JButton settoreButton = new JButton();
 			settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+			/*
+			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
+			 */
+			settoreButton.addMouseListener(this.myMouseAdapter);
+			/*
+			 * Per monitorare il trascinamento del mouse e calcolare il nuovo
+			 * rettangolo visibile del JViewport in base alla distanza percorsa
+			 * trascinando il mouse.
+			 */
+			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 			SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
 
@@ -215,6 +231,17 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 			if ((i <= 149) || (i >= 151 && i <= 178) || (i >= 181 && i <= 208) || (i >= 213 && i <= 236)) {
 				JButton settoreButton = new JButton();
 				settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+				/*
+				 * Per ottenere il punto in cui inizia il trascinamento del
+				 * mouse.
+				 */
+				settoreButton.addMouseListener(this.myMouseAdapter);
+				/*
+				 * Per monitorare il trascinamento del mouse e calcolare il
+				 * nuovo rettangolo visibile del JViewport in base alla distanza
+				 * percorsa trascinando il mouse.
+				 */
+				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 				SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
 
@@ -265,18 +292,50 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 	 *            The position of the mouse when MouseWheelEvent was generated.
 	 */
 	private void updatePreferredSize(JComponent component, double preciseWheelRotation, Point mousePosition) {
+
 		double zoomFactor = preciseWheelRotation * 1.08;
 		zoomFactor = (preciseWheelRotation > 0) ? 1 / zoomFactor : -zoomFactor;
 
-		int width = (int) (component.getWidth() * zoomFactor);
-		int height = (int) (component.getHeight() * zoomFactor);
+		/*
+		 * La nuova larghezza viene calcolata moltiplicando quella attuale per
+		 * lo zoomFactor.
+		 */
+		int newWidth = (int) (component.getWidth() * zoomFactor);
+		/*
+		 * La nuova larghezza viene calcolata moltiplicando quella attuale per
+		 * lo zoomFactor.
+		 */
+		int newHeight = (int) (component.getHeight() * zoomFactor);
 
-		this.setPreferredSize(new Dimension(width, height));
+		/*
+		 * Imposta la nuova dimensione preferita.
+		 */
+		component.setPreferredSize(new Dimension(newWidth, newHeight));
 
-		int offsetX = (int) ((mousePosition.x * zoomFactor) - mousePosition.x);
-		int offsetY = (int) ((mousePosition.y * zoomFactor) - mousePosition.y);
+		/*
+		 * Calcola la posizione del mouse in seguito allo zoom (moltiplica per
+		 * lo zoomFactor).
+		 */
+		double mouseX_AfterZoom = mousePosition.x * zoomFactor;
+		double mouseY_AfterZoom = mousePosition.y * zoomFactor;
 
-		component.setLocation(component.getLocation().x - offsetX, component.getLocation().y - offsetY);
+		/*
+		 * Calcola lo spostamento del mouse in seguito allo zoom.
+		 */
+		double offsetX = mouseX_AfterZoom - mousePosition.x;
+		double offsetY = mouseY_AfterZoom - mousePosition.y;
+
+		/**
+		 * Calcola le nuove coordinate del componente affinchè il mouse rimanga
+		 * sulla stessa posizione anche dopo lo zoom.
+		 */
+		Point oldComponentLocation = component.getLocation();
+
+		int newMouseX = Math.round((float) (oldComponentLocation.x - offsetX));
+		int newMouseY = Math.round((float) (oldComponentLocation.y - offsetY));
+		Point newComponentLocation = new Point(newMouseX, newMouseY);
+
+		component.setLocation(newComponentLocation);
 		component.revalidate();
 	}
 
@@ -303,6 +362,51 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 	private int postiPerSettore;
 
 	private static final int HORIZONTAL_GAP = 5, VERTICAL_GAP = 5;
+
+	private final MouseAdapter myMouseAdapter = new MyMouseAdapter();
+
+	/**************************************************************************************/
+	class MyMouseAdapter extends MouseAdapter {
+		private Point origin;
+
+		/**
+		 * Ottiene il punto in cui ha avuto inizio il trascinamento del mouse.
+		 */
+		@Override
+		public void mousePressed(MouseEvent e) {
+			origin = new Point(e.getPoint());
+		}
+
+		/**
+		 * Calcola il nuovo rettangolo visibile del JViewport in base alla
+		 * distanza percorsa trascinando il mouse.
+		 */
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			if (origin != null) {
+				JViewport viewPort = (JViewport) getParent();
+				if (viewPort != null) {
+					int deltaX = origin.x - e.getX();
+					int deltaY = origin.y - e.getY();
+
+					Rectangle view = viewPort.getViewRect();
+					view.x += deltaX;
+					view.y += deltaY;
+
+					scrollRectToVisible(view);
+				}
+			}
+		}
+
+		/**
+		 * Gestisce l'aggiornamento della dimensione preferita di questo
+		 * componente.
+		 */
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent e) {
+			updatePreferredSize(StadiumPanel.this, e.getPreciseWheelRotation(), e.getPoint());
+		}
+	}
 
 	/***********************************************************************/
 	public static void main(String[] args) {
