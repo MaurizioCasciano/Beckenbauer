@@ -16,9 +16,9 @@ import java.awt.event.ComponentListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SettoreStadio extends JPanel {
+public class SettoreStadioPanel extends JPanel {
 
-	public SettoreStadio(int posti) {
+	public SettoreStadioPanel(int posti) {
 		super(new CardLayout());
 
 		this.posti = posti;

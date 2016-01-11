@@ -25,12 +25,28 @@ import javax.swing.JViewport;
 
 public class StadiumPanel extends JPanel implements MouseWheelListener {
 
+	/**
+	 * Crea un pannello rappresentante uno stadio, con la capienza di default.
+	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
+	 * essere inserito in un JScrollPane.
+	 */
+	public StadiumPanel() {
+		this(CAPIENZA_DEFAULT);
+	}
+
+	/**
+	 * Crea un pannello rappresentante uno stadio, con la capienza impostata.
+	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
+	 * essere inserito in un JScrollPane.
+	 * 
+	 * @param capienza
+	 *            La capienza dello stadio.
+	 */
 	public StadiumPanel(int capienza) {
 		super(new GridLayout(STADIUM_PANEL_ROWS, STADIUM_PANEL_COLUMNS));
 		this.capienza = capienza;
 
 		this.postiPerSettore = capienza / SETTORI_TOTALI;
-
 		// System.out.println(this.postiPerSettore);
 
 		this.init();
@@ -74,8 +90,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		this.northPanel.setOpaque(false);
 
 		for (int i = 0; i < NORTH_PANEL_ROWS * NORTH_PANEL_COLUMNS; i++) {
-			JPanel settorePanel = new JPanel(new BorderLayout());
-			settorePanel.setOpaque(false);
+			JPanel cellaPanel = new JPanel(new BorderLayout());
+			cellaPanel.setOpaque(false);
 
 			if ((i >= 3 && i <= 26) || (i >= 31 && i <= 58) || (i >= 61 && i <= 88) || (i >= 90 && i <= 239)) {
 				JButton settoreButton = new JButton();
@@ -92,27 +108,23 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
+				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
 
-				settoreButton.add(settoreStadio);
+				settoreButton.add(settoreStadioPanel);
 
 				settoreButton.addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-
-						settorePanel.setPreferredSize(new Dimension(500, 500));
-						settorePanel.revalidate();
-
-						settoreStadio.showNextCard();
+						settoreStadioPanel.showNextCard();
 					}
 				});
 
-				settorePanel.add(settoreButton, BorderLayout.CENTER);
-				settorePanel.setOpaque(true);
+				cellaPanel.add(settoreButton, BorderLayout.CENTER);
+				cellaPanel.setOpaque(true);
 			}
 
-			this.northPanel.add(settorePanel);
+			this.northPanel.add(cellaPanel);
 		}
 	}
 
@@ -140,8 +152,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		this.centreLeftPanel.setOpaque(false);
 
 		for (int i = 0; i < CENTRE_LEFT_PANEL_ROWS * CENTRE_LEFT_PANEL_COLUMNS; i++) {
-			JPanel settorePanel = new JPanel(new BorderLayout());
-			settorePanel.setOpaque(true);
+			JPanel cellaPanel = new JPanel(new BorderLayout());
+			cellaPanel.setOpaque(true);
 
 			JButton settoreButton = new JButton();
 			settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
@@ -156,20 +168,20 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
+			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
 
-			settoreButton.add(settoreStadio);
+			settoreButton.add(settoreStadioPanel);
 
 			settoreButton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					settoreStadio.showNextCard();
+					settoreStadioPanel.showNextCard();
 				}
 			});
 
-			settorePanel.add(settoreButton, BorderLayout.CENTER);
-			this.centreLeftPanel.add(settorePanel);
+			cellaPanel.add(settoreButton, BorderLayout.CENTER);
+			this.centreLeftPanel.add(cellaPanel);
 		}
 	}
 
@@ -182,8 +194,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		this.centreRightPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 10; i++) {
-			JPanel settorePanel = new JPanel(new BorderLayout());
-			settorePanel.setOpaque(true);
+			JPanel cellaPanel = new JPanel(new BorderLayout());
+			cellaPanel.setOpaque(true);
 
 			JButton settoreButton = new JButton();
 			settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
@@ -198,20 +210,20 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
+			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
 
-			settoreButton.add(settoreStadio);
+			settoreButton.add(settoreStadioPanel);
 
 			settoreButton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					settoreStadio.showNextCard();
+					settoreStadioPanel.showNextCard();
 				}
 			});
 
-			settorePanel.add(settoreButton, BorderLayout.CENTER);
-			this.centreRightPanel.add(settorePanel, BorderLayout.CENTER);
+			cellaPanel.add(settoreButton, BorderLayout.CENTER);
+			this.centreRightPanel.add(cellaPanel, BorderLayout.CENTER);
 		}
 	}
 
@@ -225,8 +237,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		this.southPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 30; i++) {
-			JPanel settorePanel = new JPanel(new BorderLayout());
-			settorePanel.setOpaque(false);
+			JPanel cellaPanel = new JPanel(new BorderLayout());
+			cellaPanel.setOpaque(false);
 
 			if ((i <= 149) || (i >= 151 && i <= 178) || (i >= 181 && i <= 208) || (i >= 213 && i <= 236)) {
 				JButton settoreButton = new JButton();
@@ -243,23 +255,23 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadio settoreStadio = new SettoreStadio(this.postiPerSettore);
+				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
 
-				settoreButton.add(settoreStadio);
+				settoreButton.add(settoreStadioPanel);
 
 				settoreButton.addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						settoreStadio.showNextCard();
+						settoreStadioPanel.showNextCard();
 					}
 				});
 
-				settorePanel.add(settoreButton, BorderLayout.CENTER);
-				settorePanel.setOpaque(true);
+				cellaPanel.add(settoreButton, BorderLayout.CENTER);
+				cellaPanel.setOpaque(true);
 			}
 
-			this.southPanel.add(settorePanel);
+			this.southPanel.add(cellaPanel);
 		}
 	}
 
@@ -270,6 +282,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.LIGHT_GRAY);
 
+		/*
+		 * Il rettangolo utilizzato per ottenere gli angoli arrotondati dello
+		 * stadio.
+		 */
 		RoundRectangle2D.Double roundRectangle = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 250, 250);
 
 		g2.fill(roundRectangle);
@@ -353,7 +369,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;
 
 	private int capienza;
-	private static final int CAPIENZA_DEFAULT = 50000;
+	public static final int CAPIENZA_DEFAULT = 50000;
 	private int numeroSettori;
 	private static final int SETTORI_TOTALI = 620;
 
@@ -367,14 +383,14 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 
 	/**************************************************************************************/
 	class MyMouseAdapter extends MouseAdapter {
-		private Point origin;
+		private Point origin = null;
 
 		/**
 		 * Ottiene il punto in cui ha avuto inizio il trascinamento del mouse.
 		 */
 		@Override
 		public void mousePressed(MouseEvent e) {
-			origin = new Point(e.getPoint());
+			this.origin = new Point(e.getPoint());
 		}
 
 		/**
@@ -383,17 +399,19 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			if (origin != null) {
-				JViewport viewPort = (JViewport) getParent();
-				if (viewPort != null) {
-					int deltaX = origin.x - e.getX();
-					int deltaY = origin.y - e.getY();
+			JViewport viewPort;
+
+			if (this.origin != null) {
+				if (StadiumPanel.this.getParent() != null && StadiumPanel.this.getParent() instanceof JViewport) {
+					viewPort = (JViewport) StadiumPanel.this.getParent();
+
+					int deltaX = this.origin.x - e.getX();
+					int deltaY = this.origin.y - e.getY();
 
 					Rectangle view = viewPort.getViewRect();
-					view.x += deltaX;
-					view.y += deltaY;
+					view.translate(deltaX, deltaY);
 
-					scrollRectToVisible(view);
+					StadiumPanel.this.scrollRectToVisible(view);
 				}
 			}
 		}
@@ -413,7 +431,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(StadiumPanel.CAPIENZA_DEFAULT));
+		JScrollPane scrollPane = new JScrollPane(new StadiumPanel());
 
 		frame.add(scrollPane);
 		frame.pack();
