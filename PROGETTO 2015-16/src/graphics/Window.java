@@ -49,29 +49,18 @@ public class Window extends JFrame implements Serializable, WindowListener {
 		this.strutturaSportiva = this.loadStrutturaSportiva(this.strutturaSportiva_DB_File);
 
 		try {
-			this.strutturaSportiva.getGestore("usernameGestore");
-		} catch (IOException e) {
-			e.printStackTrace();
+			this.strutturaSportiva.getUtente("usernameGestore");
 		} catch (UserNotFound e) {
 			try {
 				this.strutturaSportiva
-						.addGestore(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
+						.addUtente(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (AlreadyRegisteredUserException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		this.identificationPanel = new IdentificationPanel(Window.this, Assets.getCubes(), this.strutturaSportiva);
@@ -99,6 +88,8 @@ public class Window extends JFrame implements Serializable, WindowListener {
 
 		if (DB_File.exists()) {
 
+			FileInputStream fileInputStrem = null;
+			ObjectInputStream objectInputStream = null;
 			try {
 				fileInputStrem = new FileInputStream(DB_File);
 				objectInputStream = new ObjectInputStream(fileInputStrem);
@@ -130,6 +121,9 @@ public class Window extends JFrame implements Serializable, WindowListener {
 
 	private void storeStrutturaSportiva() {
 		if (!this.strutturaSportiva_DB_File.exists()) {
+			FileOutputStream fileOutputStream = null;
+			ObjectOutputStream objectOutputStream = null;
+
 			try {
 				this.strutturaSportiva_DB_File.createNewFile();
 				fileOutputStream = new FileOutputStream(this.strutturaSportiva_DB_File);
@@ -140,11 +134,6 @@ public class Window extends JFrame implements Serializable, WindowListener {
 			} finally {
 				try {
 					objectOutputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				try {
-					fileOutputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -164,18 +153,16 @@ public class Window extends JFrame implements Serializable, WindowListener {
 		this.removeIdentificationPanel();
 
 		if (this.utente instanceof Cliente) {
-			this.modalita = MODE.Cliente;
 			this.initUIClienteMode();
 		} else if (this.utente instanceof Gestore) {
-			this.modalita = MODE.Gestore;
 			this.initUIGestoreMode();
 		}
 
 	}
 
 	private void initUIClienteMode() {
-		JOptionPane.showMessageDialog(this.mainPanel, "Modalità " + this.modalita + "\nBenvenuto " + utente.getNome(),
-				"Benvenuto", JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
+		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Benvenuto",
+				JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
 
 		PartitaTable partitaTable = new PartitaTable(this.strutturaSportiva.getPartiteProgrammate());
 		JScrollPane scrollPane = new JScrollPane(partitaTable);
@@ -197,8 +184,8 @@ public class Window extends JFrame implements Serializable, WindowListener {
 	}
 
 	private void initUIGestoreMode() {
-		JOptionPane.showMessageDialog(this.mainPanel, "Modalità " + this.modalita + "\nBenvenuto " + utente.getNome(),
-				"Login", JOptionPane.INFORMATION_MESSAGE, Assets.getManagerIcon());
+		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Login",
+				JOptionPane.INFORMATION_MESSAGE, Assets.getManagerIcon());
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.LIGHT_GRAY);
@@ -236,16 +223,11 @@ public class Window extends JFrame implements Serializable, WindowListener {
 	private JPanel mainPanel;
 	private IdentificationPanel identificationPanel;
 	private Utente utente;
-	private MODE modalita;
 
 	/************************************************/
 	private String strutturaSportivaName;
 	private StrutturaSportiva strutturaSportiva;
 	private File strutturaSportiva_DB_File;
-	private FileInputStream fileInputStrem;
-	private FileOutputStream fileOutputStream;
-	private ObjectInputStream objectInputStream;
-	private ObjectOutputStream objectOutputStream;
 
 	public static void main(String[] args) {
 		new Window("MyStruct");

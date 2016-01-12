@@ -1,14 +1,11 @@
 package struttura;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import database.GenericDB;
 import struttura.filters.Filter;
 import user.AlreadyRegisteredUserException;
-import user.Cliente;
-import user.Gestore;
 import user.UserNotFound;
+import user.Utente;
 
 public class StrutturaSportiva implements Serializable {
 	/**
@@ -21,8 +18,7 @@ public class StrutturaSportiva implements Serializable {
 		this.nome = nome;
 		this.partiteProgrammate = new ArrayList<>();
 		this.stadi = new ArrayList<>();
-		this.clienti = new GenericDB<>("Clienti");
-		this.gestori = new GenericDB<>("Gestori");
+		this.utenti = new ArrayList<>();
 	}
 
 	/**
@@ -69,20 +65,24 @@ public class StrutturaSportiva implements Serializable {
 		return filteredByWeek;
 	}
 
-	public void addCliente(Cliente cliente) throws ClassNotFoundException, IOException, AlreadyRegisteredUserException {
-		this.clienti.add(cliente);
+	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
+		for (Utente u : this.utenti) {
+			if (u.equals(utente)) {
+				throw new AlreadyRegisteredUserException();
+			}
+		}
+
+		this.utenti.add(utente);
 	}
 
-	public Cliente getCliente(String username) throws ClassNotFoundException, IOException, UserNotFound {
-		return this.clienti.get(username);
-	}
+	public Utente getUtente(String username) throws UserNotFound {
+		for (Utente u : this.utenti) {
+			if (u.getUsername().equalsIgnoreCase(username)) {
+				return u;
+			}
+		}
 
-	public void addGestore(Gestore gestore) throws ClassNotFoundException, IOException, AlreadyRegisteredUserException {
-		this.gestori.add(gestore);
-	}
-
-	public Gestore getGestore(String username) throws ClassNotFoundException, IOException, UserNotFound {
-		return this.gestori.get(username);
+		throw new UserNotFound();
 	}
 
 	private static final long serialVersionUID = -1014833830864079436L;
@@ -90,6 +90,5 @@ public class StrutturaSportiva implements Serializable {
 	// una struttura sportiva che comprenda più stadi
 	private ArrayList<Stadio> stadi;
 	private ArrayList<Partita> partiteProgrammate;
-	private GenericDB<Cliente> clienti;
-	private GenericDB<Gestore> gestori;
+	private ArrayList<Utente> utenti;
 }

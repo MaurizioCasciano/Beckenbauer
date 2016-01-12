@@ -17,6 +17,9 @@ import user.Utente;
  * DataBase generico per gestire
  *
  * @param <T>
+ * @deprecated Classe non più utilizzata in quanto non serializzabile pur implementando Serializable.
+ * 
+ * java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source).
  */
 public class GenericDB<T extends Utente> implements Serializable {
 

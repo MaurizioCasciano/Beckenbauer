@@ -18,7 +18,6 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,7 +28,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import graphics.MODE;
 import graphics.Window;
 import graphics.Assets;
 import graphics.BackgroundImagePanel;
@@ -40,8 +38,9 @@ import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
 import user.UserNotFound;
+import user.Utente;
 
-public class IdentificationPanel extends JPanel implements Serializable{
+public class IdentificationPanel extends JPanel implements Serializable {
 
 	public IdentificationPanel(Window myWindow, BufferedImage bufferedImage, StrutturaSportiva strutturaSportiva) {
 		super();
@@ -100,7 +99,7 @@ public class IdentificationPanel extends JPanel implements Serializable{
 	 * Initializes the LoginModeComboBox.
 	 */
 	private void initializeLoginModeComboBox() {
-		this.loginModeComboBox = new JComboBox<>(MODALITA);
+		// this.loginModeComboBox = new JComboBox<>(MODALITA);
 		// this.loginModeComboBox.setSelectedIndex(-1);
 	}
 
@@ -117,7 +116,7 @@ public class IdentificationPanel extends JPanel implements Serializable{
 		this.loginComponentsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.loginComponentsPanel.add(loginUserNameTextField);
 		this.loginComponentsPanel.add(loginPasswordField);
-		this.loginComponentsPanel.add(loginModeComboBox);
+		// this.loginComponentsPanel.add(loginModeComboBox);
 		this.loginComponentsPanel.add(loginButton);
 		this.loginComponentsPanel.setBorder(
 				new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.BLUE, Color.GRAY), "Existing User",
@@ -272,7 +271,7 @@ public class IdentificationPanel extends JPanel implements Serializable{
 								registerSurnameTextField.getText(), registerUsernameTextField.getText(),
 								String.valueOf(registerPasswordField.getPassword()));
 
-						strutturaSportiva.addCliente(cliente);
+						strutturaSportiva.addUtente(cliente);
 						myWindow.setUtente(cliente);
 						JOptionPane.showMessageDialog(null, "Registration Successfully");
 					} catch (WeakPasswordException e1) {
@@ -287,12 +286,6 @@ public class IdentificationPanel extends JPanel implements Serializable{
 
 						JOptionPane.showMessageDialog(null, passwordRequirements, e1.getMessage(),
 								JOptionPane.ERROR_MESSAGE);
-					}
-
-					catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
 					} catch (AlreadyRegisteredUserException e1) {
 						JOptionPane.showMessageDialog(null, "Username already exists. TRY AGAIN.", "Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -377,49 +370,22 @@ public class IdentificationPanel extends JPanel implements Serializable{
 					&& (loginPasswordField.getPassword().length >= Password.MINIMUM_LENGTH);
 
 			if (loginIsAllFilledIn) {
-				if (loginModeComboBox.getSelectedItem().equals(MODE.Cliente)) {
 
-					try {
-						cliente = strutturaSportiva.getCliente(loginUserNameTextField.getText());
-						if (cliente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-							// strutturaSportiva.setUtente(cliente);
-							myWindow.setUtente(cliente);
-						} else {
-							JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
-									JOptionPane.INFORMATION_MESSAGE);
-						}
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (UserNotFound e1) {
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getMessage(),
-								JOptionPane.INFORMATION_MESSAGE);
-					}
-
-				} else if (loginModeComboBox.getSelectedItem().equals(MODE.Gestore)) {
-
-					try {
-						gestore = strutturaSportiva.getGestore(loginUserNameTextField.getText());
-
-						if (gestore.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-							// strutturaSportiva.setUtente(gestore);
-							myWindow.setUtente(gestore);
-						} else {
-							JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
-									JOptionPane.INFORMATION_MESSAGE);
-						}
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (UserNotFound e1) {
-						// e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getMessage(),
-								JOptionPane.INFORMATION_MESSAGE);
-					}
+				Utente utente = null;
+				try {
+					utente = strutturaSportiva.getUtente(loginUserNameTextField.getText());
+				} catch (UserNotFound e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Utente non trovato",
+							JOptionPane.INFORMATION_MESSAGE);
+					e1.printStackTrace();
 				}
+				if (utente != null && utente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
+					myWindow.setUtente(utente);
+				} else {
+					JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
 			} else if (!loginIsAllFilledIn) {
 				JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "", JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -436,11 +402,9 @@ public class IdentificationPanel extends JPanel implements Serializable{
 	private JTextField loginUserNameTextField, registerNameTextField, registerSurnameTextField,
 			registerUsernameTextField;
 	private JPasswordField loginPasswordField, registerPasswordField, registerPasswordConfirmField;
-	private JComboBox<MODE> loginModeComboBox;
-	private static final MODE[] MODALITA = { MODE.Cliente, MODE.Gestore };
+	// private JComboBox<MODE> loginModeComboBox;
+	// private static final MODE[] MODALITA = { MODE.Cliente, MODE.Gestore };
 	private Box identificationBox, registerBox;
 	private StrutturaSportiva strutturaSportiva;
-	private Cliente cliente;
-	private Gestore gestore;
 	private Window myWindow;
 }
