@@ -3,52 +3,25 @@ package testing;
 import struttura.*;
 import struttura.filters.MatchByWeekFilter;
 import struttura.filters.MatchNotYetStartedFilter;
-import user.AlreadyRegisteredUserException;
-import user.Gestore;
-import user.UserNotFound;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import graphics.Window;
-import password.WeakPasswordException;
 
 public class Testing {
 
-	@SuppressWarnings("unused")
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		StrutturaSportiva sS = new StrutturaSportiva("My_Struttura");
+	public static void main(String[] args) {
 
-		new Window("Fuck");
-		/**
-		 * controlla se c'è già un gestore altrimenti lo aggiunge
-		 */
+		Window window = new Window("Struttura Sportiva");
 
-		Gestore gestore;
-
-		try {
-			gestore = (Gestore) sS.getUtente("usernameGestore");
-		} catch (UserNotFound e) {
-			try {
-				sS.addUtente(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
-			} catch (WeakPasswordException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (AlreadyRegisteredUserException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
+		StrutturaSportiva strutturaSportiva = window.getStrutturaSportiva();
 
 		Stadio sanSiro = new Stadio("San Siro", 81277);
 		Stadio stadioOlimpico = new Stadio("Stadio Olimpico", 73261);
 		Stadio juventusStadium = new Stadio("Juventus Stadium", 41475);
 
-		sS.addStadio(sanSiro);
-		sS.addStadio(stadioOlimpico);
-		sS.addStadio(juventusStadium);
+		strutturaSportiva.addStadio(sanSiro);
+		strutturaSportiva.addStadio(stadioOlimpico);
+		strutturaSportiva.addStadio(juventusStadium);
 
 		Squadra milan = new Squadra("Milan");
 		Squadra inter = new Squadra("Inter");
@@ -69,22 +42,22 @@ public class Testing {
 		Partita p6 = new Partita(torino, juventus, juventusStadium,
 				new GregorianCalendar(2016, Calendar.FEBRUARY, 7, 20, 45));
 
-		sS.addPartita(p1);
-		sS.addPartita(p2);
-		sS.addPartita(p3);
-		sS.addPartita(p4);
-		sS.addPartita(p5);
-		sS.addPartita(p6);
+		strutturaSportiva.addPartita(p1);
+		strutturaSportiva.addPartita(p2);
+		strutturaSportiva.addPartita(p3);
+		strutturaSportiva.addPartita(p4);
+		strutturaSportiva.addPartita(p5);
+		strutturaSportiva.addPartita(p6);
 
 		// partite non ancora iniziate
 		System.out.println("PARTITE NON ANCORA INIZIATE:\n");
-		for (Partita p : sS.getPartiteProgrammate(new MatchNotYetStartedFilter())) {
+		for (Partita p : strutturaSportiva.getPartiteProgrammate(new MatchNotYetStartedFilter())) {
 			System.out.println(p);
 		}
 
 		// partite programmate in una determinata settimana
 		System.out.println("\nPARTITE PROGRAMMATE IN UNA DETERMINATA SETTIMANA:\n");
-		for (Partita p : sS
+		for (Partita p : strutturaSportiva
 				.getPartiteProgrammate(new MatchByWeekFilter(new GregorianCalendar(2016, Calendar.JANUARY, 25)))) {
 			System.out.println(p);
 		}
