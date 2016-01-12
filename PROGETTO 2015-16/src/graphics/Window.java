@@ -49,11 +49,10 @@ public class Window extends JFrame implements Serializable {
 		this.strutturaSportiva = this.loadStrutturaSportiva(this.strutturaSportiva_DB_File);
 
 		try {
-			this.strutturaSportiva.getUtente("usernameGestore");
+			this.strutturaSportiva.getUtente("gestore");
 		} catch (UserNotFound e) {
 			try {
-				this.strutturaSportiva
-						.addUtente(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
+				this.strutturaSportiva.addUtente(new Gestore("NomeGestore", "CognomeGestore", "gestore", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
 				e1.printStackTrace();
 			} catch (AlreadyRegisteredUserException e1) {
@@ -144,6 +143,15 @@ public class Window extends JFrame implements Serializable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Restituisce la StrutturaSportiva precedentemente caricata/creata.
+	 * 
+	 * @return La StrutturaSportiva gestita da questa finestra.
+	 */
+	public StrutturaSportiva getStrutturaSportiva() {
+		return this.strutturaSportiva;
 	}
 
 	/**
@@ -243,8 +251,4 @@ public class Window extends JFrame implements Serializable {
 	private String strutturaSportivaName;
 	private StrutturaSportiva strutturaSportiva;
 	private File strutturaSportiva_DB_File;
-
-	public static void main(String[] args) {
-		new Window("MyStruct");
-	}
 }
