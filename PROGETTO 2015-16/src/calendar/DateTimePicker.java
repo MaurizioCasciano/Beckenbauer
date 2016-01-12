@@ -55,6 +55,12 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 	}
 
 	@Override
+	public void setDate(Date date) {
+		super.setDate(date);
+		this.updateTimeSpinnerValue();
+	}
+
+	@Override
 	public void commitEdit() throws ParseException {
 		this.commitTime();
 		super.commitEdit();
@@ -63,7 +69,7 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 	@Override
 	public void cancelEdit() {
 		super.cancelEdit();
-		this.setTimeSpinner();
+		this.updateTimeSpinnerValue();
 	}
 
 	@Override
@@ -72,7 +78,7 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 		if (this.timePanel == null) {
 			this.timePanel = createTimePanel();
 		}
-		setTimeSpinner();
+		updateTimeSpinnerValue();
 		return this.timePanel;
 	}
 
@@ -182,9 +188,9 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 	}
 
 	/**
-	 * Imposta la data del timeSpinner.
+	 * Aggiorna la data (orario) del timeSpinner con la data corrente.
 	 */
-	private void setTimeSpinner() {
+	private void updateTimeSpinnerValue() {
 		Date date = getDate();
 		if (date != null) {
 			this.timeSpinner.setValue(date);

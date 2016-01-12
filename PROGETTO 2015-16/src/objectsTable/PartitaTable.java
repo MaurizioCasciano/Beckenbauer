@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -27,17 +26,17 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-import objectsTable.editors.GregorianCalendarDatePickerCellEditor;
+import objectsTable.editors.GregorianCalendarDateTimePickerCellEditor;
 import objectsTable.editors.SquadraCellEditor;
 import objectsTable.editors.StadioCellEditor;
-import objectsTable.renderers.GregorianCalendarDatePickerCellRenderer;
+import objectsTable.renderers.GregorianCalendarDateTimePickerCellRenderer;
 import objectsTable.renderers.SquadraCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
-public class PartitaTable extends JTable implements Serializable{
+public class PartitaTable extends JTable implements Serializable {
 
 	public PartitaTable() {
 		super(new PartitaTableModel());
@@ -90,7 +89,9 @@ public class PartitaTable extends JTable implements Serializable{
 		this.setDefaultRenderer(Stadio.class, new StadioCellRenderer());
 		// this.setDefaultRenderer(GregorianCalendar.class, new
 		// GregorianCalendarCellRenderer());
-		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarDatePickerCellRenderer());
+		// this.setDefaultRenderer(GregorianCalendar.class, new
+		// GregorianCalendarDatePickerCellRenderer());
+		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellRenderer());
 	}
 
 	/**
@@ -101,7 +102,9 @@ public class PartitaTable extends JTable implements Serializable{
 		this.setDefaultEditor(Stadio.class, new StadioCellEditor());
 		// this.setDefaultEditor(GregorianCalendar.class, new
 		// GregorianCalendarCellEditor());
-		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDatePickerCellEditor());
+		// this.setDefaultEditor(GregorianCalendar.class, new
+		// GregorianCalendarDatePickerCellEditor());
+		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellEditor());
 	}
 
 	@Override
@@ -205,11 +208,11 @@ public class PartitaTable extends JTable implements Serializable{
 
 		PartitaTable partite = new PartitaTable();
 		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277),
-				new GregorianCalendar(2016, Calendar.JANUARY, 11, 20, 45)));
+				new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261),
-				new GregorianCalendar(2016, Calendar.JANUARY, 4, 24, 00)));
+				new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Juventus"), new Squadra("Torino"),
-				new Stadio("Juventus Stadium", 41475), new GregorianCalendar(2016, Calendar.JANUARY, 22)));
+				new Stadio("Juventus Stadium", 41475), new GregorianCalendar()));
 
 		JScrollPane scrollPane = new JScrollPane(partite);
 		frame.add(scrollPane, BorderLayout.CENTER);
