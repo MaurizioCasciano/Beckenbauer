@@ -2,7 +2,7 @@
  * Program: Partita.java
  * Purpose: classe che modella una partita di calcio 
  * @author Maurizio Casciano & Gaetano Antonucci
- * Last Modified: 11/01/2015 (GA)
+ * Last Modified: 11/01/2016 (GA)
  */
 
 package struttura;

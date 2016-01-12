@@ -3,7 +3,7 @@
  * Purpose: Classe che modella un biglietto di una partita
  * @author Gaetano Antonucci
  * @version 1.0 
- * Last Modified: 29/12/2015
+ * Last Modified: 11/01/2016
  */
 package struttura;
 
