@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,7 +34,7 @@ import user.Gestore;
 import user.UserNotFound;
 import user.Utente;
 
-public class Window extends JFrame implements Serializable, WindowListener {
+public class Window extends JFrame implements Serializable {
 
 	public Window(String nomeStruttura) {
 		super(nomeStruttura);
@@ -55,10 +55,8 @@ public class Window extends JFrame implements Serializable, WindowListener {
 				this.strutturaSportiva
 						.addUtente(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (AlreadyRegisteredUserException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -68,14 +66,15 @@ public class Window extends JFrame implements Serializable, WindowListener {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 
-		this.addWindowListener(this);
+		this.addWindowListener(new MyWindowAdapter());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 
 	/**
-	 * Carica un oggetto StrutturaSportiva da file.
+	 * Carica un oggetto StrutturaSportiva da file. Se il file non esiste viene
+	 * creato un nuovo oggetto StrutturaSportiva.
 	 * 
 	 * @param DB_File
 	 *            Il file contenente l'oggetto StrutturaSportiva da caricare.
@@ -119,24 +118,30 @@ public class Window extends JFrame implements Serializable, WindowListener {
 		return strutturaSportiva;
 	}
 
-	private void storeStrutturaSportiva() {
+	public void storeStrutturaSportiva() {
 		if (!this.strutturaSportiva_DB_File.exists()) {
-			FileOutputStream fileOutputStream = null;
-			ObjectOutputStream objectOutputStream = null;
-
 			try {
 				this.strutturaSportiva_DB_File.createNewFile();
-				fileOutputStream = new FileOutputStream(this.strutturaSportiva_DB_File);
-				objectOutputStream = new ObjectOutputStream(fileOutputStream);
-				objectOutputStream.writeObject(this.strutturaSportiva);
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-				try {
-					objectOutputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				System.exit(-1);
+			}
+		}
+
+		FileOutputStream fileOutputStream = null;
+		ObjectOutputStream objectOutputStream = null;
+
+		try {
+			fileOutputStream = new FileOutputStream(this.strutturaSportiva_DB_File);
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(this.strutturaSportiva);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				objectOutputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -218,6 +223,16 @@ public class Window extends JFrame implements Serializable, WindowListener {
 		this.mainPanel.repaint();
 	}
 
+	class MyWindowAdapter extends WindowAdapter {
+
+		@Override
+		public void windowClosing(WindowEvent paramWindowEvent) {
+			super.windowClosing(paramWindowEvent);
+			System.out.println("CLOSING");
+			Window.this.storeStrutturaSportiva();
+		}
+	}
+
 	private static final long serialVersionUID = 5196150741171238114L;
 	public static final int WIDTH = 1000, HEIGHT = 600;
 	private JPanel mainPanel;
@@ -231,41 +246,5 @@ public class Window extends JFrame implements Serializable, WindowListener {
 
 	public static void main(String[] args) {
 		new Window("MyStruct");
-	}
-
-	@Override
-	public void windowOpened(WindowEvent paramWindowEvent) {
-		System.out.println("OPENED");
-	}
-
-	@Override
-	public void windowClosing(WindowEvent paramWindowEvent) {
-		System.out.println("CLOSING");
-		this.storeStrutturaSportiva();
-	}
-
-	@Override
-	public void windowClosed(WindowEvent paramWindowEvent) {
-		System.out.println("CLOSED");
-	}
-
-	@Override
-	public void windowIconified(WindowEvent paramWindowEvent) {
-		System.out.println("ICONIFIED");
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent paramWindowEvent) {
-		System.out.println("DEICONIFIED");
-	}
-
-	@Override
-	public void windowActivated(WindowEvent paramWindowEvent) {
-		System.out.println("ACTIVATED");
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent paramWindowEvent) {
-		System.out.println("DEACTIVATED");
 	}
 }

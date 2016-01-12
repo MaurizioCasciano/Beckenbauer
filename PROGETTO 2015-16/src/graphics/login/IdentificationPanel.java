@@ -10,7 +10,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -36,7 +35,6 @@ import password.WeakPasswordException;
 import struttura.StrutturaSportiva;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
-import user.Gestore;
 import user.UserNotFound;
 import user.Utente;
 
@@ -272,6 +270,8 @@ public class IdentificationPanel extends JPanel implements Serializable {
 								String.valueOf(registerPasswordField.getPassword()));
 
 						strutturaSportiva.addUtente(cliente);
+						myWindow.storeStrutturaSportiva();
+
 						myWindow.setUtente(cliente);
 						JOptionPane.showMessageDialog(null, "Registration Successfully");
 					} catch (WeakPasswordException e1) {
@@ -360,9 +360,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 		this.identificationBox.add(this.registerComponentsPanel);
 	}
 
-	public class LoginAction extends AbstractAction {
-
-		private static final long serialVersionUID = 1L;
+	public class LoginAction extends AbstractAction implements Serializable {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -390,6 +388,8 @@ public class IdentificationPanel extends JPanel implements Serializable {
 				JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
+
+		private static final long serialVersionUID = 7243830090421644194L;
 	}
 
 	private static final long serialVersionUID = 5940403846029260534L;
@@ -402,8 +402,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 	private JTextField loginUserNameTextField, registerNameTextField, registerSurnameTextField,
 			registerUsernameTextField;
 	private JPasswordField loginPasswordField, registerPasswordField, registerPasswordConfirmField;
-	// private JComboBox<MODE> loginModeComboBox;
-	// private static final MODE[] MODALITA = { MODE.Cliente, MODE.Gestore };
 	private Box identificationBox, registerBox;
 	private StrutturaSportiva strutturaSportiva;
 	private Window myWindow;
