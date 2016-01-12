@@ -12,11 +12,12 @@ import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.Serializable;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SettoreStadioPanel extends JPanel {
+public class SettoreStadioPanel extends JPanel implements Serializable{
 
 	public SettoreStadioPanel(int posti) {
 		super(new CardLayout());

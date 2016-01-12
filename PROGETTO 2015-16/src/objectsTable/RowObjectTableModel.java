@@ -1,10 +1,11 @@
 package objectsTable;
 
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.*;
 import javax.swing.table.*;
 
-public abstract class RowObjectTableModel<T> extends AbstractTableModel {
+public abstract class RowObjectTableModel<T> extends AbstractTableModel implements Serializable {
 
 	/**
 	 * Constructs a <code>RowObjectTableModel</code> with column names.
@@ -235,13 +236,13 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel {
 	 *            data of the row being added
 	 */
 	public void insertRow(int row, T rowData) {
-		
+
 		System.out.println("Before Adding: " + tableObjects.size());
-		
+
 		tableObjects.add(row, rowData);
-		
+
 		System.out.println("After Adding: " + tableObjects.size());
-		
+
 		fireTableRowsInserted(row, row);
 	}
 

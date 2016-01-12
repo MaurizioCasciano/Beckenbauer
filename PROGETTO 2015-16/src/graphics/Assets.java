@@ -1,10 +1,11 @@
 package graphics;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-public class Assets {
+public class Assets implements Serializable {
 
 	public static BufferedImage getSoccerPitch() {
 		if (Assets.soccerPitch == null) {
@@ -86,6 +87,7 @@ public class Assets {
 		return Assets.blueSeatRollover;
 	}
 
+	private static final long serialVersionUID = -6046582922518387221L;
 	public static BufferedImage greenField, ballSchoes, cubeWallpaper, loginBackground, lava, cubes, stadium,
 			stadiumMap, soccerPitch;
 	public static ImageIcon managerIcon, customerIcon, login, registerIcon;

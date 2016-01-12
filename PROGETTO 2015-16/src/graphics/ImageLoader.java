@@ -2,10 +2,11 @@ package graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class ImageLoader {
+public class ImageLoader implements Serializable{
 
 	/**
 	 * Loads a BufferedImage.
@@ -23,4 +24,6 @@ public class ImageLoader {
 		}
 		return null;
 	}
+	
+	private static final long serialVersionUID = 2976834870464266114L;
 }

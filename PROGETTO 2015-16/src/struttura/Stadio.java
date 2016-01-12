@@ -1,6 +1,8 @@
 package struttura;
 
-public class Stadio {
+import java.io.Serializable;
+
+public class Stadio implements Serializable {
 
 	public Stadio(String nome, int capienzaStadio) {
 		this.nome = nome;
@@ -57,6 +59,7 @@ public class Stadio {
 				+ ", ID_Stadio = " + ID_Stadio + "]";
 	}
 
+	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;
 	private int capienzaStadio;
 	private int ID_Stadio;

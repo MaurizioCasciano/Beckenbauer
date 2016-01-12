@@ -7,9 +7,11 @@
  */
 package struttura;
 
+import java.io.Serializable;
+
 import user.Cliente;
 
-public class Biglietto {
+public class Biglietto implements Serializable {
 
 	public Biglietto(Cliente cliente, Partita partita, String settore, int fila, int posto, double prezzo) {
 		this.cliente = cliente;
@@ -151,4 +153,5 @@ public class Biglietto {
 
 	// Iteratore
 	private static int IDCounter = 1;
+	private static final long serialVersionUID = -6677866736549225712L;
 }

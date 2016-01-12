@@ -1,10 +1,11 @@
 package struttura.filters;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import struttura.Partita;
 
-public class MatchNotYetStartedFilter implements Filter {
+public class MatchNotYetStartedFilter implements Filter, Serializable {
 
 	/**
 	 * Filtra una partita che non è ancora iniziata.
@@ -17,4 +18,6 @@ public class MatchNotYetStartedFilter implements Filter {
 	public boolean accept(Partita partitaDiCalcio) {
 		return partitaDiCalcio.getData().after(new GregorianCalendar());
 	}
+
+	private static final long serialVersionUID = -3531701089734504572L;
 }

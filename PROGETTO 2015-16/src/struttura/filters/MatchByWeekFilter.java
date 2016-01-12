@@ -1,11 +1,12 @@
 package struttura.filters;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import struttura.Partita;
 
-public class MatchByWeekFilter implements Filter {
+public class MatchByWeekFilter implements Filter, Serializable {
 
 	/**
 	 * Costruisce un Filter con la data(settimana) passata in input.
@@ -34,5 +35,6 @@ public class MatchByWeekFilter implements Filter {
 		}
 	}
 
+	private static final long serialVersionUID = -9100419677952099595L;
 	private GregorianCalendar data;
 }

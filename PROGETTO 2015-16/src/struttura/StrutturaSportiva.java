@@ -1,17 +1,13 @@
 package struttura;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import database.GenericDB;
-import graphics.*;
 import struttura.filters.Filter;
 import user.AlreadyRegisteredUserException;
-import user.Cliente;
-import user.Gestore;
 import user.UserNotFound;
 import user.Utente;
 
-public class StrutturaSportiva {
+public class StrutturaSportiva implements Serializable {
 	/**
 	 * Costruisce un oggetto StrutturaSportiva.
 	 * 
@@ -22,18 +18,7 @@ public class StrutturaSportiva {
 		this.nome = nome;
 		this.partiteProgrammate = new ArrayList<>();
 		this.stadi = new ArrayList<>();
-		this.clienti = new GenericDB<>("Clienti");
-		this.gestori = new GenericDB<>("Gestori");
-		this.initGUI();
-	}
-
-	private void initGUI() {
-		this.myWindow = new Window(this.nome, this);
-	}
-
-	public void setUtente(Utente utente) {
-		this.utente = utente;
-		this.myWindow.setUtente(this.utente);
+		this.utenti = new ArrayList<>();
 	}
 
 	/**
@@ -80,29 +65,30 @@ public class StrutturaSportiva {
 		return filteredByWeek;
 	}
 
-	public void addCliente(Cliente cliente) throws ClassNotFoundException, IOException, AlreadyRegisteredUserException {
-		this.clienti.add(cliente);
+	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
+		for (Utente u : this.utenti) {
+			if (u.equals(utente)) {
+				throw new AlreadyRegisteredUserException();
+			}
+		}
+
+		this.utenti.add(utente);
 	}
 
-	public Cliente getCliente(String username) throws ClassNotFoundException, IOException, UserNotFound {
-		return this.clienti.get(username);
+	public Utente getUtente(String username) throws UserNotFound {
+		for (Utente u : this.utenti) {
+			if (u.getUsername().equalsIgnoreCase(username)) {
+				return u;
+			}
+		}
+
+		throw new UserNotFound();
 	}
 
-	public void addGestore(Gestore gestore) throws ClassNotFoundException, IOException, AlreadyRegisteredUserException {
-		this.gestori.add(gestore);
-	}
-
-	public Gestore getGestore(String username) throws ClassNotFoundException, IOException, UserNotFound {
-		return this.gestori.get(username);
-	}
-
+	private static final long serialVersionUID = -1014833830864079436L;
 	private String nome;
 	// una struttura sportiva che comprenda più stadi
 	private ArrayList<Stadio> stadi;
 	private ArrayList<Partita> partiteProgrammate;
-	private Window myWindow;
-	private GenericDB<Cliente> clienti;
-	private GenericDB<Gestore> gestori;
-
-	private Utente utente;
+	private ArrayList<Utente> utenti;
 }

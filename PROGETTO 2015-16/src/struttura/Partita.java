@@ -7,11 +7,12 @@
 
 package struttura;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Partita {
+public class Partita implements Serializable {
 
 	public Partita(Squadra squadraInCasa, Squadra squadraInTrasferta, Stadio stadio, GregorianCalendar data) {
 		this.squadraInCasa = squadraInCasa;
@@ -178,6 +179,7 @@ public class Partita {
 		return result;
 	}
 
+	private static final long serialVersionUID = 1548727127680681004L;
 	private Squadra squadraInCasa, squadraInTrasferta;
 	private Stadio stadio;
 	private GregorianCalendar data;
@@ -190,7 +192,6 @@ public class Partita {
 	private Sconti sconto; // (GA) di default può essere null se la partita non
 							// ha nessuna politica
 							// di sconto associata
-
 	private ArrayList<Prenotazione> prenotazioni;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

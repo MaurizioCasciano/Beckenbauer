@@ -1,5 +1,6 @@
 package struttura.comparators;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import struttura.Partita;
@@ -9,7 +10,7 @@ import struttura.Partita;
  * una collezione di PartitaDiCalcio, basandosi sull'ordine cronologico rispetto
  * alle date delle due PartitaDiCalcio.
  */
-public class DateComparator implements Comparator<Partita> {
+public class DateComparator implements Comparator<Partita>, Serializable {
 
 	@Override
 	public int compare(Partita p1, Partita p2) {
@@ -22,4 +23,5 @@ public class DateComparator implements Comparator<Partita> {
 		}
 	}
 
+	private static final long serialVersionUID = -8200790403457487036L;
 }

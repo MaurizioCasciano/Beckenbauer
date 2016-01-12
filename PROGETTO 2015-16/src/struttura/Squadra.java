@@ -1,6 +1,8 @@
 package struttura;
 
-public class Squadra {
+import java.io.Serializable;
+
+public class Squadra implements Serializable {
 
 	public Squadra(String nome) {
 		this.nome = nome;
@@ -32,5 +34,6 @@ public class Squadra {
 		return result;
 	}
 
+	private static final long serialVersionUID = -5406532006369346747L;
 	private String nome;
 }

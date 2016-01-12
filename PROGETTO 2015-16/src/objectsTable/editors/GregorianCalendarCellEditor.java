@@ -2,6 +2,7 @@ package objectsTable.editors;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.EventObject;
@@ -13,7 +14,7 @@ import javax.swing.table.TableCellEditor;
 import objectsTable.utilities.ObjectTextField;
 import struttura.Partita;
 
-public class GregorianCalendarCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class GregorianCalendarCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public GregorianCalendarCellEditor() {
 		super();

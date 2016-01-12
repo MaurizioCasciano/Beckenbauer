@@ -1,9 +1,11 @@
 package graphics;
 
+import java.io.Serializable;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-public class StadiumScrollPane extends JScrollPane {
+public class StadiumScrollPane extends JScrollPane implements Serializable{
 
 	public StadiumScrollPane() {
 		super();

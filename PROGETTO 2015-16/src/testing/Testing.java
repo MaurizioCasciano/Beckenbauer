@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import graphics.Window;
 import password.WeakPasswordException;
 
 public class Testing {
@@ -20,6 +21,7 @@ public class Testing {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		StrutturaSportiva sS = new StrutturaSportiva("My_Struttura");
 
+		new Window("Fuck");
 		/**
 		 * controlla se c'è già un gestore altrimenti lo aggiunge
 		 */
@@ -27,16 +29,11 @@ public class Testing {
 		Gestore gestore;
 
 		try {
-			gestore = sS.getGestore("usernameGestore");
-		} catch (IOException e) {
-			e.printStackTrace();
+			gestore = (Gestore) sS.getUtente("usernameGestore");
 		} catch (UserNotFound e) {
 			try {
-				sS.addGestore(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
+				sS.addUtente(new Gestore("NomeGestore", "CognomeGestore", "usernameGestore", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (AlreadyRegisteredUserException e1) {

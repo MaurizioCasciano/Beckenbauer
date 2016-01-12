@@ -1,6 +1,7 @@
 package objectsTable.renderers;
 
 import java.awt.Component;
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import javax.swing.JComponent;
@@ -10,7 +11,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-public class GregorianCalendarDatePickerCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer {
+public class GregorianCalendarDatePickerCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer, Serializable {
 
 	public GregorianCalendarDatePickerCellRenderer() {
 		super();
