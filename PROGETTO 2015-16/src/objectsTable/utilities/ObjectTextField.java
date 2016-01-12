@@ -1,8 +1,10 @@
 package objectsTable.utilities;
 
+import java.io.Serializable;
+
 import javax.swing.JTextField;
 
-public class ObjectTextField<T> extends JTextField {
+public class ObjectTextField<T> extends JTextField implements Serializable{
 
 	public ObjectTextField() {
 		super();

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 import javax.swing.AbstractAction;
@@ -29,6 +30,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import graphics.MODE;
+import graphics.Window;
 import graphics.Assets;
 import graphics.BackgroundImagePanel;
 import password.Password;
@@ -39,15 +41,16 @@ import user.Cliente;
 import user.Gestore;
 import user.UserNotFound;
 
-public class IdentificationPanel extends JPanel {
+public class IdentificationPanel extends JPanel implements Serializable{
 
-	public IdentificationPanel(BufferedImage bufferedImage, StrutturaSportiva strutturaSportiva) {
+	public IdentificationPanel(Window myWindow, BufferedImage bufferedImage, StrutturaSportiva strutturaSportiva) {
 		super();
 		this.myBackGroundImage = bufferedImage;
 		this.setLayout(new BorderLayout());
 		this.initializeIdentificationBox();
 		this.add(identificationBox, BorderLayout.CENTER);
 		this.strutturaSportiva = strutturaSportiva;
+		this.myWindow = myWindow;
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class IdentificationPanel extends JPanel {
 	 */
 	private void initializeLoginModeComboBox() {
 		this.loginModeComboBox = new JComboBox<>(MODALITA);
-		//this.loginModeComboBox.setSelectedIndex(-1);
+		// this.loginModeComboBox.setSelectedIndex(-1);
 	}
 
 	/**
@@ -270,7 +273,7 @@ public class IdentificationPanel extends JPanel {
 								String.valueOf(registerPasswordField.getPassword()));
 
 						strutturaSportiva.addCliente(cliente);
-						strutturaSportiva.setUtente(cliente);
+						myWindow.setUtente(cliente);
 						JOptionPane.showMessageDialog(null, "Registration Successfully");
 					} catch (WeakPasswordException e1) {
 
@@ -379,7 +382,8 @@ public class IdentificationPanel extends JPanel {
 					try {
 						cliente = strutturaSportiva.getCliente(loginUserNameTextField.getText());
 						if (cliente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-							strutturaSportiva.setUtente(cliente);
+							// strutturaSportiva.setUtente(cliente);
+							myWindow.setUtente(cliente);
 						} else {
 							JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -400,7 +404,8 @@ public class IdentificationPanel extends JPanel {
 						gestore = strutturaSportiva.getGestore(loginUserNameTextField.getText());
 
 						if (gestore.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-							strutturaSportiva.setUtente(gestore);
+							// strutturaSportiva.setUtente(gestore);
+							myWindow.setUtente(gestore);
 						} else {
 							JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -437,4 +442,5 @@ public class IdentificationPanel extends JPanel {
 	private StrutturaSportiva strutturaSportiva;
 	private Cliente cliente;
 	private Gestore gestore;
+	private Window myWindow;
 }

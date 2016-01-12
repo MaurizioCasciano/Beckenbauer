@@ -3,11 +3,12 @@ package objectsTable;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
-public class RightClickRowSelectionListener extends MouseAdapter {
+public class RightClickRowSelectionListener extends MouseAdapter implements Serializable {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -24,4 +25,6 @@ public class RightClickRowSelectionListener extends MouseAdapter {
 			}
 		}
 	}
+
+	private static final long serialVersionUID = -7553201238779522408L;
 }

@@ -1,6 +1,7 @@
 package objectsTable.renderers;
 
 import java.awt.Component;
+import java.io.Serializable;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
@@ -10,7 +11,7 @@ import javax.swing.table.TableCellRenderer;
 import objectsTable.utilities.ObjectTextField;
 import struttura.Stadio;
 
-public class StadioCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer {
+public class StadioCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer, Serializable {
 
 	public StadioCellRenderer() {
 		super();

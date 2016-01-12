@@ -2,6 +2,7 @@ package objectsTable.editors;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.GregorianCalendar;
@@ -12,7 +13,7 @@ import javax.swing.table.TableCellEditor;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-public class GregorianCalendarDatePickerCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class GregorianCalendarDatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public GregorianCalendarDatePickerCellEditor() {
 		super();

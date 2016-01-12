@@ -1,5 +1,6 @@
 package struttura.comparators;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import struttura.Partita;
@@ -9,7 +10,7 @@ import struttura.Partita;
  * una collezione di PartitaDiCalcio, basandosi sull'ordine lessicografico
  * crescente rispetto al nome delle squadre che si affrontano.
  */
-public class NameComparator implements Comparator<Partita> {
+public class NameComparator implements Comparator<Partita>, Serializable {
 
 	/**
 	 * Confronta due PartitaDiCalcio, in base ai nomi delle squadre che si
@@ -54,4 +55,5 @@ public class NameComparator implements Comparator<Partita> {
 		return 0;
 	}
 
+	private static final long serialVersionUID = -6101067553468725820L;
 }

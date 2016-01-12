@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
@@ -17,7 +18,7 @@ import user.Utente;
  *
  * @param <T>
  */
-public class GenericDB<T extends Utente> {
+public class GenericDB<T extends Utente> implements Serializable {
 
 	public GenericDB(String dbName) {
 		this.dbName = dbName;
@@ -49,7 +50,8 @@ public class GenericDB<T extends Utente> {
 
 			for (T u : this.collection) {
 				if (u.equals(user)) {
-					throw new AlreadyRegisteredUserException(user.getClass().getSimpleName() + " già presente nel database");
+					throw new AlreadyRegisteredUserException(
+							user.getClass().getSimpleName() + " già presente nel database");
 				}
 			}
 
@@ -82,6 +84,7 @@ public class GenericDB<T extends Utente> {
 		}
 	}
 
+	private static final long serialVersionUID = 7602419843753158840L;
 	private String dbName;
 	private File fileDB;
 	private ArrayList<T> collection;
@@ -103,7 +106,7 @@ public class GenericDB<T extends Utente> {
 
 		@SuppressWarnings("unused")
 		Cliente c = new Cliente("Maurizio", "Casciano", "1z10", "P@ssw0rd");
-		//clienti.add(c);
+		// clienti.add(c);
 
 		System.out.println(clienti.get("1z10"));
 	}

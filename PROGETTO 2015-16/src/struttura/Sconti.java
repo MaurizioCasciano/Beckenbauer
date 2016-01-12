@@ -7,14 +7,16 @@
  */
 package struttura;
 
-public class Sconti {
-	
+import java.io.Serializable;
+
+public class Sconti implements Serializable {
+
 	public Sconti(String tipoSconto, double percetualeSconto) {
 		this.denominazioneSconto = tipoSconto;
 		this.percetualeSconto = percetualeSconto;
 		this.IDSconto = ++IDCounter;
 	}
-	
+
 	public int getIDSconto() {
 		return IDSconto;
 	}
@@ -27,10 +29,11 @@ public class Sconti {
 		return percetualeSconto;
 	}
 
+	private static final long serialVersionUID = 8088987206686770452L;
 	private int IDSconto;
 	private String denominazioneSconto;
 	private double percetualeSconto;
-	
+
 	private static int IDCounter = 1;
 
 }

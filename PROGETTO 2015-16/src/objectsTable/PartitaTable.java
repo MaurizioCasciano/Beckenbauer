@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +37,7 @@ import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
-public class PartitaTable extends JTable {
+public class PartitaTable extends JTable implements Serializable{
 
 	public PartitaTable() {
 		super(new PartitaTableModel());

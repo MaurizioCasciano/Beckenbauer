@@ -4,10 +4,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import javax.swing.JPanel;
 
-public class BackgroundImagePanel extends JPanel {
+public class BackgroundImagePanel extends JPanel implements Serializable{
 
 	/**
 	 * Crea un nuovo LoginPanel2 con un double buffer ed un flow layout.

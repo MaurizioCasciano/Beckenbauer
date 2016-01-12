@@ -3,10 +3,11 @@ package graphics;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 
-public class StadiumSeatButton extends JButton {
+public class StadiumSeatButton extends JButton implements Serializable {
 
 	public StadiumSeatButton(int numeroPosto, Color backgroundColor) {
 		super();

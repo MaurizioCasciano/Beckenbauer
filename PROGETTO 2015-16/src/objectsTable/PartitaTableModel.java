@@ -1,5 +1,6 @@
 package objectsTable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -7,7 +8,7 @@ import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
-public class PartitaTableModel extends RowObjectTableModel<Partita> {
+public class PartitaTableModel extends RowObjectTableModel<Partita> implements Serializable{
 
 	private static final long serialVersionUID = 6082073225853493069L;
 	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Data" };

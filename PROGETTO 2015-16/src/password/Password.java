@@ -1,10 +1,11 @@
 package password;
 
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Password {
+public class Password implements Serializable{
 
 	/**
 	 * Controlla che la password passata in input rispecchi i requisiti minimi
@@ -72,6 +73,7 @@ public class Password {
 	 * immediately follows the current position in the string is foo.
 	 */
 
+	private static final long serialVersionUID = -1936279973334043609L;
 	private static final String MY_REGULAR_EXPRESSION = "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%?£€^&+=])(?=\\S+$).{8,})$";
 	private static final Pattern MY_PATTERN = Pattern.compile(MY_REGULAR_EXPRESSION);
 	public static final int MINIMUM_LENGTH = 8;

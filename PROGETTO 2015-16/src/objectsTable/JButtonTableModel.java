@@ -1,9 +1,11 @@
 package objectsTable;
 
 import java.awt.BorderLayout;
+import java.io.Serializable;
+
 import javax.swing.*;
 
-public class JButtonTableModel extends RowObjectTableModel<JButton> {
+public class JButtonTableModel extends RowObjectTableModel<JButton> implements Serializable{
 
 	private static final long serialVersionUID = -2669056263334698191L;
 	private static final String[] COLUMN_NAMES = { "Text", "Tool Tip Text", "Enabled", "Visible" };

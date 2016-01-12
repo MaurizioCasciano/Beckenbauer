@@ -1,9 +1,11 @@
 package struttura.filters;
 
+import java.io.Serializable;
+
 import struttura.Partita;
 import struttura.Stadio;
 
-public class MatchByStadiumFilter implements Filter {
+public class MatchByStadiumFilter implements Filter, Serializable {
 
 	/**
 	 * Costruisce un Filter con lo Stadio passato in input.
@@ -29,5 +31,6 @@ public class MatchByStadiumFilter implements Filter {
 		return partitaDiCalcio.getStadio().equals(this.stadio);
 	}
 
+	private static final long serialVersionUID = -1596095263446286660L;
 	private Stadio stadio;
 }

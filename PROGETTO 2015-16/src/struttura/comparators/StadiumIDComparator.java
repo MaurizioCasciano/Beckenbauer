@@ -1,5 +1,6 @@
 package struttura.comparators;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import struttura.Partita;
@@ -9,7 +10,8 @@ import struttura.Partita;
  * una collezione di PartitaDiCalcio, basandosi sull'ordine crescente rispetto
  * all'identificativo dello stadio in cui si giocano le due PartitaDiCalcio.
  */
-public class StadiumIDComparator implements Comparator<Partita> {
+public class StadiumIDComparator implements Comparator<Partita>, Serializable {
+
 	@Override
 	public int compare(Partita p1, Partita p2) {
 		if (p1.getStadio().getID() < p2.getStadio().getID()) {
@@ -20,4 +22,6 @@ public class StadiumIDComparator implements Comparator<Partita> {
 			return 0;
 		}
 	}
+
+	private static final long serialVersionUID = -5964931509835566728L;
 }

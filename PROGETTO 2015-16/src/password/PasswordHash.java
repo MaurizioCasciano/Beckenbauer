@@ -4,6 +4,8 @@ import java.security.SecureRandom;
 import javax.crypto.spec.PBEKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import javax.crypto.SecretKeyFactory;
+
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -37,7 +39,9 @@ import java.security.spec.InvalidKeySpecException;
  * collision resistance: nobody should be able to find two different input
  * values that result in the same hash output.
  */
-public class PasswordHash {
+public class PasswordHash implements Serializable {
+	private static final long serialVersionUID = -6843744174735008039L;
+
 	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA512";
 
 	public static final int SALT_BYTE_SIZE = 64;

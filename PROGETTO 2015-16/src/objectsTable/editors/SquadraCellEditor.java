@@ -2,6 +2,7 @@ package objectsTable.editors;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
@@ -11,7 +12,7 @@ import javax.swing.table.TableCellEditor;
 import objectsTable.utilities.ObjectTextField;
 import struttura.Squadra;
 
-public class SquadraCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class SquadraCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public SquadraCellEditor() {
 		super();

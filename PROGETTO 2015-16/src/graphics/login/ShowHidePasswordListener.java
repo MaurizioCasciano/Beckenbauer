@@ -2,12 +2,11 @@ package graphics.login;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
 import javax.swing.JPasswordField;
 
-public class ShowHidePasswordListener implements MouseListener {
-	private char defaultEchoChar = '•';
-
+public class ShowHidePasswordListener implements MouseListener, Serializable {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) {
@@ -45,4 +44,6 @@ public class ShowHidePasswordListener implements MouseListener {
 
 	}
 
+	private static final long serialVersionUID = 4802014560730408040L;
+	private char defaultEchoChar = '•';
 }

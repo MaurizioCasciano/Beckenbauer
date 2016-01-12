@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
-public class StadiumPanel extends JPanel implements MouseWheelListener {
+public class StadiumPanel extends JPanel implements MouseWheelListener, Serializable {
 
 	/**
 	 * Crea un pannello rappresentante uno stadio, con la capienza di default.

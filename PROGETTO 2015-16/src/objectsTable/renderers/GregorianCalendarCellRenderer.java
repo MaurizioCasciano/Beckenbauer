@@ -1,6 +1,7 @@
 package objectsTable.renderers;
 
 import java.awt.Component;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -12,7 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import objectsTable.utilities.ObjectTextField;
 import struttura.Partita;
 
-public class GregorianCalendarCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer {
+public class GregorianCalendarCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer, Serializable {
 
 	public GregorianCalendarCellRenderer() {
 		super();

@@ -1,12 +1,14 @@
 package user;
 
+import java.io.Serializable;
+
 /**
  * Segnala che l'Utente cercato non è presente nel sistema.
  * 
  * Può essere lanciata in seguito alla ricerca di un Utente (per username o
  * secondo un qualsiasi altro criterio).
  */
-public class UserNotFound extends Exception {
+public class UserNotFound extends Exception implements Serializable{
 
 	public UserNotFound() {
 		super("User Not Found");
