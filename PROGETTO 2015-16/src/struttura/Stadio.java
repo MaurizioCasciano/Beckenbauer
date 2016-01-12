@@ -65,8 +65,8 @@ public class Stadio implements Serializable {
 	private int ID_Stadio;
 
 	private Sconti scontoStadio; // (GA) lo stadio può avere una particolare
-									// politica di sconto
-	// che va estesa a tutte le partite in esso giocate
+								// politica di sconto
+								// che va estesa a tutte le partite in esso giocate
 
 	private static int ID_Counter = 1000;
 }

@@ -11,10 +11,10 @@ public class PrenotazioneV2 implements Serializable {
 		this.dataPrenotazione = dataPrenotazione;
 		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
 		this.bigliettoPrenotato = bigliettoPrenotato;
-
+		
 		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO);
 	}
-
+	
 	/**
 	 * @return the iDPrenotazione
 	 */
@@ -59,24 +59,25 @@ public class PrenotazioneV2 implements Serializable {
 			return false;
 		return true;
 	}
+	
 
 	@Override
 	public String toString() {
-		return ("IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString
-				+ "\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
-				+ this.bigliettoPrenotato.getCliente().getCognome() + " "
-				+ this.bigliettoPrenotato.getCliente().getNome());
+		return ("IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString +
+				"\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: " + this.bigliettoPrenotato.getCliente().getCognome() 
+				+ " " + this.bigliettoPrenotato.getCliente().getNome());
 	}
 
-	private static final long serialVersionUID = -5821307391776070857L;
 	private int IDPrenotazione;
 	private GregorianCalendar dataPrenotazione;
 	private String dataPrenotazioneString;
 	private Biglietto bigliettoPrenotato;
-
+	
 	private static final boolean IS_PRENOTATO = true;
-
-	// Iteratore
+	
+	//Iteratore
 	private static int IDCounter = 1;
-
+	
+	private static final long serialVersionUID = -5821307391776070857L;
+	
 }

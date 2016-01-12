@@ -13,13 +13,12 @@ import user.Cliente;
 
 public class Biglietto implements Serializable {
 
-	public Biglietto(Cliente cliente, Partita partita, String settore, int fila, int posto, double prezzo) {
+	public Biglietto(Cliente cliente, Partita partita, String settore, int fila, int posto) {
 		this.cliente = cliente;
 		this.partita = partita;
 		this.settore = settore;
 		this.fila = fila;
 		this.posto = posto;
-		this.prezzo = prezzo;
 
 		this.IDBiglietto = ++IDCounter;
 	}
@@ -77,6 +76,10 @@ public class Biglietto implements Serializable {
 	public int getPosto() {
 		return posto;
 	}
+	
+	public void calcolaPrezzo(){
+		
+	}
 
 	/**
 	 * @return the prezzo
@@ -120,6 +123,12 @@ public class Biglietto implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return("IDBiglietto: " + this.IDBiglietto + " Partita: " + this.partita + " \n" + 
+			   "Settore: " + this.settore + " Fila: " + this.fila + " Posto: " + this.posto);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -153,5 +162,6 @@ public class Biglietto implements Serializable {
 
 	// Iteratore
 	private static int IDCounter = 1;
+	
 	private static final long serialVersionUID = -6677866736549225712L;
 }
