@@ -157,6 +157,13 @@ public class Partita implements Serializable {
 	 * 
 	 * } } }
 	 */
+	
+	public void setSconto(int scelta, double percentuale){
+		//scelta = 1 --> Partita Corrente
+		//scelta = 2 --> Tutte le partite dello Stadio
+		//scelta = 3 --> Giorno Prestabilito
+		this.sconto = new Sconti(scelta, percentuale);
+	}
 
 	@Override
 	public String toString() {
@@ -189,8 +196,7 @@ public class Partita implements Serializable {
 									// e alle prenotazioni
 
 	private Sconti sconto; // (GA) di default può essere null se la partita non
-							// ha nessuna politica
-							// di sconto associata
+						  // ha nessuna politica di sconto associata
 
 	private ArrayList<Prenotazione> prenotazioni;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
