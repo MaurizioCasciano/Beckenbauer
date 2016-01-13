@@ -19,6 +19,7 @@ public class StrutturaSportiva implements Serializable {
 		this.partiteProgrammate = new ArrayList<>();
 		this.stadi = new ArrayList<>();
 		this.utenti = new ArrayList<>();
+		this.sconti = new ArrayList<>();
 	}
 
 	/**
@@ -36,6 +37,10 @@ public class StrutturaSportiva implements Serializable {
 
 	public void addStadio(Stadio s) {
 		this.stadi.add(s);
+	}
+	
+	public void addSconto(Sconti sconto){
+		this.sconti.add(sconto);
 	}
 
 	/**
@@ -64,6 +69,20 @@ public class StrutturaSportiva implements Serializable {
 		}
 		return filteredByWeek;
 	}
+	
+	public ArrayList<Sconti> getScontiApplicabili(Filter filtroSconti){
+		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
+		
+		for(int i = 0; i < this.partiteProgrammate.size(); i++){
+			for(int j = 0; j < this.sconti.size(); i++){
+				if(filtroSconti.accept(this.partiteProgrammate.get(i))){
+					filteredByChoice.add(this.sconti.get(j));
+				}
+			}
+		}
+		
+		return filteredByChoice;
+	}
 
 	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
 		for (Utente u : this.utenti) {
@@ -87,8 +106,9 @@ public class StrutturaSportiva implements Serializable {
 
 	private static final long serialVersionUID = -1014833830864079436L;
 	private String nome;
-	// una struttura sportiva che comprenda più stadi
+	// una struttura sportiva che comprenda piï¿½ stadi
 	private ArrayList<Stadio> stadi;
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
+	private ArrayList<Sconti> sconti;
 }

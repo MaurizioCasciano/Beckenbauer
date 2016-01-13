@@ -10,13 +10,6 @@ public class Stadio implements Serializable {
 		ID_Stadio = ++ID_Counter;
 	}
 
-	public Stadio(String nome, int capienzaStadio, Sconti sconto) {
-		this.nome = nome;
-		this.capienzaStadio = capienzaStadio;
-		ID_Stadio = ++ID_Counter;
-		this.scontoStadio = sconto;
-	}
-
 	public String getNome() {
 		return this.nome;
 	}
@@ -49,10 +42,6 @@ public class Stadio implements Serializable {
 		return this.ID_Stadio;
 	}
 
-	public Sconti getScontoStadio() {
-		return scontoStadio;
-	}
-
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [nome = " + nome + ", capienzaStadio = " + capienzaStadio
@@ -63,10 +52,6 @@ public class Stadio implements Serializable {
 	private String nome;
 	private int capienzaStadio;
 	private int ID_Stadio;
-
-	private Sconti scontoStadio; // (GA) lo stadio può avere una particolare
-								// politica di sconto
-								// che va estesa a tutte le partite in esso giocate
-
+	
 	private static int ID_Counter = 1000;
 }

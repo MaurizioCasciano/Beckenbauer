@@ -8,24 +8,85 @@
 package struttura;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 public class Sconti implements Serializable {
 
-	public Sconti(int tipoSconto, double percetualeSconto) {
-		this.scontoScelto = tipoSconto;
+	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidità, 
+			GregorianCalendar fineValidità, Stadio stadio) {
+		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
+		this.inizioValidità = inizioValidità;
+		this.fineValidità = fineValidità;
+		this.stadio = stadio;
+		this.partita = null;
+		this.giornoSettimana = null;
 	}
 	
-	public int getScontoScelto(){
-		return this.scontoScelto;
+	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidità, 
+			GregorianCalendar fineValidità, Partita partita) {
+		this.scontoScelto = nomeSconto;
+		this.percetualeSconto = (percetualeSconto / 100);
+		this.inizioValidità = inizioValidità;
+		this.fineValidità = fineValidità;
+		this.stadio = null;
+		this.partita = partita;
+		this.giornoSettimana = null;
 	}
 	
-	public String getApplicazioneSconto() {
-		return this.applicazioneSconto[this.scontoScelto];
+	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidità, 
+			GregorianCalendar fineValidità, DAYS_OF_WEEK giorno) {
+		this.scontoScelto = nomeSconto;
+		this.percetualeSconto = (percetualeSconto / 100);
+		this.inizioValidità = inizioValidità;
+		this.fineValidità = fineValidità;
+		this.stadio = null;
+		this.partita = null;
+		this.giornoSettimana = giorno;
 	}
 	
-	public String getGiornoSettimana(int i){
-		return this.giorniSettimana[i];
+
+	/**
+	 * @return the scontoScelto
+	 */
+	public TIPO_SCONTO getScontoScelto() {
+		return scontoScelto;
+	}
+
+	/**
+	 * @return the stadio
+	 */
+	public Stadio getStadio() {
+		return stadio;
+	}
+
+	/**
+	 * @return the partita
+	 */
+	public Partita getPartita() {
+		return partita;
+	}
+
+	/**
+	 * @return the inizioValidità
+	 */
+	public GregorianCalendar getInizioValidità() {
+		return inizioValidità;
+	}
+
+	/**
+	 * @return the fineValidità
+	 */
+	public GregorianCalendar getFineValidità() {
+		return fineValidità;
+	}
+
+
+	/**
+	 * @return the giornoSettimana
+	 */
+	public DAYS_OF_WEEK getGiornoSettimana() {
+		return giornoSettimana;
 	}
 
 	public double getPercetualeSconto() {
@@ -33,11 +94,12 @@ public class Sconti implements Serializable {
 	}
 
 	private static final long serialVersionUID = 8088987206686770452L;
-	private int scontoScelto;
+	private TIPO_SCONTO scontoScelto;
 	private double percetualeSconto;
-	
-	private final String[] applicazioneSconto = {"Partita Corrente", "Tutte le partite dello Stadio", "Giorno prestabilito"};
-	private final String[] giorniSettimana = {"Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"};
-
+	private Stadio stadio;
+	private Partita partita;
+	private GregorianCalendar inizioValidità;
+	private GregorianCalendar fineValidità;
+	private DAYS_OF_WEEK giornoSettimana;
 
 }
