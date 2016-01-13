@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import graphics.login.IdentificationPanel;
 import objectsTable.PartitaTable;
 import password.WeakPasswordException;
+import struttura.MODE;
 import struttura.StrutturaSportiva;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
@@ -177,7 +178,7 @@ public class Window extends JFrame implements Serializable {
 		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Benvenuto",
 				JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
 
-		PartitaTable partitaTable = new PartitaTable(this.strutturaSportiva.getPartiteProgrammate());
+		PartitaTable partitaTable = new PartitaTable(MODE.CLIENTE, this.strutturaSportiva.getPartiteProgrammate());
 		JScrollPane scrollPane = new JScrollPane(partitaTable);
 		// scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
 

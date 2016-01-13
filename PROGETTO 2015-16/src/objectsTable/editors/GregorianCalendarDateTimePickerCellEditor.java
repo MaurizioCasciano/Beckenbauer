@@ -35,16 +35,6 @@ public class GregorianCalendarDateTimePickerCellEditor extends AbstractCellEdito
 
 	@Override
 	public Object getCellEditorValue() {
-
-		/*
-		 * try { Date time =
-		 * Partita.DATE_FORMAT.parse(this.dateTextField.getText());
-		 * this.dateTextField.getObject().setTime(time); } catch (ParseException
-		 * e) { e.printStackTrace(); }
-		 * 
-		 * return this.dateTextField.getObject();
-		 */
-
 		GregorianCalendar date = new GregorianCalendar();
 		date.setTime(this.dateTimePicker.getDate());
 		return date;

@@ -50,20 +50,57 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 		this.getMonthView().setSelectionBackground(Color.CYAN);
 		this.setDate(date);
 		this.getEditor().setEditable(false);
-		/***************************************************/
-
 	}
 
 	@Override
 	public void setDate(Date date) {
-		super.setDate(date);
+		/*
+		 * Aggiorna la data (orario) del timeSpinner con la vecchia
+		 * data(orario). Fondamentale per mantenere correttamente aggiornato il
+		 * timeSpinner delle varie celle della tabella. In assenza della
+		 * seguente istruzione tutte le celle della tabella avranno il valore
+		 * dell'ultimo timeSpinner (cella) aggiornato.
+		 */
 		this.updateTimeSpinnerValue();
+		super.setDate(date);
+	}
+
+	/**
+	 * Aggiorna la data (orario) del timeSpinner con la data corrente.
+	 */
+	private void updateTimeSpinnerValue() {
+		Date date = getDate();
+		if (date != null) {
+			this.timeSpinner.setValue(date);
+		}
 	}
 
 	@Override
 	public void commitEdit() throws ParseException {
 		this.commitTime();
 		super.commitEdit();
+	}
+
+	/**
+	 * Aggiorna la data compresi l'ora e i minuti di questo DateTimePicker.
+	 */
+	private void commitTime() {
+		Date oldDate = this.getDate();
+		if (oldDate != null) {
+			Date newTime = (Date) timeSpinner.getValue();
+			GregorianCalendar newTimeCalendar = new GregorianCalendar();
+			newTimeCalendar.setTime(newTime);
+
+			GregorianCalendar dateTimeCalendar = new GregorianCalendar();
+			dateTimeCalendar.setTime(oldDate);
+			dateTimeCalendar.set(Calendar.HOUR_OF_DAY, newTimeCalendar.get(Calendar.HOUR_OF_DAY));
+			dateTimeCalendar.set(Calendar.MINUTE, newTimeCalendar.get(Calendar.MINUTE));
+			dateTimeCalendar.set(Calendar.SECOND, newTimeCalendar.get(Calendar.SECOND));
+			dateTimeCalendar.set(Calendar.MILLISECOND, newTimeCalendar.get(Calendar.MILLISECOND));
+
+			Date newDate = dateTimeCalendar.getTime();
+			this.setDate(newDate);
+		}
 	}
 
 	@Override
@@ -162,39 +199,6 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 		DefaultFormatterFactory formatterFactory = (DefaultFormatterFactory) formattedTextField.getFormatterFactory();
 		DateFormatter formatter = (DateFormatter) formatterFactory.getDefaultFormatter();
 		formatter.setFormat(timeFormat);
-	}
-
-	/**
-	 * Aggiorna la data compresi l'ora e i minuti di questo DateTimePicker.
-	 */
-	private void commitTime() {
-		Date oldDate = this.getDate();
-		if (oldDate != null) {
-			Date newTime = (Date) timeSpinner.getValue();
-			GregorianCalendar newTimeCalendar = new GregorianCalendar();
-			newTimeCalendar.setTime(newTime);
-
-			GregorianCalendar calendar = new GregorianCalendar();
-			calendar.setTime(oldDate);
-			calendar.set(Calendar.HOUR_OF_DAY, newTimeCalendar.get(Calendar.HOUR_OF_DAY));
-			calendar.set(Calendar.MINUTE, newTimeCalendar.get(Calendar.MINUTE));
-			calendar.set(Calendar.SECOND, newTimeCalendar.get(Calendar.SECOND));
-			calendar.set(Calendar.MILLISECOND, newTimeCalendar.get(Calendar.MILLISECOND));
-
-			Date newDate = calendar.getTime();
-			this.setDate(newDate);
-		}
-
-	}
-
-	/**
-	 * Aggiorna la data (orario) del timeSpinner con la data corrente.
-	 */
-	private void updateTimeSpinnerValue() {
-		Date date = getDate();
-		if (date != null) {
-			this.timeSpinner.setValue(date);
-		}
 	}
 
 	/**

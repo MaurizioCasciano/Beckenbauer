@@ -25,37 +25,39 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXDatePicker;
-
 import objectsTable.editors.GregorianCalendarDateTimePickerCellEditor;
 import objectsTable.editors.SquadraCellEditor;
 import objectsTable.editors.StadioCellEditor;
 import objectsTable.renderers.GregorianCalendarDateTimePickerCellRenderer;
 import objectsTable.renderers.SquadraCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
+import struttura.MODE;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
 public class PartitaTable extends JTable implements Serializable {
 
-	public PartitaTable() {
-		super(new PartitaTableModel());
+	public PartitaTable(MODE mode) {
+		super(new PartitaTableModel(mode));
+		this.mode = mode;
 		this.init();
 	}
 
-	public PartitaTable(ArrayList<Partita> partite) {
-		super(new PartitaTableModel(partite));
+	public PartitaTable(MODE mode, ArrayList<Partita> partite) {
+		super(new PartitaTableModel(mode, partite));
+		this.mode = mode;
 		this.init();
 	}
 
 	private void init() {
-		// this.setFillsViewportHeight(true);
+		this.setFillsViewportHeight(true);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setColumnSelectionAllowed(false);
 		this.setAutoCreateColumnsFromModel(true);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		this.setSelectionBackground(Color.GREEN);
-		this.getColumnModel().getColumn(3).setMinWidth(90);
+		this.getColumnModel().getColumn(3).setMinWidth(150);
 
 		this.addMouseListener(new RightClickRowSelectionListener());
 		this.setComponentPopupMenu(this.getPopupMenu());
@@ -122,8 +124,8 @@ public class PartitaTable extends JTable implements Serializable {
 		// System.out.println(this);
 
 		if (c instanceof JXDatePicker) {
-			((JXDatePicker) c).getComponent(0).setBackground(Color.WHITE);
-			((JComponent) ((JXDatePicker) c).getComponent(0)).setBorder(new LineBorder(Color.BLACK));
+			((JXDatePicker) c).getEditor().setBackground(Color.WHITE);
+			((JXDatePicker) c).getEditor().setBorder(new LineBorder(Color.BLACK));
 		} else {
 			c.setBackground(Color.WHITE);
 			((JComponent) c).setBorder(new LineBorder(Color.BLACK));
@@ -152,8 +154,6 @@ public class PartitaTable extends JTable implements Serializable {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					((PartitaTableModel) getModel()).addPartita(new Partita());
-
-					editCellAt(0, 0);
 				}
 			});
 
@@ -174,6 +174,14 @@ public class PartitaTable extends JTable implements Serializable {
 		}
 
 		return this.popupMenu;
+	}
+
+	public MODE getMode() {
+		return this.mode;
+	}
+
+	public void setMode(MODE mode) {
+		this.mode = mode;
 	}
 
 	public void addPartita(Partita p) {
@@ -197,6 +205,7 @@ public class PartitaTable extends JTable implements Serializable {
 	}
 
 	private static final long serialVersionUID = 2097698111433165339L;
+	private MODE mode;
 	private JPopupMenu popupMenu;
 	private JMenuItem dettagliMenuItem, prenotaMenuItem, acquistaMenuItem;
 
@@ -206,7 +215,7 @@ public class PartitaTable extends JTable implements Serializable {
 		JFrame frame = new JFrame("Partite");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		PartitaTable partite = new PartitaTable();
+		PartitaTable partite = new PartitaTable(MODE.GESTORE);
 		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277),
 				new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261),

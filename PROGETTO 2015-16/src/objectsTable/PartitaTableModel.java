@@ -4,31 +4,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import struttura.MODE;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
-public class PartitaTableModel extends RowObjectTableModel<Partita> implements Serializable{
+public class PartitaTableModel extends RowObjectTableModel<Partita>implements Serializable {
 
 	private static final long serialVersionUID = 6082073225853493069L;
 	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Data" };
+	private MODE mode;
 
-	public PartitaTableModel() {
+	public PartitaTableModel(MODE mode) {
 		super(COLUMN_NAMES, Partita.class);
 
+		this.mode = mode;
 		setColumnClass(0, Squadra.class);
 		setColumnClass(1, Squadra.class);
 		setColumnClass(2, Stadio.class);
 		setColumnClass(3, GregorianCalendar.class);
 	}
 
-	public PartitaTableModel(ArrayList<Partita> partite) {
+	public PartitaTableModel(MODE mode, ArrayList<Partita> partite) {
 		super(partite, COLUMN_NAMES, Partita.class);
 
+		this.mode = mode;
 		setColumnClass(0, Squadra.class);
 		setColumnClass(1, Squadra.class);
 		setColumnClass(2, Stadio.class);
 		setColumnClass(3, GregorianCalendar.class);
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		if (this.mode == MODE.CLIENTE) {
+			return false;
+		} else if (this.mode == MODE.GESTORE) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public void addPartita(Partita p) {
@@ -38,7 +53,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita> implements S
 	public Partita getPartita(int row) {
 		return super.getRow(row);
 	}
-	
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Partita partita = getRow(rowIndex);
