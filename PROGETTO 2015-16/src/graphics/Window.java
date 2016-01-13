@@ -210,14 +210,19 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Aggiungere componenti grafici scelta squadre e
-				// pulsante aggiungi
+				
 			}
 		});
 
 		partiteMenu.add(newPartitaItem);
 		menuBar.add(partiteMenu);
 
+		
+		PartitaTable partitaTable = new PartitaTable(MODE.GESTORE, this.strutturaSportiva.getPartiteProgrammate());
+		JScrollPane scrollPane = new JScrollPane(partitaTable);
+		// scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
+
+		this.mainPanel.add(scrollPane, BorderLayout.CENTER);
 		// TODO aggiungere i componenti grafici opportuni alla modalità
 
 		this.setJMenuBar(menuBar);
