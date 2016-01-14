@@ -17,11 +17,14 @@ import java.io.Serializable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SettoreStadioPanel extends JPanel implements Serializable{
+import user.Cliente;
 
-	public SettoreStadioPanel(int posti) {
+public class SettoreStadioPanel extends JPanel implements Serializable {
+
+	public SettoreStadioPanel(Cliente cliente, int posti) {
 		super(new CardLayout());
 
+		this.cliente = cliente;
 		this.posti = posti;
 		this.labelPanelCard = new JPanel(new BorderLayout());
 
@@ -94,7 +97,7 @@ public class SettoreStadioPanel extends JPanel implements Serializable{
 		this.seatsPanelCard = new JPanel(new GridLayout(sqrtPosti, sqrtPosti, 3, 3));
 
 		for (int i = 0; i < posti; i++) {
-			this.seatsPanelCard.add(new StadiumSeatButton(i, Color.GREEN));
+			this.seatsPanelCard.add(new StadiumSeatButton(this.cliente, i, Color.GREEN));
 		}
 
 		this.add(this.labelPanelCard);
@@ -110,6 +113,7 @@ public class SettoreStadioPanel extends JPanel implements Serializable{
 	}
 
 	private static final long serialVersionUID = 4920370237665489993L;
+	private Cliente cliente;
 	private int posti;
 	private JPanel labelPanelCard, seatsPanelCard;
 	private JLabel nameLabel;

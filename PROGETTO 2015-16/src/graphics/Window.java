@@ -22,17 +22,22 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import graphics.login.IdentificationPanel;
 import objectsTable.PartitaTable;
+import objectsTable.PartitaTableModel;
+import objectsTable.RowObjectTableModel;
 import password.WeakPasswordException;
-import struttura.MODE;
+import struttura.Mode;
+import struttura.Partita;
 import struttura.StrutturaSportiva;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
-import user.UserNotFound;
+import user.UserNotFoundException;
 import user.Utente;
 
 public class Window extends JFrame implements Serializable {
@@ -51,7 +56,7 @@ public class Window extends JFrame implements Serializable {
 
 		try {
 			this.strutturaSportiva.getUtente("gestore");
-		} catch (UserNotFound e) {
+		} catch (UserNotFoundException e) {
 			try {
 				this.strutturaSportiva.addUtente(new Gestore("NomeGestore", "CognomeGestore", "gestore", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
@@ -167,22 +172,41 @@ public class Window extends JFrame implements Serializable {
 		this.removeIdentificationPanel();
 
 		if (this.utente instanceof Cliente) {
-			this.initUIClienteMode();
+			this.mode = Mode.CLIENTE;
 		} else if (this.utente instanceof Gestore) {
-			this.initUIGestoreMode();
+			this.mode = Mode.GESTORE;
 		}
 
+		this.initUI();
+	}
+
+	private void initUI() {
+		switch (this.mode) {
+		case CLIENTE:
+			this.initUIClienteMode();
+			break;
+		case GESTORE:
+			this.initUIGestoreMode();
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void initUIClienteMode() {
 		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Benvenuto",
 				JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
 
-		PartitaTable partitaTable = new PartitaTable(MODE.CLIENTE, this.strutturaSportiva.getPartiteProgrammate());
-		JScrollPane scrollPane = new JScrollPane(partitaTable);
+		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate());
+		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
+		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		// scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
 
-		this.mainPanel.add(scrollPane, BorderLayout.CENTER);
+		this.tabbedPane = new JTabbedPane();
+		this.tabbedPane.addTab("Partite", this.partitaTableScrollPane);
+
+		// this.mainPanel.add(partitaTableScrollPane, BorderLayout.CENTER);
+		this.mainPanel.add(this.tabbedPane, BorderLayout.CENTER);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.LIGHT_GRAY);
@@ -191,10 +215,8 @@ public class Window extends JFrame implements Serializable {
 
 		partiteMenu.add(newPartitaItem);
 		menuBar.add(partiteMenu);
-		this.setJMenuBar(menuBar);
+		//this.setJMenuBar(menuBar);
 		this.revalidate();
-
-		// TODO aggiungere i componenti grafici opportuni alla modalità
 	}
 
 	private void initUIGestoreMode() {
@@ -210,22 +232,22 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 
 		partiteMenu.add(newPartitaItem);
 		menuBar.add(partiteMenu);
 
-		
-		PartitaTable partitaTable = new PartitaTable(MODE.GESTORE, this.strutturaSportiva.getPartiteProgrammate());
-		JScrollPane scrollPane = new JScrollPane(partitaTable);
+		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate());
+		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
+		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		// scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
 
-		this.mainPanel.add(scrollPane, BorderLayout.CENTER);
+		this.mainPanel.add(this.partitaTableScrollPane, BorderLayout.CENTER);
 		// TODO aggiungere i componenti grafici opportuni alla modalità
 
-		this.setJMenuBar(menuBar);
+		//this.setJMenuBar(menuBar);
 		this.revalidate();
 	}
 
@@ -237,14 +259,80 @@ public class Window extends JFrame implements Serializable {
 		this.mainPanel.repaint();
 	}
 
+	/************************************************************************************************/
 	class MyWindowAdapter extends WindowAdapter {
 
 		@Override
 		public void windowClosing(WindowEvent paramWindowEvent) {
-			super.windowClosing(paramWindowEvent);
-			System.out.println("CLOSING");
 			Window.this.storeStrutturaSportiva();
 		}
+	}
+
+	class MyPopupMenu extends JPopupMenu implements Serializable {
+
+		public MyPopupMenu() {
+			super();
+
+			switch (Window.this.mode) {
+			case CLIENTE:
+				this.dettaggli = new JMenuItem("Dettagli");
+				this.prenota = new JMenuItem("Prenota");
+				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
+				this.acquista = new JMenuItem("Acquista");
+				/*****************************************************************/
+				this.prenota.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// Window.this.tabbedPane.setEnabledAt(0, false);
+						Window.this.tabbedPane.addTab("Stadio", new StadiumScrollPane((Cliente) Window.this.utente));
+						Window.this.tabbedPane.setSelectedIndex(1);
+						revalidate();
+					}
+				});
+				/*****************************************************************/
+				this.add(dettaggli);
+				this.addSeparator();
+				this.add(prenota);
+				this.add(completaPrenotazione);
+				this.add(acquista);
+
+				break;
+			case GESTORE:
+				this.addPartita = new JMenuItem("Aggiungi Partita");
+				this.removePartita = new JMenuItem("Rimuovi Partita");
+				/*************************************************************************/
+				this.addPartita.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						((PartitaTableModel) Window.this.partitaTable.getModel()).addPartita(new Partita());
+					}
+				});
+
+				this.removePartita.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+
+						int viewIndex = partitaTable.getSelectedRow();
+						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
+
+						if (partitaTable.getModel() instanceof RowObjectTableModel<?>)
+							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
+					}
+				});
+				/***********************************************************************************************/
+				this.add(addPartita);
+				this.add(removePartita);
+				break;
+			default:
+				break;
+			}
+		}
+
+		private static final long serialVersionUID = 6108564986742304925L;
+		private JMenuItem dettaggli, prenota, completaPrenotazione, acquista;
+		/********************************************************************/
+		private JMenuItem addPartita, removePartita;
 	}
 
 	private static final long serialVersionUID = 5196150741171238114L;
@@ -252,6 +340,10 @@ public class Window extends JFrame implements Serializable {
 	private JPanel mainPanel;
 	private IdentificationPanel identificationPanel;
 	private Utente utente;
+	private Mode mode;
+	private PartitaTable partitaTable;
+	private JScrollPane partitaTableScrollPane;
+	private JTabbedPane tabbedPane;
 
 	/************************************************/
 	private String strutturaSportivaName;

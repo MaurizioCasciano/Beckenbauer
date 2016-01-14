@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import struttura.filters.Filter;
 import user.AlreadyRegisteredUserException;
-import user.UserNotFound;
+import user.UserNotFoundException;
 import user.Utente;
 
 public class StrutturaSportiva implements Serializable {
@@ -75,14 +75,14 @@ public class StrutturaSportiva implements Serializable {
 		this.utenti.add(utente);
 	}
 
-	public Utente getUtente(String username) throws UserNotFound {
+	public Utente getUtente(String username) throws UserNotFoundException {
 		for (Utente u : this.utenti) {
 			if (u.getUsername().equalsIgnoreCase(username)) {
 				return u;
 			}
 		}
 
-		throw new UserNotFound();
+		throw new UserNotFoundException();
 	}
 
 	private static final long serialVersionUID = -1014833830864079436L;

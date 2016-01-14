@@ -35,7 +35,7 @@ import password.WeakPasswordException;
 import struttura.StrutturaSportiva;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
-import user.UserNotFound;
+import user.UserNotFoundException;
 import user.Utente;
 
 public class IdentificationPanel extends JPanel implements Serializable {
@@ -372,7 +372,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 				Utente utente = null;
 				try {
 					utente = strutturaSportiva.getUtente(loginUserNameTextField.getText());
-				} catch (UserNotFound e1) {
+				} catch (UserNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Utente non trovato",
 							JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();

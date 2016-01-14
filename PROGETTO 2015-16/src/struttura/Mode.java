@@ -1,5 +1,5 @@
 package struttura;
 
-public enum MODE {
+public enum Mode {
 	CLIENTE, GESTORE;
 }

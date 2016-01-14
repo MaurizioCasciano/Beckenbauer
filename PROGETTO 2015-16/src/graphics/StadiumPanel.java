@@ -2,6 +2,8 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
+import user.Cliente;
+
 public class StadiumPanel extends JPanel implements MouseWheelListener, Serializable {
 
 	/**
@@ -31,8 +35,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
 	 */
-	public StadiumPanel() {
-		this(CAPIENZA_DEFAULT);
+	public StadiumPanel(Cliente cliente) {
+		this(cliente, CAPIENZA_DEFAULT);
 	}
 
 	/**
@@ -43,8 +47,9 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * @param capienza
 	 *            La capienza dello stadio.
 	 */
-	public StadiumPanel(int capienza) {
+	public StadiumPanel(Cliente cliente, int capienza) {
 		super(new GridLayout(STADIUM_PANEL_ROWS, STADIUM_PANEL_COLUMNS));
+		this.cliente = cliente;
 		this.capienza = capienza;
 
 		this.postiPerSettore = capienza / SETTORI_TOTALI;
@@ -109,7 +114,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
+				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -169,7 +174,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
+			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -211,7 +216,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
+			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -256,7 +261,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.postiPerSettore);
+				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -365,8 +370,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	}
 
 	private static final long serialVersionUID = -1931003973640128793L;
+	private Cliente cliente;
 	private JPanel northPanel, centrePanel, southPanel;
-
 	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;
 
 	private int capienza;
@@ -391,6 +396,13 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		 */
 		@Override
 		public void mousePressed(MouseEvent e) {
+			/*
+			 * Alla pressione del mouse imposta il cursore mano.
+			 */
+			Component component = e.getComponent();
+			if (component != null) {
+				component.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
 			this.origin = new Point(e.getPoint());
 		}
 
@@ -400,6 +412,12 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
+
+			Component component = e.getComponent();
+			if (component != null) {
+				component.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+			}
+
 			JViewport viewPort;
 
 			if (this.origin != null) {
@@ -414,6 +432,17 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 
 					StadiumPanel.this.scrollRectToVisible(view);
 				}
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			/*
+			 * Al rilascio del mouse imposta il cursore di default.
+			 */
+			Component component = e.getComponent();
+			if (component != null) {
+				component.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 		}
 
@@ -432,7 +461,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JScrollPane scrollPane = new JScrollPane(new StadiumPanel());
+		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new Cliente("", "", "", "P@ssw0rd")));
 
 		frame.add(scrollPane);
 		frame.pack();

@@ -8,13 +8,13 @@ import java.io.Serializable;
  * Può essere lanciata in seguito alla ricerca di un Utente (per username o
  * secondo un qualsiasi altro criterio).
  */
-public class UserNotFound extends Exception implements Serializable{
+public class UserNotFoundException extends Exception implements Serializable{
 
-	public UserNotFound() {
+	public UserNotFoundException() {
 		super("User Not Found");
 	}
 
-	public UserNotFound(String arg0) {
+	public UserNotFoundException(String arg0) {
 		super(arg0);
 	}
 

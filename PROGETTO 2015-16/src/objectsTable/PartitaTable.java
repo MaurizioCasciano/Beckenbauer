@@ -13,8 +13,6 @@ import java.util.GregorianCalendar;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -31,27 +29,27 @@ import objectsTable.editors.StadioCellEditor;
 import objectsTable.renderers.GregorianCalendarDateTimePickerCellRenderer;
 import objectsTable.renderers.SquadraCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
-import struttura.MODE;
+import struttura.Mode;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
 public class PartitaTable extends JTable implements Serializable {
 
-	public PartitaTable(MODE mode) {
+	public PartitaTable(Mode mode) {
 		super(new PartitaTableModel(mode));
 		this.mode = mode;
 		this.init();
 	}
 
-	public PartitaTable(MODE mode, ArrayList<Partita> partite) {
+	public PartitaTable(Mode mode, ArrayList<Partita> partite) {
 		super(new PartitaTableModel(mode, partite));
 		this.mode = mode;
 		this.init();
 	}
 
 	private void init() {
-		this.setFillsViewportHeight(true);
+		//this.setFillsViewportHeight(true);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setColumnSelectionAllowed(false);
 		this.setAutoCreateColumnsFromModel(true);
@@ -60,7 +58,7 @@ public class PartitaTable extends JTable implements Serializable {
 		this.getColumnModel().getColumn(3).setMinWidth(150);
 
 		this.addMouseListener(new RightClickRowSelectionListener());
-		this.setComponentPopupMenu(this.getPopupMenu());
+		//this.setComponentPopupMenu(this.getPopupMenu());
 
 		this.setCellRenderers();
 		this.setCellEditors();
@@ -134,53 +132,11 @@ public class PartitaTable extends JTable implements Serializable {
 		return c;
 	}
 
-	private JPopupMenu getPopupMenu() {
-		if (this.popupMenu == null) {
-			this.popupMenu = new JPopupMenu();
-
-			this.dettagliMenuItem = new JMenuItem("Dettagli");
-			this.popupMenu.add(this.dettagliMenuItem);
-
-			this.prenotaMenuItem = new JMenuItem("Prenota");
-			this.popupMenu.add(this.prenotaMenuItem);
-
-			this.acquistaMenuItem = new JMenuItem("Acquista");
-			this.popupMenu.add(this.acquistaMenuItem);
-
-			this.addPartita = new JMenuItem("Add new Partita");
-			this.popupMenu.add(this.addPartita);
-			this.addPartita.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					((PartitaTableModel) getModel()).addPartita(new Partita());
-				}
-			});
-
-			this.removePartita = new JMenuItem("Remove Partita");
-			this.popupMenu.add(this.removePartita);
-			this.removePartita.addActionListener(new ActionListener() {
-
-				@SuppressWarnings("unchecked")
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					int viewIndex = getSelectedRow();
-					int modelIndex = convertRowIndexToModel(viewIndex);
-
-					((RowObjectTableModel<Partita>) getModel()).removeRows(modelIndex);
-				}
-			});
-		}
-
-		return this.popupMenu;
-	}
-
-	public MODE getMode() {
+	public Mode getMode() {
 		return this.mode;
 	}
 
-	public void setMode(MODE mode) {
+	public void setMode(Mode mode) {
 		this.mode = mode;
 	}
 
@@ -205,17 +161,13 @@ public class PartitaTable extends JTable implements Serializable {
 	}
 
 	private static final long serialVersionUID = 2097698111433165339L;
-	private MODE mode;
-	private JPopupMenu popupMenu;
-	private JMenuItem dettagliMenuItem, prenotaMenuItem, acquistaMenuItem;
-
-	private JMenuItem addPartita, removePartita;
+	private Mode mode;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Partite");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		PartitaTable partite = new PartitaTable(MODE.GESTORE);
+		PartitaTable partite = new PartitaTable(Mode.GESTORE);
 		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277),
 				new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261),

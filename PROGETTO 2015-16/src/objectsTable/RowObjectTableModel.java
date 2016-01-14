@@ -388,7 +388,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	public void removeRows(int... rows) {
 		for (int i = rows.length - 1; i >= 0; i--) {
 			int row = rows[i];
-			tableObjects.remove(row);
+			this.tableObjects.remove(row);
 			fireTableRowsDeleted(row, row);
 		}
 	}

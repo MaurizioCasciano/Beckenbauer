@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import struttura.MODE;
+import struttura.Mode;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
@@ -13,9 +13,9 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 
 	private static final long serialVersionUID = 6082073225853493069L;
 	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Data" };
-	private MODE mode;
+	private Mode mode;
 
-	public PartitaTableModel(MODE mode) {
+	public PartitaTableModel(Mode mode) {
 		super(COLUMN_NAMES, Partita.class);
 
 		this.mode = mode;
@@ -25,7 +25,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 		setColumnClass(3, GregorianCalendar.class);
 	}
 
-	public PartitaTableModel(MODE mode, ArrayList<Partita> partite) {
+	public PartitaTableModel(Mode mode, ArrayList<Partita> partite) {
 		super(partite, COLUMN_NAMES, Partita.class);
 
 		this.mode = mode;
@@ -37,9 +37,9 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		if (this.mode == MODE.CLIENTE) {
+		if (this.mode == Mode.CLIENTE) {
 			return false;
-		} else if (this.mode == MODE.GESTORE) {
+		} else if (this.mode == Mode.GESTORE) {
 			return true;
 		}
 
@@ -48,6 +48,31 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 
 	public void addPartita(Partita p) {
 		super.addRow(p);
+	}
+
+	/**
+	 * Rimuove la riga (Partita), corrispondente all'indice dato in input, dal
+	 * modello di questa tabella.
+	 * 
+	 * @param rowsIndex
+	 *            L'indice della riga (Partita) da rimuovere dlla tabella.
+	 */
+	public void removePartita(int rowIndex) {
+		super.removeRows(rowIndex);
+	}
+
+	/**
+	 * Rimuove le righe (Partite) corrispondenti agli indici dati in input. Le
+	 * ricghe comprese tra indice iniziale e finale (estremi inclusi) saranno
+	 * rimosse.
+	 * 
+	 * @param start
+	 *            L'indice della prima riga (Partita) da rimuovere.
+	 * @param end
+	 *            L'indice dell'ultima riga (Partita) da rimuovere.
+	 */
+	public void removePartiteRange(int start, int end) {
+		super.removeRowRange(start, end);
 	}
 
 	public Partita getPartita(int row) {

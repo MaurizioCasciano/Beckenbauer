@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
-import user.UserNotFound;
+import user.UserNotFoundException;
 import user.Utente;
 
 /**
@@ -68,10 +68,10 @@ public class GenericDB<T extends Utente> implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public T get(String username) throws IOException, ClassNotFoundException, UserNotFound {
+	public T get(String username) throws IOException, ClassNotFoundException, UserNotFoundException {
 
 		if (!this.fileDB.exists()) {
-			throw new UserNotFound();
+			throw new UserNotFoundException();
 		} else {
 			this.fileInputStrem = new FileInputStream(this.fileDB);
 			this.objectInputStream = new ObjectInputStream(this.fileInputStrem);
@@ -83,7 +83,7 @@ public class GenericDB<T extends Utente> implements Serializable {
 				}
 			}
 
-			throw new UserNotFound();
+			throw new UserNotFoundException();
 		}
 	}
 
@@ -101,10 +101,10 @@ public class GenericDB<T extends Utente> implements Serializable {
 	 * @throws AlreadyRegisteredUserException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
-	 * @throws UserNotFound
+	 * @throws UserNotFoundException
 	 ***************************************************************/
 	public static void main(String[] args)
-			throws ClassNotFoundException, IOException, AlreadyRegisteredUserException, UserNotFound {
+			throws ClassNotFoundException, IOException, AlreadyRegisteredUserException, UserNotFoundException {
 		GenericDB<Cliente> clienti = new GenericDB<>("clienti");
 
 		@SuppressWarnings("unused")
