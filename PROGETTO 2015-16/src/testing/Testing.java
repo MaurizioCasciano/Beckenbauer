@@ -15,6 +15,7 @@ public class Testing {
 
 		StrutturaSportiva strutturaSportiva = window.getStrutturaSportiva();
 
+		/*
 		Stadio sanSiro = new Stadio("San Siro", 81277);
 		Stadio stadioOlimpico = new Stadio("Stadio Olimpico", 73261);
 		Stadio juventusStadium = new Stadio("Juventus Stadium", 41475);
@@ -48,6 +49,7 @@ public class Testing {
 		strutturaSportiva.addPartita(p4);
 		strutturaSportiva.addPartita(p5);
 		strutturaSportiva.addPartita(p6);
+	*/
 
 		// partite non ancora iniziate
 		System.out.println("PARTITE NON ANCORA INIZIATE:\n");

@@ -3,11 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="res"/>
-	<classpathentry kind="lib" path="res/lib/swingx-all-1.6.5-1.jar">
+	<classpathentry kind="lib" path="res/lib/swingx-all-1.6.5-1.jar" sourcepath="res/lib/swingx-all-1.6.5-1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/PROGETTO%202015-16/res/lib/swingx-all-1.6.5-1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="res/lib/swingx-all-1.6.5-1-javadoc.jar"/>
+	<classpathentry kind="lib" path="res/lib/swingx-all-1.6.5-1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
