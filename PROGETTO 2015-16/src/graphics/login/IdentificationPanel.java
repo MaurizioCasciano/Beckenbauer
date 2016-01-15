@@ -283,6 +283,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 						passwordRequirements.append("ed un carattere speciale (@#$%?£€^&+=).\n\n");
 						passwordRequirements.append("E' inoltra necessario che la lunghezza della password\n");
 						passwordRequirements.append("non sia inferiore ad 8 caratteri.");
+						passwordRequirements.setEditable(false);
 
 						JOptionPane.showMessageDialog(null, passwordRequirements, e1.getMessage(),
 								JOptionPane.ERROR_MESSAGE);
