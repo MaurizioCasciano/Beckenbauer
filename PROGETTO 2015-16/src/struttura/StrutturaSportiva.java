@@ -3,6 +3,8 @@ package struttura;
 import java.io.Serializable;
 import java.util.ArrayList;
 import struttura.filters.Filter;
+import struttura.filters.PrenotationFilter;
+import struttura.filters.PurchasesFilter;
 import user.AlreadyRegisteredUserException;
 import user.UserNotFound;
 import user.Utente;
@@ -20,6 +22,8 @@ public class StrutturaSportiva implements Serializable {
 		this.stadi = new ArrayList<>();
 		this.utenti = new ArrayList<>();
 		this.sconti = new ArrayList<>();
+		this.prenotazioni = new ArrayList<>();
+		this.acquisti = new ArrayList<>();
 	}
 
 	/**
@@ -29,6 +33,26 @@ public class StrutturaSportiva implements Serializable {
 	 */
 	public String getNome() {
 		return nome;
+	}
+	
+	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
+		for (Utente u : this.utenti) {
+			if (u.equals(utente)) {
+				throw new AlreadyRegisteredUserException();
+			}
+		}
+
+		this.utenti.add(utente);
+	}
+
+	public Utente getUtente(String username) throws UserNotFound {
+		for (Utente u : this.utenti) {
+			if (u.getUsername().equalsIgnoreCase(username)) {
+				return u;
+			}
+		}
+
+		throw new UserNotFound();
 	}
 
 	public void addPartita(Partita p) {
@@ -41,6 +65,14 @@ public class StrutturaSportiva implements Serializable {
 	
 	public void addSconto(Sconti sconto){
 		this.sconti.add(sconto);
+	}
+	
+	public void addPrenotazione(PrenotazioneV2 pren){
+		this.prenotazioni.add(pren);
+	}
+	
+	public void addAcquisto(Acquisto acq){
+		this.acquisti.add(acq);
 	}
 
 	/**
@@ -70,6 +102,18 @@ public class StrutturaSportiva implements Serializable {
 		return filteredByWeek;
 	}
 	
+	
+	public ArrayList<Sconti> getSconti(){
+		return this.sconti;
+	}
+	
+	/**
+	 * Restituisce gli sconti filtrati dal filtro passato in input.
+	 * 
+	 * @param filtroSconti
+	 * 			Il filtro da applicare
+	 * @return gli sconti applicabili dopo l'applicazione del filtro.
+	 */
 	public ArrayList<Sconti> getScontiApplicabili(Filter filtroSconti){
 		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
 		
@@ -83,25 +127,36 @@ public class StrutturaSportiva implements Serializable {
 		
 		return filteredByChoice;
 	}
-
-	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
-		for (Utente u : this.utenti) {
-			if (u.equals(utente)) {
-				throw new AlreadyRegisteredUserException();
-			}
-		}
-
-		this.utenti.add(utente);
+	
+	public ArrayList<PrenotazioneV2> getPrenotazioni(){
+		return this.prenotazioni;
 	}
-
-	public Utente getUtente(String username) throws UserNotFound {
-		for (Utente u : this.utenti) {
-			if (u.getUsername().equalsIgnoreCase(username)) {
-				return u;
+	
+	public ArrayList<PrenotazioneV2> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni){
+		ArrayList<PrenotazioneV2> filteredByChoice = new ArrayList<>();
+		
+		for(int i = 0; i < this.prenotazioni.size(); i++){
+			if(filtroPrenotazioni.accept(this.prenotazioni.get(i))){
+				filteredByChoice.add(this.prenotazioni.get(i));
 			}
 		}
-
-		throw new UserNotFound();
+		
+		return filteredByChoice;
+	}
+	
+	public ArrayList<Acquisto> getAcquisti(){
+		return this.acquisti;
+	}
+	
+	public ArrayList<Acquisto> getAcquistiFiltrati(PurchasesFilter filtroAcquisti){
+		ArrayList<Acquisto> filteredByChoice = new ArrayList<>();
+		
+		for(int i = 0; i < this.acquisti.size(); i++){
+			if(filtroAcquisti.accept(this.acquisti.get(i))){
+				filteredByChoice.add(this.acquisti.get(i));
+			}
+		}
+		return filteredByChoice;
 	}
 
 	private static final long serialVersionUID = -1014833830864079436L;
@@ -111,4 +166,6 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
 	private ArrayList<Sconti> sconti;
+	private ArrayList<PrenotazioneV2> prenotazioni;
+	private ArrayList<Acquisto> acquisti;
 }
