@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -25,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingWorker;
 
 import graphics.login.IdentificationPanel;
 import objectsTable.PartitaTable;
@@ -215,7 +218,7 @@ public class Window extends JFrame implements Serializable {
 
 		partiteMenu.add(newPartitaItem);
 		menuBar.add(partiteMenu);
-		//this.setJMenuBar(menuBar);
+		// this.setJMenuBar(menuBar);
 		this.revalidate();
 	}
 
@@ -247,7 +250,7 @@ public class Window extends JFrame implements Serializable {
 		this.mainPanel.add(this.partitaTableScrollPane, BorderLayout.CENTER);
 		// TODO aggiungere i componenti grafici opportuni alla modalità
 
-		//this.setJMenuBar(menuBar);
+		// this.setJMenuBar(menuBar);
 		this.revalidate();
 	}
 
@@ -283,10 +286,40 @@ public class Window extends JFrame implements Serializable {
 				this.prenota.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// Window.this.tabbedPane.setEnabledAt(0, false);
-						Window.this.tabbedPane.addTab("Stadio", new StadiumScrollPane((Cliente) Window.this.utente));
-						Window.this.tabbedPane.setSelectedIndex(1);
-						revalidate();
+
+						/*
+						 * Esegue la creazione dello Stadio su un thread in
+						 * background in modo da non bloccare l'interfaccia
+						 * grafica.
+						 */
+						new SwingWorker<StadiumScrollPane, Void>() {
+
+							@Override
+							protected StadiumScrollPane doInBackground() throws Exception {
+								// System.out.println(SwingUtilities.isEventDispatchThread());
+								Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
+										(Cliente) Window.this.utente);
+								return stadiumScrollPane;
+							}
+
+							@Override
+							protected void done() {
+								// System.out.println(SwingUtilities.isEventDispatchThread());
+								try {
+									Window.this.tabbedPane.addTab("Stadio", get());
+									Window.this.tabbedPane.setSelectedIndex(1);
+									Window.this.tabbedPane.revalidate();
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								} catch (ExecutionException e) {
+									e.printStackTrace();
+								} finally {
+									Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+								}
+							}
+
+						}.execute();
 					}
 				});
 				/*****************************************************************/
@@ -344,7 +377,6 @@ public class Window extends JFrame implements Serializable {
 	private PartitaTable partitaTable;
 	private JScrollPane partitaTableScrollPane;
 	private JTabbedPane tabbedPane;
-
 	/************************************************/
 	private String strutturaSportivaName;
 	private StrutturaSportiva strutturaSportiva;
