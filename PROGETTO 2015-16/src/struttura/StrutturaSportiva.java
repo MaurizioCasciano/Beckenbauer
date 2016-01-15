@@ -6,6 +6,7 @@ import struttura.filters.Filter;
 import struttura.filters.PrenotationFilter;
 import struttura.filters.PurchasesFilter;
 import user.AlreadyRegisteredUserException;
+import user.Cliente;
 import user.UserNotFound;
 import user.Utente;
 
@@ -142,6 +143,18 @@ public class StrutturaSportiva implements Serializable {
 		}
 		
 		return filteredByChoice;
+	}
+	
+	public void cancellaPrenotazioneCliente(Cliente c, Partita part){
+		
+		for(int i = 0; i < this.prenotazioni.size(); i++){
+			if((this.prenotazioni.get(i).getBigliettoPrenotato().getCliente().equals(c)) &&
+				this.prenotazioni.get(i).getBigliettoPrenotato().getPartita().equals(part)){
+					
+					this.prenotazioni.remove(i);
+					i--;
+			}
+		}
 	}
 	
 	public ArrayList<Acquisto> getAcquisti(){

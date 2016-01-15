@@ -7,7 +7,6 @@ import user.AlreadyRegisteredUserException;
 import user.Gestore;
 import user.UserNotFound;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,7 +22,7 @@ public class Testing {
 
 		new Window("Fuck");
 		/**
-		 * controlla se c'è già un gestore altrimenti lo aggiunge
+		 * controlla se c'ï¿½ giï¿½ un gestore altrimenti lo aggiunge
 		 */
 
 		Gestore gestore;
