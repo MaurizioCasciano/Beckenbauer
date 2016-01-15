@@ -41,9 +41,9 @@ public class Testing {
 			}
 		}
 
-		Stadio sanSiro = new Stadio("San Siro", 81277);
-		Stadio stadioOlimpico = new Stadio("Stadio Olimpico", 73261);
-		Stadio juventusStadium = new Stadio("Juventus Stadium", 41475);
+		Stadio sanSiro = new Stadio("San Siro", 81277, 50);
+		Stadio stadioOlimpico = new Stadio("Stadio Olimpico", 73261, 40);
+		Stadio juventusStadium = new Stadio("Juventus Stadium", 41475, 70);
 
 		sS.addStadio(sanSiro);
 		sS.addStadio(stadioOlimpico);

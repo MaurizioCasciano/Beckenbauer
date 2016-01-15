@@ -8,12 +8,17 @@
 package struttura;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import struttura.filters.ScontiPerStadio;
+import struttura.filters.ScontiByDayOfWeek;
+import struttura.filters.ScontoPerPartita;
 import user.Cliente;
 
 public class Biglietto implements Serializable {
 
-	public Biglietto(Cliente cliente, Partita partita, String settore, int fila, int posto) {
+	public Biglietto(StrutturaSportiva stru, Cliente cliente, Partita partita, String settore, int fila, int posto) {
 		this.cliente = cliente;
 		this.partita = partita;
 		this.settore = settore;
@@ -21,6 +26,8 @@ public class Biglietto implements Serializable {
 		this.posto = posto;
 
 		this.IDBiglietto = ++IDCounter;
+		
+		this.strutturaSelezionata = stru;
 	}
 
 	/**
@@ -78,6 +85,42 @@ public class Biglietto implements Serializable {
 	}
 	
 	public void calcolaPrezzo(){
+		double prezzoDiPartenza = this.partita.getStadio().getPrezzoPerPartita();
+		
+		ArrayList<Sconti> perPartita = this.strutturaSelezionata.getScontiApplicabili(new ScontoPerPartita(this.strutturaSelezionata.getSconti()), this.partita);
+		ArrayList<Sconti> perStadio = this.strutturaSelezionata.getScontiApplicabili(new ScontiPerStadio(this.strutturaSelezionata.getSconti()), this.partita);
+		ArrayList<Sconti> perGiorno = this.strutturaSelezionata.getScontiApplicabili(new ScontiByDayOfWeek(this.strutturaSelezionata.getSconti()), this.partita);
+		
+		double maxScontoPartita = 0.00;
+		double maxScontoStadio = 0.00;
+		double maxScontoGiorno = 0.00;
+		
+		for(Sconti s1: perPartita){
+			if(maxScontoPartita <= s1.getPercetualeSconto()){
+				maxScontoPartita = s1.getPercetualeSconto();
+			}
+		}
+		
+		for(Sconti s2: perStadio){
+			if(maxScontoStadio <= s2.getPercetualeSconto()){
+				maxScontoStadio = s2.getPercetualeSconto();
+			}
+		}
+		
+		for(Sconti s3: perGiorno){
+			if(maxScontoGiorno <= s3.getPercetualeSconto()){
+				maxScontoGiorno = s3.getPercetualeSconto();
+			}
+		}
+		
+		double[] scontiMassimi = {maxScontoPartita, maxScontoGiorno, maxScontoStadio};
+		Arrays.sort(scontiMassimi);
+		
+		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
+		
+		double prezzoFinale = (prezzoDiPartenza * maxSconto); // maxSconto sarà compreso tra 0,01 e 1,00
+		
+		this.prezzo = prezzoFinale;
 		
 	}
 
@@ -159,6 +202,8 @@ public class Biglietto implements Serializable {
 	private double prezzo; // (GA) Da calcolare automaticamente
 	private boolean prenotato;
 	private boolean pagato;
+	
+	private StrutturaSportiva strutturaSelezionata;
 
 	// Iteratore
 	private static int IDCounter = 1;

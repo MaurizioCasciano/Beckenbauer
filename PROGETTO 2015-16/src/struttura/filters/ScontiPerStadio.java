@@ -1,17 +1,27 @@
 package struttura.filters;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import struttura.Partita;
 import struttura.Sconti;
 import struttura.Stadio;
 
-public class ScontiPerStadio implements Filter, Serializable{
+public class ScontiPerStadio implements ScontiFilter, Serializable{
 
 	
 
-	public ScontiPerStadio(Sconti sconto){
+	/*public ScontiPerStadio(Sconti sconto){
 		this.sconto = sconto;
+	}*/
+	
+	public ScontiPerStadio(ArrayList<Sconti> sconti){
+		this.sconti = sconti;
+	}
+	
+	@Override
+	public void getSconto(int i) {
+		this.sconto = this.sconti.get(i)	;
 	}
 	
 	@Override
@@ -29,7 +39,10 @@ public class ScontiPerStadio implements Filter, Serializable{
 	}
 	
 	private Sconti sconto;
+	private ArrayList<Sconti> sconti;
 	
 	private static final long serialVersionUID = -9028085844361626218L;
+
+	
 
 }

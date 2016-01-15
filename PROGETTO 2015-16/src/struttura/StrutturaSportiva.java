@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import struttura.filters.Filter;
 import struttura.filters.PrenotationFilter;
 import struttura.filters.PurchasesFilter;
+import struttura.filters.ScontiFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.UserNotFound;
@@ -115,16 +116,29 @@ public class StrutturaSportiva implements Serializable {
 	 * 			Il filtro da applicare
 	 * @return gli sconti applicabili dopo l'applicazione del filtro.
 	 */
-	public ArrayList<Sconti> getScontiApplicabili(Filter filtroSconti){
+	/*public ArrayList<Sconti> getScontiApplicabili(Filter filtroSconti){
 		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
 		
 		for(int i = 0; i < this.partiteProgrammate.size(); i++){
-			for(int j = 0; j < this.sconti.size(); i++){
+			for(int j = 0; j < this.sconti.size(); j++){
 				if(filtroSconti.accept(this.partiteProgrammate.get(i))){
 					filteredByChoice.add(this.sconti.get(j));
 				}
 			}
 		}
+		
+		return filteredByChoice;
+	} */
+	
+	public ArrayList<Sconti> getScontiApplicabili(ScontiFilter filtroSconti, Partita part){
+		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
+		
+			for(int j = 0; j < this.sconti.size(); j++){
+				filtroSconti.getSconto(j);
+				if(filtroSconti.accept(part)){
+					filteredByChoice.add(this.sconti.get(j));
+				}
+			}
 		
 		return filteredByChoice;
 	}

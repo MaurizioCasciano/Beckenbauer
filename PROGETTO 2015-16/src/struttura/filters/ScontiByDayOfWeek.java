@@ -1,18 +1,29 @@
 package struttura.filters;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import struttura.Partita;
 import struttura.Sconti;
 import struttura.DAYS_OF_WEEK;
 
-public class ScontoByDayOfWeek implements Filter, Serializable{
+public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 	
-	public ScontoByDayOfWeek(Sconti sconto){
+	/*public ScontoByDayOfWeek(Sconti sconto){
 		this.sconto = sconto;
+	}*/
+	
+	public ScontiByDayOfWeek(ArrayList<Sconti> sconti){
+		this.sconti = sconti;
 	}
 
+	@Override
+	public void getSconto(int i) {
+		this.sconto = this.sconti.get(i);
+		
+	}
+	
 	@Override
 	public boolean accept(Partita partitaDiCalcio) {
 		boolean result = false;
@@ -29,11 +40,13 @@ public class ScontoByDayOfWeek implements Filter, Serializable{
 	}
 	
 	private Sconti sconto;
+	private ArrayList<Sconti> sconti;
 	
 	private static final long serialVersionUID = 6576677813144320629L;
 
-	public static void main (String[] args){
+
+	/*public static void main (String[] args){
 		System.out.println(Calendar.MONDAY);
-	}
+	}*/
 
 }

@@ -29,9 +29,9 @@ public class Partita implements Serializable {
 	 * all'utente.
 	 */
 	public Partita() {
-		this.squadraInCasa = new Squadra("");
-		this.squadraInTrasferta = new Squadra("");
-		this.stadio = new Stadio("", 0);
+		this.squadraInCasa = new Squadra("-");
+		this.squadraInTrasferta = new Squadra("-");
+		this.stadio = new Stadio("-", 0, 0.00);
 		this.data = new GregorianCalendar();
 	}
 

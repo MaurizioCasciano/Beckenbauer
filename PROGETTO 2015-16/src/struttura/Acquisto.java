@@ -6,13 +6,14 @@ import java.util.GregorianCalendar;
 import user.Cliente;
 
 public class Acquisto implements Serializable {
-	public Acquisto(Cliente c, Partita partita, String settore, int fila, int posto){
+	public Acquisto(Cliente c, Partita partita, String settore, int fila, int posto, StrutturaSportiva stru){
 		this.IDAcquisto = ++IDCounter;
 		this.dataAcquisto = new GregorianCalendar();
-		this.biglietto = new Biglietto(c, partita, settore, fila, posto);
+		this.biglietto = new Biglietto(stru, c, partita, settore, fila, posto);
 		
 		this.biglietto.setPrenotato(NOT_PRENOTATO);
 		this.biglietto.setPagato(IS_PAGATO);
+		
 	}
 	
 	public Acquisto(PrenotazioneV2 prenotazione){
@@ -28,6 +29,7 @@ public class Acquisto implements Serializable {
 		this.biglietto = prenotazione.getBigliettoPrenotato();
 		
 		this.biglietto.setPagato(IS_PAGATO);
+	
 	}
 	
 
