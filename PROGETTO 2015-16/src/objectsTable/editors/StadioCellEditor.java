@@ -4,19 +4,19 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.EventObject;
-
 import javax.swing.AbstractCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-
-import objectsTable.utilities.ObjectTextField;
 import struttura.Stadio;
+import struttura.StrutturaSportiva;
 
 public class StadioCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
-	public StadioCellEditor() {
+	public StadioCellEditor(StrutturaSportiva strutturaSportiva) {
 		super();
-		this.stadioTextField = new ObjectTextField<>();
+		this.strutturaSportiva = strutturaSportiva;
+		this.stadi = new JComboBox<>(this.strutturaSportiva.getStadi().toArray(new Stadio[1]));
 	}
 
 	@Override
@@ -32,31 +32,20 @@ public class StadioCellEditor extends AbstractCellEditor implements TableCellEdi
 
 	@Override
 	public Object getCellEditorValue() {
-
-		String nuovoNome = this.stadioTextField.getText();
-		this.stadioTextField.getObject().setNome(nuovoNome);
-		return this.stadioTextField.getObject();
+		return this.stadi.getSelectedItem();
 	}
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		Stadio stadio = (Stadio) value;
 
-		// il testo visualizzato durante l'editing
-		this.stadioTextField.setText(stadio.getNome());
-		this.stadioTextField.setObject(stadio);
+		this.stadi = new JComboBox<>(this.strutturaSportiva.getStadi().toArray(new Stadio[1]));
+		this.stadi.setSelectedItem(stadio);
 
-		if (isSelected) {
-			this.stadioTextField.setForeground(table.getSelectionForeground());
-			this.stadioTextField.setBackground(table.getSelectionBackground());
-		} else {
-			this.stadioTextField.setForeground(table.getForeground());
-			this.stadioTextField.setBackground(table.getBackground());
-		}
-
-		return this.stadioTextField;
+		return this.stadi;
 	}
 
 	private static final long serialVersionUID = 8235516631777416016L;
-	private ObjectTextField<Stadio> stadioTextField;
+	private StrutturaSportiva strutturaSportiva;
+	private JComboBox<Stadio> stadi;
 }

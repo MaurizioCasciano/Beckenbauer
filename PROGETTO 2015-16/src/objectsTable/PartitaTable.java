@@ -33,18 +33,21 @@ import struttura.Mode;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
+import struttura.StrutturaSportiva;
 
 public class PartitaTable extends JTable implements Serializable {
 
-	public PartitaTable(Mode mode) {
+	public PartitaTable(Mode mode, StrutturaSportiva strutturaSportiva) {
 		super(new PartitaTableModel(mode));
 		this.mode = mode;
+		this.strutturaSportiva = strutturaSportiva;
 		this.init();
 	}
 
-	public PartitaTable(Mode mode, ArrayList<Partita> partite) {
+	public PartitaTable(Mode mode, ArrayList<Partita> partite, StrutturaSportiva strutturaSportiva) {
 		super(new PartitaTableModel(mode, partite));
 		this.mode = mode;
+		this.strutturaSportiva = strutturaSportiva;
 		this.init();
 	}
 
@@ -56,10 +59,9 @@ public class PartitaTable extends JTable implements Serializable {
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		this.setSelectionBackground(Color.GREEN);
 		this.getColumnModel().getColumn(3).setMinWidth(150);
-
+		this.setRowHeight(this.getRowHeight() + 5);
+		
 		this.addMouseListener(new RightClickRowSelectionListener());
-		//this.setComponentPopupMenu(this.getPopupMenu());
-
 		this.setCellRenderers();
 		this.setCellEditors();
 
@@ -99,7 +101,7 @@ public class PartitaTable extends JTable implements Serializable {
 	 */
 	private void setCellEditors() {
 		this.setDefaultEditor(Squadra.class, new SquadraCellEditor());
-		this.setDefaultEditor(Stadio.class, new StadioCellEditor());
+		this.setDefaultEditor(Stadio.class, new StadioCellEditor(this.strutturaSportiva));
 		// this.setDefaultEditor(GregorianCalendar.class, new
 		// GregorianCalendarCellEditor());
 		// this.setDefaultEditor(GregorianCalendar.class, new
@@ -162,12 +164,13 @@ public class PartitaTable extends JTable implements Serializable {
 
 	private static final long serialVersionUID = 2097698111433165339L;
 	private Mode mode;
+	private StrutturaSportiva strutturaSportiva;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Partite");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		PartitaTable partite = new PartitaTable(Mode.GESTORE);
+		PartitaTable partite = new PartitaTable(Mode.GESTORE, new StrutturaSportiva("test"));
 		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277),
 				new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261),

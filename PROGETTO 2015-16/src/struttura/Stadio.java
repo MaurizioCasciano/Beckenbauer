@@ -31,14 +31,15 @@ public class Stadio implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (this.getClass() != obj.getClass())
+		if (getClass() != obj.getClass())
 			return false;
 		Stadio other = (Stadio) obj;
-		if (this.ID_Stadio != other.ID_Stadio) {
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
 			return false;
-		} else {
-			return true;
-		}
+		return true;
 	}
 
 	public int getCapienzaStadio() {
@@ -53,11 +54,14 @@ public class Stadio implements Serializable {
 		return scontoStadio;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [nome = " + nome + ", capienzaStadio = " + capienzaStadio
-				+ ", ID_Stadio = " + ID_Stadio + "]";
+		return this.nome;
 	}
+
+
 
 	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;

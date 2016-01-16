@@ -34,8 +34,15 @@ public class StrutturaSportiva implements Serializable {
 		this.partiteProgrammate.add(p);
 	}
 
+	/**
+	 * Aggiunge uno Stadio alla Struttura, se non già presente.
+	 * @param s Lo stadio da aggiungere.
+	 */
 	public void addStadio(Stadio s) {
-		this.stadi.add(s);
+		
+		if(!this.stadi.contains(s)){
+			this.stadi.add(s);
+		}
 	}
 
 	/**
@@ -65,6 +72,13 @@ public class StrutturaSportiva implements Serializable {
 		return filteredByWeek;
 	}
 
+	/*
+	 * Restituisce gli Stadi della Struttura.
+	 */
+	public ArrayList<Stadio> getStadi(){
+		return this.stadi;
+	}
+	
 	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
 		for (Utente u : this.utenti) {
 			if (u.equals(utente)) {

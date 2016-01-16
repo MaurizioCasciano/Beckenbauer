@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -17,7 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
-
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,11 +29,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
+import javax.swing.border.LineBorder;
 import javax.swing.table.TableRowSorter;
-
 import calendar.Week;
 import graphics.login.IdentificationPanel;
 import objectsTable.PartitaTable;
@@ -41,7 +46,9 @@ import objectsTable.filter.PartitaRowFilter;
 import password.WeakPasswordException;
 import struttura.Mode;
 import struttura.Partita;
+import struttura.Stadio;
 import struttura.StrutturaSportiva;
+import struttura.filters.MatchByStadiumFilter;
 import struttura.filters.MatchByWeekFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
@@ -206,57 +213,174 @@ public class Window extends JFrame implements Serializable {
 		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Benvenuto",
 				JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
 
-		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate());
+		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate(), this.strutturaSportiva);
 		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		partitaTableScrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
 
 		this.partitePanel = new JPanel(new BorderLayout());
 		this.partitePanel.add(this.partitaTableScrollPane);
-		
-		JPanel infoPanel = new JPanel();
-		infoPanel.add(new JLabel("Settimana: "));
-		
-		JComboBox<Week> weeks = new JComboBox<Week>(Week.getNextYearWeeks().toArray(new Week[53]));
-		
-		infoPanel.add(weeks);
-		
-		JButton filtraButton = new JButton("Filtra");
-		
-		filtraButton.addActionListener(new ActionListener() {
-			
+
+		JPanel filterPanel = new JPanel();
+
+		/*
+		 * RadioButtons per selezionare il tipo di filtro.
+		 */
+		JRadioButton weekFilterRadioButton = new JRadioButton("Week", true);
+		JRadioButton stadiumFilterRadioButton = new JRadioButton("Stadium");
+
+		JPanel comboBoxButtonsPanel = new JPanel();
+
+		weekFilterRadioButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				@SuppressWarnings("unchecked")
-				TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable.getRowSorter();
-				sorter.setRowFilter(new PartitaRowFilter(new MatchByWeekFilter(((Week)weeks.getSelectedItem()).getStart())));
+				comboBoxButtonsPanel.removeAll();
+
+				JComboBox<Week> weeks = new JComboBox<Week>(Week.getNextYearWeeks().toArray(new Week[53]));
+
+				JButton filtraButton = new JButton("Filtra");
+
+				filtraButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+								.getRowSorter();
+						sorter.setRowFilter(new PartitaRowFilter(
+								new MatchByWeekFilter(((Week) weeks.getSelectedItem()).getStart())));
+					}
+				});
+
+				JButton resetButton = new JButton("Reset");
+
+				resetButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+								.getRowSorter();
+						sorter.setRowFilter(null);
+					}
+				});
+
+				comboBoxButtonsPanel.add(new JLabel("Settimana: "));
+				comboBoxButtonsPanel.add(weeks);
+
+				comboBoxButtonsPanel.add(filtraButton);
+				comboBoxButtonsPanel.add(resetButton);
+				comboBoxButtonsPanel.revalidate();
 			}
 		});
-		
-		infoPanel.add(filtraButton);
-		
-		JButton resetButton = new JButton("Reset");
-		
-		resetButton.addActionListener(new ActionListener() {
-			
+		weekFilterRadioButton.doClick();
+		weekFilterRadioButton.setSelected(true);
+
+		stadiumFilterRadioButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				@SuppressWarnings("unchecked")
-				TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable.getRowSorter();
-				sorter.setRowFilter(null);
+				comboBoxButtonsPanel.removeAll();
+
+				JComboBox<Stadio> stadiums = new JComboBox<Stadio>(
+						Window.this.strutturaSportiva.getStadi().toArray(new Stadio[1]));
+
+				JButton filtraButton = new JButton("Filtra");
+
+				filtraButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+								.getRowSorter();
+						sorter.setRowFilter(
+								new PartitaRowFilter(new MatchByStadiumFilter((Stadio) stadiums.getSelectedItem())));
+					}
+				});
+
+				JButton resetButton = new JButton("Reset");
+
+				resetButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+								.getRowSorter();
+						sorter.setRowFilter(null);
+					}
+				});
+
+				comboBoxButtonsPanel.add(new JLabel("Stadio: "));
+				comboBoxButtonsPanel.add(stadiums);
+
+				comboBoxButtonsPanel.add(filtraButton);
+				comboBoxButtonsPanel.add(resetButton);
+				comboBoxButtonsPanel.revalidate();
 			}
 		});
-		
-		infoPanel.add(resetButton);
-		
-		this.partitePanel.add(infoPanel, BorderLayout.NORTH);
-		
-		
-		
+
+		ButtonGroup filterGroup = new ButtonGroup();
+		JPanel filterRadioButtonsPanel = new JPanel();
+		filterRadioButtonsPanel.setBorder(new LineBorder(Color.GRAY));
+		filterRadioButtonsPanel.add(weekFilterRadioButton);
+		filterRadioButtonsPanel.add(stadiumFilterRadioButton);
+
+		filterGroup.add(weekFilterRadioButton);
+		filterGroup.add(stadiumFilterRadioButton);
+
+		/*
+		 * Pannello contenente
+		 */
+		filterPanel.add(new JLabel("Filtro: "));
+		filterPanel.add(filterRadioButtonsPanel);
+		filterPanel.add(comboBoxButtonsPanel);
+
+		/*
+		 * filterPanel.add(new JLabel("Settimana: "));
+		 * 
+		 * JComboBox<Week> weeks = new
+		 * JComboBox<Week>(Week.getNextYearWeeks().toArray(new Week[53]));
+		 * 
+		 * filterPanel.add(weeks);
+		 */
+
+		/*
+		 * JButton filtraButton = new JButton("Filtra");
+		 * 
+		 * filtraButton.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) {
+		 * 
+		 * @SuppressWarnings("unchecked") TableRowSorter<PartitaTableModel>
+		 * sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+		 * .getRowSorter(); sorter.setRowFilter( new PartitaRowFilter(new
+		 * MatchByWeekFilter(((Week) weeks.getSelectedItem()).getStart()))); }
+		 * });
+		 * 
+		 * 
+		 * 
+		 * JButton resetButton = new JButton("Reset");
+		 * 
+		 * resetButton.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) {
+		 * 
+		 * @SuppressWarnings("unchecked") TableRowSorter<PartitaTableModel>
+		 * sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+		 * .getRowSorter(); sorter.setRowFilter(null); } });
+		 * 
+		 * 
+		 * filterPanel.add(filtraButton); filterPanel.add(resetButton);
+		 */
+
+		this.partitePanel.add(filterPanel, BorderLayout.NORTH);
+
 		this.tabbedPane = new JTabbedPane();
 		this.tabbedPane.addTab("Partite", this.partitePanel);
 
-		
 		this.mainPanel.add(this.tabbedPane, BorderLayout.CENTER);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -283,22 +407,60 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				((PartitaTableModel) Window.this.partitaTable.getModel()).addPartita(new Partita());
 			}
 		});
 
 		partiteMenu.add(newPartitaItem);
 		menuBar.add(partiteMenu);
 
-		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate());
+		JMenu stadioMenu = new JMenu("Stadio");
+		menuBar.add(stadioMenu);
+
+		JMenuItem newStadioMenuItem = new JMenuItem("Aggiungi Stadio");
+		stadioMenu.add(newStadioMenuItem);
+
+		newStadioMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				JPanel newStadium = new JPanel();
+
+				JLabel nameLabel = new JLabel("Nome: ");
+				JTextField nameField = new JTextField(10);
+
+				JLabel capienzaLabel = new JLabel("Capienza: ");
+				JSpinner capienzaSpinner = new JSpinner(new SpinnerNumberModel(30000, 30000, 100000, 1));
+
+				JLabel prezzoLabel = new JLabel("Prezzo");
+				JSpinner prezzoSpinner = new JSpinner(new SpinnerNumberModel(5.0, 5.0, 100.0, 0.5));
+
+				newStadium.setLayout(new GridLayout(3, 2));
+				newStadium.add(nameLabel);
+				newStadium.add(nameField);
+				newStadium.add(capienzaLabel);
+				newStadium.add(capienzaSpinner);
+				newStadium.add(prezzoLabel);
+				newStadium.add(prezzoSpinner);
+
+				int returnValue = JOptionPane.showOptionDialog(Window.this, newStadium, "Aggiungi Stadio",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+						new String[] { "Aggiungi", "Cancella" }, 0);
+				
+				if(returnValue == 0){
+					strutturaSportiva.addStadio(new Stadio(nameField.getText(), (int)capienzaSpinner.getValue()));
+					System.out.println(strutturaSportiva.getStadi().size());
+				}
+			}
+		});
+
+		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate(), this.strutturaSportiva);
 		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
-		// scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
-
 		this.mainPanel.add(this.partitaTableScrollPane, BorderLayout.CENTER);
-		// TODO aggiungere i componenti grafici opportuni alla modalità
 
-		// this.setJMenuBar(menuBar);
+		this.setJMenuBar(menuBar);
 		this.revalidate();
 	}
 
@@ -328,9 +490,9 @@ public class Window extends JFrame implements Serializable {
 			case CLIENTE:
 				this.dettaggli = new JMenuItem("Dettagli");
 				this.prenota = new JMenuItem("Prenota");
-				
-				//effetturae controllo prenotazione partita selezionata
-				//this.prenota.setEnabled(false);
+
+				// effetturae controllo prenotazione partita selezionata
+				// this.prenota.setEnabled(false);
 				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
 				this.acquista = new JMenuItem("Acquista");
 				/*****************************************************************/
@@ -398,9 +560,11 @@ public class Window extends JFrame implements Serializable {
 					public void actionPerformed(ActionEvent e) {
 
 						int viewIndex = partitaTable.getSelectedRow();
-						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
-
-						((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
+						
+						if(viewIndex != -1){
+							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
+							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
+						}
 					}
 				});
 				/***********************************************************************************************/
