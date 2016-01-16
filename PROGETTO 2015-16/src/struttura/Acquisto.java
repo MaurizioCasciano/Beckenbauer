@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 import user.Cliente;
 
 public class Acquisto implements Serializable {
-	public Acquisto(Cliente c, Partita partita, String settore, int fila, int posto, StrutturaSportiva stru){
+	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru){
 		this.IDAcquisto = ++IDCounter;
 		this.dataAcquisto = new GregorianCalendar();
 		this.biglietto = new Biglietto(stru, c, partita, settore, fila, posto);
@@ -65,14 +65,14 @@ public class Acquisto implements Serializable {
 		boolean result = false;
 		
 		if(obj == null)
-			return result;
+			return false;
 		
 		if(this == obj)
-			result = true;
+			return true;
 		
 		Acquisto other = (Acquisto) obj;
 		
-		if(this.IDAcquisto == other.IDAcquisto)
+		if(this.dataAcquisto.equals(other.dataAcquisto) && (this.biglietto.equals(other.biglietto)))
 			result = true;
 		
 		return result;

@@ -22,22 +22,32 @@ public class Stadio implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
+		
 		if (this == obj)
 			return true;
+		
 		if (obj == null)
 			return false;
+		
 		if (this.getClass() != obj.getClass())
 			return false;
+		
 		Stadio other = (Stadio) obj;
-		if (this.ID_Stadio != other.ID_Stadio) {
-			return false;
-		} else {
-			return true;
+		
+		if (this.nome.equalsIgnoreCase(other.nome)) {
+			result = true;
 		}
+		
+		return result;
 	}
 
 	public int getCapienzaStadio() {
 		return this.capienzaStadio;
+	}
+	
+	public void setCapienzaStadio(int nuovaCapienza){
+		this.capienzaStadio = nuovaCapienza;
 	}
 
 	public int getID() {

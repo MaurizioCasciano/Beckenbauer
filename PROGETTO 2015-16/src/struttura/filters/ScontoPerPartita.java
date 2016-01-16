@@ -27,8 +27,8 @@ public class ScontoPerPartita implements ScontiFilter, Serializable {
 		boolean result = false;
 		
 		if(partitaSconto != null){
-			if((partitaDiCalcio.equals(sconto.getPartita())) && (partitaDiCalcio.getData().after(sconto.getInizioValidità())) 
-					&& (partitaDiCalcio.getData().before(sconto.getFineValidità()))){
+			if((partitaDiCalcio.equals(sconto.getPartita())) && !(partitaDiCalcio.getData().before(sconto.getInizioValidità())) 
+					&& !(partitaDiCalcio.getData().after(sconto.getFineValidità()))){
 				result = true;
 			}
 		}

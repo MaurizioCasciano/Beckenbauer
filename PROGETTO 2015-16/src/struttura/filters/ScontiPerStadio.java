@@ -30,8 +30,8 @@ public class ScontiPerStadio implements ScontiFilter, Serializable{
 		boolean result = false;
 		
 		if(stadio != null){
-			if((partitaDiCalcio.getData().after(sconto.getInizioValidità())) 
-					&& (partitaDiCalcio.getData().before(sconto.getFineValidità()))){
+			if(partitaDiCalcio.getStadio().equals(stadio) && !(partitaDiCalcio.getData().before(sconto.getInizioValidità())) 
+					&& !(partitaDiCalcio.getData().after(sconto.getFineValidità()))){
 				result = true;	
 			}
 		}

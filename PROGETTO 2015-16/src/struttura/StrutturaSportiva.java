@@ -2,6 +2,9 @@ package struttura;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+//import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import struttura.filters.Filter;
 import struttura.filters.PrenotationFilter;
 import struttura.filters.PurchasesFilter;
@@ -93,15 +96,13 @@ public class StrutturaSportiva implements Serializable {
 	 * @author Maurzio Casciano & Gaetano Antonucci
 	 */
 	public void addStadio(Stadio s) {
-		
-		for(Stadio stadio: this.stadi){
-			if(stadio.equals(s)){
+	
+		if(this.stadi.contains(s))
 				throw new AlreadyExistsObjectException("Stadio già presente !!!");
-			}
-		}
-		
 		this.stadi.add(s);
 	}
+	
+	// Modificare i metodi add.
 	
 	/**
 	 * Aggiunge una politica di sconto al database.
@@ -111,11 +112,9 @@ public class StrutturaSportiva implements Serializable {
 	 */
 	public void addSconto(Sconti sconto){
 		
-		for(Sconti sc: this.sconti){
-			if(sc.equals(sconto)){
+			if(this.sconti.contains(sconto)) {
 				throw new AlreadyExistsObjectException("Politica di Sconto già presente !!!");
 			}
-		}
 		this.sconti.add(sconto);
 	}
 	
@@ -127,11 +126,9 @@ public class StrutturaSportiva implements Serializable {
 	 */
 	public void addPrenotazione(PrenotazioneV2 pren){
 		
-		for(PrenotazioneV2 prenotazione: this.prenotazioni){
-			if(prenotazione.equals(pren)){
+			if(this.prenotazioni.contains(pren)) {
 				throw new AlreadyExistsObjectException("Prenotazione già presente !!!");
 			}
-		}
 		this.prenotazioni.add(pren);
 	}
 	
@@ -143,11 +140,9 @@ public class StrutturaSportiva implements Serializable {
 	 */
 	public void addAcquisto(Acquisto acq){
 		
-		for(Acquisto acquisto: this.acquisti){
-			if(acquisto.equals(acq)){
+			if(this.acquisti.contains(acq)) {
 				throw new AlreadyExistsObjectException("Acquisto già presente !!!");
 			}
-		}
 		this.acquisti.add(acq);
 	}
 
@@ -250,13 +245,21 @@ public class StrutturaSportiva implements Serializable {
 	 */
 	public void cancellaPrenotazioneCliente(Cliente c, Partita part){
 		
-		for(int i = 0; i < this.prenotazioni.size(); i++){
+		/*for(int i = 0; i < this.prenotazioni.size(); i++){
 			if((this.prenotazioni.get(i).getBigliettoPrenotato().getCliente().equals(c)) &&
 				this.prenotazioni.get(i).getBigliettoPrenotato().getPartita().equals(part)){
 					
 					this.prenotazioni.remove(i);
 					i--;
 			}
+		}*/
+		
+		for(int i = (this.prenotazioni.size() - 1); i >= 0; i--){
+			if((this.prenotazioni.get(i).getBigliettoPrenotato().getCliente().equals(c)) &&
+					this.prenotazioni.get(i).getBigliettoPrenotato().getPartita().equals(part)){
+						
+						this.prenotazioni.remove(i);
+			}			
 		}
 	}
 	
@@ -331,6 +334,50 @@ public class StrutturaSportiva implements Serializable {
 		
 		return result;
 	}
+	
+	public boolean verificaValiditàPrenotazione(PrenotazioneV2 prenotazione){
+		boolean result = false;
+		
+		GregorianCalendar dataAttuale = new GregorianCalendar();
+		
+		long dataAttualeMillis = dataAttuale.getTimeInMillis();
+		long dataPartitaMillis = prenotazione.getBigliettoPrenotato().getPartita().getData().getTimeInMillis();
+		
+		double dataAttualeOre = (((dataAttualeMillis / 1000) / 60) / 60);
+		double dataPartitaOre = (((dataPartitaMillis / 1000) / 60) / 60);
+
+		if(dataAttualeOre <= (dataPartitaOre - 12)){
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		
+		if(this == obj){
+			return true;
+		}
+		
+		if(obj == null){
+			return false;
+		}
+		
+		if (getClass() != obj.getClass())
+			return false;
+		
+		StrutturaSportiva other = (StrutturaSportiva) obj;
+		
+		if(this.nome.equals(other.nome)){
+			result = true;
+		}
+		
+		return result;
+	}
+
+
 
 	private static final long serialVersionUID = -1014833830864079436L;
 	private String nome;
