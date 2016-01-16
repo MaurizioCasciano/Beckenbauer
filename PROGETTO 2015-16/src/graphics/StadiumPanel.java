@@ -68,7 +68,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.add(centrePanel);
 		this.add(southPanel);
 
-		this.setPreferredSize(new Dimension(1200, 700));
+		this.setPreferredSize(new Dimension(900, 600));
 
 		/*
 		 * Per monitorare il movimento della rotellina del mouse ed effettuare

@@ -18,7 +18,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,15 +31,18 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingWorker;
+import javax.swing.table.TableRowSorter;
 
+import calendar.Week;
 import graphics.login.IdentificationPanel;
 import objectsTable.PartitaTable;
 import objectsTable.PartitaTableModel;
-import objectsTable.RowObjectTableModel;
+import objectsTable.filter.PartitaRowFilter;
 import password.WeakPasswordException;
 import struttura.Mode;
 import struttura.Partita;
 import struttura.StrutturaSportiva;
+import struttura.filters.MatchByWeekFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
@@ -203,12 +209,54 @@ public class Window extends JFrame implements Serializable {
 		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate());
 		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
-		// scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
+		partitaTableScrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
 
+		this.partitePanel = new JPanel(new BorderLayout());
+		this.partitePanel.add(this.partitaTableScrollPane);
+		
+		JPanel infoPanel = new JPanel();
+		infoPanel.add(new JLabel("Settimana: "));
+		
+		JComboBox<Week> weeks = new JComboBox<Week>(Week.getNextYearWeeks().toArray(new Week[53]));
+		
+		infoPanel.add(weeks);
+		
+		JButton filtraButton = new JButton("Filtra");
+		
+		filtraButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unchecked")
+				TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable.getRowSorter();
+				sorter.setRowFilter(new PartitaRowFilter(new MatchByWeekFilter(((Week)weeks.getSelectedItem()).getStart())));
+			}
+		});
+		
+		infoPanel.add(filtraButton);
+		
+		JButton resetButton = new JButton("Reset");
+		
+		resetButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unchecked")
+				TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable.getRowSorter();
+				sorter.setRowFilter(null);
+			}
+		});
+		
+		infoPanel.add(resetButton);
+		
+		this.partitePanel.add(infoPanel, BorderLayout.NORTH);
+		
+		
+		
 		this.tabbedPane = new JTabbedPane();
-		this.tabbedPane.addTab("Partite", this.partitaTableScrollPane);
+		this.tabbedPane.addTab("Partite", this.partitePanel);
 
-		// this.mainPanel.add(partitaTableScrollPane, BorderLayout.CENTER);
+		
 		this.mainPanel.add(this.tabbedPane, BorderLayout.CENTER);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -280,6 +328,9 @@ public class Window extends JFrame implements Serializable {
 			case CLIENTE:
 				this.dettaggli = new JMenuItem("Dettagli");
 				this.prenota = new JMenuItem("Prenota");
+				
+				//effetturae controllo prenotazione partita selezionata
+				//this.prenota.setEnabled(false);
 				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
 				this.acquista = new JMenuItem("Acquista");
 				/*****************************************************************/
@@ -349,8 +400,7 @@ public class Window extends JFrame implements Serializable {
 						int viewIndex = partitaTable.getSelectedRow();
 						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 
-						if (partitaTable.getModel() instanceof RowObjectTableModel<?>)
-							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
+						((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
 					}
 				});
 				/***********************************************************************************************/
@@ -369,13 +419,14 @@ public class Window extends JFrame implements Serializable {
 	}
 
 	private static final long serialVersionUID = 5196150741171238114L;
-	public static final int WIDTH = 1000, HEIGHT = 600;
+	public static final int WIDTH = 1000, HEIGHT = 700;
 	private JPanel mainPanel;
 	private IdentificationPanel identificationPanel;
 	private Utente utente;
 	private Mode mode;
 	private PartitaTable partitaTable;
 	private JScrollPane partitaTableScrollPane;
+	private JPanel partitePanel;
 	private JTabbedPane tabbedPane;
 	/************************************************/
 	private String strutturaSportivaName;
