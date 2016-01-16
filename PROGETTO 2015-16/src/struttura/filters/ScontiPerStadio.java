@@ -20,13 +20,13 @@ public class ScontiPerStadio implements ScontiFilter, Serializable{
 	}
 	
 	@Override
-	public void getSconto(int i) {
+	public void updateCurrentSconto(int i) {
 		this.sconto = this.sconti.get(i)	;
 	}
 	
 	@Override
 	public boolean accept(Partita partitaDiCalcio) {
-		Stadio stadio = partitaDiCalcio.getStadio();
+		Stadio stadio = this.sconto.getStadio();
 		boolean result = false;
 		
 		if(stadio != null){

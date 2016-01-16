@@ -17,17 +17,22 @@ public class ScontoPerPartita implements ScontiFilter, Serializable {
 	}
 	
 	@Override
-	public void getSconto(int i){
+	public void updateCurrentSconto(int i){
 		this.sconto =  this.sconti.get(i);
 	}
 	
 	@Override
 	public boolean accept(Partita partitaDiCalcio) {
+		Partita partitaSconto = this.sconto.getPartita();
 		boolean result = false;
 		
-		if(partitaDiCalcio.equals(sconto.getPartita())){
-			result = true;
+		if(partitaSconto != null){
+			if((partitaDiCalcio.equals(sconto.getPartita())) && (partitaDiCalcio.getData().after(sconto.getInizioValidità())) 
+					&& (partitaDiCalcio.getData().before(sconto.getFineValidità()))){
+				result = true;
+			}
 		}
+		
 		
 		return result;
 	}

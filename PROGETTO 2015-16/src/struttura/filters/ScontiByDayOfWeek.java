@@ -19,22 +19,27 @@ public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 	}
 
 	@Override
-	public void getSconto(int i) {
+	public void updateCurrentSconto(int i) {
 		this.sconto = this.sconti.get(i);
 		
 	}
 	
 	@Override
 	public boolean accept(Partita partitaDiCalcio) {
+		DAYS_OF_WEEK giornoSettimanaSconto = this.sconto.getGiornoSettimana();
 		boolean result = false;
 		int giorno = (partitaDiCalcio.getData().get(Calendar.DAY_OF_WEEK));
-		DAYS_OF_WEEK giornoSettimana = DAYS_OF_WEEK.Lunedì;
+		DAYS_OF_WEEK giornoSettimana = DAYS_OF_WEEK.findDay(giorno);
 		
-		giornoSettimana.setValue(giorno);
-		
-		if(giornoSettimana.getValue() == this.sconto.getGiornoSettimana().getValue()){
-			result = true;
+		if(giornoSettimanaSconto != null){
+			if((giornoSettimana.getValue() == this.sconto.getGiornoSettimana().getValue()) 
+					&& partitaDiCalcio.getData().after(sconto.getInizioValidità()) 
+					&& partitaDiCalcio.getData().before(sconto.getFineValidità())	){
+				
+					result = true;
+			}
 		}
+		
 		
 		return result;
 	}
@@ -45,8 +50,10 @@ public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 	private static final long serialVersionUID = 6576677813144320629L;
 
 
-	/*public static void main (String[] args){
-		System.out.println(Calendar.MONDAY);
-	}*/
+	public static void main (String[] args){
+		System.out.println(Calendar.SUNDAY);
+		System.out.println(Calendar.SATURDAY);
+		System.out.println(Calendar.FRIDAY);
+	}
 
 }

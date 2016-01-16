@@ -37,6 +37,15 @@ public class StrutturaSportiva implements Serializable {
 		return nome;
 	}
 	
+	/**
+	 * Aggiunge un utente al database se non è già presente, altrimente lancia eccezione.
+	 * @param utente
+	 * 		  L'utente da registrare
+	 * @throws AlreadyRegisteredUserException
+	 * 		   L'eccezione lanciata nel caso l'utente che si prova ad inserire sia già 
+	 * 		   presente nel database
+	 * @author Maurizio Casciano
+	 */
 	public void addUtente(Utente utente) throws AlreadyRegisteredUserException {
 		for (Utente u : this.utenti) {
 			if (u.equals(utente)) {
@@ -47,6 +56,16 @@ public class StrutturaSportiva implements Serializable {
 		this.utenti.add(utente);
 	}
 
+	/**
+	 * Restituisce un utente del database cercandolo tramite username, 
+	 * se non viene trovato viene lanciata eccezione.
+	 * @param username
+	 * 		  L'username da ricercare
+	 * @return l'utente trovato
+	 * @throws UserNotFound
+	 * 		   L'eccezione lanciata nel caso l'utente non venga trovato
+	 * @author Maurizio Casciano
+	 */
 	public Utente getUtente(String username) throws UserNotFound {
 		for (Utente u : this.utenti) {
 			if (u.getUsername().equalsIgnoreCase(username)) {
@@ -57,23 +76,78 @@ public class StrutturaSportiva implements Serializable {
 		throw new UserNotFound();
 	}
 
+	/**
+	 * Aggiunge una partita al database.
+	 * @param p
+	 * 	      La partita da aggiungere.
+	 * @author Maurizio Casciano
+	 */
 	public void addPartita(Partita p) {
 		this.partiteProgrammate.add(p);
 	}
 
+	/**
+	 * Aggiunge uno stadio al database.
+	 * @param s
+	 * 		 Lo stadio da aggiungere.
+	 * @author Maurzio Casciano & Gaetano Antonucci
+	 */
 	public void addStadio(Stadio s) {
+		
+		for(Stadio stadio: this.stadi){
+			if(stadio.equals(s)){
+				throw new AlreadyExistsObjectException("Stadio già presente !!!");
+			}
+		}
+		
 		this.stadi.add(s);
 	}
 	
+	/**
+	 * Aggiunge una politica di sconto al database.
+	 * @param sconto
+	 * 		  La politica di sconto da inserire.
+	 * @author Gaetano Antonucci
+	 */
 	public void addSconto(Sconti sconto){
+		
+		for(Sconti sc: this.sconti){
+			if(sc.equals(sconto)){
+				throw new AlreadyExistsObjectException("Politica di Sconto già presente !!!");
+			}
+		}
 		this.sconti.add(sconto);
 	}
 	
+	/**
+	 * Aggiunge una prenotazione al database.
+	 * @param pren
+	 * 		  La prenotazione da inserire.
+	 * @author Gaetano Antonucci
+	 */
 	public void addPrenotazione(PrenotazioneV2 pren){
+		
+		for(PrenotazioneV2 prenotazione: this.prenotazioni){
+			if(prenotazione.equals(pren)){
+				throw new AlreadyExistsObjectException("Prenotazione già presente !!!");
+			}
+		}
 		this.prenotazioni.add(pren);
 	}
 	
+	/**
+	 * Aggiunge l'acquisto di un biglietto al database.
+	 * @param acq
+	 * 		  L'acquisto da inserire
+	 * @author Gaetano Antonucci.
+	 */
 	public void addAcquisto(Acquisto acq){
+		
+		for(Acquisto acquisto: this.acquisti){
+			if(acquisto.equals(acq)){
+				throw new AlreadyExistsObjectException("Acquisto già presente !!!");
+			}
+		}
 		this.acquisti.add(acq);
 	}
 
@@ -81,6 +155,7 @@ public class StrutturaSportiva implements Serializable {
 	 * Restituisce tutte le partite programmate.
 	 * 
 	 * @return Tutte le partite programmate.
+	 * @author Maurizio Casciano
 	 */
 	public ArrayList<Partita> getPartiteProgrammate() {
 		return this.partiteProgrammate;
@@ -92,6 +167,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @param myFilter
 	 *            Il filtro da applicare.
 	 * @return Le partite programmate dopo l'applicazione del filtro.
+	 * @author Maurizio Casciano
 	 */
 	public ArrayList<Partita> getPartiteProgrammate(Filter myFilter) {
 		ArrayList<Partita> filteredByWeek = new ArrayList<>();
@@ -104,37 +180,30 @@ public class StrutturaSportiva implements Serializable {
 		return filteredByWeek;
 	}
 	
-	
+	/**
+	 * Restituisce tutte le politiche di sconto, passate e attuali, che sono presenti
+	 * nel database.
+	 * @return ArrayList<Sconti> con tutti sconti.
+	 * @author Gaetano Antonucci
+	 */
 	public ArrayList<Sconti> getSconti(){
 		return this.sconti;
 	}
 	
 	/**
-	 * Restituisce gli sconti filtrati dal filtro passato in input.
-	 * 
+	 * Restituisce gli sconti applicabili alla partita passata come parametro.
 	 * @param filtroSconti
-	 * 			Il filtro da applicare
-	 * @return gli sconti applicabili dopo l'applicazione del filtro.
+	 * 		  Il filtro da applicare.
+	 * @param part
+	 * 		  La partita sulla quale si vuole verificare ci siano sconti
+	 * @return ArrayList<Sconti> con gli sconti applicabili alla partita
+	 * @author Gaetano Antonucci
 	 */
-	/*public ArrayList<Sconti> getScontiApplicabili(Filter filtroSconti){
-		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
-		
-		for(int i = 0; i < this.partiteProgrammate.size(); i++){
-			for(int j = 0; j < this.sconti.size(); j++){
-				if(filtroSconti.accept(this.partiteProgrammate.get(i))){
-					filteredByChoice.add(this.sconti.get(j));
-				}
-			}
-		}
-		
-		return filteredByChoice;
-	} */
-	
 	public ArrayList<Sconti> getScontiApplicabili(ScontiFilter filtroSconti, Partita part){
 		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
 		
 			for(int j = 0; j < this.sconti.size(); j++){
-				filtroSconti.getSconto(j);
+				filtroSconti.updateCurrentSconto(j);
 				if(filtroSconti.accept(part)){
 					filteredByChoice.add(this.sconti.get(j));
 				}
@@ -143,10 +212,22 @@ public class StrutturaSportiva implements Serializable {
 		return filteredByChoice;
 	}
 	
+	/**
+	 * Restituisce tutte le prenotazioni presenti nel database.
+	 * @return ArrayList<PrenotazioneV2> con tutte le prenotazioni.
+	 * @author Gaetano Antonucci
+	 */
 	public ArrayList<PrenotazioneV2> getPrenotazioni(){
 		return this.prenotazioni;
 	}
 	
+	/**
+	 * Restituisce le prenotazioni in base al filtro passato in input.
+	 * @param filtroPrenotazioni
+	 * 	      Il filtro da applicare
+	 * @return ArrayList<PrenotazioneV2> con le prenotazioni ottenute.
+	 * @author Gaetano Antonucci
+	 */
 	public ArrayList<PrenotazioneV2> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni){
 		ArrayList<PrenotazioneV2> filteredByChoice = new ArrayList<>();
 		
@@ -159,6 +240,14 @@ public class StrutturaSportiva implements Serializable {
 		return filteredByChoice;
 	}
 	
+	/**
+	 * Cancella una prenotazione dal database in base al cliente e alla partita
+	 * @param c
+	 * 		  Il cliente che ha prenotato
+	 * @param part
+	 * 		  La partita per cui è stata fatta una prenotazione
+	 * @author Gaetano Antonucci
+	 */
 	public void cancellaPrenotazioneCliente(Cliente c, Partita part){
 		
 		for(int i = 0; i < this.prenotazioni.size(); i++){
@@ -171,10 +260,44 @@ public class StrutturaSportiva implements Serializable {
 		}
 	}
 	
+	/**
+	 * Verifica se una determinata partita è stata prenotata da un determinato cliente
+	 * @param clt
+	 * 	      Il cliente su cui si effettua la verifica.
+	 * @param prt
+	 * 		 La partita su cui si vuole verificare la prenotazione
+	 * @return boolean con l'esito della verifica.
+	 * @author Gaetano Antonucci
+	 */
+	public boolean verificaPrenotazione(Cliente clt, Partita prt){
+		boolean result = false;
+		
+		for(PrenotazioneV2 prenotazione: this.prenotazioni){
+			if((prenotazione.getBigliettoPrenotato().getCliente().equals(clt)) 
+					&& (prenotazione.getBigliettoPrenotato().getPartita().equals(prt))){
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Restituisce tutti gli acquisti presenti nel database.
+	 * @return ArrayList<Acquisto> con tutti gli acquisti.
+	 * @author Gaetano Antonucci
+	 */
 	public ArrayList<Acquisto> getAcquisti(){
 		return this.acquisti;
 	}
 	
+	/**
+	 * Restituisce gli acquisti in base al filtro passato in input.
+	 * @param filtroAcquisti
+	 *        Il filtro da applicare.
+	 * @return ArrayList<Acquisto> con gli acquisti ottenuti.
+	 * @author Gaetano Antonucci
+	 */
 	public ArrayList<Acquisto> getAcquistiFiltrati(PurchasesFilter filtroAcquisti){
 		ArrayList<Acquisto> filteredByChoice = new ArrayList<>();
 		
@@ -184,6 +307,29 @@ public class StrutturaSportiva implements Serializable {
 			}
 		}
 		return filteredByChoice;
+	}
+	
+	/**
+	 * Verifica se un biglietto per una determinata partita è stato acquistato
+	 * da un determinato cliente.
+	 * @param clt
+	 * 	      Il cliente su cui si effettua la verifica.
+	 * @param prt
+	 * 		  La partita su cui si effettua la verifica.
+	 * @return boolean con l'esito della verifica.
+	 * @author Gaetano Antonucci
+	 */
+	public boolean verificaAcquisto(Cliente clt, Partita prt){
+		boolean result = false;
+		
+		for(Acquisto acquisto: this.acquisti){
+			if((acquisto.getBiglietto().getCliente().equals(clt)) 
+					&& (acquisto.getBiglietto().getPartita().equals(prt))){
+				result = true;
+			}
+		}
+		
+		return result;
 	}
 
 	private static final long serialVersionUID = -1014833830864079436L;
