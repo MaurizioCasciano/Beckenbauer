@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -32,9 +34,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableRowSorter;
@@ -215,7 +217,36 @@ public class Window extends JFrame implements Serializable {
 
 		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate(),
 				this.strutturaSportiva);
-		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
+		// this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
+
+		this.partitaTable.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					/*
+					 * Aggiungere i controlli per gestire gli item da
+					 * disabilitare e da creare in base alla partita selezionata
+					 * e alle prenotazioni (acquisti) del cliente.
+					 */
+					new MyPopupMenu().show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					/*
+					 * Aggiungere i controlli per gestire gli item da
+					 * disabilitare e da creare in base alla partita selezionata
+					 * e alle prenotazioni (acquisti) del cliente.
+					 */
+					new MyPopupMenu().show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+
+		});
+
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		partitaTableScrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
 
@@ -227,8 +258,8 @@ public class Window extends JFrame implements Serializable {
 		/*
 		 * RadioButtons per selezionare il tipo di filtro.
 		 */
-		JRadioButton weekFilterRadioButton = new JRadioButton("Week", true);
-		JRadioButton stadiumFilterRadioButton = new JRadioButton("Stadium");
+		JRadioButton weekFilterRadioButton = new JRadioButton("Settimana", true);
+		JRadioButton stadiumFilterRadioButton = new JRadioButton("Stadio");
 
 		JPanel comboBoxButtonsPanel = new JPanel();
 
@@ -379,7 +410,7 @@ public class Window extends JFrame implements Serializable {
 
 		this.partitePanel.add(filterPanel, BorderLayout.NORTH);
 
-		this.tabbedPane = new JTabbedPane();
+		this.tabbedPane = new ClosableTabbedPane();
 		this.tabbedPane.addTab("Partite", this.partitePanel);
 
 		this.mainPanel.add(this.tabbedPane, BorderLayout.CENTER);
@@ -458,7 +489,36 @@ public class Window extends JFrame implements Serializable {
 
 		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate(),
 				this.strutturaSportiva);
-		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
+		// this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
+
+		this.partitaTable.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					/*
+					 * Aggiungere i controlli per gestire gli item da
+					 * disabilitare e da creare in base alla partita
+					 * selezionata.
+					 */
+					new MyPopupMenu().show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					/*
+					 * Aggiungere i controlli per gestire gli item da
+					 * disabilitare e da creare in base alla partita
+					 * selezionata.
+					 */
+					new MyPopupMenu().show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+
+		});
+
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		this.mainPanel.add(this.partitaTableScrollPane, BorderLayout.CENTER);
 
@@ -511,26 +571,27 @@ public class Window extends JFrame implements Serializable {
 
 							@Override
 							protected StadiumScrollPane doInBackground() throws Exception {
-								// System.out.println(SwingUtilities.isEventDispatchThread());
-								Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+								System.out.println(SwingUtilities.isEventDispatchThread());
+								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
-										Window.this.strutturaSportiva, (Cliente) Window.this.utente, Window.this.partitaTable.getSelectedPartita());
+										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
+										Window.this.partitaTable.getSelectedPartita());
 								return stadiumScrollPane;
 							}
 
 							@Override
 							protected void done() {
-								// System.out.println(SwingUtilities.isEventDispatchThread());
+								System.out.println(SwingUtilities.isEventDispatchThread());
 								try {
 									Window.this.tabbedPane.addTab("Stadio", get());
-									Window.this.tabbedPane.setSelectedIndex(1);
+									Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 									Window.this.tabbedPane.revalidate();
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								} catch (ExecutionException e) {
 									e.printStackTrace();
 								} finally {
-									Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+									Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 								}
 							}
 
@@ -593,7 +654,7 @@ public class Window extends JFrame implements Serializable {
 	private PartitaTable partitaTable;
 	private JScrollPane partitaTableScrollPane;
 	private JPanel partitePanel;
-	private JTabbedPane tabbedPane;
+	private ClosableTabbedPane tabbedPane;
 	/************************************************/
 	private String strutturaSportivaName;
 	private StrutturaSportiva strutturaSportiva;
