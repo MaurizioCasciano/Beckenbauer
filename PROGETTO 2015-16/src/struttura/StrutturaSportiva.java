@@ -333,6 +333,14 @@ public class StrutturaSportiva implements Serializable {
 		return result;
 	}
 	
+	/**
+	 * Verifica se una prenotazione e' ancora valida.
+	 * N.B. - Una prenotazione scade 12 ore prima della partita a cui fa riferimento.
+	 * @param prenotazione
+	 * 	      La prenotazione da controllare
+	 * @return boolean che indica la validita'
+	 * @author MaurizioCasciano & GaetanoAntonucci
+	 */
 	public boolean verificaValiditaPrenotazione(PrenotazioneV2 prenotazione){
 		boolean result = false;
 		
@@ -349,6 +357,24 @@ public class StrutturaSportiva implements Serializable {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Calcola l'incasso della struttura sportiva in base all'ArrayList passato in input.
+	 * @param perIncasso
+	 * 	      L'ArrayList in input, può essere this.acquisti, allora sarà il totale complessivo, 
+	 * 		  oppure un ArrayList ottenuto dai metodi di filtro precedenti.
+	 * @return double con l'incasso totale.
+	 * @author Gaetano Antonucci 
+	 */
+	public double calcolaIncasso(ArrayList<Acquisto> perIncasso){
+		double sommaPrezzi = 0;
+		
+		for(Acquisto acq: perIncasso){
+			sommaPrezzi += acq.getBiglietto().getPrezzo();
+		}
+		
+		return sommaPrezzi;
 	}
 	
 	@Override

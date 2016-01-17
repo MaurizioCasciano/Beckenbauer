@@ -50,7 +50,7 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la partita a cui il biglieto fa riferimento
+	 * Restituisce la partita a cui il biglietto fa riferimento
 	 * 
 	 * @return partita
 	 */

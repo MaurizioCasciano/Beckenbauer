@@ -19,7 +19,6 @@ public class Partita implements Serializable {
 		this.stadio = stadio;
 		this.data = data;
 
-		this.postiDisponibili = stadio.getCapienzaStadio();
 	}
 
 	/**
@@ -32,8 +31,6 @@ public class Partita implements Serializable {
 		this.squadraInTrasferta = new Squadra("-");
 		this.stadio = new Stadio("-", 0, 0.00);
 		this.data = new GregorianCalendar();
-		
-		//this.postiDisponibili = this.stadio.getCapienzaStadio();
 	}
 
 	/**
@@ -113,15 +110,6 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Retistituisce i posti ancora disponbili per la partita
-	 * 
-	 * @return posti disponibili
-	 */
-	public int getPostiDisponibili() {
-		return this.postiDisponibili;
-	}
-
-	/**
 	 * Restituisce la politica di sconto della partita
 	 * 
 	 * @return politica di sconto se è presente
@@ -164,10 +152,6 @@ public class Partita implements Serializable {
 	private Stadio stadio;
 	private GregorianCalendar data;
 
-	private int postiDisponibili; // (GA) di default e' il numero di posti
-									// disponibili dello stadio,
-									// poi viene aggiornato il base alle vendite
-									// e alle prenotazioni
 
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
