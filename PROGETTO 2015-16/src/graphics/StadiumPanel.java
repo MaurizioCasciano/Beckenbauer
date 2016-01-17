@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
+import struttura.Partita;
+import struttura.StrutturaSportiva;
 import user.Cliente;
 
 public class StadiumPanel extends JPanel implements MouseWheelListener, Serializable {
@@ -35,8 +37,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
 	 */
-	public StadiumPanel(Cliente cliente) {
-		this(cliente, CAPIENZA_DEFAULT);
+	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita) {
+		this(strutturaSportiva, cliente, partita, CAPIENZA_DEFAULT);
 	}
 
 	/**
@@ -47,9 +49,11 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * @param capienza
 	 *            La capienza dello stadio.
 	 */
-	public StadiumPanel(Cliente cliente, int capienza) {
+	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, int capienza) {
 		super(new GridLayout(STADIUM_PANEL_ROWS, STADIUM_PANEL_COLUMNS));
+		this.strutturaSportiva = strutturaSportiva;
 		this.cliente = cliente;
+		this.partita = partita;
 		this.capienza = capienza;
 
 		this.postiPerSettore = capienza / SETTORI_TOTALI;
@@ -114,7 +118,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
+				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
+						this.partita, this.postiPerSettore);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -174,7 +179,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
+			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
+					this.partita, this.postiPerSettore);
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -216,7 +222,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
+			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
+					this.partita, this.postiPerSettore);
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -261,7 +268,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.cliente, this.postiPerSettore);
+				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
+						this.partita, this.postiPerSettore);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -370,7 +378,9 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	}
 
 	private static final long serialVersionUID = -1931003973640128793L;
+	private StrutturaSportiva strutturaSportiva;
 	private Cliente cliente;
+	private Partita partita;
 	private JPanel northPanel, centrePanel, southPanel;
 	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;
 
@@ -461,7 +471,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new Cliente("", "", "", "P@ssw0rd")));
+		JScrollPane scrollPane = new JScrollPane(
+				new StadiumPanel(new StrutturaSportiva(""), new Cliente("", "", "", "P@ssw0rd"), new Partita()));
 
 		frame.add(scrollPane);
 		frame.pack();

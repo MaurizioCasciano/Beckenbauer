@@ -213,7 +213,8 @@ public class Window extends JFrame implements Serializable {
 		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Benvenuto",
 				JOptionPane.INFORMATION_MESSAGE, Assets.getCustomerIcon());
 
-		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate(), this.strutturaSportiva);
+		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate(),
+				this.strutturaSportiva);
 		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		partitaTableScrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
@@ -447,15 +448,16 @@ public class Window extends JFrame implements Serializable {
 				int returnValue = JOptionPane.showOptionDialog(Window.this, newStadium, "Aggiungi Stadio",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
 						new String[] { "Aggiungi", "Cancella" }, 0);
-				
-				if(returnValue == 0){
-					strutturaSportiva.addStadio(new Stadio(nameField.getText(), (int)capienzaSpinner.getValue()));
+
+				if (returnValue == 0) {
+					strutturaSportiva.addStadio(new Stadio(nameField.getText(), (int) capienzaSpinner.getValue()));
 					System.out.println(strutturaSportiva.getStadi().size());
 				}
 			}
 		});
 
-		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate(), this.strutturaSportiva);
+		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate(),
+				this.strutturaSportiva);
 		this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
 		this.mainPanel.add(this.partitaTableScrollPane, BorderLayout.CENTER);
@@ -512,7 +514,7 @@ public class Window extends JFrame implements Serializable {
 								// System.out.println(SwingUtilities.isEventDispatchThread());
 								Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
-										(Cliente) Window.this.utente);
+										Window.this.strutturaSportiva, (Cliente) Window.this.utente, Window.this.partitaTable.getSelectedPartita());
 								return stadiumScrollPane;
 							}
 
@@ -560,8 +562,8 @@ public class Window extends JFrame implements Serializable {
 					public void actionPerformed(ActionEvent e) {
 
 						int viewIndex = partitaTable.getSelectedRow();
-						
-						if(viewIndex != -1){
+
+						if (viewIndex != -1) {
 							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
 						}

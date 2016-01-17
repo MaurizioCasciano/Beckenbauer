@@ -5,20 +5,18 @@ import java.io.Serializable;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import struttura.Partita;
+import struttura.StrutturaSportiva;
 import user.Cliente;
 
 public class StadiumScrollPane extends JScrollPane implements Serializable{
 
-	public StadiumScrollPane(Cliente cliente) {
+	public StadiumScrollPane(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita) {
 		super();
+		this.strutturaSportiva = strutturaSportiva;
 		this.cliente = cliente;
-		this.stadiumPanel = new StadiumPanel(this.cliente);
-		this.setViewportView(this.stadiumPanel);
-	}
-
-	public StadiumScrollPane(int capienza) {
-		super();
-		this.stadiumPanel = new StadiumPanel(this.cliente, capienza);
+		this.partita = partita;
+		this.stadiumPanel = new StadiumPanel(this.strutturaSportiva, this.cliente, this.partita);
 		this.setViewportView(this.stadiumPanel);
 	}
 
@@ -27,7 +25,9 @@ public class StadiumScrollPane extends JScrollPane implements Serializable{
 	}
 
 	private static final long serialVersionUID = 5759489801369687927L;
+	private StrutturaSportiva  strutturaSportiva;
 	private Cliente cliente;
+	private Partita partita;
 	private StadiumPanel stadiumPanel;
 
 	/***************************************************************/
@@ -35,7 +35,7 @@ public class StadiumScrollPane extends JScrollPane implements Serializable{
 		JFrame frame = new JFrame("StadiumScrollPane");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		frame.add(new StadiumScrollPane(new Cliente("Maurizio", "", "", "P@ssw0rd")));
+		frame.add(new StadiumScrollPane(new StrutturaSportiva(""), new Cliente("Maurizio", "", "", "P@ssw0rd"), new Partita()));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
