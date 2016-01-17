@@ -41,11 +41,11 @@ public class StrutturaSportiva implements Serializable {
 	}
 	
 	/**
-	 * Aggiunge un utente al database se non è già presente, altrimente lancia eccezione.
+	 * Aggiunge un utente al database se non e' già presente, altrimente lancia eccezione.
 	 * @param utente
 	 * 		  L'utente da registrare
 	 * @throws AlreadyRegisteredUserException
-	 * 		   L'eccezione lanciata nel caso l'utente che si prova ad inserire sia già 
+	 * 		   L'eccezione lanciata nel caso l'utente che si prova ad inserire sia gia' 
 	 * 		   presente nel database
 	 * @author Maurizio Casciano
 	 */
@@ -98,11 +98,9 @@ public class StrutturaSportiva implements Serializable {
 	public void addStadio(Stadio s) {
 	
 		if(this.stadi.contains(s))
-				throw new AlreadyExistsObjectException("Stadio già presente !!!");
+				throw new AlreadyExistsObjectException("Stadio gia' presente !!!");
 		this.stadi.add(s);
 	}
-	
-	// Modificare i metodi add.
 	
 	/**
 	 * Aggiunge una politica di sconto al database.
@@ -113,7 +111,7 @@ public class StrutturaSportiva implements Serializable {
 	public void addSconto(Sconti sconto){
 		
 			if(this.sconti.contains(sconto)) {
-				throw new AlreadyExistsObjectException("Politica di Sconto già presente !!!");
+				throw new AlreadyExistsObjectException("Politica di Sconto gia' presente !!!");
 			}
 		this.sconti.add(sconto);
 	}
@@ -127,7 +125,7 @@ public class StrutturaSportiva implements Serializable {
 	public void addPrenotazione(PrenotazioneV2 pren){
 		
 			if(this.prenotazioni.contains(pren)) {
-				throw new AlreadyExistsObjectException("Prenotazione già presente !!!");
+				throw new AlreadyExistsObjectException("Prenotazione gia' presente !!!");
 			}
 		this.prenotazioni.add(pren);
 	}
@@ -141,7 +139,7 @@ public class StrutturaSportiva implements Serializable {
 	public void addAcquisto(Acquisto acq){
 		
 			if(this.acquisti.contains(acq)) {
-				throw new AlreadyExistsObjectException("Acquisto già presente !!!");
+				throw new AlreadyExistsObjectException("Acquisto gia' presente !!!");
 			}
 		this.acquisti.add(acq);
 	}
@@ -264,7 +262,7 @@ public class StrutturaSportiva implements Serializable {
 	}
 	
 	/**
-	 * Verifica se una determinata partita è stata prenotata da un determinato cliente
+	 * Verifica se una determinata partita e' stata prenotata da un determinato cliente
 	 * @param clt
 	 * 	      Il cliente su cui si effettua la verifica.
 	 * @param prt
@@ -313,7 +311,7 @@ public class StrutturaSportiva implements Serializable {
 	}
 	
 	/**
-	 * Verifica se un biglietto per una determinata partita è stato acquistato
+	 * Verifica se un biglietto per una determinata partita e' stato acquistato
 	 * da un determinato cliente.
 	 * @param clt
 	 * 	      Il cliente su cui si effettua la verifica.
@@ -335,7 +333,7 @@ public class StrutturaSportiva implements Serializable {
 		return result;
 	}
 	
-	public boolean verificaValiditàPrenotazione(PrenotazioneV2 prenotazione){
+	public boolean verificaValiditaPrenotazione(PrenotazioneV2 prenotazione){
 		boolean result = false;
 		
 		GregorianCalendar dataAttuale = new GregorianCalendar();
@@ -381,7 +379,7 @@ public class StrutturaSportiva implements Serializable {
 
 	private static final long serialVersionUID = -1014833830864079436L;
 	private String nome;
-	// una struttura sportiva che comprenda pi� stadi
+	// una struttura sportiva che comprenda piu' stadi
 	private ArrayList<Stadio> stadi;
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;

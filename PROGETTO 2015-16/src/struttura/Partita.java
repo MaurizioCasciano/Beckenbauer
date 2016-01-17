@@ -75,38 +75,38 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Restituisce lo stadio in cui sar� disputata la partita.
+	 * Restituisce lo stadio in cui sara' disputata la partita.
 	 * 
-	 * @return Lo stadio in cui sar� disputata la partita.
+	 * @return Lo stadio in cui sara' disputata la partita.
 	 */
 	public Stadio getStadio() {
 		return this.stadio;
 	}
 
 	/**
-	 * Imposta lo stadio in cui sar� disputata la partita.
+	 * Imposta lo stadio in cui sara' disputata la partita.
 	 * 
 	 * @param stadio
-	 *            Lo stadio in cui sar� disputata la partita.
+	 *            Lo stadio in cui sara' disputata la partita.
 	 */
 	public void setStadio(Stadio stadio) {
 		this.stadio = stadio;
 	}
 
 	/**
-	 * Restituisce la data in cui sar� disputata la partita.
+	 * Restituisce la data in cui sara' disputata la partita.
 	 * 
-	 * @return La data in cui sar� disputata la partita.
+	 * @return La data in cui sara' disputata la partita.
 	 */
 	public GregorianCalendar getData() {
 		return this.data;
 	}
 
 	/**
-	 * Imposta la data in cui sar� disputata la partita.
+	 * Imposta la data in cui sara' disputata la partita.
 	 * 
 	 * @param data
-	 *            La data in cui sar� disputata la partita.
+	 *            La data in cui sara' disputata la partita.
 	 */
 	public void setData(GregorianCalendar data) {
 		this.data = data;
@@ -164,7 +164,7 @@ public class Partita implements Serializable {
 	private Stadio stadio;
 	private GregorianCalendar data;
 
-	private int postiDisponibili; // (GA) di default è il numero di posti
+	private int postiDisponibili; // (GA) di default e' il numero di posti
 									// disponibili dello stadio,
 									// poi viene aggiornato il base alle vendite
 									// e alle prenotazioni

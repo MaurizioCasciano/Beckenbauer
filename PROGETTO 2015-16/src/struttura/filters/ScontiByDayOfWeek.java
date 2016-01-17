@@ -33,8 +33,8 @@ public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 		
 		if(giornoSettimanaSconto != null){
 			if((giornoSettimana.getValue() == this.sconto.getGiornoSettimana().getValue()) 
-					&& !(partitaDiCalcio.getData().before(sconto.getInizioValidità())) 
-					&& !(partitaDiCalcio.getData().after(sconto.getFineValidità()))){
+					&& !(partitaDiCalcio.getData().before(sconto.getInizioValidita())) 
+					&& !(partitaDiCalcio.getData().after(sconto.getFineValidita()))){
 				
 					result = true;
 			}

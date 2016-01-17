@@ -45,19 +45,25 @@ public class PrenotazioneV2 implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
+		
 		if (this == obj)
 			return true;
+		
 		if (obj == null)
 			return false;
+		
 		if (getClass() != obj.getClass())
 			return false;
+		
 		PrenotazioneV2 other = (PrenotazioneV2) obj;
-		if (bigliettoPrenotato == null) {
-			if (other.bigliettoPrenotato != null)
-				return false;
-		} else if (!bigliettoPrenotato.equals(other.bigliettoPrenotato))
-			return false;
-		return true;
+		
+		if(this.bigliettoPrenotato.equals(other.bigliettoPrenotato)){
+			result = true;
+		}
+		
+		return result;
+		
 	}
 	
 

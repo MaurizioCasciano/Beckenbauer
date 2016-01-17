@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class AlreadyExistsObjectException extends RuntimeException implements Serializable{
 
 	public AlreadyExistsObjectException(){
-		super("Oggetto già esistente !");
+		super("Oggetto gia' esistente !");
 	}
 	
 	public AlreadyExistsObjectException(String msg){

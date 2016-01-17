@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class PostoIndisponibileException extends Exception implements Serializable{
 
 	public PostoIndisponibileException(){
-		super("Il Posto selezionato non è disponbile !!!");
+		super("Il Posto selezionato non e' disponbile !!!");
 	}
 	
 	public PostoIndisponibileException(String msg){

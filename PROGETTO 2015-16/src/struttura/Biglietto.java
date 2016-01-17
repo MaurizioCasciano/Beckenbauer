@@ -59,7 +59,7 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il settore dello stadio in cui è locato il posto
+	 * Restituisce il settore dello stadio in cui e' locato il posto
 	 * 
 	 * @return settore
 	 */
@@ -68,7 +68,7 @@ public class Biglietto implements Serializable {
 	} */
 
 	/**
-	 * Restituisce la fila in cui è locato il posto
+	 * Restituisce la fila in cui e' locato il posto
 	 * 
 	 * @return fila
 	 */
@@ -135,7 +135,7 @@ public class Biglietto implements Serializable {
 	/**
 	 * Restituisce lo stato biglietto in riferimento alle prenotazioni
 	 * 
-	 * @return true se il biglietto è stato prenotato, false se il biglietto è
+	 * @return true se il biglietto e' stato prenotato, false se il biglietto e'
 	 *         stato acquistato direttamente
 	 */
 	/*public boolean isPrenotato() {

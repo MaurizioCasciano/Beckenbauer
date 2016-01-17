@@ -12,34 +12,34 @@ import java.util.GregorianCalendar;
 
 public class Sconti implements Serializable {
 
-	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidità, 
-			GregorianCalendar fineValidità, Stadio stadio) {
+	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+			GregorianCalendar fineValidita, Stadio stadio) {
 		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
-		this.inizioValidità = inizioValidità;
-		this.fineValidità = fineValidità;
+		this.inizioValidita = inizioValidita;
+		this.fineValidita = fineValidita;
 		this.stadio = stadio;
 		this.partita = null;
 		this.giornoSettimana = null;
 	}
 	
-	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidità, 
-			GregorianCalendar fineValidità, Partita partita) {
+	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+			GregorianCalendar fineValidita, Partita partita) {
 		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
-		this.inizioValidità = inizioValidità;
-		this.fineValidità = fineValidità;
+		this.inizioValidita = inizioValidita;
+		this.fineValidita = fineValidita;
 		this.stadio = null;
 		this.partita = partita;
 		this.giornoSettimana = null;
 	}
 	
-	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidità, 
-			GregorianCalendar fineValidità, DAYS_OF_WEEK giorno) {
+	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+			GregorianCalendar fineValidita, DAYS_OF_WEEK giorno) {
 		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
-		this.inizioValidità = inizioValidità;
-		this.fineValidità = fineValidità;
+		this.inizioValidita = inizioValidita;
+		this.fineValidita = fineValidita;
 		this.stadio = null;
 		this.partita = null;
 		this.giornoSettimana = giorno;
@@ -68,17 +68,17 @@ public class Sconti implements Serializable {
 	}
 
 	/**
-	 * @return the inizioValidità
+	 * @return the inizioValidita
 	 */
-	public GregorianCalendar getInizioValidità() {
-		return inizioValidità;
+	public GregorianCalendar getInizioValidita() {
+		return inizioValidita;
 	}
 
 	/**
-	 * @return the fineValidità
+	 * @return the fineValidita
 	 */
-	public GregorianCalendar getFineValidità() {
-		return fineValidità;
+	public GregorianCalendar getFineValidita() {
+		return fineValidita;
 	}
 
 
@@ -98,8 +98,8 @@ public class Sconti implements Serializable {
 	private double percetualeSconto;
 	private Stadio stadio;
 	private Partita partita;
-	private GregorianCalendar inizioValidità;
-	private GregorianCalendar fineValidità;
+	private GregorianCalendar inizioValidita;
+	private GregorianCalendar fineValidita;
 	private DAYS_OF_WEEK giornoSettimana;
 
 }

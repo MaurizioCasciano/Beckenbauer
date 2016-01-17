@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 public enum DAYS_OF_WEEK {
 	
-	Lunedì(Calendar.MONDAY), Martedì(Calendar.TUESDAY), Mercoledì(Calendar.WEDNESDAY), 
-	Giovedì(Calendar.THURSDAY), Venerdì(Calendar.FRIDAY), Sabato(Calendar.SATURDAY), 
+	Lunedi(Calendar.MONDAY), Martedi(Calendar.TUESDAY), Mercoledi(Calendar.WEDNESDAY), 
+	Giovedi(Calendar.THURSDAY), Venerdi(Calendar.FRIDAY), Sabato(Calendar.SATURDAY), 
 	Domenica(Calendar.SUNDAY);
 	
 	DAYS_OF_WEEK(int i){
@@ -26,15 +26,15 @@ public enum DAYS_OF_WEEK {
 	public static DAYS_OF_WEEK findDay(int valore){
 		switch(valore){
 		case Calendar.MONDAY:
-			return DAYS_OF_WEEK.Lunedì;
+			return DAYS_OF_WEEK.Lunedi;
 		case Calendar.TUESDAY:
-			return DAYS_OF_WEEK.Martedì;
+			return DAYS_OF_WEEK.Martedi;
 		case Calendar.WEDNESDAY:
-			return DAYS_OF_WEEK.Mercoledì;
+			return DAYS_OF_WEEK.Mercoledi;
 		case Calendar.THURSDAY:
-			return DAYS_OF_WEEK.Giovedì;
+			return DAYS_OF_WEEK.Giovedi;
 		case Calendar.FRIDAY:
-			return DAYS_OF_WEEK.Venerdì;
+			return DAYS_OF_WEEK.Venerdi;
 		case Calendar.SATURDAY:
 			return DAYS_OF_WEEK.Sabato;
 		case Calendar.SUNDAY:
