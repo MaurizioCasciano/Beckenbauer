@@ -96,18 +96,32 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 
 		this.labelPanelCard.add(this.nameLabel, BorderLayout.CENTER);
 
-		int sqrtPosti = (int) Math.floor(Math.sqrt(posti));
+		//righe del pannello
+		int sqrtPosti = (int) Math.sqrt(posti);
 
-		this.seatsPanelCard = new JPanel(new GridLayout(sqrtPosti, sqrtPosti, 3, 3));
+		// Pannello dei posti
+		this.seatsPanelCard = new JPanel(new GridLayout(sqrtPosti, 0, 3, 3));
 
-		for (int numeroPosto = 0; numeroPosto < posti; numeroPosto++) {
-			this.seatsPanelCard.add(new StadiumSeatButton(this.strutturaSportiva, this.cliente, this.partita, numeroPosto, Color.GREEN));
+		int numeroFila = 0;
+
+		for (int numeroPosto = 1; numeroPosto <= posti; numeroPosto++) {
+
+			if (numeroPosto % 10 == 1) {
+				numeroFila++;
+			}
+
+			this.seatsPanelCard.add(new StadiumSeatButton(this.strutturaSportiva, this.cliente, this.partita,
+					numeroFila, numeroPosto, Color.GREEN));
 		}
 
 		this.add(this.labelPanelCard);
 		this.add(this.seatsPanelCard);
 	}
 
+	/**
+	 * Mostra alternativamente la label con il nome del settore oppure il
+	 * pannello con i posti.
+	 */
 	public void showNextCard() {
 		((CardLayout) getLayout()).next(this);
 	}

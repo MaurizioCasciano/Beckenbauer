@@ -57,7 +57,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.capienza = capienza;
 
 		this.postiPerSettore = capienza / SETTORI_TOTALI;
-		// System.out.println(this.postiPerSettore);
+		System.out.println(this.postiPerSettore);
 
 		this.init();
 	}
@@ -91,6 +91,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.addMouseMotionListener(this.myMouseAdapter);
 	}
 
+	/**
+	 * Crea il pannello della parte nord e vi aggiunge i vari settori. Ogni
+	 * settore è rappresentato da un {@link JButton} contenente un
+	 * {@link JPanel} che gesti	 */
 	private void initNorthPanel() {
 		final int NORTH_PANEL_ROWS = 8;
 		final int NORTH_PANEL_COLUMNS = 30;
