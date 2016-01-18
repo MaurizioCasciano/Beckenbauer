@@ -1,20 +1,15 @@
+
 package struttura;
 
 import java.io.Serializable;
 
 public class Stadio implements Serializable {
 
-	public Stadio(String nome, int capienzaStadio) {
+	public Stadio(String nome, int capienzaStadio, double prezzoPerPartita) {
 		this.nome = nome;
-		this.capienzaStadio = capienzaStadio;
+		this.calcolaPostiEffettivi(capienzaStadio);
+		this.prezzoPerPartita = prezzoPerPartita;
 		ID_Stadio = ++ID_Counter;
-	}
-
-	public Stadio(String nome, int capienzaStadio, Sconti sconto) {
-		this.nome = nome;
-		this.capienzaStadio = capienzaStadio;
-		ID_Stadio = ++ID_Counter;
-		this.scontoStadio = sconto;
 	}
 
 	public String getNome() {
@@ -27,50 +22,106 @@ public class Stadio implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
+
 		if (this == obj)
 			return true;
+
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+
+		if (this.getClass() != obj.getClass())
 			return false;
+
 		Stadio other = (Stadio) obj;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		return true;
+
+		if (this.nome.equalsIgnoreCase(other.nome)) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	public int getCapienzaStadio() {
 		return this.capienzaStadio;
 	}
 
+	public void setCapienzaStadio(int nuovaCapienza) {
+		this.capienzaStadio = nuovaCapienza;
+	}
+
 	public int getID() {
 		return this.ID_Stadio;
 	}
 
-	public Sconti getScontoStadio() {
-		return scontoStadio;
+	public double getPrezzoPerPartita() {
+		return this.prezzoPerPartita;
 	}
 
-	
+	public void setPrezzoPerPartita(double prezzo) {
+		this.prezzoPerPartita = prezzo;
+	}
+
+	/**
+	 * @return the filePerSettore
+	 */
+	public int getFilePerSettore() {
+		return filePerSettore;
+	}
+
+	/**
+	 * @return the postiPerFilaSettore
+	 */
+	public int getPostiPerSettore() {
+		return postiPerSettore;
+	}
+
+	/**
+	 * @return the postiPerFila
+	 */
+	public int getPostiPerFila() {
+		return postiPerFila;
+	}
+
+	public void calcolaPostiEffettivi(int postiRichiesti) {
+		int postiPerSettore = (postiRichiesti / SETTORI);
+		this.postiPerSettore = postiPerSettore;
+
+		int postiEffettivi = postiPerSettore * SETTORI;
+		this.capienzaStadio = postiEffettivi;
+
+		int numeroFile = (int) Math.sqrt(postiPerSettore);
+
+		/*
+		 * Controllare il valore di numeroFile.
+		 * 
+		 * Possibile rischio: "java.lang.ArithmeticException: / by zero" Causato
+		 * dalla creazione di una nuova partita in cui lo stadio ha capienza 0.
+		 * Nuova capienza di default (per nuova partita) stadio aggiornata a 30000 (Minimo valore
+		 * selezionabile dallo spinner alla creazione di uno stadio).
+		 */
+		int numeroPosti = postiEffettivi / numeroFile;
+
+		this.filePerSettore = numeroFile;
+		this.postiPerFila = numeroPosti;
+
+	}
 
 	@Override
 	public String toString() {
 		return this.nome;
 	}
 
-
-
 	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;
 	private int capienzaStadio;
+	private int filePerSettore;
+	private int postiPerSettore;
+	private int postiPerFila;
 	private int ID_Stadio;
+	private double prezzoPerPartita;
 
-	private Sconti scontoStadio; // (GA) lo stadio può avere una particolare
-									// politica di sconto
-	// che va estesa a tutte le partite in esso giocate
+	private static final int SETTORI = 620;
 
 	private static int ID_Counter = 1000;
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class AlreadyRegisteredUserException extends Exception implements Serializable{
 
 	public AlreadyRegisteredUserException() {
-		super("Alrady Registered User");
+		super("Already Registered User");
 	}
 
 	public AlreadyRegisteredUserException(String arg0) {

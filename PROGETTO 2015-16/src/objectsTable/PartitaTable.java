@@ -171,12 +171,12 @@ public class PartitaTable extends JTable implements Serializable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		PartitaTable partite = new PartitaTable(Mode.GESTORE, new StrutturaSportiva("test"));
-		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277),
+		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277, 20),
 				new GregorianCalendar()));
-		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261),
+		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261, 20),
 				new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Juventus"), new Squadra("Torino"),
-				new Stadio("Juventus Stadium", 41475), new GregorianCalendar()));
+				new Stadio("Juventus Stadium", 41475, 20), new GregorianCalendar()));
 
 		JScrollPane scrollPane = new JScrollPane(partite);
 		frame.add(scrollPane, BorderLayout.CENTER);
