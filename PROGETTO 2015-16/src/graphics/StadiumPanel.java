@@ -18,6 +18,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -27,6 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import struttura.Partita;
+import struttura.Squadra;
+import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
@@ -495,8 +498,11 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JScrollPane scrollPane = new JScrollPane(
-				new StadiumPanel(new StrutturaSportiva(""), new Cliente("", "", "", "P@ssw0rd"), new Partita()));
+		Squadra sq1 = new Squadra(""), sq2 = new Squadra("");
+		Stadio stadio = new Stadio("", 200000, 30);
+		Partita p = new Partita(sq1, sq2, stadio, new GregorianCalendar());
+		
+		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""), new Cliente("", "", "", "P@ssw0rd"), p));
 
 		frame.add(scrollPane);
 		frame.pack();

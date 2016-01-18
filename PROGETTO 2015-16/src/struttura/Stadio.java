@@ -25,7 +25,28 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
 		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
-		this.postiPerFila = this.postiPerSettore / this.filePerSettore;
+		/*
+		 * Arrotonda il numero di posti per fila al più piccolo intero maggiore
+		 * dell'argomento, o uguale all'argomento se quest'ultimo rappresenta
+		 * già un intero.
+		 * 
+		 * Fondamentale per ottenere l'esatto numero di colonne utilizzate in
+		 * seguito dal GridLayout, il quale tiene conto soltanto del numero di
+		 * righe e calcola il numero di colonne in base al numero di elementi
+		 * effettivamente contenuti, ed ottenere quindi il corretto numero di
+		 * riga per ogni posto.
+		 */
+		this.postiPerFila = (int) Math.ceil((double) this.postiPerSettore / (double) this.filePerSettore);
+
+		System.out.println("PostiPerSettore = " + this.postiPerSettore);
+		System.out.println("FilePerSettore = " + this.filePerSettore);
+		System.out.println("CapienzaDesiderata = " + this.capienzaDesiderataStadio);
+		System.out.println("CapienzaEffettiva = " + this.capienzaEffettiva);
+		System.out.println("PostiPerFila = " + this.postiPerFila);
+		/*********************************************************/
+		System.out.println("PostiPerFilaDouble = " + (double) this.postiPerSettore / (double) this.filePerSettore);
+		System.out.println("PostiPerFila arrotondati = "
+				+ Math.ceil((double) this.postiPerSettore / (double) this.filePerSettore));
 	}
 
 	@Override

@@ -52,12 +52,14 @@ import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.filters.MatchByStadiumFilter;
 import struttura.filters.MatchByWeekFilter;
+import struttura.filters.MatchNotYetStartedFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
 import user.UserNotFoundException;
 import user.Utente;
 
+@SuppressWarnings("unused")
 public class Window extends JFrame implements Serializable {
 
 	public Window(String nomeStruttura) {
@@ -258,8 +260,9 @@ public class Window extends JFrame implements Serializable {
 		/*
 		 * RadioButtons per selezionare il tipo di filtro.
 		 */
-		JRadioButton weekFilterRadioButton = new JRadioButton("Settimana", true);
+		JRadioButton weekFilterRadioButton = new JRadioButton("Settimana");
 		JRadioButton stadiumFilterRadioButton = new JRadioButton("Stadio");
+		JRadioButton notYetStartedRadioButton = new JRadioButton("Da giocarsi");
 
 		JPanel comboBoxButtonsPanel = new JPanel();
 
@@ -306,8 +309,10 @@ public class Window extends JFrame implements Serializable {
 				comboBoxButtonsPanel.revalidate();
 			}
 		});
+		/*
+		 * Genera un actionEvent e selezione il radioButton.
+		 */
 		weekFilterRadioButton.doClick();
-		weekFilterRadioButton.setSelected(true);
 
 		stadiumFilterRadioButton.addActionListener(new ActionListener() {
 
@@ -354,14 +359,54 @@ public class Window extends JFrame implements Serializable {
 			}
 		});
 
+		notYetStartedRadioButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				comboBoxButtonsPanel.removeAll();
+
+				JButton filtraButton = new JButton("Filtra");
+
+				filtraButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+								.getRowSorter();
+						sorter.setRowFilter(new PartitaRowFilter(new MatchNotYetStartedFilter()));
+					}
+				});
+
+				JButton resetButton = new JButton("Reset");
+
+				resetButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<PartitaTableModel> sorter = (TableRowSorter<PartitaTableModel>) partitaTable
+								.getRowSorter();
+						sorter.setRowFilter(null);
+					}
+				});
+
+				comboBoxButtonsPanel.add(filtraButton);
+				comboBoxButtonsPanel.add(resetButton);
+				comboBoxButtonsPanel.revalidate();
+			}
+		});
+
 		ButtonGroup filterGroup = new ButtonGroup();
 		JPanel filterRadioButtonsPanel = new JPanel();
 		filterRadioButtonsPanel.setBorder(new LineBorder(Color.GRAY));
 		filterRadioButtonsPanel.add(weekFilterRadioButton);
 		filterRadioButtonsPanel.add(stadiumFilterRadioButton);
+		filterRadioButtonsPanel.add(notYetStartedRadioButton);
 
 		filterGroup.add(weekFilterRadioButton);
 		filterGroup.add(stadiumFilterRadioButton);
+		filterGroup.add(notYetStartedRadioButton);
 
 		/*
 		 * Pannello contenente
@@ -572,7 +617,7 @@ public class Window extends JFrame implements Serializable {
 
 							@Override
 							protected StadiumScrollPane doInBackground() throws Exception {
-								System.out.println(SwingUtilities.isEventDispatchThread());
+								//System.out.println(SwingUtilities.isEventDispatchThread());
 								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
 										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
@@ -582,7 +627,7 @@ public class Window extends JFrame implements Serializable {
 
 							@Override
 							protected void done() {
-								System.out.println(SwingUtilities.isEventDispatchThread());
+								//System.out.println(SwingUtilities.isEventDispatchThread());
 								try {
 									Window.this.tabbedPane.addTab("Stadio", get());
 									Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
