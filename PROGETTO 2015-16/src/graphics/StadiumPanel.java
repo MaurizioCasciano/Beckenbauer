@@ -55,10 +55,6 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.cliente = cliente;
 		this.partita = partita;
 		this.capienza = capienza;
-
-		this.postiPerSettore = capienza / SETTORI_TOTALI;
-		System.out.println(this.postiPerSettore);
-
 		this.init();
 	}
 
@@ -94,7 +90,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	/**
 	 * Crea il pannello della parte nord e vi aggiunge i vari settori. Ogni
 	 * settore è rappresentato da un {@link JButton} contenente un
-	 * {@link JPanel} che gesti	 */
+	 * {@link JPanel} che gesti
+	 */
 	private void initNorthPanel() {
 		final int NORTH_PANEL_ROWS = 8;
 		final int NORTH_PANEL_COLUMNS = 30;
@@ -123,7 +120,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-						this.partita, this.postiPerSettore);
+						this.partita, this.getNextNomeSettore());
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -184,7 +181,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-					this.partita, this.postiPerSettore);
+					this.partita, this.getNextNomeSettore());
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -227,7 +224,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-					this.partita, this.postiPerSettore);
+					this.partita, this.getNextNomeSettore());
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -273,7 +270,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-						this.partita, this.postiPerSettore);
+						this.partita, this.getNextNomeSettore());
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -381,6 +378,30 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.capienza = capienza;
 	}
 
+	/**
+	 * Genera il nome del prossimo Settore da creare
+	 * @return
+	 * @author Maurizio
+	 */
+	public String getNextNomeSettore() {
+
+		String nomeSettore = "Settore ";
+
+		if (this.secondChar <= 'Z') {
+			nomeSettore += this.firstChar;
+			nomeSettore += this.secondChar++;
+		} else if (this.secondChar == 'Z' + 1) {
+			this.secondChar = 'A';
+			this.firstChar++;
+
+			nomeSettore += this.firstChar;
+			nomeSettore += this.secondChar;
+		}
+
+		return nomeSettore;
+	}
+
+	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -1931003973640128793L;
 	private StrutturaSportiva strutturaSportiva;
 	private Cliente cliente;
@@ -391,11 +412,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	private int capienza;
 	public static final int CAPIENZA_DEFAULT = 50000;
 	private int numeroSettori;
-	private static final int SETTORI_TOTALI = 620;
+	public static final int SETTORI_TOTALI = 620;
 
 	private static final int STADIUM_PANEL_ROWS = 3;
 	private static final int STADIUM_PANEL_COLUMNS = 1;
-	private int postiPerSettore;
 
 	private static final int HORIZONTAL_GAP = 5, VERTICAL_GAP = 5;
 
