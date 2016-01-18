@@ -29,6 +29,7 @@ public class Biglietto implements Serializable {
 		this.IDBiglietto = ++IDCounter;
 		
 		this.strutturaSelezionata = stru;
+		this.calcolaPrezzo();
 	}
 
 	/**

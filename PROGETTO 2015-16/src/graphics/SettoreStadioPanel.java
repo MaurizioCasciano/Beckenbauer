@@ -23,16 +23,22 @@ import user.Cliente;
 
 public class SettoreStadioPanel extends JPanel implements Serializable {
 
-	public SettoreStadioPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, int posti) {
+	public SettoreStadioPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
+			String nomeSetore) {
 		super(new CardLayout());
 
 		this.strutturaSportiva = strutturaSportiva;
 		this.cliente = cliente;
 		this.partita = partita;
-		this.posti = posti;
+		this.nomeSettore = nomeSetore;
+
+		this.postiPerSettore = this.partita.getStadio().getPostiPerSettore();
+		this.numeroFilePerSettore = this.partita.getStadio().getNumeroFilePerSettore();
+		this.postiPerFila = this.partita.getStadio().getPostiPerFila();
+
 		this.labelPanelCard = new JPanel(new BorderLayout());
 
-		this.nameLabel = new JLabel("Settore", JLabel.CENTER) {
+		this.nameLabel = new JLabel(this.nomeSettore, JLabel.CENTER) {
 
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -96,17 +102,14 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 
 		this.labelPanelCard.add(this.nameLabel, BorderLayout.CENTER);
 
-		//righe del pannello
-		int sqrtPosti = (int) Math.sqrt(posti);
-
 		// Pannello dei posti
-		this.seatsPanelCard = new JPanel(new GridLayout(sqrtPosti, 0, 3, 3));
+		this.seatsPanelCard = new JPanel(new GridLayout(this.numeroFilePerSettore, 0, 3, 3));
 
 		int numeroFila = 0;
 
-		for (int numeroPosto = 1; numeroPosto <= posti; numeroPosto++) {
+		for (int numeroPosto = 1; numeroPosto <= this.postiPerSettore; numeroPosto++) {
 
-			if (numeroPosto % 10 == 1) {
+			if (numeroPosto % this.postiPerFila == 1) {
 				numeroFila++;
 			}
 
@@ -127,14 +130,15 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 	}
 
 	public int getSeats() {
-		return posti;
+		return postiPerSettore;
 	}
 
 	private static final long serialVersionUID = 4920370237665489993L;
 	private StrutturaSportiva strutturaSportiva;
 	private Cliente cliente;
 	private Partita partita;
-	private int posti;
+	private String nomeSettore;
+	private int postiPerSettore, numeroFilePerSettore, postiPerFila;
 	private JPanel labelPanelCard, seatsPanelCard;
 	private JLabel nameLabel;
 }

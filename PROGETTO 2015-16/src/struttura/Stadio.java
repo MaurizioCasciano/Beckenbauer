@@ -3,13 +3,49 @@ package struttura;
 
 import java.io.Serializable;
 
-public class Stadio implements Serializable {
+import graphics.DivisibleIntoSectors;
 
-	public Stadio(String nome, int capienzaStadio, double prezzoPerPartita) {
+public class Stadio implements Serializable, DivisibleIntoSectors {
+
+	public Stadio(String nome, int capienzaDesiderataStadio, double prezzoPerPartita) {
 		this.nome = nome;
-		this.calcolaPostiEffettivi(capienzaStadio);
+		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		ID_Stadio = ++ID_Counter;
+		this.ID_Stadio = ++ID_Counter;
+		this.init();
+	}
+
+	/**
+	 * Effettua i calcoli necessari per permettere la rappresentazione gafica
+	 * dei settori dello stadio.
+	 * 
+	 * @author Maurizio
+	 */
+	private void init() {
+		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
+		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
+		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
+		this.postiPerFila = this.postiPerSettore / this.filePerSettore;
+	}
+
+	@Override
+	public int getPostiPerSettore() {
+		return this.postiPerSettore;
+	}
+
+	@Override
+	public int getNumeroFilePerSettore() {
+		return this.filePerSettore;
+	}
+
+	@Override
+	public int getPostiPerFila() {
+		return this.postiPerFila;
+	}
+
+	@Override
+	public int getCapienzaEffettiva() {
+		return this.capienzaEffettiva;
 	}
 
 	public String getNome() {
@@ -42,12 +78,12 @@ public class Stadio implements Serializable {
 		return result;
 	}
 
-	public int getCapienzaStadio() {
-		return this.capienzaStadio;
+	public int getCapienzaDesiderataStadio() {
+		return this.capienzaDesiderataStadio;
 	}
 
 	public void setCapienzaStadio(int nuovaCapienza) {
-		this.capienzaStadio = nuovaCapienza;
+		this.capienzaDesiderataStadio = nuovaCapienza;
 	}
 
 	public int getID() {
@@ -62,33 +98,12 @@ public class Stadio implements Serializable {
 		this.prezzoPerPartita = prezzo;
 	}
 
-	/**
-	 * @return the filePerSettore
-	 */
-	public int getFilePerSettore() {
-		return filePerSettore;
-	}
-
-	/**
-	 * @return the postiPerFilaSettore
-	 */
-	public int getPostiPerSettore() {
-		return postiPerSettore;
-	}
-
-	/**
-	 * @return the postiPerFila
-	 */
-	public int getPostiPerFila() {
-		return postiPerFila;
-	}
-
 	public void calcolaPostiEffettivi(int postiRichiesti) {
 		int postiPerSettore = (postiRichiesti / SETTORI);
 		this.postiPerSettore = postiPerSettore;
 
 		int postiEffettivi = postiPerSettore * SETTORI;
-		this.capienzaStadio = postiEffettivi;
+		this.capienzaDesiderataStadio = postiEffettivi;
 
 		int numeroFile = (int) Math.sqrt(postiPerSettore);
 
@@ -97,10 +112,11 @@ public class Stadio implements Serializable {
 		 * 
 		 * Possibile rischio: "java.lang.ArithmeticException: / by zero" Causato
 		 * dalla creazione di una nuova partita in cui lo stadio ha capienza 0.
-		 * Nuova capienza di default (per nuova partita) stadio aggiornata a 30000 (Minimo valore
-		 * selezionabile dallo spinner alla creazione di uno stadio).
+		 * Nuova capienza di default (per nuova partita) stadio aggiornata a
+		 * 30000 (Minimo valore selezionabile dallo spinner alla creazione di
+		 * uno stadio).
 		 */
-		int numeroPosti = postiEffettivi / numeroFile;
+		int numeroPosti = postiPerSettore / numeroFile;
 
 		this.filePerSettore = numeroFile;
 		this.postiPerFila = numeroPosti;
@@ -114,7 +130,8 @@ public class Stadio implements Serializable {
 
 	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;
-	private int capienzaStadio;
+	private int capienzaDesiderataStadio;
+	private int capienzaEffettiva;
 	private int filePerSettore;
 	private int postiPerSettore;
 	private int postiPerFila;

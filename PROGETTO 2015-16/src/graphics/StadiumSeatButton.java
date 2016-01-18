@@ -22,6 +22,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		this.numeroFila = numeroFila;
 		this.numeroPosto = numeroPosto;
 
+		this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto);
 		this.setBorder(null);
 		this.setOpaque(true);
 		this.setBackground(backgroundColor);
