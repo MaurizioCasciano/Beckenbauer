@@ -481,7 +481,8 @@ public class Window extends JFrame implements Serializable {
 						new String[] { "Aggiungi", "Cancella" }, 0);
 
 				if (returnValue == 0) {
-					strutturaSportiva.addStadio(new Stadio(nameField.getText(), (int) capienzaSpinner.getValue()));
+					strutturaSportiva.addStadio(new Stadio(nameField.getText(), (int) capienzaSpinner.getValue(),
+							(double) prezzoSpinner.getValue()));
 					System.out.println(strutturaSportiva.getStadi().size());
 				}
 			}
