@@ -67,7 +67,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @param username
 	 *            L'username da ricercare
 	 * @return l'utente trovato
-	 * @throws UserNotFound
+	 * @throws UserNotFoundException
 	 *             L'eccezione lanciata nel caso l'utente non venga trovato
 	 * @author Maurizio Casciano
 	 */
