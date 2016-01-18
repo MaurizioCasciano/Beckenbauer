@@ -24,6 +24,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXDatePicker;
 import objectsTable.editors.GregorianCalendarDateTimePickerCellEditor;
+import objectsTable.editors.CapienzaStadioCellEditor;
 import objectsTable.editors.SquadraCellEditor;
 import objectsTable.editors.StadioCellEditor;
 import objectsTable.renderers.GregorianCalendarDateTimePickerCellRenderer;
@@ -58,7 +59,7 @@ public class PartitaTable extends JTable implements Serializable {
 		this.setAutoCreateColumnsFromModel(true);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		this.setSelectionBackground(Color.GREEN);
-		this.getColumnModel().getColumn(3).setMinWidth(150);
+		this.getColumnModel().getColumn(4).setMinWidth(150);
 		this.setRowHeight(this.getRowHeight() + 5);
 		
 		this.addMouseListener(new RightClickRowSelectionListener());
@@ -106,6 +107,7 @@ public class PartitaTable extends JTable implements Serializable {
 		// GregorianCalendarCellEditor());
 		// this.setDefaultEditor(GregorianCalendar.class, new
 		// GregorianCalendarDatePickerCellEditor());
+		this.setDefaultEditor(Integer.class, new CapienzaStadioCellEditor());
 		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellEditor());
 	}
 
