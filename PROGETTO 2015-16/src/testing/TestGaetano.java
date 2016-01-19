@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.JFrame;
+
 import struttura.*;
 import struttura.filters.*;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
+import graphics.testing.*;
 
 public class TestGaetano {
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws AlreadyRegisteredUserException {
 		
 		/**** Struttura Sportiva ****/
@@ -27,6 +31,7 @@ public class TestGaetano {
 		struct.addStadio(sanSiro);
 		
 		Stadio arechi = new Stadio("Arechi", 31300, 10.00);
+		struct.addStadio(arechi);
 		
 		/**** Squadre ****/
 		Squadra roma = new Squadra("Roma");
@@ -348,6 +353,10 @@ public class TestGaetano {
 		System.out.println("\n Incasso per stadio: " + arechi);
 		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(arechi))) + " [Exp: 18.80]");
 		
+		/******* Grafica Sconti *******/
+		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
+		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
+		JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
 	}
 
 }
