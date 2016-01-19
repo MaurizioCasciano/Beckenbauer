@@ -226,7 +226,7 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce tutte le prenotazioni presenti nel database.
 	 * 
-	 * @return ArrayList<PrenotazioneV2> con tutte le prenotazioni.
+	 * @return ArrayList<Prenotazione> con tutte le prenotazioni.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Prenotazione> getPrenotazioni() {
@@ -238,7 +238,7 @@ public class StrutturaSportiva implements Serializable {
 	 * 
 	 * @param filtroPrenotazioni
 	 *            Il filtro da applicare
-	 * @return ArrayList<PrenotazioneV2> con le prenotazioni ottenute.
+	 * @return ArrayList<Prenotazione> con le prenotazioni ottenute.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Prenotazione> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni) {

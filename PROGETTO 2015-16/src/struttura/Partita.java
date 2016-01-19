@@ -110,9 +110,9 @@ public class Partita implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [squadraInCasa=" + squadraInCasa.getNome() + ", squadraInTrasferta="
-				+ squadraInTrasferta.getNome() + ", stadio=" + stadio.getNome() + ", data="
-				+ DATE_FORMAT.format(data.getTime()) + "]";
+		return this.getClass().getSimpleName() + ": " + squadraInCasa.getNome() + " - "
+				+ squadraInTrasferta.getNome() + " Stadio: " + stadio.getNome() + " "
+				+ DATE_FORMAT.format(data.getTime());
 	}
 
 	@Override
