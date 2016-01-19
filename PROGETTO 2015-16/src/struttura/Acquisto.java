@@ -16,7 +16,12 @@ public class Acquisto implements Serializable {
 		
 	}
 	
-	public Acquisto(PrenotazioneV2 prenotazione, StrutturaSportiva struct){
+	public Acquisto(PrenotazioneV2 prenotazione){
+		
+		/* TO-DO:
+		 * Quando si acquista da prenotazione, la prenotazione va poi "cancellata" altrimenti si
+		 * ha ridondanza nei dati.
+		 */
 		
 		this.IDAcquisto = ++IDCounter;
 		this.dataAcquisto = new GregorianCalendar();
@@ -24,9 +29,6 @@ public class Acquisto implements Serializable {
 		this.biglietto = prenotazione.getBigliettoPrenotato();
 		
 		this.biglietto.setPagato(IS_PAGATO);
-		
-		/* Cancella la prenotazione in quanto è stato effettuato l'acquisto */
-		struct.cancellaPrenotazioneCliente(this.biglietto.getCliente(), this.biglietto.getPartita());
 	
 	}
 	

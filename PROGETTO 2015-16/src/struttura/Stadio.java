@@ -100,7 +100,7 @@ public class Stadio implements Serializable {
 		 * Nuova capienza di default (per nuova partita) stadio aggiornata a 30000 (Minimo valore
 		 * selezionabile dallo spinner alla creazione di uno stadio).
 		 */
-		int numeroPosti = postiPerSettore / numeroFile;
+		int numeroPosti = postiEffettivi / numeroFile;
 
 		this.filePerSettore = numeroFile;
 		this.postiPerFila = numeroPosti;

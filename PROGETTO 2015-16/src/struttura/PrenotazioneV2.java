@@ -82,7 +82,7 @@ public class PrenotazioneV2 implements Serializable {
 	private static final boolean IS_PRENOTATO = true;
 	
 	//Iteratore
-	private static int IDCounter = 0;
+	private static int IDCounter = 1;
 	
 	private static final long serialVersionUID = -5821307391776070857L;
 	
