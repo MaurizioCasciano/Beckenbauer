@@ -189,7 +189,7 @@ public class Biglietto implements Serializable {
 
 	@Override
 	public String toString() {
-		return("IDBiglietto: " + this.IDBiglietto + " Partita: " + this.partita + " \n" /*+ 
+		return("IDBiglietto: " + this.IDBiglietto +" "+ this.partita + " \n" /*+ 
 			   "Settore: " + this.settore + " Fila: " + this.fila + " Posto: " + this.posto*/);
 	}
 

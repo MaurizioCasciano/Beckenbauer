@@ -1,6 +1,7 @@
 package struttura;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import user.Cliente;
@@ -16,7 +17,7 @@ public class Acquisto implements Serializable {
 		
 	}
 	
-	public Acquisto(PrenotazioneV2 prenotazione, StrutturaSportiva struct){
+	public Acquisto(Prenotazione prenotazione, StrutturaSportiva struct){
 		
 		this.IDAcquisto = ++IDCounter;
 		this.dataAcquisto = new GregorianCalendar();
@@ -54,7 +55,10 @@ public class Acquisto implements Serializable {
 	
 	@Override
 	public String toString() {
-		return("ID Acquisto" + this.IDAcquisto + " Data Acquisto: " + this.dataAcquisto + " \n" + 
+		int giornoAcquisto = this.dataAcquisto.get(Calendar.DAY_OF_MONTH);
+		int meseAcquisto = this.dataAcquisto.get(Calendar.MONTH) + 1;
+		int annoAcquisto = this.dataAcquisto.get(Calendar.YEAR);
+		return("ID Acquisto: " + this.IDAcquisto + " Data Acquisto: " + giornoAcquisto+"/"+meseAcquisto+"/"+annoAcquisto + " \n" + 
 	            "Biglietto: " + this.biglietto);
 	}
 
