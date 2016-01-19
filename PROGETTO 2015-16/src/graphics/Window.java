@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -35,6 +37,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -272,7 +275,9 @@ public class Window extends JFrame implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				comboBoxButtonsPanel.removeAll();
 
-				JComboBox<Week> weeks = new JComboBox<Week>(Week.getNextYearWeeks().toArray(new Week[53]));
+				ArrayList<Week> nextYearWeeks = Week.getNextYearWeeks();
+
+				JComboBox<Week> weeks = new JComboBox<Week>(nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
 
 				JButton filtraButton = new JButton("Filtra");
 
@@ -319,9 +324,9 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				comboBoxButtonsPanel.removeAll();
+				ArrayList<Stadio> stadi = Window.this.strutturaSportiva.getStadi();
 
-				JComboBox<Stadio> stadiums = new JComboBox<Stadio>(
-						Window.this.strutturaSportiva.getStadi().toArray(new Stadio[1]));
+				JComboBox<Stadio> stadiums = new JComboBox<Stadio>(stadi.toArray(new Stadio[stadi.size()]));
 
 				JButton filtraButton = new JButton("Filtra");
 
@@ -415,44 +420,6 @@ public class Window extends JFrame implements Serializable {
 		filterPanel.add(filterRadioButtonsPanel);
 		filterPanel.add(comboBoxButtonsPanel);
 
-		/*
-		 * filterPanel.add(new JLabel("Settimana: "));
-		 * 
-		 * JComboBox<Week> weeks = new
-		 * JComboBox<Week>(Week.getNextYearWeeks().toArray(new Week[53]));
-		 * 
-		 * filterPanel.add(weeks);
-		 */
-
-		/*
-		 * JButton filtraButton = new JButton("Filtra");
-		 * 
-		 * filtraButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * 
-		 * @SuppressWarnings("unchecked") TableRowSorter<PartitaTableModel>
-		 * sorter = (TableRowSorter<PartitaTableModel>) partitaTable
-		 * .getRowSorter(); sorter.setRowFilter( new PartitaRowFilter(new
-		 * MatchByWeekFilter(((Week) weeks.getSelectedItem()).getStart()))); }
-		 * });
-		 * 
-		 * 
-		 * 
-		 * JButton resetButton = new JButton("Reset");
-		 * 
-		 * resetButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * 
-		 * @SuppressWarnings("unchecked") TableRowSorter<PartitaTableModel>
-		 * sorter = (TableRowSorter<PartitaTableModel>) partitaTable
-		 * .getRowSorter(); sorter.setRowFilter(null); } });
-		 * 
-		 * 
-		 * filterPanel.add(filtraButton); filterPanel.add(resetButton);
-		 */
-
 		this.partitePanel.add(filterPanel, BorderLayout.NORTH);
 
 		this.tabbedPane = new ClosableTabbedPane();
@@ -462,12 +429,44 @@ public class Window extends JFrame implements Serializable {
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.LIGHT_GRAY);
-		JMenu partiteMenu = new JMenu("Partite");
-		JMenuItem newPartitaItem = new JMenuItem("New");
 
-		partiteMenu.add(newPartitaItem);
-		menuBar.add(partiteMenu);
-		// this.setJMenuBar(menuBar);
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setMnemonic('S');
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		saveMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Window.this.storeStrutturaSportiva();
+			}
+		});
+		fileMenu.add(saveMenuItem);
+
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.setMnemonic('E');
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		exitMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Window.this.dispose();
+			}
+		});
+
+		fileMenu.add(exitMenuItem);
+
+		menuBar.add(fileMenu);
+
+		/************************************************************************************/
+		JMenu showMenu = new JMenu("Visualizza");
+		JMenuItem showPrenotations = new JMenuItem("Prenotazioni");
+		JMenuItem showPurchases = new JMenuItem("Acquisti");
+		showMenu.add(showPrenotations);
+		showMenu.add(showPurchases);
+		menuBar.add(showMenu);
+
+		this.setJMenuBar(menuBar);
 		this.revalidate();
 	}
 
@@ -617,7 +616,7 @@ public class Window extends JFrame implements Serializable {
 
 							@Override
 							protected StadiumScrollPane doInBackground() throws Exception {
-								//System.out.println(SwingUtilities.isEventDispatchThread());
+								// System.out.println(SwingUtilities.isEventDispatchThread());
 								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
 										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
@@ -627,7 +626,7 @@ public class Window extends JFrame implements Serializable {
 
 							@Override
 							protected void done() {
-								//System.out.println(SwingUtilities.isEventDispatchThread());
+								// System.out.println(SwingUtilities.isEventDispatchThread());
 								try {
 									Window.this.tabbedPane.addTab("Stadio", get());
 									Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);

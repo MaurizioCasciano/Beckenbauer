@@ -7,15 +7,36 @@ import java.util.GregorianCalendar;
 
 public class Week {
 
+	/**
+	 * Crea un oggetto Week rappresentante una settimana.
+	 * 
+	 * @param start
+	 *            La data di inizio della settimana.
+	 * @param end
+	 *            La data di fine della settimana.
+	 * @author Maurizio
+	 */
 	public Week(GregorianCalendar start, GregorianCalendar end) {
 		this.start = start;
 		this.end = end;
 	}
 
+	/**
+	 * Restituisce la data di inizio di questa settimana.
+	 * 
+	 * @return La data di inizio di questa settimana.
+	 * @author Maurizio
+	 */
 	public GregorianCalendar getStart() {
 		return this.start;
 	}
 
+	/**
+	 * Restituisce la data di fine di questa settimana.
+	 * 
+	 * @return La data di fine di questa settimana.
+	 * @author Maurizio
+	 */
 	public GregorianCalendar getEnd() {
 		return this.end;
 	}

@@ -1,9 +1,9 @@
 package struttura.filters;
 
-import struttura.PrenotazioneV2;
+import struttura.Prenotazione;
 
 public interface PrenotationFilter {
 	
-	public boolean accept(PrenotazioneV2 prenotazione);
+	public boolean accept(Prenotazione prenotazione);
 
 }

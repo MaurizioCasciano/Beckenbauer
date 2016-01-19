@@ -109,6 +109,11 @@ public class DateTimePicker extends JXDatePicker implements Serializable {
 		this.updateTimeSpinnerValue();
 	}
 
+	/**
+	 * Restituisce il {@link JPanel} utilizzato in fondo al popup. Questa
+	 * implementazione rivisitata mostra un {@link JSpinner} tramite cui è
+	 * possibile modificare anche l'ora relativa alla data selezionata.
+	 */
 	@Override
 	public JPanel getLinkPanel() {
 		super.getLinkPanel();

@@ -105,6 +105,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 	public void setCapienzaStadio(int nuovaCapienza) {
 		this.capienzaDesiderataStadio = nuovaCapienza;
+		this.init();
 	}
 
 	public int getID() {

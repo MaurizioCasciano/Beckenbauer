@@ -12,7 +12,7 @@ import struttura.Stadio;
 public class PartitaTableModel extends RowObjectTableModel<Partita>implements Serializable {
 
 	private static final long serialVersionUID = 6082073225853493069L;
-	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Data" };
+	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Capienza Stadio", "Data" };
 	private Mode mode;
 
 	public PartitaTableModel(Mode mode) {
@@ -22,7 +22,8 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 		setColumnClass(0, Squadra.class);
 		setColumnClass(1, Squadra.class);
 		setColumnClass(2, Stadio.class);
-		setColumnClass(3, GregorianCalendar.class);
+		setColumnClass(3, Integer.class);
+		setColumnClass(4, GregorianCalendar.class);
 	}
 
 	public PartitaTableModel(Mode mode, ArrayList<Partita> partite) {
@@ -32,7 +33,8 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 		setColumnClass(0, Squadra.class);
 		setColumnClass(1, Squadra.class);
 		setColumnClass(2, Stadio.class);
-		setColumnClass(3, GregorianCalendar.class);
+		setColumnClass(3, Integer.class);
+		setColumnClass(4, GregorianCalendar.class);
 	}
 
 	@Override
@@ -91,6 +93,8 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 		case 2:
 			return partita.getStadio();
 		case 3:
+			return partita.getStadio().getCapienzaEffettiva();
+		case 4:
 			return partita.getData();
 		default:
 			return null;
@@ -112,6 +116,9 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 			partita.setStadio((Stadio) value);
 			break;
 		case 3:
+			partita.getStadio().setCapienzaStadio((int) value);
+			break;
+		case 4:
 			partita.setData((GregorianCalendar) value);
 			break;
 		}

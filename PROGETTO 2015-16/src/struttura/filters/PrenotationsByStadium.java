@@ -2,7 +2,7 @@ package struttura.filters;
 
 import java.io.Serializable;
 
-import struttura.PrenotazioneV2;
+import struttura.Prenotazione;
 import struttura.Stadio;
 
 public class PrenotationsByStadium implements PrenotationFilter, Serializable{
@@ -12,7 +12,7 @@ public class PrenotationsByStadium implements PrenotationFilter, Serializable{
 	}
 	
 	@Override
-	public boolean accept(PrenotazioneV2 prenotazione) {
+	public boolean accept(Prenotazione prenotazione) {
 		boolean result = false;
 		
 		if(prenotazione.getBigliettoPrenotato().getPartita().getStadio().equals(this.stadio)){
