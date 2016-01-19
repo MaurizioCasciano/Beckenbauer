@@ -29,6 +29,8 @@ public class Biglietto implements Serializable {
 		this.IDBiglietto = ++IDCounter;
 		
 		this.strutturaSelezionata = stru;
+		
+		this.calcolaPrezzo();
 	}
 
 	/**
@@ -116,10 +118,25 @@ public class Biglietto implements Serializable {
 		
 		double[] scontiMassimi = {maxScontoPartita, maxScontoGiorno, maxScontoStadio};
 		Arrays.sort(scontiMassimi);
-		
 		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
 		
-		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto); // maxSconto sarà compreso tra 0,01 e 1,00
+		/*System.out.println("Verifica Sconto su Biglietto");
+		System.out.println("maxScontoPartita " + maxScontoPartita);
+		System.out.println("maxScontoStadio " + maxScontoStadio);
+		System.out.println("maxScontoGiorno " + maxScontoGiorno);
+		
+		/*double maxSconto = 0;
+		if(maxScontoPartita <= maxScontoStadio)
+			maxSconto = maxScontoStadio;
+		else 
+			maxSconto = maxScontoPartita;
+		
+		if(maxSconto <= maxScontoGiorno)
+			maxSconto = maxScontoGiorno; 
+			
+		System.out.println("maxSconto " + maxSconto);
+		System.out.println("Fine Verifica Biglietto"); */
+		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto); 
 		
 		this.prezzo = prezzoFinale;
 		
@@ -213,7 +230,8 @@ public class Biglietto implements Serializable {
 	private StrutturaSportiva strutturaSelezionata;
 
 	// Iteratore
-	private static int IDCounter = 1;
+	private static int IDCounter = 0;
 	
 	private static final long serialVersionUID = -6677866736549225712L;
+	
 }
