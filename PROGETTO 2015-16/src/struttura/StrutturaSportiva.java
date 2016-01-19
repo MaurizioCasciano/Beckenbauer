@@ -130,7 +130,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            La prenotazione da inserire.
 	 * @author Gaetano Antonucci
 	 */
-	public void addPrenotazione(PrenotazioneV2 pren) {
+	public void addPrenotazione(Prenotazione pren) {
 
 		if (this.prenotazioni.contains(pren)) {
 			throw new AlreadyExistsObjectException("Prenotazione gia' presente !!!");
@@ -229,7 +229,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @return ArrayList<PrenotazioneV2> con tutte le prenotazioni.
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<PrenotazioneV2> getPrenotazioni() {
+	public ArrayList<Prenotazione> getPrenotazioni() {
 		return this.prenotazioni;
 	}
 
@@ -241,8 +241,8 @@ public class StrutturaSportiva implements Serializable {
 	 * @return ArrayList<PrenotazioneV2> con le prenotazioni ottenute.
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<PrenotazioneV2> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni) {
-		ArrayList<PrenotazioneV2> filteredByChoice = new ArrayList<>();
+	public ArrayList<Prenotazione> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni) {
+		ArrayList<Prenotazione> filteredByChoice = new ArrayList<>();
 
 		for (int i = 0; i < this.prenotazioni.size(); i++) {
 			if (filtroPrenotazioni.accept(this.prenotazioni.get(i))) {
@@ -297,7 +297,7 @@ public class StrutturaSportiva implements Serializable {
 	public boolean verificaPrenotazione(Cliente clt, Partita prt) {
 		boolean result = false;
 
-		for (PrenotazioneV2 prenotazione : this.prenotazioni) {
+		for (Prenotazione prenotazione : this.prenotazioni) {
 			if ((prenotazione.getBigliettoPrenotato().getCliente().equals(clt))
 					&& (prenotazione.getBigliettoPrenotato().getPartita().equals(prt))) {
 				result = true;
@@ -369,7 +369,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @return boolean che indica la validita'
 	 * @author MaurizioCasciano & GaetanoAntonucci
 	 */
-	public boolean verificaValiditaPrenotazione(PrenotazioneV2 prenotazione) {
+	public boolean verificaValiditaPrenotazione(Prenotazione prenotazione) {
 		boolean result = false;
 
 		GregorianCalendar dataAttuale = new GregorianCalendar();
@@ -439,6 +439,6 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
 	private ArrayList<Sconti> sconti;
-	private ArrayList<PrenotazioneV2> prenotazioni;
+	private ArrayList<Prenotazione> prenotazioni;
 	private ArrayList<Acquisto> acquisti;
 }

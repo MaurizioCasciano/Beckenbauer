@@ -16,7 +16,7 @@ public class Acquisto implements Serializable {
 		
 	}
 	
-	public Acquisto(PrenotazioneV2 prenotazione){
+	public Acquisto(Prenotazione prenotazione){
 		
 		/* TO-DO:
 		 * Quando si acquista da prenotazione, la prenotazione va poi "cancellata" altrimenti si
