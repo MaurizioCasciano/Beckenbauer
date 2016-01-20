@@ -145,7 +145,7 @@ public class Partita implements Serializable {
 	private GregorianCalendar data;
 
 
-	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E  dd/MM/yyyy  HH:mm");
 	
 	private static final long serialVersionUID = 1548727127680681004L;
 	

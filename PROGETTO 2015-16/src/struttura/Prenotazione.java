@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.GregorianCalendar;
 
+import user.Cliente;
+
 public class Prenotazione implements Serializable {
 
 	public Prenotazione(GregorianCalendar dataPrenotazione, Biglietto bigliettoPrenotato) {
@@ -11,10 +13,34 @@ public class Prenotazione implements Serializable {
 		this.dataPrenotazione = dataPrenotazione;
 		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
 		this.bigliettoPrenotato = bigliettoPrenotato;
-		
+
 		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO);
 	}
-	
+
+	public Cliente getCliente() {
+		return this.bigliettoPrenotato.getCliente();
+	}
+
+	public Partita getPartita() {
+		return this.bigliettoPrenotato.getPartita();
+	}
+
+	public Settore getSettore() {
+		return this.bigliettoPrenotato.getSettore();
+	}
+
+	public Stadio getStadio() {
+		return this.getSettore().getStadio();
+	}
+
+	public Posto getPosto() {
+		return this.bigliettoPrenotato.getPosto();
+	}
+
+	public int getFila() {
+		return this.bigliettoPrenotato.getFila();
+	}
+
 	/**
 	 * @return the iDPrenotazione
 	 */
@@ -46,44 +72,44 @@ public class Prenotazione implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		boolean result = false;
-		
+
 		if (this == obj)
 			return true;
-		
+
 		if (obj == null)
 			return false;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Prenotazione other = (Prenotazione) obj;
-		
-		if(this.bigliettoPrenotato.equals(other.bigliettoPrenotato)){
+
+		if (this.bigliettoPrenotato.equals(other.bigliettoPrenotato)) {
 			result = true;
 		}
-		
+
 		return result;
-		
+
 	}
-	
 
 	@Override
 	public String toString() {
-		return ("IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString +
-				"\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: " + this.bigliettoPrenotato.getCliente().getCognome() 
-				+ " " + this.bigliettoPrenotato.getCliente().getNome());
+		return ("IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString
+				+ "\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
+				+ this.bigliettoPrenotato.getCliente().getCognome() + " "
+				+ this.bigliettoPrenotato.getCliente().getNome());
 	}
 
 	private int IDPrenotazione;
 	private GregorianCalendar dataPrenotazione;
 	private String dataPrenotazioneString;
 	private Biglietto bigliettoPrenotato;
-	
+
 	private static final boolean IS_PRENOTATO = true;
-	
-	//Iteratore
+
+	// Iteratore
 	private static int IDCounter = 0;
-	
+
 	private static final long serialVersionUID = -5821307391776070857L;
-	
+
 }

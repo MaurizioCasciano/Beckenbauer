@@ -602,6 +602,46 @@ public class Window extends JFrame implements Serializable {
 				// this.prenota.setEnabled(false);
 				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
 				this.acquista = new JMenuItem("Acquista");
+				this.acquista.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+
+						/*
+						 * Esegue la creazione dello Stadio su un thread in
+						 * background in modo da non bloccare l'interfaccia
+						 * grafica.
+						 */
+						new SwingWorker<StadiumScrollPane, Void>() {
+
+							@Override
+							protected StadiumScrollPane doInBackground() throws Exception {
+								// System.out.println(SwingUtilities.isEventDispatchThread());
+								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
+										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
+										Window.this.partitaTable.getSelectedPartita());
+								return stadiumScrollPane;
+							}
+
+							@Override
+							protected void done() {
+								// System.out.println(SwingUtilities.isEventDispatchThread());
+								try {
+									Window.this.tabbedPane.addTab("Stadio", get());
+									Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+									Window.this.tabbedPane.revalidate();
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								} catch (ExecutionException e) {
+									e.printStackTrace();
+								} finally {
+									Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+								}
+							}
+
+						}.execute();
+					}
+				});
 				/*****************************************************************/
 				this.prenota.addActionListener(new ActionListener() {
 					@Override

@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import struttura.Partita;
+import struttura.Settore;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
@@ -35,6 +36,9 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 		this.postiPerSettore = this.partita.getStadio().getPostiPerSettore();
 		this.numeroFilePerSettore = this.partita.getStadio().getNumeroFilePerSettore();
 		this.postiPerFila = this.partita.getStadio().getPostiPerFila();
+
+		this.settore = new Settore(this.partita.getStadio(), this.nomeSettore, this.postiPerSettore,
+				this.numeroFilePerSettore);
 
 		this.labelPanelCard = new JPanel(new BorderLayout());
 
@@ -129,6 +133,10 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 		((CardLayout) getLayout()).next(this);
 	}
 
+	public Settore getSettore() {
+		return this.settore;
+	}
+
 	public int getSeats() {
 		return postiPerSettore;
 	}
@@ -138,6 +146,7 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 	private Cliente cliente;
 	private Partita partita;
 	private String nomeSettore;
+	private Settore settore;
 	private int postiPerSettore, numeroFilePerSettore, postiPerFila;
 	private JPanel labelPanelCard, seatsPanelCard;
 	private JLabel nameLabel;

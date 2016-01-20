@@ -64,14 +64,14 @@ public class Posto {
 	 * @return the fila
 	 */
 	public int getFila() {
-		return fila;
+		return this.fila;
 	}
 
 	/**
 	 * @return the posto
 	 */
 	public int getPosto() {
-		return posto;
+		return this.posto;
 	}
 
 	@Override
