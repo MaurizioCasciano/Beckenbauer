@@ -23,6 +23,16 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 * @author Maurizio
 	 */
 	private void init() {
+
+		/*
+		 * Necessità di re-inizializzare i due caratteri, altrimenti, con lo
+		 * stesso stadio, alla visualizzazione della seconda partita i settori
+		 * dello stadio non partono da AA (Da testare ulteriormente, per capirne
+		 * il reale motivo).
+		 */
+		firstChar = 'A';
+		secondChar = 'A';
+
 		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
 		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
@@ -81,7 +91,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 				 */
 				settore.addPosto(posto);
 
-				//System.out.println(posto);
+				// System.out.println(posto);
 			}
 
 			/*
