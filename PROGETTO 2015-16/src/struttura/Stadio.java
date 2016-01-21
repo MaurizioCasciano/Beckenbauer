@@ -2,6 +2,7 @@
 package struttura;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import graphics.DivisibleIntoSectors;
 
@@ -22,6 +23,16 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 * @author Maurizio
 	 */
 	private void init() {
+
+		/*
+		 * Necessità di re-inizializzare i due caratteri, altrimenti, con lo
+		 * stesso stadio, alla visualizzazione della seconda partita i settori
+		 * dello stadio non partono da AA (Da testare ulteriormente, per capirne
+		 * il reale motivo).
+		 */
+		firstChar = 'A';
+		secondChar = 'A';
+
 		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
 		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
@@ -38,15 +49,67 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		 */
 		this.postiPerFila = (int) Math.ceil((double) this.postiPerSettore / (double) this.filePerSettore);
 
-		System.out.println("PostiPerSettore = " + this.postiPerSettore);
-		System.out.println("FilePerSettore = " + this.filePerSettore);
-		System.out.println("CapienzaDesiderata = " + this.capienzaDesiderataStadio);
-		System.out.println("CapienzaEffettiva = " + this.capienzaEffettiva);
-		System.out.println("PostiPerFila = " + this.postiPerFila);
+		// System.out.println("PostiPerSettore = " + this.postiPerSettore);
+		// System.out.println("FilePerSettore = " + this.filePerSettore);
+		// System.out.println("CapienzaDesiderata = " +
+		// this.capienzaDesiderataStadio);
+		// System.out.println("CapienzaEffettiva = " + this.capienzaEffettiva);
+		// System.out.println("PostiPerFila = " + this.postiPerFila);
 		/*********************************************************/
-		System.out.println("PostiPerFilaDouble = " + (double) this.postiPerSettore / (double) this.filePerSettore);
-		System.out.println("PostiPerFila arrotondati = "
-				+ Math.ceil((double) this.postiPerSettore / (double) this.filePerSettore));
+		// System.out.println("PostiPerFilaDouble = " + (double)
+		// this.postiPerSettore / (double) this.filePerSettore);
+		// System.out.println("PostiPerFila arrotondati = " + Math.ceil((double)
+		// this.postiPerSettore / (double) this.filePerSettore));
+
+		this.settori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
+
+		/*
+		 * Crea i settori dello stadio.
+		 */
+		for (int numeroSettore = 0; numeroSettore < DivisibleIntoSectors.NUMERO_SETTORI; numeroSettore++) {
+			/*
+			 * Crea il settore corrente.
+			 */
+			Settore settore = new Settore(Stadio.this, this.getNextNomeSettore(), this.postiPerSettore,
+					this.filePerSettore);
+
+			/*
+			 * Crea i posti per il settore.
+			 */
+			for (int numeroFila = 0, numeroPosto = 1; numeroPosto <= this.postiPerSettore; numeroPosto++) {
+
+				if (numeroPosto % this.postiPerFila == 1) {
+					numeroFila++;
+				}
+
+				/*
+				 * Crea il posto corrente.
+				 */
+				Posto posto = new Posto(this, settore, numeroFila, numeroPosto);
+				/*
+				 * Aggiunge il posto corrente al settore corrente.
+				 */
+				settore.addPosto(posto);
+
+				// System.out.println(posto);
+			}
+
+			/*
+			 * Aggiunge il settore corrente all'ArrayList di setttori.
+			 */
+			this.settori.add(settore);
+		}
+	}
+
+	/**
+	 * Restituisce una copia dei settori dello stadio.
+	 * 
+	 * @return
+	 * @author Maurizio
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<Settore> getSettoriClone() {
+		return (ArrayList<Settore>) this.settori.clone();
 	}
 
 	@Override
@@ -150,6 +213,31 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		return this.nome;
 	}
 
+	/**
+	 * Genera il nome del prossimo Settore da creare
+	 * 
+	 * @return
+	 * @author Maurizio
+	 */
+	public String getNextNomeSettore() {
+
+		String nomeSettore = "Settore ";
+
+		if (this.secondChar <= 'Z') {
+			nomeSettore += this.firstChar;
+			nomeSettore += this.secondChar++;
+		} else if (this.secondChar == 'Z' + 1) {
+			this.secondChar = 'A';
+			this.firstChar++;
+
+			nomeSettore += this.firstChar;
+			nomeSettore += this.secondChar;
+		}
+
+		return nomeSettore;
+	}
+
+	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;
 	private int capienzaDesiderataStadio;
@@ -159,8 +247,11 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private int postiPerFila;
 	private int ID_Stadio;
 	private double prezzoPerPartita;
-
+	private ArrayList<Settore> settori;
 	private static final int SETTORI = 620;
-
 	private static int ID_Counter = 1000;
+
+	public static void main(String[] args) {
+		new Stadio("", 80000, 10);
+	}
 }

@@ -137,6 +137,7 @@ public class PartitaTable extends JTable implements Serializable {
 		int viewIndex = this.getSelectedRow();
 		// System.out.println("viewIndex = " + viewIndex);
 
+		//NON SI VERIFICA MAI PERCHé C'è il rightclickselector
 		if (viewIndex == -1) {
 			viewIndex = 0;
 		}

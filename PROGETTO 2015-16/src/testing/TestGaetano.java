@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.JFrame;
+
 import struttura.*;
 import struttura.filters.*;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
+import graphics.testing.*;
 
+@SuppressWarnings("unused")
 public class TestGaetano {
 	
 	public static void main(String[] args) throws AlreadyRegisteredUserException {
@@ -27,6 +31,7 @@ public class TestGaetano {
 		struct.addStadio(sanSiro);
 		
 		Stadio arechi = new Stadio("Arechi", 31300, 10.00);
+		struct.addStadio(arechi);
 		
 		/**** Squadre ****/
 		Squadra roma = new Squadra("Roma");
@@ -234,7 +239,20 @@ public class TestGaetano {
 		/**** Verifica Prenotazioni Scadute ****/
 		// Le prenotazioni per la partita RomaJuventus scadono alle ore 07:00 del 19/01/2016
 		// quindi l'ultima prenotazione rimasta deve essere cancellata.
-		for(int i = 0; i < struct.getPrenotazioni().size(); i++){ 
+		
+		System.out.println("Prenotazioni presenti: ");
+		for(Prenotazione pren: struct.getPrenotazioni()){
+			System.out.println(pren.getBigliettoPrenotato().getIDBiglietto());
+		}
+		
+		struct.cancellaPrenotazioniScadute();
+		
+		System.out.println("Prenotazioni dopo cancellaPrenotazioniScadute: ");
+		for(Prenotazione pren: struct.getPrenotazioni()){
+			System.out.println(pren.getBigliettoPrenotato().getIDBiglietto());
+		}
+		
+		/*for(int i = 0; i < struct.getPrenotazioni().size(); i++){ 
 			System.out.println(struct.getPrenotazioni().get(i));
 			
 			if(!struct.verificaValiditaPrenotazione(struct.getPrenotazioni().get(i))){
@@ -243,7 +261,7 @@ public class TestGaetano {
 				
 				i--;
 			}
-		}
+		}*/
 		
 		System.out.println("\nPrenotazioni presenti dopo verifica: " + struct.getPrenotazioni().size() + " [Expected: 0]");
 		
@@ -347,6 +365,19 @@ public class TestGaetano {
 		
 		System.out.println("\n Incasso per stadio: " + arechi);
 		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(arechi))) + " [Exp: 18.80]");
+		
+		/******* Grafica Sconti *******/
+		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
+		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
+		//JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
+		
+		/******* Modifica Dati Stadi ******/
+		//JFrame frameStadi = new ModificaDatiStadioFrame(struct);
+		
+		/*Partita prova = new Partita(juventus, roma, olimpico, new GregorianCalendar());
+		Acquisto acqProva = new Acquisto(gaetano, prova, tribunaOlimpico, 3, 2, struct);
+		
+		System.out.println("Prezzo: " + acqProva.getBiglietto().getPrezzo());*/
 		
 	}
 
