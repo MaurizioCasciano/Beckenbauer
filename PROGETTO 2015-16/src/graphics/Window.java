@@ -619,7 +619,7 @@ public class Window extends JFrame implements Serializable {
 								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
 										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
-										Window.this.partitaTable.getSelectedPartita());
+										Window.this.partitaTable.getSelectedPartita(), StadiumMode.ACQUISTO);
 								return stadiumScrollPane;
 							}
 
@@ -660,7 +660,7 @@ public class Window extends JFrame implements Serializable {
 								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
 										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
-										Window.this.partitaTable.getSelectedPartita());
+										Window.this.partitaTable.getSelectedPartita(), StadiumMode.PRENOTAZIONE);
 								return stadiumScrollPane;
 							}
 

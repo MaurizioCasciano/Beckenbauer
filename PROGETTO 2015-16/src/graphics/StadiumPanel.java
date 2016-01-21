@@ -18,6 +18,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import struttura.Partita;
+import struttura.Settore;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
@@ -40,8 +42,9 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
 	 */
-	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita) {
-		this(strutturaSportiva, cliente, partita, CAPIENZA_DEFAULT);
+	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
+			StadiumMode stadiumMode) {
+		this(strutturaSportiva, cliente, partita, stadiumMode, CAPIENZA_DEFAULT);
 	}
 
 	/**
@@ -52,12 +55,16 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * @param capienza
 	 *            La capienza dello stadio.
 	 */
-	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, int capienza) {
+	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, StadiumMode stadiumMode,
+			int capienza) {
 		super(new GridLayout(STADIUM_PANEL_ROWS, STADIUM_PANEL_COLUMNS));
 		this.strutturaSportiva = strutturaSportiva;
 		this.cliente = cliente;
 		this.partita = partita;
+		this.stadiumMode = stadiumMode;
 		this.capienza = capienza;
+		this.settori = this.partita.getSettori();
+
 		this.init();
 	}
 
@@ -123,7 +130,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-						this.partita, this.getNextNomeSettore());
+						this.partita, this.getNextSettore(), this.stadiumMode);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -184,7 +191,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-					this.partita, this.getNextNomeSettore());
+					this.partita, this.getNextSettore(), this.stadiumMode);
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -227,7 +234,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-					this.partita, this.getNextNomeSettore());
+					this.partita, this.getNextSettore(), this.stadiumMode);
 
 			settoreButton.add(settoreStadioPanel);
 
@@ -273,7 +280,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
 				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-						this.partita, this.getNextNomeSettore());
+						this.partita, this.getNextSettore(), this.stadiumMode);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -381,8 +388,26 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.capienza = capienza;
 	}
 
+	public StadiumMode getStadiumMode() {
+		return this.stadiumMode;
+	}
+
+	/**
+	 * Restituisce il prossimo Settore della lista.
+	 * 
+	 * @return Il prossimo settore della lista.
+	 * @author Maurizio
+	 */
+	public Settore getNextSettore() {
+		this.numeroSettori = (this.settoreIndex == DivisibleIntoSectors.NUMERO_SETTORI)
+				? this.settoreIndex % DivisibleIntoSectors.NUMERO_SETTORI : this.settoreIndex;
+
+		return this.settori.get(settoreIndex++);
+	}
+
 	/**
 	 * Genera il nome del prossimo Settore da creare
+	 * 
 	 * @return
 	 * @author Maurizio
 	 */
@@ -404,6 +429,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		return nomeSettore;
 	}
 
+	private int settoreIndex = 0;
 	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -1931003973640128793L;
 	private StrutturaSportiva strutturaSportiva;
@@ -411,7 +437,9 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	private Partita partita;
 	private JPanel northPanel, centrePanel, southPanel;
 	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;
+	private ArrayList<Settore> settori;
 
+	private StadiumMode stadiumMode;
 	private int capienza;
 	public static final int CAPIENZA_DEFAULT = 50000;
 	private int numeroSettori;
@@ -499,10 +527,11 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Squadra sq1 = new Squadra(""), sq2 = new Squadra("");
-		Stadio stadio = new Stadio("", 200000, 30);
+		Stadio stadio = new Stadio("", 81277, 30);
 		Partita p = new Partita(sq1, sq2, stadio, new GregorianCalendar());
-		
-		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""), new Cliente("", "", "", "P@ssw0rd"), p));
+
+		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""),
+				new Cliente("", "", "", "P@ssw0rd"), p, StadiumMode.ACQUISTO));
 
 		frame.add(scrollPane);
 		frame.pack();

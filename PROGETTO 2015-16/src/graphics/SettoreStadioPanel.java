@@ -2,7 +2,6 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -13,32 +12,31 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.Serializable;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import struttura.Partita;
+import struttura.Posto;
 import struttura.Settore;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
 public class SettoreStadioPanel extends JPanel implements Serializable {
 
-	public SettoreStadioPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
-			String nomeSetore) {
+	public SettoreStadioPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, Settore settore,
+			StadiumMode stadiumMode) {
 		super(new CardLayout());
 
 		this.strutturaSportiva = strutturaSportiva;
 		this.cliente = cliente;
 		this.partita = partita;
-		this.nomeSettore = nomeSetore;
 
-		this.postiPerSettore = this.partita.getStadio().getPostiPerSettore();
+		this.stadiumMode = stadiumMode;
+		this.settore = settore;
+		this.nomeSettore = this.settore.getNomeSettore();
+
+		// this.postiPerSettore = this.partita.getStadio().getPostiPerSettore();
 		this.numeroFilePerSettore = this.partita.getStadio().getNumeroFilePerSettore();
-		this.postiPerFila = this.partita.getStadio().getPostiPerFila();
-
-		this.settore = new Settore(this.partita.getStadio(), this.nomeSettore, this.postiPerSettore,
-				this.numeroFilePerSettore);
+		// this.postiPerFila = this.partita.getStadio().getPostiPerFila();
 
 		this.labelPanelCard = new JPanel(new BorderLayout());
 
@@ -109,16 +107,22 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 		// Pannello dei posti
 		this.seatsPanelCard = new JPanel(new GridLayout(this.numeroFilePerSettore, 0, 3, 3));
 
-		int numeroFila = 0;
+		/*
+		 * int numeroFila = 0;
+		 * 
+		 * for (int numeroPosto = 1; numeroPosto <= this.postiPerSettore;
+		 * numeroPosto++) {
+		 * 
+		 * if (numeroPosto % this.postiPerFila == 1) { numeroFila++; }
+		 * 
+		 * this.seatsPanelCard.add(new StadiumSeatButton(this.strutturaSportiva,
+		 * this.cliente, this.partita, numeroFila, numeroPosto, Color.GREEN,
+		 * StadiumMode.PRENOTAZIONE)); }
+		 */
 
-		for (int numeroPosto = 1; numeroPosto <= this.postiPerSettore; numeroPosto++) {
-
-			if (numeroPosto % this.postiPerFila == 1) {
-				numeroFila++;
-			}
-
-			this.seatsPanelCard.add(new StadiumSeatButton(this.strutturaSportiva, this.cliente, this.partita,
-					numeroFila, numeroPosto, Color.GREEN));
+		for (Posto p : this.settore.getPosti()) {
+			this.seatsPanelCard.add(
+					new StadiumSeatButton(this.strutturaSportiva, this.cliente, this.partita, p, this.stadiumMode));
 		}
 
 		this.add(this.labelPanelCard);
@@ -147,7 +151,8 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 	private Partita partita;
 	private String nomeSettore;
 	private Settore settore;
-	private int postiPerSettore, numeroFilePerSettore, postiPerFila;
+	private StadiumMode stadiumMode;
+	private int postiPerSettore, numeroFilePerSettore;
 	private JPanel labelPanelCard, seatsPanelCard;
 	private JLabel nameLabel;
 }

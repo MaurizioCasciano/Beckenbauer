@@ -1,49 +1,103 @@
 package struttura;
 
-public class Posto {
-	
-	public Posto(Stadio stadio, Settore settore, int fila, int posto) {
-		this.stadio = stadio;
-		this.settore = settore;
-		this.fila = fila;
-		this.posto = posto;
+import java.io.Serializable;
+
+/**
+ * 
+ * 
+ * @author Maurizio & Gaetano
+ */
+public class Posto implements Serializable {
+
+	private static final long serialVersionUID = 7526566854555308360L;
+
+	/**
+	 * Crea un nuovo {@link Posto} impostando lo stato a
+	 * {@link SeatStatus#LIBERO}.
+	 * 
+	 * @param stadio
+	 *            Lo stadio a cui appartiene questo Posto.
+	 * @param settore
+	 *            Il settore a cui appartiene questo Posto.
+	 * @param numeroFila
+	 *            Il numero della fila in cui è situato questo Posto.
+	 * @param numeroPosto
+	 *            Il numero di questo Posto.
+	 * @author Maurizio
+	 * @author Gaetano
+	 */
+	public Posto(Stadio stadio, Settore settore, int numeroFila, int numeroPosto) {
+		this(stadio, settore, numeroFila, numeroPosto, SeatStatus.LIBERO);
 	}
-	
-	public Posto(Stadio stadio, Settore settore, int fila, int posto, boolean prenotato, boolean venduto) {
+
+	/**
+	 * Crea un nuovo {@link Posto}.
+	 * 
+	 * @param stadio
+	 *            Lo stadio a cui appartiene questo Posto.
+	 * @param settore
+	 *            Il settore a cui appartiene questo Posto.
+	 * @param numeroFila
+	 *            Il numero della fila in cui è situato questo Posto.
+	 * @param numeroPosto
+	 *            Il numero di questo Posto.
+	 * @param stato
+	 *            Lo stato di questo Posto.
+	 * @author Maurizio
+	 * @author Gaetano
+	 */
+	public Posto(Stadio stadio, Settore settore, int numeroFila, int numeroPosto, SeatStatus stato) {
 		this.stadio = stadio;
 		this.settore = settore;
-		this.fila = fila;
-		this.posto = posto;
-		this.prenotato = prenotato;
-		this.venduto = venduto;
+		this.numeroFila = numeroFila;
+		this.numeroPosto = numeroPosto;
+		this.stato = stato;
+	}
+
+	public int getNumeroFila() {
+		return numeroFila;
+	}
+
+	public int getNumeroPosto() {
+		return numeroPosto;
+	}
+
+	public SeatStatus getStato() {
+		return this.stato;
+	}
+
+	public void setStato(SeatStatus seatStatus) {
+		this.stato = seatStatus;
 	}
 
 	/**
 	 * @return the prenotato
 	 */
 	public boolean isPrenotato() {
-		return prenotato;
+		return this.stato == SeatStatus.PRENOTATO;
 	}
 
 	/**
-	 * @param prenotato the prenotato to set
+	 * @param prenotato
+	 *            the prenotato to set
 	 */
 	public void setPrenotato(boolean prenotato) {
-		this.prenotato = prenotato;
+		this.stato = SeatStatus.PRENOTATO;
 	}
 
 	/**
 	 * @return the venduto
 	 */
 	public boolean isVenduto() {
-		return venduto;
+		return this.stato == SeatStatus.VENDUTO;
 	}
 
 	/**
-	 * @param venduto the venduto to set
+	 * @param venduto
+	 *            the venduto to set
 	 */
 	public void setVenduto(boolean venduto) {
-		this.venduto = venduto;
+		this.stato = SeatStatus.VENDUTO;
 	}
 
 	/**
@@ -64,28 +118,26 @@ public class Posto {
 	 * @return the fila
 	 */
 	public int getFila() {
-		return this.fila;
+		return this.numeroFila;
 	}
 
 	/**
 	 * @return the posto
 	 */
 	public int getPosto() {
-		return this.posto;
+		return this.numeroPosto;
 	}
 
 	@Override
 	public String toString() {
-		return "Posto [stadio=" + stadio + ", settore=" + settore + ", fila=" + fila + ", posto=" + posto
-				+ ", prenotato=" + prenotato + ", venduto=" + venduto + "]";
+		return this.getClass().getSimpleName() + " [stadio=" + stadio + ", settore=" + settore + ", fila=" + numeroFila
+				+ ", posto=" + numeroPosto + ", stato=" + stato + "]";
 	}
-
 
 	private Stadio stadio;
 	private Settore settore;
-	private int fila;
-	private int posto;
-	private boolean prenotato;
-	private boolean venduto;
+	private int numeroFila;
+	private int numeroPosto;
 
+	private SeatStatus stato;
 }
