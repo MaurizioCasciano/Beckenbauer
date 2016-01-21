@@ -134,6 +134,24 @@ public class Posto implements Serializable {
 				+ ", posto=" + numeroPosto + ", stato=" + stato + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Posto other = (Posto) obj;
+
+		if (this.stadio.equals(other.stadio) && this.settore.equals(other.settore)
+				&& this.numeroFila == other.numeroFila && this.numeroPosto == other.numeroPosto) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private Stadio stadio;
 	private Settore settore;
 	private int numeroFila;

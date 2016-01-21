@@ -530,8 +530,18 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		Stadio stadio = new Stadio("", 81277, 30);
 		Partita p = new Partita(sq1, sq2, stadio, new GregorianCalendar());
 
+		long start = System.currentTimeMillis();
+		
 		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""),
 				new Cliente("", "", "", "P@ssw0rd"), p, StadiumMode.ACQUISTO));
+		
+		long end = System.currentTimeMillis();
+		
+		long diff = end - start;
+		
+		System.out.println(diff/1000);
+		
+		
 
 		frame.add(scrollPane);
 		frame.pack();

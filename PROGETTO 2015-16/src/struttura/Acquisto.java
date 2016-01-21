@@ -116,7 +116,7 @@ public class Acquisto implements Serializable {
 
 		Acquisto other = (Acquisto) obj;
 
-		if (this.dataAcquisto.equals(other.dataAcquisto) && (this.biglietto.equals(other.biglietto)))
+		if (this.biglietto.equals(other.biglietto))
 			result = true;
 
 		return result;

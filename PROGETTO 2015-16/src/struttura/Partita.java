@@ -43,6 +43,24 @@ public class Partita implements Serializable {
 		return this.settori;
 	}
 
+	public void resetSeatStatus(Prenotazione prenotazione) {
+		Posto posto = prenotazione.getPosto();
+		Settore settore = posto.getSettore();
+
+		for (Settore s : this.settori) {
+			if (s.equals(settore)) {
+				for (Posto p : s.getPosti()) {
+					if (p.equals(posto)) {
+						p.setStato(SeatStatus.LIBERO);
+						break;
+					}
+				}
+
+				break;
+			}
+		}
+	}
+
 	/**
 	 * Restituisce la squadra che gioca in casa.
 	 * 

@@ -74,6 +74,25 @@ public class Settore implements Serializable{
 		return "Settore [stadio=" + stadio + ", nomeSettore=" + nomeSettore + ", numeroPosti=" + numeroPosti
 				+ ", numeroFile=" + numeroFile + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Settore other = (Settore) obj;
+		
+		if(this.stadio.equals(other.stadio) && this.nomeSettore.equals(other.nomeSettore) && this.numeroFile == other.numeroFile && this.numeroPosti == other.numeroPosti){
+			return true;
+		}
+		
+		return false;
+	}
+
+
 
 	private Stadio stadio;
 	private String nomeSettore;
