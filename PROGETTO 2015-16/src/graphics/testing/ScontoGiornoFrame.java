@@ -56,7 +56,7 @@ public class ScontoGiornoFrame extends JFrame implements Serializable{
 	}
 
 	public void createLabels(){
-		this.labelScegliPartita = new JLabel("Scegli Giorno: ");
+		this.labelScegliGiorno = new JLabel("Scegli Giorno: ");
 		this.labeleDataInizioValidità = new JLabel("Data Inizio Validita': ");
 		this.labelDataFineValidita = new JLabel("Data Fine Validita': ");
 		this.labelPercentualeSconto = new JLabel("Percentuale Sconto: ");
@@ -110,7 +110,7 @@ public class ScontoGiornoFrame extends JFrame implements Serializable{
 		this.mainPanel.setLayout(new BorderLayout());
 		
 		JPanel sceltaPanel = new JPanel();
-		sceltaPanel.add(this.labelScegliPartita);
+		sceltaPanel.add(this.labelScegliGiorno);
 		sceltaPanel.add(this.scegliGiorno);
 		
 		JPanel infoPanel = new JPanel();
@@ -141,7 +141,7 @@ public class ScontoGiornoFrame extends JFrame implements Serializable{
 	}
 	
 	private JPanel mainPanel;
-	private JLabel labelScegliPartita;
+	private JLabel labelScegliGiorno;
 	private JComboBox<DAYS_OF_WEEK> scegliGiorno;
 	private JLabel labeleDataInizioValidità;
 	private DateTimePicker dataInizioValidita;

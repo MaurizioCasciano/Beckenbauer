@@ -4,9 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,12 +18,11 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import calendar.DateTimePicker;
 import struttura.*;
 
-public class ScontoStadioFrame extends JFrame implements Serializable{
+public class ModificaDatiStadioFrame extends JFrame implements Serializable{
 
-	public ScontoStadioFrame(StrutturaSportiva s){
+	public ModificaDatiStadioFrame(StrutturaSportiva s){
 		
 		this.struct = s;
 		
@@ -35,7 +35,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 		
 		this.add(this.mainPanel);
 		
-		this.setTitle("Sconto su Stadio");
+		this.setTitle("Modifica Stadio");
 		this.setBounds(100, 200, 600, 200);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
@@ -45,50 +45,57 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 		ArrayList<Stadio> stadiDaInserire = struct.getStadi();
 		this.scegliStadio = new JComboBox<Stadio>(stadiDaInserire.toArray(new Stadio[stadiDaInserire.size()]));
 		this.scegliStadio.setSelectedIndex(0);
-	
+		
+		class StadioListener implements ItemListener {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				impostaValoriIniziali();
+			}
+		}
+		
+		ItemListener listener = new StadioListener();
+		this.scegliStadio.addItemListener(listener);
 	}
 
 	public void createLabels(){
 		this.labelScegliStadio = new JLabel("Scegli Stadio: ");
-		this.labeleDataInizioValidità = new JLabel("Data Inizio Validita': ");
-		this.labelDataFineValidita = new JLabel("Data Fine Validita': ");
-		this.labelPercentualeSconto = new JLabel("Percentuale Sconto: ");
+		this.labelCapienzaStadio = new JLabel("Capienza: ");
+		this.labelPrezzoPerPartita = new JLabel("Prezzo per Partita: ");
 	}
 	
 	public void createFields(){
-		this.dataInizioValidita = new DateTimePicker();
-		this.dataFineValidita = new DateTimePicker();
 		
-		SpinnerModel spinnerSconto = new SpinnerNumberModel(1.0, 1.0, 100.0, 0.5);
-		this.percentualeSconto = new JSpinner(spinnerSconto);
+		SpinnerModel spinnerCapienza = new SpinnerNumberModel(30000, 30000, 1000000, 1);
+		this.capienzaStadio = new JSpinner(spinnerCapienza);
+		
+		SpinnerModel spinnerPrezzo = new SpinnerNumberModel(10.00, 10.00, 100.00, 0.5);
+		this.prezzoPerPartita = new JSpinner(spinnerPrezzo);
+		
+		this.impostaValoriIniziali(); //chiamato per impostare i valori del primo stadio visualizzato
 	}
 	
 	public void createButtons(){
-		this.applicaSconto = new JButton("Applica Sconto");
+		this.applicaModifiche = new JButton("Applica Modifiche");
 		
 		class InserisciScontoListener implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GregorianCalendar dataInizio = new GregorianCalendar();
-				dataInizio.setTime(dataInizioValidita.getDate());
-				
-				GregorianCalendar dataFine = new GregorianCalendar();
-				dataFine.setTime(dataFineValidita.getDate());
 				
 				Stadio std = (Stadio) scegliStadio.getSelectedItem();
+				int capienza = (int) capienzaStadio.getValue();
+				double prezzo = (double) prezzoPerPartita.getValue();
 				
-				double sconto = (double) (percentualeSconto.getValue());
+				std.setCapienzaStadio(capienza);
+				std.setPrezzoPerPartita(prezzo);
 				
-				Sconti s = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, sconto, dataInizio, dataFine, std);
-				
-				struct.addSconto(s);
 				dispose();
 			}
 		}
 		
 		ActionListener listener = new InserisciScontoListener();
-		this.applicaSconto.addActionListener(listener);
+		this.applicaModifiche.addActionListener(listener);
 		
 		this.annulla = new JButton("Annulla");
 		this.annulla.addActionListener(new ActionListener(){
@@ -107,25 +114,20 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 		sceltaPanel.add(this.scegliStadio);
 		
 		JPanel infoPanel = new JPanel();
-		infoPanel.setLayout(new GridLayout(3, 1, 3, 3));
+		infoPanel.setLayout(new GridLayout(2, 1, 3, 3));
 		
-		JPanel div = new JPanel();
-		div.add(this.labeleDataInizioValidità);
-		div.add(this.dataInizioValidita);
-		infoPanel.add(div);
+		JPanel capienzaStd = new JPanel();
+		capienzaStd.add(this.labelCapienzaStadio);
+		capienzaStd.add(this.capienzaStadio);
+		infoPanel.add(capienzaStd);
 		
-		JPanel dfv = new JPanel();
-		dfv.add(this.labelDataFineValidita);
-		dfv.add(this.dataFineValidita);
-		infoPanel.add(dfv);
-		
-		JPanel ps = new JPanel();
-		ps.add(this.labelPercentualeSconto);
-		ps.add(this.percentualeSconto);
-		infoPanel.add(ps);
+		JPanel prezzoPartitaStd = new JPanel();
+		prezzoPartitaStd.add(this.labelPrezzoPerPartita);
+		prezzoPartitaStd.add(this.prezzoPerPartita);
+		infoPanel.add(prezzoPartitaStd);
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(this.applicaSconto);
+		buttonPanel.add(this.applicaModifiche);
 		buttonPanel.add(this.annulla);
 		
 		mainPanel.add(sceltaPanel, BorderLayout.NORTH);
@@ -133,19 +135,25 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
+	public void impostaValoriIniziali(){
+		this.stadioPerValoriIniziali = (Stadio) this.scegliStadio.getSelectedItem();
+		
+		this.capienzaStadio.setValue(this.stadioPerValoriIniziali.getCapienzaStadio());
+		this.prezzoPerPartita.setValue(this.stadioPerValoriIniziali.getPrezzoPerPartita());
+	}
+	
 	private JPanel mainPanel;
 	private JLabel labelScegliStadio;
 	private JComboBox<Stadio> scegliStadio;
-	private JLabel labeleDataInizioValidità;
-	private DateTimePicker dataInizioValidita;
-	private JLabel labelDataFineValidita;
-	private DateTimePicker dataFineValidita;
-	private JLabel labelPercentualeSconto;
-	private JSpinner percentualeSconto;
-	private JButton applicaSconto;
+	private JLabel labelCapienzaStadio;
+	private JSpinner capienzaStadio;
+	private JLabel labelPrezzoPerPartita;
+	private JSpinner prezzoPerPartita;
+	private JButton applicaModifiche;
 	private JButton annulla;
 	
 	private StrutturaSportiva struct;
+	private Stadio stadioPerValoriIniziali;
 	
 	private static final long serialVersionUID = 533648855513519472L;
 

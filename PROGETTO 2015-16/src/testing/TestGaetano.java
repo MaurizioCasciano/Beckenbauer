@@ -356,7 +356,15 @@ public class TestGaetano {
 		/******* Grafica Sconti *******/
 		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
 		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
-		JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
+		//JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
+		
+		/******* Modifica Dati Stadi ******/
+		JFrame frameStadi = new ModificaDatiStadioFrame(struct);
+		
+		/*Partita prova = new Partita(juventus, roma, olimpico, new GregorianCalendar());
+		Acquisto acqProva = new Acquisto(gaetano, prova, tribunaOlimpico, 3, 2, struct);
+		
+		System.out.println("Prezzo: " + acqProva.getBiglietto().getPrezzo());*/
 	}
 
 }

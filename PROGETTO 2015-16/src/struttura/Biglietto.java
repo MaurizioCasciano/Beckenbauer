@@ -135,7 +135,7 @@ public class Biglietto implements Serializable {
 			maxSconto = maxScontoGiorno; 
 			
 		System.out.println("maxSconto " + maxSconto);
-		System.out.println("Fine Verifica Biglietto"); */
+		System.out.println("Fine Verifica Biglietto");*/
 		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto); 
 		
 		this.prezzo = prezzoFinale;
