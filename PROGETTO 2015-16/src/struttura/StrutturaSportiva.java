@@ -463,6 +463,7 @@ public class StrutturaSportiva implements Serializable {
 		
 		for(int i = (this.prenotazioni.size() - 1); i >= 0; i--){
 			if(!this.verificaValiditaPrenotazione(this.prenotazioni.get(i))){
+				// metodo di reset dei posti
 				this.cancellaPrenotazione(this.prenotazioni.get(i));
 			}
 		}

@@ -12,9 +12,9 @@ import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import graphics.testing.*;
 
+@SuppressWarnings("unused")
 public class TestGaetano {
 	
-	@SuppressWarnings("unused")
 	public static void main(String[] args) throws AlreadyRegisteredUserException {
 		
 		/**** Struttura Sportiva ****/
@@ -239,7 +239,20 @@ public class TestGaetano {
 		/**** Verifica Prenotazioni Scadute ****/
 		// Le prenotazioni per la partita RomaJuventus scadono alle ore 07:00 del 19/01/2016
 		// quindi l'ultima prenotazione rimasta deve essere cancellata.
-		for(int i = 0; i < struct.getPrenotazioni().size(); i++){ 
+		
+		System.out.println("Prenotazioni presenti: ");
+		for(Prenotazione pren: struct.getPrenotazioni()){
+			System.out.println(pren.getBigliettoPrenotato().getIDBiglietto());
+		}
+		
+		struct.cancellaPrenotazioniScadute();
+		
+		System.out.println("Prenotazioni dopo cancellaPrenotazioniScadute: ");
+		for(Prenotazione pren: struct.getPrenotazioni()){
+			System.out.println(pren.getBigliettoPrenotato().getIDBiglietto());
+		}
+		
+		/*for(int i = 0; i < struct.getPrenotazioni().size(); i++){ 
 			System.out.println(struct.getPrenotazioni().get(i));
 			
 			if(!struct.verificaValiditaPrenotazione(struct.getPrenotazioni().get(i))){
@@ -248,7 +261,7 @@ public class TestGaetano {
 				
 				i--;
 			}
-		}
+		}*/
 		
 		System.out.println("\nPrenotazioni presenti dopo verifica: " + struct.getPrenotazioni().size() + " [Expected: 0]");
 		
@@ -355,7 +368,7 @@ public class TestGaetano {
 		
 		/******* Grafica Sconti *******/
 		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
-		JFrame frameScontiStadio = new ScontoStadioFrame(struct);
+		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
 		//JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
 		
 		/******* Modifica Dati Stadi ******/
@@ -365,6 +378,7 @@ public class TestGaetano {
 		Acquisto acqProva = new Acquisto(gaetano, prova, tribunaOlimpico, 3, 2, struct);
 		
 		System.out.println("Prezzo: " + acqProva.getBiglietto().getPrezzo());*/
+		
 	}
 
 }
