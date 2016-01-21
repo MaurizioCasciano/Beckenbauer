@@ -19,6 +19,7 @@ import javax.swing.SpinnerNumberModel;
 
 import calendar.DateTimePicker;
 import struttura.*;
+import struttura.comparators.StadiumNameComparator;
 
 public class ScontoStadioFrame extends JFrame implements Serializable{
 
@@ -43,6 +44,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 	
 	public void createComboPartite(){
 		ArrayList<Stadio> stadiDaInserire = struct.getStadi();
+		stadiDaInserire.sort(new StadiumNameComparator());
 		this.scegliStadio = new JComboBox<Stadio>(stadiDaInserire.toArray(new Stadio[stadiDaInserire.size()]));
 		this.scegliStadio.setSelectedIndex(0);
 	

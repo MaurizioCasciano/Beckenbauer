@@ -456,6 +456,19 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
+	 * Cancella tutte le prenotazioni che non sono più valide
+	 * @author Gaetano Antonucci
+	 */
+	public void cancellaPrenotazioniScadute(){
+		
+		for(int i = (this.prenotazioni.size() - 1); i >= 0; i--){
+			if(!this.verificaValiditaPrenotazione(this.prenotazioni.get(i))){
+				this.cancellaPrenotazione(this.prenotazioni.get(i));
+			}
+		}
+	}
+	
+	/**
 	 * Calcola l'incasso della struttura sportiva in base all'ArrayList passato
 	 * in input.
 	 * 
