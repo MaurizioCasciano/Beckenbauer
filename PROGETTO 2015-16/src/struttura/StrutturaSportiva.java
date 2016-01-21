@@ -88,7 +88,10 @@ public class StrutturaSportiva implements Serializable {
 	 *            La partita da aggiungere.
 	 * @author Maurizio Casciano
 	 */
-	public void addPartita(Partita p) {
+	public void addPartita(Partita p) throws AlreadyExistsObjectException {
+		if(this.partiteProgrammate.contains(p)){
+			throw new AlreadyExistsObjectException("Partita gia' presente !!!");
+		}
 		this.partiteProgrammate.add(p);
 	}
 
@@ -99,7 +102,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            Lo stadio da aggiungere.
 	 * @author Maurzio Casciano & Gaetano Antonucci
 	 */
-	public void addStadio(Stadio s) {
+	public void addStadio(Stadio s) throws AlreadyExistsObjectException{
 
 		if (this.stadi.contains(s)) {
 			throw new AlreadyExistsObjectException("Stadio gia' presente !!!");
@@ -115,7 +118,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            La politica di sconto da inserire.
 	 * @author Gaetano Antonucci
 	 */
-	public void addSconto(Sconti sconto) {
+	public void addSconto(Sconti sconto) throws AlreadyExistsObjectException{
 
 		if (this.sconti.contains(sconto)) {
 			throw new AlreadyExistsObjectException("Politica di Sconto gia' presente !!!");
@@ -130,7 +133,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            La prenotazione da inserire.
 	 * @author Gaetano Antonucci
 	 */
-	public void addPrenotazione(Prenotazione pren) {
+	public void addPrenotazione(Prenotazione pren) throws AlreadyExistsObjectException{
 
 		if (this.prenotazioni.contains(pren)) {
 			throw new AlreadyExistsObjectException("Prenotazione gia' presente !!!");
@@ -145,7 +148,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            L'acquisto da inserire
 	 * @author Gaetano Antonucci.
 	 */
-	public void addAcquisto(Acquisto acq) {
+	public void addAcquisto(Acquisto acq) throws AlreadyExistsObjectException{
 
 		if (this.acquisti.contains(acq)) {
 			throw new AlreadyExistsObjectException("Acquisto gia' presente !!!");
