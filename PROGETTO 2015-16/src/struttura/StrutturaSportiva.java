@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 
 import struttura.filters.Filter;
 import struttura.filters.PrenotationFilter;
+import struttura.filters.PrenotationsByMatch;
+import struttura.filters.PurchasesByMatch;
 import struttura.filters.PurchasesFilter;
 import struttura.filters.ScontiFilter;
 import user.AlreadyRegisteredUserException;
@@ -285,6 +287,26 @@ public class StrutturaSportiva implements Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * Cancella la prenotazione passata come parametro dall'ArrayList<Prenotazione> 
+	 * prenotazioni della struttura sportiva.
+	 * 
+	 * @param prenotazioneDaCancellare
+	 * 	      La prenotazione da cancellare
+	 * 
+	 * @author Gaetano Antonucci
+	 */
+	public void cancellaPrenotazione(Prenotazione prenotazioneDaCancellare){
+		
+		if(prenotazioneDaCancellare != null){
+			for(int i = (this.prenotazioni.size() - 1); i >= 0; i--){
+				if(this.prenotazioni.get(i).equals(prenotazioneDaCancellare)){
+					this.prenotazioni.remove(i);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Verifica se una determinata partita e' stata prenotata da un determinato
@@ -362,6 +384,49 @@ public class StrutturaSportiva implements Serializable {
 
 		return result;
 	}
+	
+	/**
+	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList<Acquisto> 
+	 * acquisti della struttura sportiva 
+	 * @param acquistoDaCancellare
+	 * 		  L'acquisto da cancellare.
+	 * @author Gaetano Antonucci
+	 */
+	public void cancellaAcquisto(Acquisto acquistoDaCancellare){
+		
+		if(acquistoDaCancellare != null){
+			for(int i = (this.acquisti.size() - 1); i >= 0; i--){
+				if(this.acquisti.get(i).equals(acquistoDaCancellare)){
+					this.acquisti.remove(i);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Cancella le prenotazioni e gli acquisti di una determinata partita
+	 * @param partita
+	 * 		  La partita per cui si desidera eliminare acquisti e prenotazioni
+	 * @author Gaetano Antonucci
+	 */
+	public void cancellaPrenotazioniAcquistiPerPartita(Partita partita){
+		
+		ArrayList<Prenotazione> prenotazioniDaCancellare;
+		ArrayList<Acquisto> acquistiDaCancellare;
+		
+		if(partita != null){
+			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationsByMatch(partita));
+			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchasesByMatch(partita));
+			
+			for(Prenotazione pren: prenotazioniDaCancellare){
+				this.cancellaPrenotazione(pren);
+			}
+			
+			for(Acquisto acq: acquistiDaCancellare){
+				this.cancellaAcquisto(acq);
+			}
+		}
+	}
 
 	/**
 	 * Verifica se una prenotazione e' ancora valida. N.B. - Una prenotazione
@@ -383,7 +448,7 @@ public class StrutturaSportiva implements Serializable {
 		double dataAttualeOre = (((dataAttualeMillis / 1000) / 60) / 60);
 		double dataPartitaOre = (((dataPartitaMillis / 1000) / 60) / 60);
 
-		if (dataAttualeOre <= (dataPartitaOre - 12)) {
+		if (dataAttualeOre <= (dataPartitaOre - ORE_SCADENZA_PRENOTAZIONE)) {
 			result = true;
 		}
 
@@ -444,4 +509,6 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Sconti> sconti;
 	private ArrayList<Prenotazione> prenotazioni;
 	private ArrayList<Acquisto> acquisti;
+	
+	private static final int ORE_SCADENZA_PRENOTAZIONE = 12;
 }

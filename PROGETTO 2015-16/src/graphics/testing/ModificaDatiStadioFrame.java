@@ -155,6 +155,7 @@ public class ModificaDatiStadioFrame extends JFrame implements Serializable{
 	private StrutturaSportiva struct;
 	private Stadio stadioPerValoriIniziali;
 	
-	private static final long serialVersionUID = 533648855513519472L;
+	private static final long serialVersionUID = -8753199235589760656L;
+	
 
 }
