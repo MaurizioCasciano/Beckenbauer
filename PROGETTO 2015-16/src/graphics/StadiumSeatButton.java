@@ -2,10 +2,15 @@ package graphics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import struttura.Acquisto;
+import struttura.AlreadyExistsObjectException;
 import struttura.Biglietto;
 import struttura.Partita;
 import struttura.Posto;
@@ -37,6 +42,15 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		this.numeroPosto = this.posto.getNumeroPosto();
 		this.stadiumMode = stadiumMode;
 
+		this.posto.addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setBackground(posto.getStato().getColor());
+				repaint();
+			}
+		});
+
 		this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto);
 		this.setBorder(null);
 		this.setOpaque(true);
@@ -48,17 +62,21 @@ public class StadiumSeatButton extends JButton implements Serializable {
 
 				switch (stadiumMode) {
 				case PRENOTAZIONE:
-					System.out.println("Prenotazione");
+					try {
+						System.out.println("Prenotazione");
+						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(),
+								new Biglietto(strutturaSportiva, cliente, partita, settore, numeroFila, numeroPosto)));
 
-					strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(),
-							new Biglietto(strutturaSportiva, cliente, partita, settore, numeroFila, numeroPosto)));
+						posto.setStato(SeatStatus.PRENOTATO);
+						setBackground(posto.getStato().getColor());
+						repaint();
 
-					posto.setStato(SeatStatus.PRENOTATO);
-					setBackground(posto.getStato().getColor());
-					repaint();
-
-					System.out.println(strutturaSportiva.getPrenotazioni().size());
-
+						System.out.println(strutturaSportiva.getPrenotazioni().size());
+					} catch (AlreadyExistsObjectException e2) {
+						JOptionPane.showMessageDialog(StadiumSeatButton.this,
+								"Spiacenti, una sua prenotazione è già presente nel sistema", "Prenotazione gia presente",
+								JOptionPane.ERROR_MESSAGE);
+					}
 					break;
 
 				case ACQUISTO:
@@ -87,6 +105,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 				System.out.println(cliente.getNome() + " CLICKED SEAT n° " + getToolTipText());
 			}
 		});
+
 	}
 
 	public Cliente getCliente() {

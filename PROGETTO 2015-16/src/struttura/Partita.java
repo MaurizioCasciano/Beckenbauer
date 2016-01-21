@@ -55,7 +55,6 @@ public class Partita implements Serializable {
 						break;
 					}
 				}
-
 				break;
 			}
 		}

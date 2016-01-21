@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 import user.Cliente;
 
 public class Acquisto implements Serializable {
-	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru) {
+	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru){
 		this.IDAcquisto = ++IDCounter;
 		this.dataAcquisto = new GregorianCalendar();
 		this.biglietto = new Biglietto(stru, c, partita, settore, fila, posto);

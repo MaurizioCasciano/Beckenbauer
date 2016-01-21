@@ -7,6 +7,16 @@ import java.util.GregorianCalendar;
 import user.Cliente;
 
 public class Prenotazione implements Serializable {
+	
+	public Prenotazione(GregorianCalendar dataPrenotazione, StrutturaSportiva stru, 
+			Cliente cliente, Partita partita, Settore settore, int fila, int posto){
+		this.IDPrenotazione = ++IDCounter;
+		this.dataPrenotazione = dataPrenotazione;
+		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
+		this.bigliettoPrenotato = new Biglietto(stru, cliente, partita, settore, fila, posto);
+		
+		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO); // da modificare
+	}
 
 	public Prenotazione(GregorianCalendar dataPrenotazione, Biglietto bigliettoPrenotato) {
 		this.IDPrenotazione = ++IDCounter;

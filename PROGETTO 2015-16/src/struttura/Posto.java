@@ -1,6 +1,8 @@
 package struttura;
 
 import java.io.Serializable;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * 
@@ -54,6 +56,14 @@ public class Posto implements Serializable {
 		this.stato = stato;
 	}
 
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.PROPERTY_CHANGE_SUPPORT.addPropertyChangeListener(listener);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.PROPERTY_CHANGE_SUPPORT.removePropertyChangeListener(listener);
+	}
+
 	public int getNumeroFila() {
 		return numeroFila;
 	}
@@ -66,8 +76,11 @@ public class Posto implements Serializable {
 		return this.stato;
 	}
 
-	public void setStato(SeatStatus seatStatus) {
-		this.stato = seatStatus;
+	public void setStato(SeatStatus newSeatStatus) {
+		SeatStatus oldStatus = this.stato;
+		this.stato = newSeatStatus;
+
+		this.PROPERTY_CHANGE_SUPPORT.firePropertyChange(STATUS_PROPERTY_CHANGED, oldStatus, newSeatStatus);
 	}
 
 	/**
@@ -156,6 +169,8 @@ public class Posto implements Serializable {
 	private Settore settore;
 	private int numeroFila;
 	private int numeroPosto;
-
 	private SeatStatus stato;
+
+	private String STATUS_PROPERTY_CHANGED = "stato";
+	private final PropertyChangeSupport PROPERTY_CHANGE_SUPPORT = new PropertyChangeSupport(this);;
 }

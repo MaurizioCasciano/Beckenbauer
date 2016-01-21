@@ -50,6 +50,7 @@ import objectsTable.AcquistoTable;
 import objectsTable.PartitaTable;
 import objectsTable.PartitaTableModel;
 import objectsTable.PrenotazioneTable;
+import objectsTable.PrenotazioneTableModel;
 import objectsTable.filter.PartitaRowFilter;
 import password.WeakPasswordException;
 import struttura.Acquisto;
@@ -488,9 +489,10 @@ public class Window extends JFrame implements Serializable {
 					protected void done() {
 						// System.out.println(SwingUtilities.isEventDispatchThread());
 						try {
-							PrenotazioneTable prenotazioneTable = new PrenotazioneTable(get());
+							Window.this.prenotazioniTable = new PrenotazioneTable(get());
+							Window.this.prenotazioniTable.setComponentPopupMenu(new PrenotazioniPopupMenu());
 
-							JScrollPane prenotazioniScrollPane = new JScrollPane(prenotazioneTable);
+							JScrollPane prenotazioniScrollPane = new JScrollPane(Window.this.prenotazioniTable);
 							Window.this.tabbedPane.addTab("Prenotazioni", prenotazioniScrollPane);
 							Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 							Window.this.tabbedPane.revalidate();
@@ -809,6 +811,8 @@ public class Window extends JFrame implements Serializable {
 
 						Partita partita = partitaTable.getSelectedPartita();
 
+						Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
+
 						// METODO REMOVE PRENOTAZIONI/ACQUISTI
 
 						int viewIndex = partitaTable.getSelectedRow();
@@ -838,7 +842,9 @@ public class Window extends JFrame implements Serializable {
 
 		public PrenotazioniPopupMenu() {
 			super();
+
 			this.deletePrenotazioneItem = new JMenuItem("Canella Prenotazione");
+			this.add(deletePrenotazioneItem);
 
 			this.deletePrenotazioneItem.addActionListener(new ActionListener() {
 
@@ -848,8 +854,14 @@ public class Window extends JFrame implements Serializable {
 					Partita partitaPrenotata = prenotazione.getPartita();
 					partitaPrenotata.resetSeatStatus(prenotazione);
 
-					// aggiungere metodo
+					int viewIndex = prenotazioniTable.getSelectedRow();
 
+					if (viewIndex != -1) {
+						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
+						((PrenotazioneTableModel) prenotazioniTable.getModel()).removePrenotazione(modelIndex);
+					}
+
+					Window.this.strutturaSportiva.cancellaPrenotazione(prenotazione);
 				}
 			});
 
