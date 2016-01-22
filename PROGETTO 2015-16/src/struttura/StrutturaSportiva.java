@@ -470,6 +470,26 @@ public class StrutturaSportiva implements Serializable {
 	}
 	
 	/**
+	 * Dato un cliente e una partita, restituisce un prenotazione se presente.
+	 * 
+	 * @param clt
+	 * 		  Il cliente su cui si effettua la ricerca.
+	 * @param partita
+	 * 	      La partita su cui si effettua la ricerca.
+	 * @return la prenotazione trovata
+	 */
+	public Prenotazione getPrenotazioneCliente(Cliente clt, Partita partita){
+		Prenotazione risultato = null;
+		for(Prenotazione p: this.prenotazioni){
+			if(p.getBigliettoPrenotato().getCliente().equals(clt) &&
+					p.getBigliettoPrenotato().getPartita().equals(partita)){
+				risultato = p;
+			}
+		}
+		return risultato;
+	}
+	
+	/**
 	 * Calcola l'incasso della struttura sportiva in base all'ArrayList passato
 	 * in input.
 	 * 

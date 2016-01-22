@@ -369,7 +369,7 @@ public class TestGaetano {
 		/******* Grafica Sconti *******/
 		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
 		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
-		//JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
+		JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
 		
 		/******* Modifica Dati Stadi ******/
 		//JFrame frameStadi = new ModificaDatiStadioFrame(struct);
