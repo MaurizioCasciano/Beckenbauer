@@ -71,10 +71,14 @@ public class StadiumSeatButton extends JButton implements Serializable {
 						setBackground(posto.getStato().getColor());
 						repaint();
 
+						JOptionPane.showMessageDialog(StadiumSeatButton.this,
+								"Complimenti, prenotazione aggiunta correttamente.\nN.B.: Si ricorda che la prenotazione scade 12 ore prima dell'inizio della partita.\nIn assenza di un acquisto ad essa collegato, la prenotazione, verrà cancellata automaticamente.",
+								"Prenotazione presente", JOptionPane.INFORMATION_MESSAGE);
+
 						System.out.println(strutturaSportiva.getPrenotazioni().size());
 					} catch (AlreadyExistsObjectException e2) {
 						JOptionPane.showMessageDialog(StadiumSeatButton.this,
-								"Spiacenti, una sua prenotazione è già presente nel sistema", "Prenotazione gia presente",
+								"Spiacenti, una sua prenotazione è presente nel sistema", "Prenotazione presente",
 								JOptionPane.ERROR_MESSAGE);
 					}
 					break;
@@ -82,12 +86,18 @@ public class StadiumSeatButton extends JButton implements Serializable {
 				case ACQUISTO:
 					System.out.println("Acquisto");
 
-					strutturaSportiva.addAcquisto(
-							new Acquisto(cliente, partita, settore, numeroFila, numeroPosto, strutturaSportiva));
+					if (!strutturaSportiva.verificaPrenotazione(cliente, partita)) {
+						strutturaSportiva.addAcquisto(
+								new Acquisto(cliente, partita, settore, numeroFila, numeroPosto, strutturaSportiva));
 
-					posto.setStato(SeatStatus.VENDUTO);
-					setBackground(posto.getStato().getColor());
-					repaint();
+						posto.setStato(SeatStatus.VENDUTO);
+						setBackground(posto.getStato().getColor());
+						repaint();
+					} else {
+						JOptionPane.showMessageDialog(StadiumSeatButton.this,
+								"Spiacenti, è presente una sua prenotazione per questa partita nel sistema. Completarla.",
+								"Prenotazione presente", JOptionPane.ERROR_MESSAGE);
+					}
 
 					System.out.println(strutturaSportiva.getAcquisti().size());
 

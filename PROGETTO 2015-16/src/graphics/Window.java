@@ -691,10 +691,45 @@ public class Window extends JFrame implements Serializable {
 				this.dettaggli = new JMenuItem("Dettagli");
 				this.prenota = new JMenuItem("Prenota");
 
+				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
+						Window.this.partitaTable.getSelectedPartita())
+						|| strutturaSportiva.verificaAcquisto((Cliente) Window.this.utente,
+								Window.this.partitaTable.getSelectedPartita())) {
+					this.prenota.setEnabled(false);
+				}
+				
 				// effetturae controllo prenotazione partita selezionata
 				// this.prenota.setEnabled(false);
 				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
+				
+				if(strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
+						Window.this.partitaTable.getSelectedPartita())){
+					this.completaPrenotazione.setEnabled(true);
+				}else{
+					this.completaPrenotazione.setEnabled(false);
+				}
+				
+				this.completaPrenotazione.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+				});
+				
+				
+				
+				
 				this.acquista = new JMenuItem("Acquista");
+				
+				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
+						Window.this.partitaTable.getSelectedPartita())
+						|| strutturaSportiva.verificaAcquisto((Cliente) Window.this.utente,
+								Window.this.partitaTable.getSelectedPartita())) {
+					this.acquista.setEnabled(false);
+				}
+				
+				
 				this.acquista.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
