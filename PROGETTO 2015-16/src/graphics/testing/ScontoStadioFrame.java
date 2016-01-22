@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -52,14 +53,17 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 
 	public void createLabels(){
 		this.labelScegliStadio = new JLabel("Scegli Stadio: ");
-		this.labeleDataInizioValidità = new JLabel("Data Inizio Validita': ");
+		this.labeleDataInizioValidita = new JLabel("Data Inizio Validita': ");
 		this.labelDataFineValidita = new JLabel("Data Fine Validita': ");
 		this.labelPercentualeSconto = new JLabel("Percentuale Sconto: ");
 	}
 	
 	public void createFields(){
 		this.dataInizioValidita = new DateTimePicker();
+		this.dataInizioValidita.getMonthView().setLowerBound(new Date());
+		
 		this.dataFineValidita = new DateTimePicker();
+		this.dataFineValidita.getMonthView().setLowerBound(new Date());
 		
 		SpinnerModel spinnerSconto = new SpinnerNumberModel(1.0, 1.0, 100.0, 0.5);
 		this.percentualeSconto = new JSpinner(spinnerSconto);
@@ -112,7 +116,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 		infoPanel.setLayout(new GridLayout(3, 1, 3, 3));
 		
 		JPanel div = new JPanel();
-		div.add(this.labeleDataInizioValidità);
+		div.add(this.labeleDataInizioValidita);
 		div.add(this.dataInizioValidita);
 		infoPanel.add(div);
 		
@@ -138,7 +142,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable{
 	private JPanel mainPanel;
 	private JLabel labelScegliStadio;
 	private JComboBox<Stadio> scegliStadio;
-	private JLabel labeleDataInizioValidità;
+	private JLabel labeleDataInizioValidita;
 	private DateTimePicker dataInizioValidita;
 	private JLabel labelDataFineValidita;
 	private DateTimePicker dataFineValidita;
