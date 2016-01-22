@@ -1,6 +1,3 @@
-/**
- * 
- */
 package objectsTable;
 
 import java.awt.Color;
@@ -89,6 +86,7 @@ public class PrenotazioneTable extends JTable implements Serializable {
 	
 	
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		/**** Struttura Sportiva ****/
 		StrutturaSportiva struct = new StrutturaSportiva("Elyas's Match");
