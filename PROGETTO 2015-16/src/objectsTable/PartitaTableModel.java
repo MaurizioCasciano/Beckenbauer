@@ -39,9 +39,11 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
+		int CAPIENZA_STADIO_COLUMN = 3;
+
 		if (this.mode == Mode.CLIENTE) {
 			return false;
-		} else if (this.mode == Mode.GESTORE) {
+		} else if (this.mode == Mode.GESTORE && column != CAPIENZA_STADIO_COLUMN) {
 			return true;
 		}
 
@@ -114,6 +116,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 			break;
 		case 2:
 			partita.setStadio((Stadio) value);
+			setValueAt(((Stadio) value).getCapienzaEffettiva(), rowIndex, columnIndex + 1);
 			break;
 		case 3:
 			partita.getStadio().setCapienzaStadio((int) value);

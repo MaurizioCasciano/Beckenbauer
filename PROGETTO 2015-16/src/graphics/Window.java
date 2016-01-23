@@ -40,12 +40,14 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableRowSorter;
 import calendar.Week;
 import graphics.login.IdentificationPanel;
+import graphics.testing.ScontoStadioFrame;
 import objectsTable.AcquistoTable;
 import objectsTable.PartitaTable;
 import objectsTable.PartitaTableModel;
@@ -563,7 +565,7 @@ public class Window extends JFrame implements Serializable {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.LIGHT_GRAY);
 		JMenu partiteMenu = new JMenu("Partite");
-		JMenuItem newPartitaItem = new JMenuItem("New");
+		JMenuItem newPartitaItem = new JMenuItem("Aggiungi");
 
 		newPartitaItem.addActionListener(new ActionListener() {
 
@@ -617,6 +619,25 @@ public class Window extends JFrame implements Serializable {
 				}
 			}
 		});
+
+		JMenu scontiMenu = new JMenu("Sconti");
+		JMenuItem scontiStadio = new JMenuItem("Stadio");
+		scontiStadio.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame scontoStadioFrame = new ScontoStadioFrame(strutturaSportiva);
+				scontoStadioFrame.setLocationRelativeTo(Window.this);
+				scontoStadioFrame.setVisible(true);
+			}
+		});
+
+		JMenuItem scontiPartita = new JMenuItem("Partita");
+		JMenuItem scontiPerGiornoSettimana = new JMenuItem("Giorno");
+		scontiMenu.add(scontiStadio);
+		scontiMenu.add(scontiPartita);
+		scontiMenu.add(scontiPerGiornoSettimana);
+		menuBar.add(scontiMenu);
 
 		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate(),
 				this.strutturaSportiva);
@@ -688,7 +709,9 @@ public class Window extends JFrame implements Serializable {
 
 			switch (Window.this.mode) {
 			case CLIENTE:
-				this.dettaggli = new JMenuItem("Dettagli");
+
+				this.add(new JLabel("  Dettagli"));
+
 				this.prenota = new JMenuItem("Prenota");
 
 				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
@@ -697,39 +720,40 @@ public class Window extends JFrame implements Serializable {
 								Window.this.partitaTable.getSelectedPartita())) {
 					this.prenota.setEnabled(false);
 				}
-				
+
 				// effetturae controllo prenotazione partita selezionata
 				// this.prenota.setEnabled(false);
 				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
-				
-				if(strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
-						Window.this.partitaTable.getSelectedPartita())){
-					this.completaPrenotazione.setEnabled(true);
-				}else{
+
+				if (!strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
+						Window.this.partitaTable.getSelectedPartita())) {
 					this.completaPrenotazione.setEnabled(false);
+				} else {
+					Prenotazione prenotazione = strutturaSportiva.getPrenotazioneCliente((Cliente) Window.this.utente,
+							Window.this.partitaTable.getSelectedPartita());
+
+					this.completaPrenotazione.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							strutturaSportiva.addAcquisto(new Acquisto(prenotazione, strutturaSportiva));
+
+							JOptionPane.showMessageDialog(Window.this.partitaTable,
+									"Complimenti, la prenotazione per questa partita e' stata completata con successo.",
+									"Prenotazione completata.", JOptionPane.INFORMATION_MESSAGE);
+						}
+					});
 				}
-				
-				this.completaPrenotazione.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
-				
-				
-				
+
 				this.acquista = new JMenuItem("Acquista");
-				
+
 				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
 						Window.this.partitaTable.getSelectedPartita())
 						|| strutturaSportiva.verificaAcquisto((Cliente) Window.this.utente,
 								Window.this.partitaTable.getSelectedPartita())) {
 					this.acquista.setEnabled(false);
 				}
-				
-				
+
 				this.acquista.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -821,7 +845,6 @@ public class Window extends JFrame implements Serializable {
 					}
 				});
 				/*****************************************************************/
-				this.add(dettaggli);
 				this.addSeparator();
 				this.add(prenota);
 				this.add(completaPrenotazione);

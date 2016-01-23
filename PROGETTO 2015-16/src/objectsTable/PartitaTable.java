@@ -22,7 +22,6 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXDatePicker;
 import objectsTable.editors.GregorianCalendarDateTimePickerCellEditor;
-import objectsTable.editors.CapienzaStadioCellEditor;
 import objectsTable.editors.SquadraCellEditor;
 import objectsTable.editors.StadioCellEditor;
 import objectsTable.renderers.GregorianCalendarDateTimePickerCellRenderer;
@@ -74,10 +73,6 @@ public class PartitaTable extends JTable implements Serializable {
 	private void setCellRenderers() {
 		this.setDefaultRenderer(Squadra.class, new SquadraCellRenderer());
 		this.setDefaultRenderer(Stadio.class, new StadioCellRenderer());
-		// this.setDefaultRenderer(GregorianCalendar.class, new
-		// GregorianCalendarCellRenderer());
-		// this.setDefaultRenderer(GregorianCalendar.class, new
-		// GregorianCalendarDatePickerCellRenderer());
 		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellRenderer());
 	}
 
@@ -91,7 +86,7 @@ public class PartitaTable extends JTable implements Serializable {
 		// GregorianCalendarCellEditor());
 		// this.setDefaultEditor(GregorianCalendar.class, new
 		// GregorianCalendarDatePickerCellEditor());
-		this.setDefaultEditor(Integer.class, new CapienzaStadioCellEditor());
+		// this.setDefaultEditor(Integer.class, new CapienzaStadioCellEditor());
 		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellEditor());
 	}
 
@@ -137,7 +132,7 @@ public class PartitaTable extends JTable implements Serializable {
 		int viewIndex = this.getSelectedRow();
 		// System.out.println("viewIndex = " + viewIndex);
 
-		//NON SI VERIFICA MAI PERCHé C'è il rightclickselector
+		// NON SI VERIFICA MAI PERCHé C'è il rightclickselector
 		if (viewIndex == -1) {
 			viewIndex = 0;
 		}
