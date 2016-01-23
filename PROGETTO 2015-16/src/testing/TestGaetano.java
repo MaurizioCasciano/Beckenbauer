@@ -367,9 +367,11 @@ public class TestGaetano {
 		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(arechi))) + " [Exp: 18.80]");
 		
 		/******* Grafica Sconti *******/
-		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
+		//Partita prova = new Partita(roma, juventus, olimpico, new GregorianCalendar(2016, Calendar.JANUARY, 23, 20, 45));
+		//struct.addPartita(prova);
+		JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
 		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
-		JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
+		//JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
 		
 		/******* Modifica Dati Stadi ******/
 		//JFrame frameStadi = new ModificaDatiStadioFrame(struct);
