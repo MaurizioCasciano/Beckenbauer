@@ -116,8 +116,10 @@ public class Partita implements Serializable {
 	 *            Lo stadio in cui sara' disputata la partita.
 	 */
 	public void setStadio(Stadio stadio) {
-		this.stadio = stadio;
-		this.settori = this.stadio.getSettoriClone();
+		if (stadio != null) {
+			this.stadio = stadio;
+			this.settori = this.stadio.getSettoriClone();
+		}
 	}
 
 	/**

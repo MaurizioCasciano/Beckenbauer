@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -64,7 +65,10 @@ public class ScontoGiornoFrame extends JFrame implements Serializable{
 	
 	public void createFields(){
 		this.dataInizioValidita = new DateTimePicker();
+		this.dataInizioValidita.getMonthView().setLowerBound(new Date());
+		
 		this.dataFineValidita = new DateTimePicker();
+		this.dataFineValidita.getMonthView().setLowerBound(new Date());
 		
 		SpinnerModel spinnerSconto = new SpinnerNumberModel(1.0, 1.0, 100.0, 0.5);
 		this.percentualeSconto = new JSpinner(spinnerSconto);
