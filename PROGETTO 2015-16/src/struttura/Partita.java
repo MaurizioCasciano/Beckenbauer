@@ -34,7 +34,7 @@ public class Partita implements Serializable {
 	public Partita() {
 		this.squadraInCasa = new Squadra("-");
 		this.squadraInTrasferta = new Squadra("-");
-		this.stadio = new Stadio("-", 50000, 0.00);
+		this.stadio = new Stadio("-", Stadio.CAPIENZA_MINIMA, Stadio.PREZZO_MINIMO);
 		this.data = new GregorianCalendar();
 		this.settori = this.stadio.getSettoriClone();
 	}

@@ -18,16 +18,15 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-
 import struttura.Partita;
 import struttura.Settore;
 import struttura.Squadra;
@@ -115,8 +114,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			cellaPanel.setOpaque(false);
 
 			if ((i >= 3 && i <= 26) || (i >= 31 && i <= 58) || (i >= 61 && i <= 88) || (i >= 90 && i <= 239)) {
+				this.numeroSettori++;
 				JButton settoreButton = new JButton();
-				settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+				settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
+						+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
 				 * mouse.
@@ -177,8 +178,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			JPanel cellaPanel = new JPanel(new BorderLayout());
 			cellaPanel.setOpaque(true);
 
+			this.numeroSettori++;
 			JButton settoreButton = new JButton();
-			settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+			settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
+					+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -220,8 +223,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			JPanel cellaPanel = new JPanel(new BorderLayout());
 			cellaPanel.setOpaque(true);
 
+			this.numeroSettori++;
 			JButton settoreButton = new JButton();
-			settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+			settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
+					+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -265,8 +270,11 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			cellaPanel.setOpaque(false);
 
 			if ((i <= 149) || (i >= 151 && i <= 178) || (i >= 181 && i <= 208) || (i >= 213 && i <= 236)) {
+				this.numeroSettori++;
 				JButton settoreButton = new JButton();
-				settoreButton.setToolTipText("Settore n° " + ++numeroSettori);
+				settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
+						+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
+
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
 				 * mouse.
@@ -429,6 +437,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		return nomeSettore;
 	}
 
+	public int getNumeroSettori() {
+		return this.numeroSettori;
+	}
+
 	private int settoreIndex = 0;
 	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -1931003973640128793L;
@@ -531,17 +543,15 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		Partita p = new Partita(sq1, sq2, stadio, new GregorianCalendar());
 
 		long start = System.currentTimeMillis();
-		
+
 		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""),
 				new Cliente("", "", "", "P@ssw0rd"), p, StadiumMode.ACQUISTO));
-		
+
 		long end = System.currentTimeMillis();
-		
+
 		long diff = end - start;
-		
-		System.out.println(diff/1000);
-		
-		
+
+		System.out.println(diff / 1000);
 
 		frame.add(scrollPane);
 		frame.pack();

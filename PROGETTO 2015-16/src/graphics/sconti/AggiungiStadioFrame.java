@@ -4,50 +4,38 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.NumberEditor;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import struttura.Stadio;
 
-public class ModificaStadioFrame extends JFrame implements Serializable {
+import struttura.AlreadyExistsObjectException;
+import struttura.Stadio;
+import struttura.StrutturaSportiva;
+
+public class AggiungiStadioFrame extends JFrame implements Serializable {
 
 	/**
 	 * Crea un nuovo frame che permette di aggiungere sconti agli stadi passati
 	 * in input.
 	 * 
-	 * @param stadi
-	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi è uguale a 0.
-	 * @throws NullPointerException
-	 *             Se l'ArrayList stadi sono null.
+	 * @param strutturaSportiva
 	 * @author Maurizio
 	 * @author Gaetano
 	 */
-	public ModificaStadioFrame(ArrayList<Stadio> stadi) throws IllegalArgumentException, NullPointerException {
-		super("Sconto Stadio");
+	public AggiungiStadioFrame(StrutturaSportiva strutturaSportiva) throws NullPointerException {
+		super("Stadio");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLayout(new GridLayout(4, 1, 10, 10));
 
-		if (stadi == null) {
-			throw new NullPointerException("stadi non può essere null");
-		}
-
-		if (stadi.size() == 0) {
-			throw new IllegalArgumentException("E' richiesta la presenza di almeno uno stadio.");
-		}
-
-		this.stadi = stadi;
-
+		this.strutturaSportiva = strutturaSportiva;
 		this.init();
 		this.pack();
 		this.setResizable(false);
@@ -59,7 +47,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	 * @author Maurizio
 	 */
 	private void init() {
-		this.initStadiComboPanel();
+		this.initNomeStadioPanel();
 		this.initCapienzaPanel();
 		this.initPrezzoPanel();
 		this.initButtonPanel();
@@ -70,36 +58,13 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	 * 
 	 * @author Maurizio
 	 */
-	private void initStadiComboPanel() {
-		this.stadioLabel = new JLabel("Stadio: ");
-		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
-		/*
-		 * Sicuro, perchè nel caso non vi siano stadi viene lanciata l'eccezione
-		 * illegalargumentexception.
-		 */
-		this.stadiCombo.setSelectedIndex(0);
-
-		this.stadiCombo.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					System.out.println(e.getStateChange() == ItemEvent.SELECTED);
-					Stadio stadio = (Stadio) stadiCombo.getSelectedItem();
-
-					capienzaSpinner.setValue(stadio.getCapienzaEffettiva());
-					prezzoSpinner.setValue(stadio.getPrezzoPerPartita());
-
-				}
-
-			}
-		});
-
-		this.stadiComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		this.stadiComboPanel.add(this.stadioLabel);
-		this.stadiComboPanel.add(this.stadiCombo);
-		this.add(this.stadiComboPanel);
+	private void initNomeStadioPanel() {
+		this.nomeStadioLabel = new JLabel("Nome Stadio: ");
+		this.nomeStadioTextField = new JTextField(10);
+		this.nomeStadioPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.nomeStadioPanel.add(this.nomeStadioLabel);
+		this.nomeStadioPanel.add(this.nomeStadioTextField);
+		this.add(this.nomeStadioPanel);
 	}
 
 	/**
@@ -110,8 +75,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
 		this.capienzaSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaEffettiva(),
-						Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
+				new SpinnerNumberModel(Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
 		JSpinner.NumberEditor editor = (NumberEditor) capienzaSpinner.getEditor();
 		editor.getTextField().setEditable(false);
 		this.capienzaPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -131,9 +95,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		 * I valori vengono impostati in questo modo poichè, con l'editor per la
 		 * percentuale saranno moltiplicati per 100.
 		 */
-		this.prezzoSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getPrezzoPerPartita(),
-						Stadio.PREZZO_MINIMO, Stadio.PREZZO_MASSIMO, 0.5));
+		this.prezzoSpinner = new JSpinner(new SpinnerNumberModel(5, 5, 500, 0.5));
 		String currencySymbol = DecimalFormatSymbols.getInstance().getCurrencySymbol();
 		String currencyPattern = "###" + '.' + "#" + currencySymbol;
 
@@ -153,18 +115,23 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	 * @author Maurizio
 	 */
 	private void initButtonPanel() {
-		this.applicaModificheButton = new JButton("Applica Modifiche");
-		this.applicaModificheButton.addActionListener(new ActionListener() {
+		this.aggiungiStadioButton = new JButton("Aggiungi Stadio");
+		this.aggiungiStadioButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Stadio stadio = (Stadio) stadiCombo.getSelectedItem();
+				String nome = nomeStadioTextField.getText();
 				int capienza = (int) capienzaSpinner.getValue();
 				double prezzo = (double) prezzoSpinner.getValue();
+				Stadio newStadio = new Stadio(nome, capienza, prezzo);
 
-				stadio.setCapienzaStadio(capienza);
-				stadio.setPrezzoPerPartita(prezzo);
+				try {
+					strutturaSportiva.addStadio(newStadio);
+				} catch (AlreadyExistsObjectException e2) {
+					JOptionPane.showMessageDialog(AggiungiStadioFrame.this, e2.getMessage(), "Stadio gia' presente.",
+							JOptionPane.WARNING_MESSAGE);
+				}
 
 				dispose();
 			}
@@ -180,17 +147,16 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		});
 
 		this.buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		this.buttonPanel.add(this.applicaModificheButton);
+		this.buttonPanel.add(this.aggiungiStadioButton);
 		this.buttonPanel.add(this.annullaButton);
 		this.add(this.buttonPanel);
 	}
 
 	/***************************************************************************************/
 	private static final long serialVersionUID = 260663801632901839L;
-	private ArrayList<Stadio> stadi;
-	private JLabel stadioLabel;
-	private JComboBox<Stadio> stadiCombo;
-	private JPanel stadiComboPanel;
+	private JLabel nomeStadioLabel;
+	private JTextField nomeStadioTextField;
+	private JPanel nomeStadioPanel;
 	/***************************************/
 	private JLabel capienzaLabel;
 	private JSpinner capienzaSpinner;
@@ -200,19 +166,15 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private JSpinner prezzoSpinner;
 	private JPanel percentualeScontoPanel;
 	/*************************************/
-	private JButton applicaModificheButton, annullaButton;
+	private JButton aggiungiStadioButton, annullaButton;
 	private JPanel buttonPanel;
+	/*************************************/
+	private StrutturaSportiva strutturaSportiva;
 
 	/*************************************/
 
 	public static void main(String[] args) {
-
-		Stadio s = new Stadio("Meazza", 100000, 10);
-		ArrayList<Stadio> stadi = new ArrayList<>();
-		stadi.add(s);
-		stadi.add(new Stadio("Olimpico", 60000, 30));
-
-		ModificaStadioFrame scontoStadioFrame = new ModificaStadioFrame(stadi);
+		AggiungiStadioFrame scontoStadioFrame = new AggiungiStadioFrame(new StrutturaSportiva(""));
 		scontoStadioFrame.setLocationRelativeTo(null);
 		scontoStadioFrame.setVisible(true);
 	}

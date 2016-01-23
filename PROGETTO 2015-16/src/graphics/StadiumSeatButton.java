@@ -14,6 +14,7 @@ import struttura.AlreadyExistsObjectException;
 import struttura.Biglietto;
 import struttura.Partita;
 import struttura.Posto;
+import struttura.PostoIndisponibileException;
 import struttura.Prenotazione;
 import struttura.SeatStatus;
 import struttura.Settore;
@@ -63,7 +64,10 @@ public class StadiumSeatButton extends JButton implements Serializable {
 				switch (stadiumMode) {
 				case PRENOTAZIONE:
 					try {
-						System.out.println("Prenotazione");
+						if (isIndisponibile()) {
+							throw new PostoIndisponibileException();
+						}
+
 						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(),
 								new Biglietto(strutturaSportiva, cliente, partita, settore, numeroFila, numeroPosto)));
 
@@ -71,36 +75,44 @@ public class StadiumSeatButton extends JButton implements Serializable {
 						setBackground(posto.getStato().getColor());
 						repaint();
 
-						JOptionPane.showMessageDialog(StadiumSeatButton.this,
+						JOptionPane.showMessageDialog(null,
 								"Complimenti, prenotazione aggiunta correttamente.\nN.B.: Si ricorda che la prenotazione scade 12 ore prima dell'inizio della partita.\nIn assenza di un acquisto ad essa collegato, la prenotazione, verrà cancellata automaticamente.",
 								"Prenotazione presente", JOptionPane.INFORMATION_MESSAGE);
 
-						System.out.println(strutturaSportiva.getPrenotazioni().size());
 					} catch (AlreadyExistsObjectException e2) {
-						JOptionPane.showMessageDialog(StadiumSeatButton.this,
-								"Spiacenti, una sua prenotazione è presente nel sistema", "Prenotazione presente",
+						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione già presente",
+								JOptionPane.ERROR_MESSAGE);
+					} catch (PostoIndisponibileException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Posto Indisponibile Exception",
 								JOptionPane.ERROR_MESSAGE);
 					}
 					break;
 
 				case ACQUISTO:
-					System.out.println("Acquisto");
+					try {
+						if (isIndisponibile()) {
+							throw new PostoIndisponibileException();
+						}
 
-					if (!strutturaSportiva.verificaPrenotazione(cliente, partita)) {
-						strutturaSportiva.addAcquisto(
-								new Acquisto(cliente, partita, settore, numeroFila, numeroPosto, strutturaSportiva));
+						if (!strutturaSportiva.verificaPrenotazione(cliente, partita)) {
+							strutturaSportiva.addAcquisto(new Acquisto(cliente, partita, settore, numeroFila,
+									numeroPosto, strutturaSportiva));
 
-						posto.setStato(SeatStatus.VENDUTO);
-						setBackground(posto.getStato().getColor());
-						repaint();
-					} else {
-						JOptionPane.showMessageDialog(StadiumSeatButton.this,
-								"Spiacenti, è presente una sua prenotazione per questa partita nel sistema. Completarla.",
-								"Prenotazione presente", JOptionPane.ERROR_MESSAGE);
+							posto.setStato(SeatStatus.VENDUTO);
+							setBackground(posto.getStato().getColor());
+							repaint();
+						} else {
+							JOptionPane.showMessageDialog(StadiumSeatButton.this,
+									"Spiacenti, è presente una sua prenotazione per questa partita nel sistema. Completarla.",
+									"Prenotazione presente", JOptionPane.ERROR_MESSAGE);
+						}
+					} catch (AlreadyExistsObjectException e2) {
+						JOptionPane.showMessageDialog(null, e2.getMessage(), "Acquisto già presente Exception.",
+								JOptionPane.ERROR_MESSAGE);
+					} catch (PostoIndisponibileException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Posto Indisponibile Exception",
+								JOptionPane.ERROR_MESSAGE);
 					}
-
-					System.out.println(strutturaSportiva.getAcquisti().size());
-
 					break;
 				default:
 					break;
@@ -115,7 +127,19 @@ public class StadiumSeatButton extends JButton implements Serializable {
 				System.out.println(cliente.getNome() + " CLICKED SEAT n° " + getToolTipText());
 			}
 		});
+	}
 
+	/**
+	 * Controlla se il posto è indisponibile o meno.
+	 * 
+	 * @return true se il posto è indisponibile, false altrimenti.
+	 * @author Maurizio
+	 */
+	public boolean isIndisponibile() {
+		if (this.posto.getStato() != SeatStatus.LIBERO) {
+			return true;
+		}
+		return false;
 	}
 
 	public Cliente getCliente() {

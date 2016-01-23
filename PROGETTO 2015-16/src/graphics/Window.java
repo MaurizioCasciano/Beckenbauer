@@ -44,10 +44,16 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.TableRowSorter;
 import calendar.Week;
 import graphics.login.IdentificationPanel;
-import graphics.testing.ScontoStadioFrame;
+import graphics.sconti.AggiungiStadioFrame;
+import graphics.sconti.ModificaStadioFrame;
+import graphics.sconti.ScontoPartitaFrame;
+import graphics.sconti.ScontoStadioFrame;
+//import graphics.testing.ScontoStadioFrame;
 import objectsTable.AcquistoTable;
 import objectsTable.PartitaTable;
 import objectsTable.PartitaTableModel;
@@ -575,6 +581,26 @@ public class Window extends JFrame implements Serializable {
 			}
 		});
 
+		partiteMenu.addMenuListener(new MenuListener() {
+
+			@Override
+			public void menuSelected(MenuEvent e) {
+				if (strutturaSportiva.getStadi().size() == 0) {
+					newPartitaItem.setEnabled(false);
+				} else {
+					newPartitaItem.setEnabled(true);
+				}
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
+			}
+		});
+
 		partiteMenu.add(newPartitaItem);
 		menuBar.add(partiteMenu);
 
@@ -589,34 +615,54 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				JPanel newStadium = new JPanel();
+				AggiungiStadioFrame aggiungiStadioFrame = new AggiungiStadioFrame(strutturaSportiva);
+				aggiungiStadioFrame.setLocationRelativeTo(Window.this);
+				aggiungiStadioFrame.setVisible(true);
+			}
+		});
 
-				JLabel nameLabel = new JLabel("Nome: ");
-				JTextField nameField = new JTextField(10);
+		JMenuItem modificaStadioItem = new JMenuItem("Modifica Stadio");
+		stadioMenu.add(modificaStadioItem);
 
-				JLabel capienzaLabel = new JLabel("Capienza: ");
-				JSpinner capienzaSpinner = new JSpinner(new SpinnerNumberModel(30000, 30000, 100000, 1));
+		modificaStadioItem.addActionListener(new ActionListener() {
 
-				JLabel prezzoLabel = new JLabel("Prezzo");
-				JSpinner prezzoSpinner = new JSpinner(new SpinnerNumberModel(5.0, 5.0, 100.0, 0.5));
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Stadio> stadi = strutturaSportiva.getStadi();
 
-				newStadium.setLayout(new GridLayout(3, 2));
-				newStadium.add(nameLabel);
-				newStadium.add(nameField);
-				newStadium.add(capienzaLabel);
-				newStadium.add(capienzaSpinner);
-				newStadium.add(prezzoLabel);
-				newStadium.add(prezzoSpinner);
-
-				int returnValue = JOptionPane.showOptionDialog(Window.this, newStadium, "Aggiungi Stadio",
-						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-						new String[] { "Aggiungi", "Cancella" }, 0);
-
-				if (returnValue == 0) {
-					strutturaSportiva.addStadio(new Stadio(nameField.getText(), (int) capienzaSpinner.getValue(),
-							(double) prezzoSpinner.getValue()));
-					System.out.println(strutturaSportiva.getStadi().size());
+				try {
+					ModificaStadioFrame modificaStadioFrame = new ModificaStadioFrame(stadi);
+					modificaStadioFrame.setLocationRelativeTo(Window.this);
+					modificaStadioFrame.setVisible(true);
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
+			}
+		});
+
+		stadioMenu.addMenuListener(new MenuListener() {
+
+			@Override
+			public void menuSelected(MenuEvent e) {
+				System.out.println("Selected");
+
+				if (strutturaSportiva.getStadi().size() == 0) {
+					modificaStadioItem.setEnabled(false);
+				} else {
+					modificaStadioItem.setEnabled(true);
+				}
+
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+				System.out.println("Deselected");
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
+				System.out.println("Canceled");
+
 			}
 		});
 
@@ -626,14 +672,76 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame scontoStadioFrame = new ScontoStadioFrame(strutturaSportiva);
-				scontoStadioFrame.setLocationRelativeTo(Window.this);
-				scontoStadioFrame.setVisible(true);
+				ArrayList<Stadio> stadi = strutturaSportiva.getStadi();
+
+				try {
+					ScontoStadioFrame scontoStadioFrame = new ScontoStadioFrame(strutturaSportiva, stadi);
+					scontoStadioFrame.setLocationRelativeTo(Window.this);
+					scontoStadioFrame.setVisible(true);
+				} catch (IllegalArgumentException ex) {
+					JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Nessuno stadio presente.",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
 		});
 
 		JMenuItem scontiPartita = new JMenuItem("Partita");
+		scontiPartita.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Partita> partite = strutturaSportiva.getPartiteProgrammate();
+
+				try {
+					ScontoPartitaFrame scontoPartitaFrame = new ScontoPartitaFrame(strutturaSportiva, partite);
+				} catch (IllegalArgumentException ex) {
+					JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Nessuno partita presente.",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+
 		JMenuItem scontiPerGiornoSettimana = new JMenuItem("Giorno");
+
+		scontiMenu.addMenuListener(new MenuListener() {
+
+			@Override
+			public void menuSelected(MenuEvent e) {
+				if (strutturaSportiva.getStadi().size() == 0) {
+					scontiStadio.setEnabled(false);
+					scontiPartita.setEnabled(false);
+					scontiPerGiornoSettimana.setEnabled(false);
+				} else {
+					scontiStadio.setEnabled(true);
+					scontiPartita.setEnabled(true);
+					scontiPerGiornoSettimana.setEnabled(true);
+				}
+
+				if (strutturaSportiva.getPartiteProgrammate().size() == 0) {
+					scontiPartita.setEnabled(false);
+					scontiPerGiornoSettimana.setEnabled(false);
+				} else {
+					scontiPartita.setEnabled(true);
+					scontiPerGiornoSettimana.setEnabled(true);
+				}
+
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		scontiMenu.add(scontiStadio);
 		scontiMenu.add(scontiPartita);
 		scontiMenu.add(scontiPerGiornoSettimana);
@@ -692,8 +800,7 @@ public class Window extends JFrame implements Serializable {
 		@Override
 		public void windowOpened(WindowEvent windowevent) {
 			System.out.println("Opened OPENED OPENED");
-
-			// Verifica validità prenotazioni
+			strutturaSportiva.cancellaPrenotazioniScadute();
 		}
 
 		@Override
