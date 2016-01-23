@@ -29,6 +29,7 @@ public class StrutturaSportiva implements Serializable {
 		this.utenti = new ArrayList<>();
 		this.sconti = new ArrayList<>();
 		this.prenotazioni = new ArrayList<>();
+		this.prenotazioniScadute = new ArrayList<>();
 		this.acquisti = new ArrayList<>();
 	}
 
@@ -469,9 +470,26 @@ public class StrutturaSportiva implements Serializable {
 		for (int i = (this.prenotazioni.size() - 1); i >= 0; i--) {
 			if (!this.verificaValiditaPrenotazione(this.prenotazioni.get(i))) {
 				// metodo di reset dei posti
+				Prenotazione prenotazioneScaduta = this.prenotazioni.get(i);
+				Partita partita = prenotazioneScaduta.getPartita();
+				partita.resetSeatStatus(prenotazioneScaduta);
+
+				this.prenotazioniScadute.add(prenotazioneScaduta);
 				this.cancellaPrenotazione(this.prenotazioni.get(i));
 			}
 		}
+	}
+
+	/**
+	 * Restituisce l'ArrayList delle prenotazioni scadute per i cui clienti non
+	 * sono stati ancora avvisati.
+	 * 
+	 * @return L'ArrayList delle prenotazioni scadute per i cui clienti non sono
+	 *         stati ancora avvisati.
+	 * @author Maurizio
+	 */
+	public ArrayList<Prenotazione> getPrenotazioniScadute() {
+		return this.prenotazioniScadute;
 	}
 
 	/**
@@ -546,7 +564,7 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
 	private ArrayList<Sconti> sconti;
-	private ArrayList<Prenotazione> prenotazioni;
+	private ArrayList<Prenotazione> prenotazioni, prenotazioniScadute;
 	private ArrayList<Acquisto> acquisti;
 
 	private static final int ORE_SCADENZA_PRENOTAZIONE = 12;

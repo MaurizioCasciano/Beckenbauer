@@ -43,8 +43,16 @@ public class Partita implements Serializable {
 		return this.settori;
 	}
 
-	public void resetSeatStatus(Prenotazione prenotazione) {
-		Posto posto = prenotazione.getPosto();
+	/**
+	 * Ripristina lo stato del posto della prenotazione passata in input a
+	 * {@link SeatStatus#LIBERO}.
+	 * 
+	 * @param prenotazioneEliminata
+	 *            La prenotazione eliminata o scaduta.
+	 * @author Maurizio
+	 */
+	public void resetSeatStatus(Prenotazione prenotazioneEliminata) {
+		Posto posto = prenotazioneEliminata.getPosto();
 		Settore settore = posto.getSettore();
 
 		for (Settore s : this.settori) {

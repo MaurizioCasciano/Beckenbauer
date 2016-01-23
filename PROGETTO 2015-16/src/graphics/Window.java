@@ -22,6 +22,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -51,8 +54,10 @@ import calendar.Week;
 import graphics.login.IdentificationPanel;
 import graphics.sconti.AggiungiStadioFrame;
 import graphics.sconti.ModificaStadioFrame;
+import graphics.sconti.ScontoGiornoFrame;
 import graphics.sconti.ScontoPartitaFrame;
 import graphics.sconti.ScontoStadioFrame;
+import graphics.testing.VisualizzaIncassoPanel;
 //import graphics.testing.ScontoStadioFrame;
 import objectsTable.AcquistoTable;
 import objectsTable.PartitaTable;
@@ -644,7 +649,7 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void menuSelected(MenuEvent e) {
-				System.out.println("Selected");
+				// System.out.println("Selected");
 
 				if (strutturaSportiva.getStadi().size() == 0) {
 					modificaStadioItem.setEnabled(false);
@@ -656,13 +661,12 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void menuDeselected(MenuEvent e) {
-				System.out.println("Deselected");
+				// System.out.println("Deselected");
 			}
 
 			@Override
 			public void menuCanceled(MenuEvent e) {
-				System.out.println("Canceled");
-
+				// System.out.println("Canceled");
 			}
 		});
 
@@ -695,15 +699,26 @@ public class Window extends JFrame implements Serializable {
 
 				try {
 					ScontoPartitaFrame scontoPartitaFrame = new ScontoPartitaFrame(strutturaSportiva, partite);
+					scontoPartitaFrame.setLocationRelativeTo(Window.this);
+					scontoPartitaFrame.setVisible(true);
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Nessuno partita presente.",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
 		JMenuItem scontiPerGiornoSettimana = new JMenuItem("Giorno");
+
+		scontiPerGiornoSettimana.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScontoGiornoFrame scontoGiornoFrame = new ScontoGiornoFrame(strutturaSportiva);
+				scontoGiornoFrame.setLocationRelativeTo(Window.this);
+				scontoGiornoFrame.setVisible(true);
+			}
+		});
 
 		scontiMenu.addMenuListener(new MenuListener() {
 
@@ -731,14 +746,10 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 
@@ -747,9 +758,29 @@ public class Window extends JFrame implements Serializable {
 		scontiMenu.add(scontiPerGiornoSettimana);
 		menuBar.add(scontiMenu);
 
+		JMenu incassoMenu = new JMenu("Incasso");
+		JMenuItem incassoMenuItem = new JMenuItem("Visualizza incasso");
+
+		incassoMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Incasso");
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+				frame.add(new VisualizzaIncassoPanel(strutturaSportiva));
+				frame.setSize(300, 300);
+				frame.setLocationRelativeTo(Window.this);
+				frame.setResizable(false);
+				frame.setVisible(true);
+			}
+		});
+
+		incassoMenu.add(incassoMenuItem);
+		menuBar.add(incassoMenu);
+
 		this.partitaTable = new PartitaTable(Mode.GESTORE, this.strutturaSportiva.getPartiteProgrammate(),
 				this.strutturaSportiva);
-		// this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 
 		this.partitaTable.addMouseListener(new MouseAdapter() {
 
@@ -799,8 +830,27 @@ public class Window extends JFrame implements Serializable {
 
 		@Override
 		public void windowOpened(WindowEvent windowevent) {
-			System.out.println("Opened OPENED OPENED");
-			strutturaSportiva.cancellaPrenotazioniScadute();
+			System.out.println("Opened OPENED OPENED " + new GregorianCalendar().getTime());
+
+			new SwingWorker<Void, Void>() {
+				@Override
+				protected Void doInBackground() throws Exception {
+
+					TimerTask timerTask = new TimerTask() {
+						@Override
+						public void run() {
+							strutturaSportiva.cancellaPrenotazioniScadute();
+							System.out.println("Controllate prenotazioni scadute " + new GregorianCalendar().getTime());
+						}
+					};
+
+					Timer timer = new Timer();
+					// timer.schedule(timerTask, 1000, 1000);
+					timer.schedule(timerTask, 1000 * 60 * 5, 1000 * 60 * 30);
+					return null;
+				}
+
+			}.execute();
 		}
 
 		@Override
@@ -828,8 +878,6 @@ public class Window extends JFrame implements Serializable {
 					this.prenota.setEnabled(false);
 				}
 
-				// effetturae controllo prenotazione partita selezionata
-				// this.prenota.setEnabled(false);
 				this.completaPrenotazione = new JMenuItem("Completa prenotazione");
 
 				if (!strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
