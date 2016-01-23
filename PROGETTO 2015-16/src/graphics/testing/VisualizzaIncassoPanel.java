@@ -1,6 +1,7 @@
 package graphics.testing;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
@@ -28,8 +30,8 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 		}
 		
 		//Metodi di supporto
-		this.createElements();
 		this.createButton();
+		this.createElements();
 		
 		this.setLayout(new BorderLayout());
 		this.add(sceltaPanel, BorderLayout.NORTH);
@@ -68,6 +70,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 				}
 				createComboStadi();
 				sceltaPanel.add(selezionaStadio);
+				sceltaPanel.add(visualizzaButton);
 				revalidate();
 			}
 			
@@ -80,8 +83,12 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 		this.sceltaPanel = new JPanel();
 		this.sceltaPanel.add(radioTotale);
 		this.sceltaPanel.add(radioPerStadio);
+		this.sceltaPanel.add(visualizzaButton);
 
 		this.labelIncasso = new JLabel();
+		this.labelIncasso.setHorizontalAlignment(SwingConstants.CENTER);
+		this.labelIncasso.setFont(new Font(labelIncasso.getFont().getName(), Font.BOLD, 20));
+
 	}
 	
 	public void createButton(){
@@ -101,8 +108,6 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 			
 			
 		});
-		
-		this.sceltaPanel.add(visualizzaButton);
 	}
 	
 	
