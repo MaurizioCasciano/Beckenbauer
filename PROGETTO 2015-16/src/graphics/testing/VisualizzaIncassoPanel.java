@@ -21,7 +21,7 @@ import struttura.filters.PurchasesByStadium;
 
 public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 
-	public VisualizzaIncassoPanel(StrutturaSportiva struct){
+	public VisualizzaIncassoPanel(StrutturaSportiva struct) throws IllegalArgumentException{
 		this.struct = struct;
 		
 		
