@@ -369,7 +369,7 @@ public class TestGaetano {
 		/******* Grafica Sconti *******/
 		//Partita prova = new Partita(roma, juventus, olimpico, new GregorianCalendar(2016, Calendar.JANUARY, 23, 20, 45));
 		//struct.addPartita(prova);
-		JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
+		//JFrame frameScontiPartita = new ScontoPartitaFrame(struct);
 		//JFrame frameScontiStadio = new ScontoStadioFrame(struct);
 		//JFrame frameScontiGiorno = new ScontoGiornoFrame(struct);
 		
@@ -381,6 +381,10 @@ public class TestGaetano {
 		
 		System.out.println("Prezzo: " + acqProva.getBiglietto().getPrezzo());*/
 		
-	}
+		JFrame frame = new JFrame("Test");
+		frame.add(new VisualizzaIncassoPanel(struct));
+		frame.setVisible(true);
+		frame.setSize(500, 200);
+		}
 
 }
