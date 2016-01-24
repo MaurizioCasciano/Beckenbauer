@@ -34,7 +34,7 @@ public class Partita implements Serializable {
 	public Partita() {
 		this.squadraInCasa = new Squadra("-");
 		this.squadraInTrasferta = new Squadra("-");
-		this.stadio = new Stadio("-", 50000, 0.00);
+		this.stadio = new Stadio("-", Stadio.CAPIENZA_MINIMA, Stadio.PREZZO_MINIMO);
 		this.data = new GregorianCalendar();
 		this.settori = this.stadio.getSettoriClone();
 	}
@@ -43,8 +43,16 @@ public class Partita implements Serializable {
 		return this.settori;
 	}
 
-	public void resetSeatStatus(Prenotazione prenotazione) {
-		Posto posto = prenotazione.getPosto();
+	/**
+	 * Ripristina lo stato del posto della prenotazione passata in input a
+	 * {@link SeatStatus#LIBERO}.
+	 * 
+	 * @param prenotazioneEliminata
+	 *            La prenotazione eliminata o scaduta.
+	 * @author Maurizio
+	 */
+	public void resetSeatStatus(Prenotazione prenotazioneEliminata) {
+		Posto posto = prenotazioneEliminata.getPosto();
 		Settore settore = posto.getSettore();
 
 		for (Settore s : this.settori) {

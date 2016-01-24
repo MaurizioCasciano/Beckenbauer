@@ -8,8 +8,38 @@ import graphics.DivisibleIntoSectors;
 
 public class Stadio implements Serializable, DivisibleIntoSectors {
 
-	public Stadio(String nome, int capienzaDesiderataStadio, double prezzoPerPartita) {
+	/**
+	 * Crea un nuovo {@link Stadio} con la capienza e il prezzo passati in
+	 * input.
+	 * 
+	 * @param nome
+	 *            Il nome dello Stadio.
+	 * @param capienzaDesiderataStadio
+	 *            La capienza desiderata dello Stadio, essa deve essere compresa
+	 *            tra {@link Stadio#CAPIENZA_MINIMA} e
+	 *            {@link Stadio#CAPIENZA_MASSIMA}.
+	 * @param prezzoPerPartita
+	 *            Il prezzo da applicare ad ogni biglietto per le partite
+	 *            giocate in questo stadio.
+	 * @throws IllegalArgumentException
+	 *             Se la capienza desiderata non è compresa (estremi inclusi)
+	 *             tra {@link Stadio#CAPIENZA_MINIMA} e
+	 *             {@link Stadio#CAPIENZA_MASSIMA}.
+	 * 
+	 *             Oppure se il prezzoPerPartia non è compreso tra
+	 * @author Maurizio
+	 */
+	public Stadio(String nome, int capienzaDesiderataStadio, double prezzoPerPartita) throws IllegalArgumentException {
 		this.nome = nome;
+
+		if (capienzaDesiderataStadio < CAPIENZA_MINIMA || capienzaDesiderataStadio > CAPIENZA_MASSIMA) {
+			throw new IllegalArgumentException("La capienza desiderata non è consentita");
+		}
+
+		if (prezzoPerPartita < PREZZO_MINIMO || prezzoPerPartita > PREZZO_MASSIMO) {
+			throw new IllegalArgumentException("La prezzo indicat non è consentito");
+		}
+
 		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
 		this.ID_Stadio = ++ID_Counter;
@@ -25,10 +55,9 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private void init() {
 
 		/*
-		 * Necessità di re-inizializzare i due caratteri, altrimenti, con lo
-		 * stesso stadio, alla visualizzazione della seconda partita i settori
-		 * dello stadio non partono da AA (Da testare ulteriormente, per capirne
-		 * il reale motivo).
+		 * Necessità di re-inizializzare i due caratteri, altrimenti alla
+		 * chiamata del metodo setCapienza() che richiama init() i settori dello
+		 * stadio non partiranno da AA.
 		 */
 		firstChar = 'A';
 		secondChar = 'A';
@@ -70,8 +99,11 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 			/*
 			 * Crea il settore corrente.
 			 */
-			Settore settore = new Settore(Stadio.this, this.getNextNomeSettore(), this.postiPerSettore,
-					this.filePerSettore);
+
+			String nomeSettore = this.getNextNomeSettore();
+			// System.out.println(nomeSettore);
+
+			Settore settore = new Settore(Stadio.this, nomeSettore, this.postiPerSettore, this.filePerSettore);
 
 			/*
 			 * Crea i posti per il settore.
@@ -184,23 +216,13 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	}
 
 	public void calcolaPostiEffettivi(int postiRichiesti) {
-		int postiPerSettore = (postiRichiesti / SETTORI);
+		int postiPerSettore = (postiRichiesti / NUMERO_SETTORI);
 		this.postiPerSettore = postiPerSettore;
 
-		int postiEffettivi = postiPerSettore * SETTORI;
+		int postiEffettivi = postiPerSettore * NUMERO_SETTORI;
 		this.capienzaDesiderataStadio = postiEffettivi;
 
 		int numeroFile = (int) Math.sqrt(postiPerSettore);
-
-		/*
-		 * Controllare il valore di numeroFile.
-		 * 
-		 * Possibile rischio: "java.lang.ArithmeticException: / by zero" Causato
-		 * dalla creazione di una nuova partita in cui lo stadio ha capienza 0.
-		 * Nuova capienza di default (per nuova partita) stadio aggiornata a
-		 * 30000 (Minimo valore selezionabile dallo spinner alla creazione di
-		 * uno stadio).
-		 */
 		int numeroPosti = postiPerSettore / numeroFile;
 
 		this.filePerSettore = numeroFile;
@@ -223,15 +245,14 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 		String nomeSettore = "Settore ";
 
-		if (this.secondChar <= 'Z') {
+		if (this.secondChar < 'Z') {
 			nomeSettore += this.firstChar;
 			nomeSettore += this.secondChar++;
-		} else if (this.secondChar == 'Z' + 1) {
-			this.secondChar = 'A';
-			this.firstChar++;
+		} else if (this.secondChar == 'Z') {
 
-			nomeSettore += this.firstChar;
+			nomeSettore += this.firstChar++;
 			nomeSettore += this.secondChar;
+			this.secondChar = 'A';
 		}
 
 		return nomeSettore;
@@ -248,7 +269,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private int ID_Stadio;
 	private double prezzoPerPartita;
 	private ArrayList<Settore> settori;
-	private static final int SETTORI = 620;
+	public static final int NUMERO_SETTORI = 620, CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
+	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
 	private static int ID_Counter = 1000;
 
 	public static void main(String[] args) {
