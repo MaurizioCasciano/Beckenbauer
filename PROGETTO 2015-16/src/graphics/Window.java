@@ -22,6 +22,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -1001,13 +1002,23 @@ public class Window extends JFrame implements Serializable {
 			case CLIENTE:
 
 				this.add(new JLabel("  Dettagli"));
-
 				this.prenota = new JMenuItem("Prenota");
 
-				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
-						Window.this.partitaTable.getSelectedPartita())
-						|| strutturaSportiva.verificaAcquisto((Cliente) Window.this.utente,
-								Window.this.partitaTable.getSelectedPartita())) {
+				Partita partita = Window.this.partitaTable.getSelectedPartita();
+				GregorianCalendar dataPartita = partita.getData();
+				GregorianCalendar dataAttualePiu12Ore = new GregorianCalendar();
+				dataAttualePiu12Ore.add(Calendar.HOUR_OF_DAY, 12);
+
+				/*
+				 * Disabilita le prenotazioni a partire da 12 ore prima della
+				 * partita.
+				 */
+				if (dataAttualePiu12Ore.after(dataPartita)) {
+					this.prenota.setEnabled(false);
+				}
+
+				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente, partita)
+						|| strutturaSportiva.verificaAcquisto((Cliente) Window.this.utente, partita)) {
 					this.prenota.setEnabled(false);
 				}
 
