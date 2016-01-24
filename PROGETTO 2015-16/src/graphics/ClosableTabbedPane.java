@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -18,7 +19,7 @@ import javax.swing.JTabbedPane;
  * 
  * @author Maurizio
  */
-public class ClosableTabbedPane extends JTabbedPane {
+public class ClosableTabbedPane extends JTabbedPane implements Serializable{
 
 	/**
 	 * Crea un {@link JTabbedPane} vuoto con un posizionamento delle tab di
