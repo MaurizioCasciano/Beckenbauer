@@ -12,7 +12,6 @@ import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import graphics.testing.*;
 
-@SuppressWarnings("unused")
 public class TestGaetano {
 	
 	public static void main(String[] args) throws AlreadyRegisteredUserException {

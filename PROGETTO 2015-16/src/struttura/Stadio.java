@@ -55,12 +55,12 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private void init() {
 
 		/*
-		 * Necessità di re-inizializzare i due caratteri, altrimenti, con lo
-		 * stesso stadio, alla visualizzazione della seconda partita i settori
-		 * dello stadio non partono da AA.
+		 * Necessità di re-inizializzare i due caratteri, altrimenti alla
+		 * chiamata del metodo setCapienza() che richiama init() i settori dello
+		 * stadio non partiranno da AA.
 		 */
-		// firstChar = 'A';
-		// secondChar = 'A';
+		firstChar = 'A';
+		secondChar = 'A';
 
 		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
