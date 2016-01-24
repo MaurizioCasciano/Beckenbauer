@@ -380,8 +380,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		 */
 		Point oldComponentLocation = component.getLocation();
 
-		int newMouseX = Math.round((float) (oldComponentLocation.x - offsetX));
-		int newMouseY = Math.round((float) (oldComponentLocation.y - offsetY));
+		int newMouseX = (int) (oldComponentLocation.x - offsetX);
+
+		int newMouseY = (int) (oldComponentLocation.y - offsetY);
+
 		Point newComponentLocation = new Point(newMouseX, newMouseY);
 
 		component.setLocation(newComponentLocation);
@@ -413,36 +415,11 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		return this.settori.get(settoreIndex++);
 	}
 
-	/**
-	 * Genera il nome del prossimo Settore da creare
-	 * 
-	 * @return
-	 * @author Maurizio
-	 */
-	public String getNextNomeSettore() {
-
-		String nomeSettore = "Settore ";
-
-		if (this.secondChar <= 'Z') {
-			nomeSettore += this.firstChar;
-			nomeSettore += this.secondChar++;
-		} else if (this.secondChar == 'Z' + 1) {
-			this.secondChar = 'A';
-			this.firstChar++;
-
-			nomeSettore += this.firstChar;
-			nomeSettore += this.secondChar;
-		}
-
-		return nomeSettore;
-	}
-
 	public int getNumeroSettori() {
 		return this.numeroSettori;
 	}
 
 	private int settoreIndex = 0;
-	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -1931003973640128793L;
 	private StrutturaSportiva strutturaSportiva;
 	private Cliente cliente;
@@ -551,7 +528,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 
 		long diff = end - start;
 
-		System.out.println(diff / 1000);
+		System.out.println("TEMPO PER LA CREAZIONE in secondi: " + diff / 1000);
 
 		frame.add(scrollPane);
 		frame.pack();

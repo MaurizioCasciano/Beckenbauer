@@ -95,9 +95,10 @@ public class AggiungiStadioFrame extends JFrame implements Serializable {
 		 * I valori vengono impostati in questo modo poichè, con l'editor per la
 		 * percentuale saranno moltiplicati per 100.
 		 */
-		this.prezzoSpinner = new JSpinner(new SpinnerNumberModel(5, 5, 500, 0.5));
+		this.prezzoSpinner = new JSpinner(
+				new SpinnerNumberModel(Stadio.PREZZO_MINIMO, Stadio.PREZZO_MINIMO, Stadio.PREZZO_MASSIMO, 0.5));
 		String currencySymbol = DecimalFormatSymbols.getInstance().getCurrencySymbol();
-		String currencyPattern = "###" + '.' + "#" + currencySymbol;
+		String currencyPattern = currencySymbol + " ###" + '.' + "00";
 
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(prezzoSpinner, currencyPattern);
 		editor.getTextField().setEditable(false);

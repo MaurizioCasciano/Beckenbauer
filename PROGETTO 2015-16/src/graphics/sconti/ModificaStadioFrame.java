@@ -135,7 +135,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getPrezzoPerPartita(),
 						Stadio.PREZZO_MINIMO, Stadio.PREZZO_MASSIMO, 0.5));
 		String currencySymbol = DecimalFormatSymbols.getInstance().getCurrencySymbol();
-		String currencyPattern = "###" + '.' + "#" + currencySymbol;
+		String currencyPattern = currencySymbol + " ###" + '.' + "00";
 
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(prezzoSpinner, currencyPattern);
 		editor.getTextField().setEditable(false);

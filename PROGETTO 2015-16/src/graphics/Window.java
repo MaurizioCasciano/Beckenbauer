@@ -57,6 +57,7 @@ import graphics.sconti.ModificaStadioFrame;
 import graphics.sconti.ScontoGiornoFrame;
 import graphics.sconti.ScontoPartitaFrame;
 import graphics.sconti.ScontoStadioFrame;
+import graphics.testing.VisualizzaIncassoFrame;
 import graphics.testing.VisualizzaIncassoPanel;
 //import graphics.testing.ScontoStadioFrame;
 import objectsTable.AcquistoTable;
@@ -102,7 +103,7 @@ public class Window extends JFrame implements Serializable {
 			this.strutturaSportiva.getUtente("gestore");
 		} catch (UserNotFoundException e) {
 			try {
-				this.strutturaSportiva.addUtente(new Gestore("NomeGestore", "CognomeGestore", "gestore", "P@ssw0rd"));
+				this.strutturaSportiva.addUtente(new Gestore("Gestore", "CognomeGestore", "gestore", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
 				e1.printStackTrace();
 			} catch (AlreadyRegisteredUserException e1) {
@@ -128,7 +129,6 @@ public class Window extends JFrame implements Serializable {
 	 * @param DB_File
 	 *            Il file contenente l'oggetto StrutturaSportiva da caricare.
 	 * @return L'oggetto StrutturaSportiva presente nel file.
-	 * @throws Exception
 	 */
 	private StrutturaSportiva loadStrutturaSportiva(File DB_File) {
 
@@ -459,7 +459,23 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Window.this.storeStrutturaSportiva();
+
+				new SwingWorker<Void, Void>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						// System.out.println(SwingUtilities.isEventDispatchThread());
+						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+						Window.this.storeStrutturaSportiva();
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					}
+
+				}.execute();
 			}
 		});
 		fileMenu.add(saveMenuItem);
@@ -476,6 +492,19 @@ public class Window extends JFrame implements Serializable {
 		});
 
 		fileMenu.add(exitMenuItem);
+
+		JMenuItem logoutMenuItem = new JMenuItem("Logout");
+		fileMenu.add(logoutMenuItem);
+		logoutMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Window.this.setJMenuBar(null);
+				Window.this.mainPanel.removeAll();
+				Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+				Window.this.revalidate();
+			}
+		});
 
 		menuBar.add(fileMenu);
 
@@ -575,7 +604,64 @@ public class Window extends JFrame implements Serializable {
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.LIGHT_GRAY);
-		JMenu partiteMenu = new JMenu("Partite");
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setMnemonic('S');
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		saveMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				new SwingWorker<Void, Void>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						// System.out.println(SwingUtilities.isEventDispatchThread());
+						Window.this.partitaTableScrollPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+						Window.this.storeStrutturaSportiva();
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						Window.this.partitaTableScrollPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					}
+
+				}.execute();
+			}
+		});
+		fileMenu.add(saveMenuItem);
+
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.setMnemonic('E');
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		exitMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Window.this.dispose();
+			}
+		});
+
+		fileMenu.add(exitMenuItem);
+
+		JMenuItem logoutMenuItem = new JMenuItem("Logout");
+		fileMenu.add(logoutMenuItem);
+		logoutMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Window.this.setJMenuBar(null);
+				Window.this.mainPanel.removeAll();
+				Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+				Window.this.revalidate();
+			}
+		});
+
+		menuBar.add(fileMenu);
+
+		JMenu partiteMenu = new JMenu("Partita");
 		JMenuItem newPartitaItem = new JMenuItem("Aggiungi");
 
 		newPartitaItem.addActionListener(new ActionListener() {
@@ -761,18 +847,47 @@ public class Window extends JFrame implements Serializable {
 		JMenu incassoMenu = new JMenu("Incasso");
 		JMenuItem incassoMenuItem = new JMenuItem("Visualizza incasso");
 
+		incassoMenu.addMenuListener(new MenuListener() {
+
+			@Override
+			public void menuSelected(MenuEvent e) {
+				if (strutturaSportiva.getStadi().size() == 0) {
+					incassoMenuItem.setEnabled(false);
+				} else {
+					incassoMenuItem.setEnabled(true);
+				}
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
+			}
+		});
+
 		incassoMenuItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame("Incasso");
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				try {
+					VisualizzaIncassoFrame incassoFrame = new VisualizzaIncassoFrame(strutturaSportiva);
+					incassoFrame.setLocationRelativeTo(Window.this);
+					incassoFrame.setVisible(true);
+				} catch (NullPointerException e2) {
+					// NON SUCCEDE MAI
+					e2.printStackTrace();
+					JOptionPane.showMessageDialog(Window.this, e2.getMessage(), "StrutturaSportiva null.",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (IllegalArgumentException e3) {
+					// NON SUCCEDE MAI perchè il menuItem viene disabilitato
+					// quando non ci sono stadi
+					e3.printStackTrace();
+					JOptionPane.showMessageDialog(Window.this, e3.getMessage(), "Nessuno stadio presente.",
+							JOptionPane.ERROR_MESSAGE);
+				}
 
-				frame.add(new VisualizzaIncassoPanel(strutturaSportiva));
-				frame.setSize(300, 300);
-				frame.setLocationRelativeTo(Window.this);
-				frame.setResizable(false);
-				frame.setVisible(true);
 			}
 		});
 
@@ -855,7 +970,25 @@ public class Window extends JFrame implements Serializable {
 
 		@Override
 		public void windowClosing(WindowEvent paramWindowEvent) {
-			Window.this.storeStrutturaSportiva();
+			System.out.println("CLOSING");
+
+			new SwingWorker<Void, Void>() {
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					// System.out.println(SwingUtilities.isEventDispatchThread());
+					Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					Window.this.storeStrutturaSportiva();
+					return null;
+				}
+
+				@Override
+				protected void done() {
+					Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+				}
+
+			}.execute();
+
 		}
 	}
 

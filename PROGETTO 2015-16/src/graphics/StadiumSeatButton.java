@@ -52,7 +52,8 @@ public class StadiumSeatButton extends JButton implements Serializable {
 			}
 		});
 
-		this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto);
+		this.setToolTipText(
+				"Fila: " + numeroFila + "  " + "Posto: " + numeroPosto + " " + "Stato: " + this.posto.getStato());
 		this.setBorder(null);
 		this.setOpaque(true);
 		this.setBackground(this.posto.getStato().getColor());
@@ -73,11 +74,13 @@ public class StadiumSeatButton extends JButton implements Serializable {
 
 						posto.setStato(SeatStatus.PRENOTATO);
 						setBackground(posto.getStato().getColor());
+						StadiumSeatButton.this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto
+								+ " " + "Stato: " + posto.getStato());
 						repaint();
 
 						JOptionPane.showMessageDialog(null,
 								"Complimenti, prenotazione aggiunta correttamente.\nN.B.: Si ricorda che la prenotazione scade 12 ore prima dell'inizio della partita.\nIn assenza di un acquisto ad essa collegato, la prenotazione, verrà cancellata automaticamente.",
-								"Prenotazione presente", JOptionPane.INFORMATION_MESSAGE);
+								"Prenotazione effettuata.", JOptionPane.INFORMATION_MESSAGE);
 
 					} catch (AlreadyExistsObjectException e2) {
 						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione già presente",
@@ -100,11 +103,16 @@ public class StadiumSeatButton extends JButton implements Serializable {
 
 							posto.setStato(SeatStatus.VENDUTO);
 							setBackground(posto.getStato().getColor());
+							StadiumSeatButton.this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto
+									+ " " + "Stato: " + posto.getStato());
 							repaint();
+
+							JOptionPane.showMessageDialog(null, "Complimenti, acquisto aggiunto correttamente.",
+									"Prenotazione presente", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							JOptionPane.showMessageDialog(StadiumSeatButton.this,
 									"Spiacenti, è presente una sua prenotazione per questa partita nel sistema. Completarla.",
-									"Prenotazione presente", JOptionPane.ERROR_MESSAGE);
+									"Prenotazione già presente", JOptionPane.ERROR_MESSAGE);
 						}
 					} catch (AlreadyExistsObjectException e2) {
 						JOptionPane.showMessageDialog(null, e2.getMessage(), "Acquisto già presente Exception.",

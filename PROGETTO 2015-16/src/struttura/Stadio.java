@@ -26,7 +26,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 *             tra {@link Stadio#CAPIENZA_MINIMA} e
 	 *             {@link Stadio#CAPIENZA_MASSIMA}.
 	 * 
-	 *             Oppure se il prezzoPerPartia non è compreso tra 
+	 *             Oppure se il prezzoPerPartia non è compreso tra
 	 * @author Maurizio
 	 */
 	public Stadio(String nome, int capienzaDesiderataStadio, double prezzoPerPartita) throws IllegalArgumentException {
@@ -59,8 +59,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		 * stesso stadio, alla visualizzazione della seconda partita i settori
 		 * dello stadio non partono da AA.
 		 */
-		firstChar = 'A';
-		secondChar = 'A';
+		// firstChar = 'A';
+		// secondChar = 'A';
 
 		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
@@ -99,8 +99,11 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 			/*
 			 * Crea il settore corrente.
 			 */
-			Settore settore = new Settore(Stadio.this, this.getNextNomeSettore(), this.postiPerSettore,
-					this.filePerSettore);
+
+			String nomeSettore = this.getNextNomeSettore();
+			// System.out.println(nomeSettore);
+
+			Settore settore = new Settore(Stadio.this, nomeSettore, this.postiPerSettore, this.filePerSettore);
 
 			/*
 			 * Crea i posti per il settore.
@@ -242,15 +245,14 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 		String nomeSettore = "Settore ";
 
-		if (this.secondChar <= 'Z') {
+		if (this.secondChar < 'Z') {
 			nomeSettore += this.firstChar;
 			nomeSettore += this.secondChar++;
-		} else if (this.secondChar == 'Z' + 1) {
-			this.secondChar = 'A';
-			this.firstChar++;
+		} else if (this.secondChar == 'Z') {
 
-			nomeSettore += this.firstChar;
+			nomeSettore += this.firstChar++;
 			nomeSettore += this.secondChar;
+			this.secondChar = 'A';
 		}
 
 		return nomeSettore;
