@@ -27,6 +27,8 @@ import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
+
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -100,11 +102,14 @@ public class Window extends JFrame implements Serializable {
 		this.strutturaSportiva_DB_File = new File(this.strutturaSportivaName + ".ser");
 		this.strutturaSportiva = this.loadStrutturaSportiva(this.strutturaSportiva_DB_File);
 
+		/*
+		 * In assenza dell'account del gestore, viene creato.
+		 */
 		try {
-			this.strutturaSportiva.getUtente("gestore");
+			this.strutturaSportiva.getUtente("admin");
 		} catch (UserNotFoundException e) {
 			try {
-				this.strutturaSportiva.addUtente(new Gestore("Gestore", "CognomeGestore", "gestore", "P@ssw0rd"));
+				this.strutturaSportiva.addUtente(new Gestore("Gestore", "Gestore", "admin", "P@ssw0rd"));
 			} catch (WeakPasswordException e1) {
 				e1.printStackTrace();
 			} catch (AlreadyRegisteredUserException e1) {
@@ -117,82 +122,121 @@ public class Window extends JFrame implements Serializable {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 
+		/*
+		 * Necessario per avere il controllo totale sulla chiusura del frame e
+		 * quindi sul salvataggio del file.
+		 */
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new MyWindowAdapter());
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 
 	/**
-	 * Carica un oggetto StrutturaSportiva da file. Se il file non esiste viene
-	 * creato un nuovo oggetto StrutturaSportiva.
+	 * Carica un oggetto {@link StrutturaSportiva} da file. Se il file non
+	 * esiste viene creato un nuovo oggetto StrutturaSportiva.
 	 * 
 	 * @param DB_File
 	 *            Il file contenente l'oggetto StrutturaSportiva da caricare.
 	 * @return L'oggetto StrutturaSportiva presente nel file.
 	 */
-	private StrutturaSportiva loadStrutturaSportiva(File DB_File) {
+	protected StrutturaSportiva loadStrutturaSportiva(File DB_File) {
 
 		StrutturaSportiva strutturaSportiva = null;
 
 		if (DB_File.exists()) {
 
-			FileInputStream fileInputStrem = null;
-			ObjectInputStream objectInputStream = null;
 			try {
-				fileInputStrem = new FileInputStream(DB_File);
-				objectInputStream = new ObjectInputStream(fileInputStrem);
-				strutturaSportiva = (StrutturaSportiva) objectInputStream.readObject();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} finally {
+				/*
+				 * Se i costruttori lanciano un'eccezione, il blocco finally NON
+				 * sarà eseguito.
+				 */
+				FileInputStream fileInputStrem = new FileInputStream(DB_File);
+				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStrem);
+
 				try {
+					strutturaSportiva = (StrutturaSportiva) objectInputStream.readObject();
+				} finally {
+					/*
+					 * Chiude i flussi di input.
+					 */
 					objectInputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				try {
 					fileInputStrem.close();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+			} catch (FileNotFoundException e) {
+				/*
+				 * NON SUCCEDE MAI perchè viene fatto il controllo
+				 * sull'esistenza del file.
+				 */
+				JOptionPane.showMessageDialog(Window.this, e.getMessage(), e.getClass().getSimpleName(),
+						JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+				System.exit(-1);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(Window.this, e.getMessage(), e.getClass().getSimpleName(),
+						JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+				System.exit(-2);
+			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(Window.this, e.getMessage(), e.getClass().getSimpleName(),
+						JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+				System.exit(-3);
 			}
 		} else if (!DB_File.exists()) {
+			/*
+			 * Nel caso in cui il file non esiste viene creata una nuova istanza
+			 * di StrutturaSportiva.
+			 */
 			strutturaSportiva = new StrutturaSportiva(this.strutturaSportivaName);
 		}
 
 		return strutturaSportiva;
 	}
 
+	/**
+	 * Salva la {@link StrutturaSportiva} su file. Se il file non esiste ne
+	 * viene creato uno nuovo.
+	 * 
+	 * @author Maurizio
+	 */
 	public void storeStrutturaSportiva() {
-		if (!this.strutturaSportiva_DB_File.exists()) {
-			try {
-				this.strutturaSportiva_DB_File.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
-		}
-
-		FileOutputStream fileOutputStream = null;
-		ObjectOutputStream objectOutputStream = null;
-
 		try {
-			fileOutputStream = new FileOutputStream(this.strutturaSportiva_DB_File);
-			objectOutputStream = new ObjectOutputStream(fileOutputStream);
-			objectOutputStream.writeObject(this.strutturaSportiva);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+			/*
+			 * Crea il file se non esiste.
+			 */
+			this.strutturaSportiva_DB_File.createNewFile();
+
+			/*
+			 * Se i costruttori lanciano un'eccezione, il blocco finally NON
+			 * sarà eseguito.
+			 */
+			FileOutputStream fileOutputStream = new FileOutputStream(this.strutturaSportiva_DB_File);
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
 			try {
+				objectOutputStream.writeObject(this.strutturaSportiva);
+			} finally {
+				/*
+				 * Chiude i flussi di output.
+				 */
 				objectOutputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				fileOutputStream.close();
 			}
+
+		} catch (FileNotFoundException e) {
+			/*
+			 * NON SUCCEDE MAI perchè il file viene creato se non esiste.
+			 */
+			JOptionPane.showMessageDialog(Window.this, e.getMessage(), e.getClass().getSimpleName(),
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			System.exit(-1);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(Window.this, e.getMessage(), e.getClass().getSimpleName(),
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			System.exit(-2);
 		}
 	}
 
@@ -244,18 +288,12 @@ public class Window extends JFrame implements Serializable {
 
 		this.partitaTable = new PartitaTable(this.mode, this.strutturaSportiva.getPartiteProgrammate(),
 				this.strutturaSportiva);
-		// this.partitaTable.setComponentPopupMenu(new MyPopupMenu());
 
 		this.partitaTable.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.isPopupTrigger()) {
-					/*
-					 * Aggiungere i controlli per gestire gli item da
-					 * disabilitare e da creare in base alla partita selezionata
-					 * e alle prenotazioni (acquisti) del cliente.
-					 */
 					new PartitePopupMenu().show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -263,11 +301,6 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
-					/*
-					 * Aggiungere i controlli per gestire gli item da
-					 * disabilitare e da creare in base alla partita selezionata
-					 * e alle prenotazioni (acquisti) del cliente.
-					 */
 					new PartitePopupMenu().show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -465,7 +498,6 @@ public class Window extends JFrame implements Serializable {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						// System.out.println(SwingUtilities.isEventDispatchThread());
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						Window.this.storeStrutturaSportiva();
 						return null;
@@ -475,38 +507,15 @@ public class Window extends JFrame implements Serializable {
 					protected void done() {
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					}
-
 				}.execute();
 			}
 		});
 		fileMenu.add(saveMenuItem);
 
-		JMenuItem exitMenuItem = new JMenuItem("Exit");
-		exitMenuItem.setMnemonic('E');
-		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
-		exitMenuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Window.this.dispose();
-			}
-		});
+		JMenuItem exitMenuItem = new JMenuItem();
+		exitMenuItem.setAction(new LogoutAction());
 
 		fileMenu.add(exitMenuItem);
-
-		JMenuItem logoutMenuItem = new JMenuItem("Logout");
-		fileMenu.add(logoutMenuItem);
-		logoutMenuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Window.this.setJMenuBar(null);
-				Window.this.mainPanel.removeAll();
-				Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
-				Window.this.revalidate();
-			}
-		});
-
 		menuBar.add(fileMenu);
 
 		/************************************************************************************/
@@ -521,7 +530,6 @@ public class Window extends JFrame implements Serializable {
 
 					@Override
 					protected ArrayList<Prenotazione> doInBackground() throws Exception {
-						// System.out.println(SwingUtilities.isEventDispatchThread());
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						ArrayList<Prenotazione> prenotazioniCliente = Window.this.strutturaSportiva
 								.getPrenotazioniFiltrate(new PrenotationsByCustomer((Cliente) Window.this.utente));
@@ -530,26 +538,25 @@ public class Window extends JFrame implements Serializable {
 
 					@Override
 					protected void done() {
-						// System.out.println(SwingUtilities.isEventDispatchThread());
 						try {
-							Window.this.prenotazioniTable = new PrenotazioneTable(get());
-							Window.this.prenotazioniTable.setComponentPopupMenu(new PrenotazioniPopupMenu());
+							try {
+								Window.this.prenotazioniTable = new PrenotazioneTable(get());
+								Window.this.prenotazioniTable.setComponentPopupMenu(new PrenotazioniPopupMenu());
 
-							JScrollPane prenotazioniScrollPane = new JScrollPane(Window.this.prenotazioniTable);
-							Window.this.tabbedPane.addTab("Prenotazioni", prenotazioniScrollPane);
-							Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-							Window.this.tabbedPane.revalidate();
+								JScrollPane prenotazioniScrollPane = new JScrollPane(Window.this.prenotazioniTable);
+								Window.this.tabbedPane.addTab("Prenotazioni", prenotazioniScrollPane);
+								Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+								Window.this.tabbedPane.revalidate();
+							} finally {
+								Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						} catch (ExecutionException e) {
 							e.printStackTrace();
-						} finally {
-							Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 						}
 					}
-
 				}.execute();
-
 			}
 		});
 
@@ -562,7 +569,6 @@ public class Window extends JFrame implements Serializable {
 
 					@Override
 					protected ArrayList<Acquisto> doInBackground() throws Exception {
-						// System.out.println(SwingUtilities.isEventDispatchThread());
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						ArrayList<Acquisto> acquistiCliente = Window.this.strutturaSportiva
 								.getAcquistiFiltrati(new PurchasesByCustomer((Cliente) Window.this.utente));
@@ -571,22 +577,23 @@ public class Window extends JFrame implements Serializable {
 
 					@Override
 					protected void done() {
-						// System.out.println(SwingUtilities.isEventDispatchThread());
+
 						try {
-							AcquistoTable acquistiTable = new AcquistoTable(get());
-							JScrollPane acquistiScrollPane = new JScrollPane(acquistiTable);
-							Window.this.tabbedPane.addTab("Acquisti", acquistiScrollPane);
-							Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-							Window.this.tabbedPane.revalidate();
+							try {
+								AcquistoTable acquistiTable = new AcquistoTable(get());
+								JScrollPane acquistiScrollPane = new JScrollPane(acquistiTable);
+								Window.this.tabbedPane.addTab("Acquisti", acquistiScrollPane);
+								Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+								Window.this.tabbedPane.revalidate();
+							} finally {
+								Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						} catch (ExecutionException e) {
 							e.printStackTrace();
-						} finally {
-							Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 						}
 					}
-
 				}.execute();
 			}
 		});
@@ -599,6 +606,12 @@ public class Window extends JFrame implements Serializable {
 		this.revalidate();
 	}
 
+	/**
+	 * Inizializza l'interfaccia grafica con i componenti necessari per la
+	 * MODALITA' GESTORE.
+	 * 
+	 * @author Maurizio
+	 */
 	private void initUIGestoreMode() {
 		JOptionPane.showMessageDialog(this.mainPanel, "\nBenvenuto " + utente.getNome(), "Login",
 				JOptionPane.INFORMATION_MESSAGE, Assets.getManagerIcon());
@@ -613,12 +626,10 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				new SwingWorker<Void, Void>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						// System.out.println(SwingUtilities.isEventDispatchThread());
 						Window.this.partitaTableScrollPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						Window.this.storeStrutturaSportiva();
 						return null;
@@ -628,38 +639,16 @@ public class Window extends JFrame implements Serializable {
 					protected void done() {
 						Window.this.partitaTableScrollPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					}
-
 				}.execute();
 			}
 		});
+
 		fileMenu.add(saveMenuItem);
 
-		JMenuItem exitMenuItem = new JMenuItem("Exit");
-		exitMenuItem.setMnemonic('E');
-		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
-		exitMenuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Window.this.dispose();
-			}
-		});
+		JMenuItem exitMenuItem = new JMenuItem();
+		exitMenuItem.setAction(new LogoutAction());
 
 		fileMenu.add(exitMenuItem);
-
-		JMenuItem logoutMenuItem = new JMenuItem("Logout");
-		fileMenu.add(logoutMenuItem);
-		logoutMenuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Window.this.setJMenuBar(null);
-				Window.this.mainPanel.removeAll();
-				Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
-				Window.this.revalidate();
-			}
-		});
-
 		menuBar.add(fileMenu);
 
 		JMenu partiteMenu = new JMenu("Partita");
@@ -736,24 +725,19 @@ public class Window extends JFrame implements Serializable {
 
 			@Override
 			public void menuSelected(MenuEvent e) {
-				// System.out.println("Selected");
-
 				if (strutturaSportiva.getStadi().size() == 0) {
 					modificaStadioItem.setEnabled(false);
 				} else {
 					modificaStadioItem.setEnabled(true);
 				}
-
 			}
 
 			@Override
 			public void menuDeselected(MenuEvent e) {
-				// System.out.println("Deselected");
 			}
 
 			@Override
 			public void menuCanceled(MenuEvent e) {
-				// System.out.println("Canceled");
 			}
 		});
 
@@ -773,7 +757,6 @@ public class Window extends JFrame implements Serializable {
 					JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Nessuno stadio presente.",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
@@ -903,11 +886,6 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.isPopupTrigger()) {
-					/*
-					 * Aggiungere i controlli per gestire gli item da
-					 * disabilitare e da creare in base alla partita
-					 * selezionata.
-					 */
 					new PartitePopupMenu().show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -915,11 +893,6 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
-					/*
-					 * Aggiungere i controlli per gestire gli item da
-					 * disabilitare e da creare in base alla partita
-					 * selezionata.
-					 */
 					new PartitePopupMenu().show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -942,8 +915,19 @@ public class Window extends JFrame implements Serializable {
 	}
 
 	/************************************************************************************************/
+
+	/**
+	 * Classe per gestire le operazioni da eseguire all'apertura e alla chiusura
+	 * della finestra.
+	 * 
+	 * @author Maurizio
+	 */
 	class MyWindowAdapter extends WindowAdapter {
 
+		/**
+		 * All'apertura della finestra viene eseguito il controllo per eliminare
+		 * le prenotazioni scadute, che sarà ripetuto ad intervalli regolari.
+		 */
 		@Override
 		public void windowOpened(WindowEvent windowevent) {
 			System.out.println("Opened OPENED OPENED " + new GregorianCalendar().getTime());
@@ -961,38 +945,58 @@ public class Window extends JFrame implements Serializable {
 					};
 
 					Timer timer = new Timer();
-					// timer.schedule(timerTask, 1000, 1000);
-					timer.schedule(timerTask, 1000 * 60 * 5, 1000 * 60 * 30);
+					int MINUTI = 1;
+					timer.schedule(timerTask, 1000 * 60 * MINUTI, 1000 * 60 * MINUTI);
 					return null;
 				}
 
 			}.execute();
 		}
 
+		/**
+		 * Alla chiusura della finestra viene salvata la
+		 * {@link StrutturaSportiva} newl file.
+		 */
 		@Override
 		public void windowClosing(WindowEvent paramWindowEvent) {
 			System.out.println("CLOSING");
 
-			new SwingWorker<Void, Void>() {
+			new SwingWorker<Boolean, Void>() {
 
 				@Override
-				protected Void doInBackground() throws Exception {
-					// System.out.println(SwingUtilities.isEventDispatchThread());
+				protected Boolean doInBackground() throws Exception {
+					Boolean done = false;
+
 					Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 					Window.this.storeStrutturaSportiva();
-					return null;
+
+					done = true;
+					return done;
 				}
 
 				@Override
 				protected void done() {
-					Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					try {
+						if (get() == true) {
+							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							System.out.println("DONE");
+							System.exit(0);
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
 				}
-
 			}.execute();
-
 		}
 	}
 
+	/**
+	 * PopupMenu per prenotare, acquistare, aggiungere, rimuovere partite.
+	 * 
+	 * @author Maurizio
+	 */
 	class PartitePopupMenu extends JPopupMenu implements Serializable {
 
 		public PartitePopupMenu() {
@@ -1046,6 +1050,10 @@ public class Window extends JFrame implements Serializable {
 
 				this.acquista = new JMenuItem("Acquista");
 
+				if (new GregorianCalendar().after(partita.getData())) {
+					this.acquista.setEnabled(false);
+				}
+
 				if (strutturaSportiva.verificaPrenotazione((Cliente) Window.this.utente,
 						Window.this.partitaTable.getSelectedPartita())
 						|| strutturaSportiva.verificaAcquisto((Cliente) Window.this.utente,
@@ -1070,16 +1078,10 @@ public class Window extends JFrame implements Serializable {
 								// System.out.println(SwingUtilities.isEventDispatchThread());
 								Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-								double start = System.currentTimeMillis();
-
 								StadiumScrollPane stadiumScrollPane = new StadiumScrollPane(
 										Window.this.strutturaSportiva, (Cliente) Window.this.utente,
 										Window.this.partitaTable.getSelectedPartita(), StadiumMode.ACQUISTO);
 
-								double end = System.currentTimeMillis();
-								double diff = end - start;
-
-								System.out.println("Seconds= " + diff / 1000);
 								return stadiumScrollPane;
 							}
 
@@ -1094,9 +1096,9 @@ public class Window extends JFrame implements Serializable {
 									e.printStackTrace();
 								} catch (ExecutionException e) {
 									e.printStackTrace();
-								} finally {
-									Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 								}
+
+								Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 							}
 
 						}.execute();
@@ -1135,9 +1137,9 @@ public class Window extends JFrame implements Serializable {
 									e.printStackTrace();
 								} catch (ExecutionException e) {
 									e.printStackTrace();
-								} finally {
-									Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 								}
+
+								Window.this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 							}
 
 						}.execute();
@@ -1195,6 +1197,12 @@ public class Window extends JFrame implements Serializable {
 		private JMenuItem addPartita, removePartita;
 	}
 
+	/**
+	 * PopupMenu per consentire la cancellazione delle prenotazioni.
+	 * 
+	 * @author Maurizio
+	 */
+
 	class PrenotazioniPopupMenu extends JPopupMenu implements Serializable {
 
 		public PrenotazioniPopupMenu() {
@@ -1226,6 +1234,40 @@ public class Window extends JFrame implements Serializable {
 
 		private JMenuItem deletePrenotazioneItem;
 		private static final long serialVersionUID = -8528048458887315464L;
+	}
+
+	/**
+	 * Classe contenente l'azione da eseguire per effettuare il logout.
+	 * 
+	 * @author Maurizio
+	 */
+
+	class LogoutAction extends AbstractAction implements Serializable {
+
+		public LogoutAction() {
+			super("Exit");
+			putValue(MNEMONIC_KEY, KeyEvent.VK_E);
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			/*
+			 * Rimuove la JMenuBar.
+			 */
+			Window.this.setJMenuBar(null);
+			/*
+			 * Rimuove tutti i componenti presenti.
+			 */
+			Window.this.mainPanel.removeAll();
+			/*
+			 * Aggiunge nuovamente l'IdentificationPanel.
+			 */
+			Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+			Window.this.revalidate();
+		}
+
+		private static final long serialVersionUID = 8289365721136717863L;
 	}
 
 	private static final long serialVersionUID = 5196150741171238114L;

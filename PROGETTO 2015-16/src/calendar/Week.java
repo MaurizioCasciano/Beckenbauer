@@ -1,11 +1,12 @@
 package calendar;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Week {
+public class Week implements Serializable{
 
 	/**
 	 * Crea un oggetto Week rappresentante una settimana.
@@ -97,6 +98,10 @@ public class Week {
 		return DATE_FORMAT.format(start.getTime()) + " - " + DATE_FORMAT.format(end.getTime());
 	}
 
+	/**
+	 * @author Maurizio
+	 */
+	private static final long serialVersionUID = 3468338459207003613L;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E dd/MM/yyyy HH:mm:ss:SS");
 	private GregorianCalendar start, end;
 

@@ -126,13 +126,12 @@ public class StadiumSeatButton extends JButton implements Serializable {
 					break;
 				}
 
-				System.out.println("Struttura: " + strutturaSportiva.getNome());
-				System.out.println("Cliente: " + cliente.getNome());
-				System.out.println("Partita: " + partita);
-				System.out.println("NumeroFila: " + numeroFila);
-				System.out.println("NumeroPosto: " + numeroPosto);
-
-				System.out.println(cliente.getNome() + " CLICKED SEAT n° " + getToolTipText());
+				//System.out.println("Struttura: " + strutturaSportiva.getNome());
+				//System.out.println("Cliente: " + cliente.getNome());
+				//System.out.println("Partita: " + partita);
+				//System.out.println("NumeroFila: " + numeroFila);
+				//System.out.println("NumeroPosto: " + numeroPosto);
+				//System.out.println(cliente.getNome() + " CLICKED SEAT n° " + getToolTipText());
 			}
 		});
 	}
