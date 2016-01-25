@@ -73,7 +73,7 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * @author Maurizio
 	 */
 	private void init() {
-		this.initStadiComboPanel();
+		this.initPartiteComboPanel();
 		this.initDataInizioPanel();
 		this.initDataFinePanel();
 		this.initPercentualeScontoPanel();
@@ -85,8 +85,8 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * 
 	 * @author Maurizio
 	 */
-	private void initStadiComboPanel() {
-		this.stadioLabel = new JLabel("Stadio: ");
+	private void initPartiteComboPanel() {
+		this.stadioLabel = new JLabel("Partita: ");
 		this.partiteCombo = new JComboBox<>(this.partite.toArray(new Partita[0]));
 		/*
 		 * Sicuro, perchè nel caso non vi siano partite viene lanciata l'eccezione
