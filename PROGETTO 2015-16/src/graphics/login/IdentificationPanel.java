@@ -373,18 +373,18 @@ public class IdentificationPanel extends JPanel implements Serializable {
 				Utente utente = null;
 				try {
 					utente = strutturaSportiva.getUtente(loginUserNameTextField.getText());
+
+					if (utente != null && utente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
+						myWindow.setUtente(utente);
+					} else {
+						JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
 				} catch (UserNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Utente non trovato",
 							JOptionPane.INFORMATION_MESSAGE);
 					e1.printStackTrace();
 				}
-				if (utente != null && utente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
-					myWindow.setUtente(utente);
-				} else {
-					JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-
 			} else if (!loginIsAllFilledIn) {
 				JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "", JOptionPane.INFORMATION_MESSAGE);
 			}

@@ -21,15 +21,14 @@ public class Biglietto implements Serializable {
 	public Biglietto(StrutturaSportiva stru, Cliente cliente, Partita partita, Settore settore, int fila, int posto) {
 		this.cliente = cliente;
 		this.partita = partita;
-		//this.settore = settore;
-		//this.fila = fila;
-		//this.posto = posto;
+		this.settore = settore;
+		this.fila = fila;
+		// this.posto = posto;
 		this.posto = new Posto(this.partita.getStadio(), settore, fila, posto);
-		
+
 		this.IDBiglietto = ++IDCounter;
-		
+
 		this.strutturaSelezionata = stru;
-		
 		this.calcolaPrezzo();
 	}
 
@@ -65,81 +64,82 @@ public class Biglietto implements Serializable {
 	 * 
 	 * @return settore
 	 */
-	/*public String getSettore() {
-		return settore;
-	} */
+	public Settore getSettore() {
+		return this.settore;
+	}
 
 	/**
 	 * Restituisce la fila in cui e' locato il posto
 	 * 
 	 * @return fila
 	 */
-	/*public int getFila() {
-		return fila;
-	}*/
+	public int getFila() {
+		return this.fila;
+	}
 
 	/**
 	 * Restituisce il posto prenotato/acquistato dal cliente
 	 * 
 	 * @return posto
 	 */
-	/*public int getPosto() {
-		return posto;
-	}*/
-	
-	public void calcolaPrezzo(){
+	/*
+	 * public int getPosto() { return posto; }
+	 */
+
+	public void calcolaPrezzo() {
 		double prezzoDiPartenza = this.partita.getStadio().getPrezzoPerPartita();
-		
-		ArrayList<Sconti> perPartita = this.strutturaSelezionata.getScontiApplicabili(new ScontoPerPartita(this.strutturaSelezionata.getSconti()), this.partita);
-		ArrayList<Sconti> perStadio = this.strutturaSelezionata.getScontiApplicabili(new ScontiPerStadio(this.strutturaSelezionata.getSconti()), this.partita);
-		ArrayList<Sconti> perGiorno = this.strutturaSelezionata.getScontiApplicabili(new ScontiByDayOfWeek(this.strutturaSelezionata.getSconti()), this.partita);
-		
+
+		ArrayList<Sconti> perPartita = this.strutturaSelezionata
+				.getScontiApplicabili(new ScontoPerPartita(this.strutturaSelezionata.getSconti()), this.partita);
+		ArrayList<Sconti> perStadio = this.strutturaSelezionata
+				.getScontiApplicabili(new ScontiPerStadio(this.strutturaSelezionata.getSconti()), this.partita);
+		ArrayList<Sconti> perGiorno = this.strutturaSelezionata
+				.getScontiApplicabili(new ScontiByDayOfWeek(this.strutturaSelezionata.getSconti()), this.partita);
+
 		double maxScontoPartita = 0.00;
 		double maxScontoStadio = 0.00;
 		double maxScontoGiorno = 0.00;
-		
-		for(Sconti s1: perPartita){
-			if(maxScontoPartita <= s1.getPercetualeSconto()){
+
+		for (Sconti s1 : perPartita) {
+			if (maxScontoPartita <= s1.getPercetualeSconto()) {
 				maxScontoPartita = s1.getPercetualeSconto();
 			}
 		}
-		
-		for(Sconti s2: perStadio){
-			if(maxScontoStadio <= s2.getPercetualeSconto()){
+
+		for (Sconti s2 : perStadio) {
+			if (maxScontoStadio <= s2.getPercetualeSconto()) {
 				maxScontoStadio = s2.getPercetualeSconto();
 			}
 		}
-		
-		for(Sconti s3: perGiorno){
-			if(maxScontoGiorno <= s3.getPercetualeSconto()){
+
+		for (Sconti s3 : perGiorno) {
+			if (maxScontoGiorno <= s3.getPercetualeSconto()) {
 				maxScontoGiorno = s3.getPercetualeSconto();
 			}
 		}
-		
-		double[] scontiMassimi = {maxScontoPartita, maxScontoGiorno, maxScontoStadio};
+
+		double[] scontiMassimi = { maxScontoPartita, maxScontoGiorno, maxScontoStadio };
 		Arrays.sort(scontiMassimi);
 		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
-		
-		/*System.out.println("Verifica Sconto su Biglietto");
-		System.out.println("maxScontoPartita " + maxScontoPartita);
-		System.out.println("maxScontoStadio " + maxScontoStadio);
-		System.out.println("maxScontoGiorno " + maxScontoGiorno);
-		
-		/*double maxSconto = 0;
-		if(maxScontoPartita <= maxScontoStadio)
-			maxSconto = maxScontoStadio;
-		else 
-			maxSconto = maxScontoPartita;
-		
-		if(maxSconto <= maxScontoGiorno)
-			maxSconto = maxScontoGiorno; 
-			
-		System.out.println("maxSconto " + maxSconto);
-		System.out.println("Fine Verifica Biglietto");*/
-		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto); 
-		
+
+		/*
+		 * System.out.println("Verifica Sconto su Biglietto");
+		 * System.out.println("maxScontoPartita " + maxScontoPartita);
+		 * System.out.println("maxScontoStadio " + maxScontoStadio);
+		 * System.out.println("maxScontoGiorno " + maxScontoGiorno);
+		 * 
+		 * /*double maxSconto = 0; if(maxScontoPartita <= maxScontoStadio)
+		 * maxSconto = maxScontoStadio; else maxSconto = maxScontoPartita;
+		 * 
+		 * if(maxSconto <= maxScontoGiorno) maxSconto = maxScontoGiorno;
+		 * 
+		 * System.out.println("maxSconto " + maxSconto); System.out.println(
+		 * "Fine Verifica Biglietto");
+		 */
+		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
+
 		this.prezzo = prezzoFinale;
-		
+
 	}
 
 	/**
@@ -155,9 +155,9 @@ public class Biglietto implements Serializable {
 	 * @return true se il biglietto e' stato prenotato, false se il biglietto e'
 	 *         stato acquistato direttamente
 	 */
-	/*public boolean isPrenotato() {
-		return prenotato;
-	}*/
+	/*
+	 * public boolean isPrenotato() { return prenotato; }
+	 */
 
 	/**
 	 * Restituisce lo stato del biglietto in riferimento alle vendite
@@ -165,9 +165,9 @@ public class Biglietto implements Serializable {
 	 * @return true se il biglietto è stato comprato, quindi pagato, false se
 	 *         il biglietto è stato solo prenotato
 	 */
-	/*public boolean isPagato() {
-		return pagato;
-	} */
+	/*
+	 * public boolean isPagato() { return pagato; }
+	 */
 
 	/**
 	 * @param prenotato
@@ -182,56 +182,59 @@ public class Biglietto implements Serializable {
 	public void setPagato(boolean pagato) {
 		this.posto.setVenduto(pagato);
 	}
-	
-	public Posto getPosto(){
+
+	public Posto getPosto() {
 		return this.posto;
 	}
 
 	@Override
 	public String toString() {
-		return("IDBiglietto: " + this.IDBiglietto +" "+ this.partita + " \n" /*+ 
-			   "Settore: " + this.settore + " Fila: " + this.fila + " Posto: " + this.posto*/);
+		return ("IDBiglietto: " + this.IDBiglietto + " " + this.partita
+				+ " \n" /*
+						 * + "Settore: " + this.settore + " Fila: " + this.fila
+						 * + " Posto: " + this.posto
+						 */);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		boolean result = false;
-		
+
 		if (this == obj)
 			return true;
-	
+
 		if (obj == null)
 			return false;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Biglietto other = (Biglietto) obj;
-		
-		if((this.cliente.equals(other.cliente)) && (this.partita.equals(other.partita))){
+
+		if ((this.cliente.equals(other.cliente)) && (this.partita.equals(other.partita))) {
 			result = true;
 		}
-		
+
 		return result;
 	}
 
 	private int IDBiglietto;
 	private Cliente cliente;
 	private Partita partita;
-	//private String settore;
-	//private int fila;
-	//private int posto;
+	private Settore settore;
+	// private String settore;
+	private int fila;
+	// private int posto;
 	private Posto posto;
-	
-	private double prezzo; 
-	//private boolean prenotato;
-	//private boolean pagato;
-	
+
+	private double prezzo;
+	// private boolean prenotato;
+	// private boolean pagato;
+
 	private StrutturaSportiva strutturaSelezionata;
 
 	// Iteratore
 	private static int IDCounter = 0;
-	
+
 	private static final long serialVersionUID = -6677866736549225712L;
-	
 }

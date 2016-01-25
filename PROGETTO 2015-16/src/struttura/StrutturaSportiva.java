@@ -29,6 +29,7 @@ public class StrutturaSportiva implements Serializable {
 		this.utenti = new ArrayList<>();
 		this.sconti = new ArrayList<>();
 		this.prenotazioni = new ArrayList<>();
+		this.prenotazioniScadute = new ArrayList<>();
 		this.acquisti = new ArrayList<>();
 	}
 
@@ -69,7 +70,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @param username
 	 *            L'username da ricercare
 	 * @return l'utente trovato
-	 * @throws UserNotFound
+	 * @throws UserNotFoundException
 	 *             L'eccezione lanciata nel caso l'utente non venga trovato
 	 * @author Maurizio Casciano
 	 */
@@ -91,7 +92,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @author Maurizio Casciano
 	 */
 	public void addPartita(Partita p) throws AlreadyExistsObjectException {
-		if(this.partiteProgrammate.contains(p)){
+		if (this.partiteProgrammate.contains(p)) {
 			throw new AlreadyExistsObjectException("Partita gia' presente !!!");
 		}
 		this.partiteProgrammate.add(p);
@@ -104,10 +105,10 @@ public class StrutturaSportiva implements Serializable {
 	 *            Lo stadio da aggiungere.
 	 * @author Maurzio Casciano & Gaetano Antonucci
 	 */
-	public void addStadio(Stadio s) throws AlreadyExistsObjectException{
+	public void addStadio(Stadio s) throws AlreadyExistsObjectException {
 
 		if (this.stadi.contains(s)) {
-			throw new AlreadyExistsObjectException("Stadio gia' presente !!!");
+			throw new AlreadyExistsObjectException("Stadio con lo stesso nome gia' presente !!!");
 		}
 
 		this.stadi.add(s);
@@ -120,7 +121,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            La politica di sconto da inserire.
 	 * @author Gaetano Antonucci
 	 */
-	public void addSconto(Sconti sconto) throws AlreadyExistsObjectException{
+	public void addSconto(Sconti sconto) throws AlreadyExistsObjectException {
 
 		if (this.sconti.contains(sconto)) {
 			throw new AlreadyExistsObjectException("Politica di Sconto gia' presente !!!");
@@ -135,7 +136,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            La prenotazione da inserire.
 	 * @author Gaetano Antonucci
 	 */
-	public void addPrenotazione(Prenotazione pren) throws AlreadyExistsObjectException{
+	public void addPrenotazione(Prenotazione pren) throws AlreadyExistsObjectException {
 
 		if (this.prenotazioni.contains(pren)) {
 			throw new AlreadyExistsObjectException("Prenotazione gia' presente !!!");
@@ -150,7 +151,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            L'acquisto da inserire
 	 * @author Gaetano Antonucci.
 	 */
-	public void addAcquisto(Acquisto acq) throws AlreadyExistsObjectException{
+	public void addAcquisto(Acquisto acq) throws AlreadyExistsObjectException {
 
 		if (this.acquisti.contains(acq)) {
 			throw new AlreadyExistsObjectException("Acquisto gia' presente !!!");
@@ -287,21 +288,21 @@ public class StrutturaSportiva implements Serializable {
 			}
 		}
 	}
-	
+
 	/**
-	 * Cancella la prenotazione passata come parametro dall'ArrayList<Prenotazione> 
-	 * prenotazioni della struttura sportiva.
+	 * Cancella la prenotazione passata come parametro dall'ArrayList
+	 * <Prenotazione> prenotazioni della struttura sportiva.
 	 * 
 	 * @param prenotazioneDaCancellare
-	 * 	      La prenotazione da cancellare
+	 *            La prenotazione da cancellare
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public void cancellaPrenotazione(Prenotazione prenotazioneDaCancellare){
-		
-		if(prenotazioneDaCancellare != null){
-			for(int i = (this.prenotazioni.size() - 1); i >= 0; i--){
-				if(this.prenotazioni.get(i).equals(prenotazioneDaCancellare)){
+	public void cancellaPrenotazione(Prenotazione prenotazioneDaCancellare) {
+
+		if (prenotazioneDaCancellare != null) {
+			for (int i = (this.prenotazioni.size() - 1); i >= 0; i--) {
+				if (this.prenotazioni.get(i).equals(prenotazioneDaCancellare)) {
 					this.prenotazioni.remove(i);
 				}
 			}
@@ -384,45 +385,48 @@ public class StrutturaSportiva implements Serializable {
 
 		return result;
 	}
-	
+
 	/**
-	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList<Acquisto> 
-	 * acquisti della struttura sportiva 
+	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList
+	 * <Acquisto> acquisti della struttura sportiva
+	 * 
 	 * @param acquistoDaCancellare
-	 * 		  L'acquisto da cancellare.
+	 *            L'acquisto da cancellare.
 	 * @author Gaetano Antonucci
 	 */
-	public void cancellaAcquisto(Acquisto acquistoDaCancellare){
-		
-		if(acquistoDaCancellare != null){
-			for(int i = (this.acquisti.size() - 1); i >= 0; i--){
-				if(this.acquisti.get(i).equals(acquistoDaCancellare)){
+	public void cancellaAcquisto(Acquisto acquistoDaCancellare) {
+
+		if (acquistoDaCancellare != null) {
+			for (int i = (this.acquisti.size() - 1); i >= 0; i--) {
+				if (this.acquisti.get(i).equals(acquistoDaCancellare)) {
 					this.acquisti.remove(i);
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Cancella le prenotazioni e gli acquisti di una determinata partita
+	 * 
 	 * @param partita
-	 * 		  La partita per cui si desidera eliminare acquisti e prenotazioni
+	 *            La partita per cui si desidera eliminare acquisti e
+	 *            prenotazioni
 	 * @author Gaetano Antonucci
 	 */
-	public void cancellaPrenotazioniAcquistiPerPartita(Partita partita){
-		
+	public void cancellaPrenotazioniAcquistiPerPartita(Partita partita) {
+
 		ArrayList<Prenotazione> prenotazioniDaCancellare;
 		ArrayList<Acquisto> acquistiDaCancellare;
-		
-		if(partita != null){
+
+		if (partita != null) {
 			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationsByMatch(partita));
 			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchasesByMatch(partita));
-			
-			for(Prenotazione pren: prenotazioniDaCancellare){
+
+			for (Prenotazione pren : prenotazioniDaCancellare) {
 				this.cancellaPrenotazione(pren);
 			}
-			
-			for(Acquisto acq: acquistiDaCancellare){
+
+			for (Acquisto acq : acquistiDaCancellare) {
 				this.cancellaAcquisto(acq);
 			}
 		}
@@ -448,7 +452,8 @@ public class StrutturaSportiva implements Serializable {
 		double dataAttualeOre = (((dataAttualeMillis / 1000) / 60) / 60);
 		double dataPartitaOre = (((dataPartitaMillis / 1000) / 60) / 60);
 
-		if (dataAttualeOre <= (dataPartitaOre - ORE_SCADENZA_PRENOTAZIONE)) {
+		// uguale (=) eliminato per evitare di sforare con la scadenza.
+		if (dataAttualeOre < (dataPartitaOre - ORE_SCADENZA_PRENOTAZIONE)) {
 			result = true;
 		}
 
@@ -456,39 +461,57 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Cancella tutte le prenotazioni che non sono più valide
+	 * Cancella tutte le prenotazioni che non sono piu valide
+	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public void cancellaPrenotazioniScadute(){
-		
-		for(int i = (this.prenotazioni.size() - 1); i >= 0; i--){
-			if(!this.verificaValiditaPrenotazione(this.prenotazioni.get(i))){
+	public void cancellaPrenotazioniScadute() {
+
+		for (int i = (this.prenotazioni.size() - 1); i >= 0; i--) {
+			if (!this.verificaValiditaPrenotazione(this.prenotazioni.get(i))) {
 				// metodo di reset dei posti
+				Prenotazione prenotazioneScaduta = this.prenotazioni.get(i);
+				Partita partita = prenotazioneScaduta.getPartita();
+				partita.resetSeatStatus(prenotazioneScaduta);
+
+				this.prenotazioniScadute.add(prenotazioneScaduta);
 				this.cancellaPrenotazione(this.prenotazioni.get(i));
 			}
 		}
 	}
-	
+
+	/**
+	 * Restituisce l'ArrayList delle prenotazioni scadute per i cui clienti non
+	 * sono stati ancora avvisati.
+	 * 
+	 * @return L'ArrayList delle prenotazioni scadute per i cui clienti non sono
+	 *         stati ancora avvisati.
+	 * @author Maurizio
+	 */
+	public ArrayList<Prenotazione> getPrenotazioniScadute() {
+		return this.prenotazioniScadute;
+	}
+
 	/**
 	 * Dato un cliente e una partita, restituisce un prenotazione se presente.
 	 * 
 	 * @param clt
-	 * 		  Il cliente su cui si effettua la ricerca.
+	 *            Il cliente su cui si effettua la ricerca.
 	 * @param partita
-	 * 	      La partita su cui si effettua la ricerca.
+	 *            La partita su cui si effettua la ricerca.
 	 * @return la prenotazione trovata
 	 */
-	public Prenotazione getPrenotazioneCliente(Cliente clt, Partita partita){
+	public Prenotazione getPrenotazioneCliente(Cliente clt, Partita partita) {
 		Prenotazione risultato = null;
-		for(Prenotazione p: this.prenotazioni){
-			if(p.getBigliettoPrenotato().getCliente().equals(clt) &&
-					p.getBigliettoPrenotato().getPartita().equals(partita)){
+		for (Prenotazione p : this.prenotazioni) {
+			if (p.getBigliettoPrenotato().getCliente().equals(clt)
+					&& p.getBigliettoPrenotato().getPartita().equals(partita)) {
 				risultato = p;
 			}
 		}
 		return risultato;
 	}
-	
+
 	/**
 	 * Calcola l'incasso della struttura sportiva in base all'ArrayList passato
 	 * in input.
@@ -541,8 +564,8 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
 	private ArrayList<Sconti> sconti;
-	private ArrayList<Prenotazione> prenotazioni;
+	private ArrayList<Prenotazione> prenotazioni, prenotazioniScadute;
 	private ArrayList<Acquisto> acquisti;
-	
+
 	private static final int ORE_SCADENZA_PRENOTAZIONE = 12;
 }

@@ -17,8 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableRowSorter;
 
@@ -52,15 +50,14 @@ public class PartitaTable extends JTable implements Serializable {
 	}
 
 	private void init() {
-		//this.setFillsViewportHeight(true);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setColumnSelectionAllowed(false);
 		this.setAutoCreateColumnsFromModel(true);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		this.setSelectionBackground(Color.GREEN);
-		this.getColumnModel().getColumn(3).setMinWidth(150);
+		this.getColumnModel().getColumn(4).setMinWidth(150);
 		this.setRowHeight(this.getRowHeight() + 5);
-		
+
 		this.addMouseListener(new RightClickRowSelectionListener());
 		this.setCellRenderers();
 		this.setCellEditors();
@@ -68,19 +65,6 @@ public class PartitaTable extends JTable implements Serializable {
 		final TableRowSorter<PartitaTableModel> sorter = new TableRowSorter<PartitaTableModel>(
 				(PartitaTableModel) getModel());
 		this.setRowSorter(sorter);
-
-		// sorter.setRowFilter(new PartitaRowFilter(new
-		// MatchNotYetStartedFilter()));
-
-		this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()) {
-					// System.out.println(getSelectedPartita());
-				}
-			}
-		});
 	}
 
 	/**
@@ -89,10 +73,6 @@ public class PartitaTable extends JTable implements Serializable {
 	private void setCellRenderers() {
 		this.setDefaultRenderer(Squadra.class, new SquadraCellRenderer());
 		this.setDefaultRenderer(Stadio.class, new StadioCellRenderer());
-		// this.setDefaultRenderer(GregorianCalendar.class, new
-		// GregorianCalendarCellRenderer());
-		// this.setDefaultRenderer(GregorianCalendar.class, new
-		// GregorianCalendarDatePickerCellRenderer());
 		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellRenderer());
 	}
 
@@ -106,6 +86,7 @@ public class PartitaTable extends JTable implements Serializable {
 		// GregorianCalendarCellEditor());
 		// this.setDefaultEditor(GregorianCalendar.class, new
 		// GregorianCalendarDatePickerCellEditor());
+		// this.setDefaultEditor(Integer.class, new CapienzaStadioCellEditor());
 		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellEditor());
 	}
 
@@ -151,6 +132,7 @@ public class PartitaTable extends JTable implements Serializable {
 		int viewIndex = this.getSelectedRow();
 		// System.out.println("viewIndex = " + viewIndex);
 
+		// NON SI VERIFICA MAI PERCHé C'è il rightclickselector
 		if (viewIndex == -1) {
 			viewIndex = 0;
 		}
@@ -173,8 +155,8 @@ public class PartitaTable extends JTable implements Serializable {
 		PartitaTable partite = new PartitaTable(Mode.GESTORE, new StrutturaSportiva("test"));
 		partite.addPartita(new Partita(new Squadra("Milan"), new Squadra("Inter"), new Stadio("San Siro", 81277, 20),
 				new GregorianCalendar()));
-		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"), new Stadio("Stadio Olimpico", 73261, 20),
-				new GregorianCalendar()));
+		partite.addPartita(new Partita(new Squadra("Roma"), new Squadra("Lazio"),
+				new Stadio("Stadio Olimpico", 73261, 20), new GregorianCalendar()));
 		partite.addPartita(new Partita(new Squadra("Juventus"), new Squadra("Torino"),
 				new Stadio("Juventus Stadium", 41475, 20), new GregorianCalendar()));
 

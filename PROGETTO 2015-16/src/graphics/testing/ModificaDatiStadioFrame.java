@@ -140,7 +140,7 @@ public class ModificaDatiStadioFrame extends JFrame implements Serializable{
 	public void impostaValoriIniziali(){
 		this.stadioPerValoriIniziali = (Stadio) this.scegliStadio.getSelectedItem();
 		
-		this.capienzaStadio.setValue(this.stadioPerValoriIniziali.getCapienzaStadio());
+		this.capienzaStadio.setValue(this.stadioPerValoriIniziali.getCapienzaEffettiva());
 		this.prezzoPerPartita.setValue(this.stadioPerValoriIniziali.getPrezzoPerPartita());
 	}
 	

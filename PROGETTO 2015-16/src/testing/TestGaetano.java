@@ -12,7 +12,6 @@ import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import graphics.testing.*;
 
-@SuppressWarnings("unused")
 public class TestGaetano {
 	
 	public static void main(String[] args) throws AlreadyRegisteredUserException {
@@ -77,9 +76,9 @@ public class TestGaetano {
 		struct.addUtente(mario);
 		
 		/**** Settori degli Stadi ****/
-		Settore tribunaOlimpico = new Settore(olimpico, "Tribuna", olimpico.getPostiPerSettore(), olimpico.getFilePerSettore());
-		Settore curvaSanSiro = new Settore(sanSiro, "Curva", sanSiro.getPostiPerSettore(), sanSiro.getFilePerSettore());
-		Settore curvaSudArechi = new Settore(arechi, "Curva Sud", arechi.getPostiPerSettore(), arechi.getFilePerSettore());
+		Settore tribunaOlimpico = new Settore(olimpico, "Tribuna", olimpico.getPostiPerSettore(), olimpico.getNumeroFilePerSettore());
+		Settore curvaSanSiro = new Settore(sanSiro, "Curva", sanSiro.getPostiPerSettore(), sanSiro.getNumeroFilePerSettore());
+		Settore curvaSudArechi = new Settore(arechi, "Curva Sud", arechi.getPostiPerSettore(), arechi.getNumeroFilePerSettore());
 		
 		/**** Biglietti da Prenotare****/
 		//Roma - Juventus
