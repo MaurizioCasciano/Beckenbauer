@@ -5,9 +5,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
+ * Classe che modella un posto in uno {@link Stadio}
  * 
- * 
- * @author Maurizio & Gaetano
+ * @author Maurizio Casciano
+ * @author Gaetano Antonucci
  */
 public class Posto implements Serializable {
 
@@ -22,11 +23,11 @@ public class Posto implements Serializable {
 	 * @param settore
 	 *            Il settore a cui appartiene questo Posto.
 	 * @param numeroFila
-	 *            Il numero della fila in cui � situato questo Posto.
+	 *            Il numero della fila in cui � situato questo Posto.
 	 * @param numeroPosto
 	 *            Il numero di questo Posto.
-	 * @author Maurizio
-	 * @author Gaetano
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	public Posto(Stadio stadio, Settore settore, int numeroFila, int numeroPosto) {
 		this(stadio, settore, numeroFila, numeroPosto, SeatStatus.LIBERO);
@@ -40,13 +41,13 @@ public class Posto implements Serializable {
 	 * @param settore
 	 *            Il settore a cui appartiene questo Posto.
 	 * @param numeroFila
-	 *            Il numero della fila in cui � situato questo Posto.
+	 *            Il numero della fila in cui � situato questo Posto.
 	 * @param numeroPosto
 	 *            Il numero di questo Posto.
 	 * @param stato
 	 *            Lo stato di questo Posto.
-	 * @author Maurizio
-	 * @author Gaetano
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	public Posto(Stadio stadio, Settore settore, int numeroFila, int numeroPosto, SeatStatus stato) {
 		this.stadio = stadio;
@@ -64,18 +65,35 @@ public class Posto implements Serializable {
 		this.PROPERTY_CHANGE_SUPPORT.removePropertyChangeListener(listener);
 	}
 
+	/**
+	 * Restituisce il numero di fila del posto
+	 * 
+	 * @return il numero di fila
+	 */
 	public int getNumeroFila() {
 		return numeroFila;
 	}
 
+	/**
+	 * Restituisce il numero del posto nella fila
+	 * 
+	 * @return il numero del posto
+	 */
 	public int getNumeroPosto() {
 		return numeroPosto;
 	}
 
+	/**
+	 * Restituisce lo stato ({@link SeatStatus}) del posto
+	 * 
+	 * @return lo stato del posto
+	 * @author Maurizio Casciano
+	 */
 	public SeatStatus getStato() {
 		return this.stato;
 	}
 
+	
 	public void setStato(SeatStatus newSeatStatus) {
 		SeatStatus oldStatus = this.stato;
 		this.stato = newSeatStatus;
@@ -84,22 +102,29 @@ public class Posto implements Serializable {
 	}
 
 	/**
-	 * @return the prenotato
+	 * Verifica se il posto è prenotato
+	 * 
+	 * @return {@code true} se il posto è prenotato, {@code false} altrimenti
+	 * @author Maurizio Casciano
 	 */
 	public boolean isPrenotato() {
 		return this.stato == SeatStatus.PRENOTATO;
 	}
 
 	/**
+	 * 
 	 * @param prenotato
 	 *            the prenotato to set
 	 */
-	public void setPrenotato(boolean prenotato) {
+	public void setPrenotato(boolean prenotato) {     // DA CONTROLLARE
 		this.stato = SeatStatus.PRENOTATO;
 	}
 
 	/**
-	 * @return the venduto
+	 * Verifica se il posto è venduto
+	 * 
+	 * @return {@code true} se il posto è venduto, {@code false} altrimenti
+	 * @author Maurizio Casciano
 	 */
 	public boolean isVenduto() {
 		return this.stato == SeatStatus.VENDUTO;
@@ -109,44 +134,67 @@ public class Posto implements Serializable {
 	 * @param venduto
 	 *            the venduto to set
 	 */
-	public void setVenduto(boolean venduto) {
+	public void setVenduto(boolean venduto) {    //DA CONTROLLARE
 		this.stato = SeatStatus.VENDUTO;
 	}
 
 	/**
-	 * @return the stadio
+	 * Restituisce lo {@link Stadio} del posto
+	 * 
+	 * @return lo stadio
+	 * @author Gaetano Antonucci
 	 */
 	public Stadio getStadio() {
 		return stadio;
 	}
 
 	/**
-	 * @return the settore
+	 * Restituisce il {@link Settore} dello {@link Stadio} in cui &egrave ubicato il posto
+	 * @return il settore
+	 * @author Gaetano Antonucci
 	 */
 	public Settore getSettore() {
-		return settore;
+		return this.settore;
 	}
 
 	/**
-	 * @return the fila
+	 * Restituisce la fila del {@link Settore} dello {@link Stadio} in cui &egrave ubicato il posto
+	 * 
+	 * @return la fila
+	 * @author Gaetano Antonucci
 	 */
 	public int getFila() {
 		return this.numeroFila;
 	}
 
 	/**
+	 * Restituisce il numero del posto 
+	 * 
 	 * @return the posto
+	 * @author Gaetano Antonucci
 	 */
 	public int getPosto() {
 		return this.numeroPosto;
 	}
 
+	/**
+	 * Restituisce le informazioni del posto
+	 * 
+	 * @author Maurizio Casciano
+	 */
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [stadio=" + stadio + ", settore=" + settore + ", fila=" + numeroFila
 				+ ", posto=" + numeroPosto + ", stato=" + stato + "]";
 	}
 
+	/**
+	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * 
+	 * @param obj - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @author Maurizio Casciano
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

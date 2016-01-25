@@ -22,40 +22,41 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 *            Il prezzo da applicare ad ogni biglietto per le partite
 	 *            giocate in questo stadio.
 	 * @throws IllegalArgumentException
-	 *             Se la capienza desiderata non è compresa (estremi inclusi)
+	 *             Se la capienza desiderata non e' compresa (estremi inclusi)
 	 *             tra {@link Stadio#CAPIENZA_MINIMA} e
 	 *             {@link Stadio#CAPIENZA_MASSIMA}.
 	 * 
-	 *             Oppure se il prezzoPerPartia non è compreso tra
-	 * @author Maurizio
+	 *             Oppure se il prezzoPerPartia non e' compreso tra
+	 *
+	 * @author Maurizio Casciano
 	 */
 	public Stadio(String nome, int capienzaDesiderataStadio, double prezzoPerPartita) throws IllegalArgumentException {
 		this.nome = nome;
 
 		if (capienzaDesiderataStadio < CAPIENZA_MINIMA || capienzaDesiderataStadio > CAPIENZA_MASSIMA) {
-			throw new IllegalArgumentException("La capienza desiderata non è consentita");
+			throw new IllegalArgumentException("La capienza desiderata non e' consentita");
 		}
 
 		if (prezzoPerPartita < PREZZO_MINIMO || prezzoPerPartita > PREZZO_MASSIMO) {
-			throw new IllegalArgumentException("La prezzo indicat non è consentito");
+			throw new IllegalArgumentException("Il prezzo indicato non e' consentito");
 		}
 
 		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		this.ID_Stadio = ++ID_Counter;
+		//this.ID_Stadio = ++ID_Counter;  DA ELIMINARE
 		this.init();
 	}
 
 	/**
-	 * Effettua i calcoli necessari per permettere la rappresentazione gafica
+	 * Effettua i calcoli necessari per permettere la rappresentazione grafica
 	 * dei settori dello stadio.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void init() {
 
 		/*
-		 * Necessità di re-inizializzare i due caratteri, altrimenti alla
+		 * Necessita' di re-inizializzare i due caratteri, altrimenti alla
 		 * chiamata del metodo setCapienza() che richiama init() i settori dello
 		 * stadio non partiranno da AA.
 		 */
@@ -66,9 +67,9 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
 		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
 		/*
-		 * Arrotonda il numero di posti per fila al più piccolo intero maggiore
+		 * Arrotonda il numero di posti per fila al piu' piccolo intero maggiore
 		 * dell'argomento, o uguale all'argomento se quest'ultimo rappresenta
-		 * già un intero.
+		 * gia' un intero.
 		 * 
 		 * Fondamentale per ottenere l'esatto numero di colonne utilizzate in
 		 * seguito dal GridLayout, il quale tiene conto soltanto del numero di
@@ -164,14 +165,32 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		return this.capienzaEffettiva;
 	}
 
+	/**
+	 * Restituisce il nome dello stadio
+	 * @return nome
+	 * 
+	 * @author Gaetano Antonucci
+	 */
 	public String getNome() {
 		return this.nome;
 	}
 
+	/**
+	 * Imposta il nome dello stadio
+	 * @param nome - il nome da assegnare
+	 * 
+	 * @author Maurizio Casciano
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	/**
+	 * Verifica se l'oggetto corrente Ã¨ uguale all'oggetto passato come parametro
+	 * 
+	 * @param obj - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto Ã¨ uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		boolean result = false;
@@ -194,28 +213,58 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		return result;
 	}
 
+	/**
+	 * Restituisce la capienza desiderata, ossia quella impostata dall'utente al momento della creazione
+	 * 
+	 * @return la capienza desiderata
+	 * @author Maurizio Casciano
+	 */
 	public int getCapienzaDesiderataStadio() {
 		return this.capienzaDesiderataStadio;
 	}
 
+	/**
+	 * Imposta una nuova capienza per lo stadio 
+	 * @param nuovaCapienza - la nuova capienza desiderata
+	 * @author Maurizio Casciano
+	 */
 	public void setCapienzaStadio(int nuovaCapienza) {
 		this.capienzaDesiderataStadio = nuovaCapienza;
 		this.init();
 	}
 
-	public int getID() {
-		return this.ID_Stadio;
-	}
+	/*
+	public int getID() {							
+		return this.ID_Stadio;	   DA ELIMINARE
+	}*/
 
+	/**
+	 * Restituisce il prezzo per ogni partita giocata nello stadio.
+	 * 
+	 * @return il prezzo
+	 * @author Maurizio Casciano
+	 */ 
 	public double getPrezzoPerPartita() {
 		return this.prezzoPerPartita;
 	}
 
+	/**
+	 * Imposta il prezzo per tutte le partite giocate nello stadio.
+	 * 
+	 * @param prezzo - il nuovo prezzo da impostare
+	 * @author Maurizio Casciano
+	 */
 	public void setPrezzoPerPartita(double prezzo) {
 		this.prezzoPerPartita = prezzo;
 	}
 
-	public void calcolaPostiEffettivi(int postiRichiesti) {
+	/**
+	 * Calcola il numero effettivi di posti disponibili per lo stadio,
+	 * in accordo con la creazione della sagoma grafica.
+	 * 
+	 * @param postiRichiesti - 
+	 */
+	/*public void calcolaPostiEffettivi(int postiRichiesti) {       DA ELIMINARE
 		int postiPerSettore = (postiRichiesti / NUMERO_SETTORI);
 		this.postiPerSettore = postiPerSettore;
 
@@ -228,8 +277,11 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		this.filePerSettore = numeroFile;
 		this.postiPerFila = numeroPosti;
 
-	}
+	}*/
 
+	/**
+	 * Versione modificata del toString per facilitare la visualizzazione degli Stadi nelle comboBox
+	 */
 	@Override
 	public String toString() {
 		return this.nome;
@@ -238,8 +290,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	/**
 	 * Genera il nome del prossimo Settore da creare
 	 * 
-	 * @return
-	 * @author Maurizio
+	 * @return il nome del prossimo settore
+	 * @author Maurizio Casciano
 	 */
 	public String getNextNomeSettore() {
 
@@ -266,12 +318,13 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private int filePerSettore;
 	private int postiPerSettore;
 	private int postiPerFila;
-	private int ID_Stadio;
+	//private int ID_Stadio; DA ELIMINARE
 	private double prezzoPerPartita;
 	private ArrayList<Settore> settori;
 	public static final int NUMERO_SETTORI = 620, CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
 	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
-	private static int ID_Counter = 1000;
+	
+	//private static int ID_Counter = 1000; DA ELIMINARE
 
 	public static void main(String[] args) {
 		new Stadio("", 80000, 10);

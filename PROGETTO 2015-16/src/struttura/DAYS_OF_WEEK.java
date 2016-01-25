@@ -2,7 +2,13 @@ package struttura;
 
 import java.util.Calendar;
 
-public enum DAYS_OF_WEEK {
+/**
+ * Enum per i giorni della settimana-
+ * 
+ * @author Gaetano Antonucci
+ *
+ */
+public enum DAYS_OF_WEEK {  // DA RINOMINARE
 	
 	Lunedi(Calendar.MONDAY), Martedi(Calendar.TUESDAY), Mercoledi(Calendar.WEDNESDAY), 
 	Giovedi(Calendar.THURSDAY), Venerdi(Calendar.FRIDAY), Sabato(Calendar.SATURDAY), 
@@ -23,7 +29,7 @@ public enum DAYS_OF_WEEK {
 	 * @return il giorno della settimana trovato
 	 * @author Gaetano Antonucci
 	 */
-	public static DAYS_OF_WEEK findDay(int valore){
+	public static DAYS_OF_WEEK findDay(int valore){  // Metodo probabilmente mai usato.
 		switch(valore){
 		case Calendar.MONDAY:
 			return DAYS_OF_WEEK.Lunedi;
