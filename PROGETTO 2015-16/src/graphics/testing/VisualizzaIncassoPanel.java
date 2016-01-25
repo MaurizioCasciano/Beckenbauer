@@ -125,6 +125,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 		ButtonGroup gruppoRadio = new ButtonGroup();
 		this.radioTotale = new JRadioButton("Totale", true);
 		this.radioTotale.setFont(new Font(radioTotale.getFont().getName(), Font.PLAIN, 16));
+		this.radioTotale.setOpaque(false);
 		this.radioTotale.setForeground(Color.WHITE);
 		
 		this.radioTotale.addActionListener(new ActionListener() {
@@ -141,6 +142,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable{
 		this.radioPerStadio = new JRadioButton("per Stadio");
 		this.radioPerStadio.setFont(new Font(radioPerStadio.getFont().getName(), Font.PLAIN, 16));
 		this.radioPerStadio.setForeground(Color.WHITE);
+		this.radioPerStadio.setOpaque(false);
 		
 		this.radioPerStadio.addActionListener(new ActionListener(){
 
