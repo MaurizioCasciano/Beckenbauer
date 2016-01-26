@@ -7,12 +7,22 @@ import java.util.Calendar;
 import struttura.Partita;
 import struttura.Sconti;
 
+/**
+ * Classe di call-back per l'interfaccia ScontiFilter per gli Sconti in base alla {@link Partita} 
+ * 
+ * @author Gaetano Antonucci
+ */
 public class ScontoPerPartita implements ScontiFilter, Serializable {
 
 	/*public ScontoPerPartita(Sconti sconto){
 		this.sconto = sconto;
 	}*/
 	
+	/**
+	 * Costruisce un filtro sugli sconti
+	 * 
+	 * @param sconti - l'ArrayList degli Sconti
+	 */
 	public ScontoPerPartita(ArrayList<Sconti> sconti){
 		this.sconti = sconti;
 	}

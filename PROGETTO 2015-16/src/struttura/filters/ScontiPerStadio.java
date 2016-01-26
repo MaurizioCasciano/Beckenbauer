@@ -7,6 +7,11 @@ import struttura.Partita;
 import struttura.Sconti;
 import struttura.Stadio;
 
+/**
+* Classe di call-back per l'interfaccia ScontiFilter per gli Sconti in base allo {@link Stadio} 
+* 
+* @author Gaetano Antonucci
+*/
 public class ScontiPerStadio implements ScontiFilter, Serializable{
 
 	
@@ -15,6 +20,11 @@ public class ScontiPerStadio implements ScontiFilter, Serializable{
 		this.sconto = sconto;
 	}*/
 	
+	/**
+	 * Costruisce un filtro sugli sconti
+	 * 
+	 * @param sconti - l'ArrayList degli Sconti
+	 */
 	public ScontiPerStadio(ArrayList<Sconti> sconti){
 		this.sconti = sconti;
 	}
