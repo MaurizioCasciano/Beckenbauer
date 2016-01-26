@@ -8,12 +8,23 @@ import struttura.Partita;
 import struttura.Sconti;
 import struttura.DAYS_OF_WEEK;
 
+/**
+* Classe di call-back per l'interfaccia ScontiFilter per gli Sconti in base al Giorno Prestabilito
+* ({@link DAYS_OF_WEEK})
+* 
+* @author Gaetano Antonucci
+*/
 public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 	
 	/*public ScontoByDayOfWeek(Sconti sconto){
 		this.sconto = sconto;
 	}*/
 	
+	/**
+	 * Costruisce un filtro sugli sconti
+	 * 
+	 * @param sconti - l'ArrayList degli Sconti
+	 */
 	public ScontiByDayOfWeek(ArrayList<Sconti> sconti){
 		this.sconti = sconti;
 	}

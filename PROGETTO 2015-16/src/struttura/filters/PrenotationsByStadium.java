@@ -5,8 +5,19 @@ import java.io.Serializable;
 import struttura.Prenotazione;
 import struttura.Stadio;
 
+/**
+ * Classe di call-back per l'interfaccia PrenotationFilter per le prenotazioni
+ * in base allo {@link Stadio}
+ * 
+ * @author Gaetano Antonucci
+ */
 public class PrenotationsByStadium implements PrenotationFilter, Serializable{
 	
+	/**
+	 * Costruisce un filtro sulle prenotazioni in base allo Stadio passato come parametro
+	 * 
+	 * @param stadio - lo {@link Stadio} in base al quale si vogliono filtrare i dati
+	 */
 	public PrenotationsByStadium(Stadio stadio){
 		this.stadio = stadio;
 	}

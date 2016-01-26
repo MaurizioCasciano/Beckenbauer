@@ -5,8 +5,19 @@ import java.io.Serializable;
 import struttura.Prenotazione;
 import user.Cliente;
 
+/**
+ * Classe di call-back per l'interfaccia PrenotationFilter per le prenotazioni in base al
+ * {@link Cliente}
+ * 
+ * @author Gaetano Antonucci
+ */
 public class PrenotationsByCustomer implements PrenotationFilter, Serializable {
 	
+	/**
+	 * Costruisce un filtro sulle Prenotazioni in base al cliente passato come parametro
+	 * 
+	 * @param clt - il {@link Cliente} in base al quale si vogliono filtrare i dati
+	 */
 	public PrenotationsByCustomer(Cliente clt){
 		this.cliente = clt;
 	}

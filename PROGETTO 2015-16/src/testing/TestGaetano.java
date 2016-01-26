@@ -382,6 +382,7 @@ public class TestGaetano {
 		
 		JFrame frame = new JFrame("Test");
 		frame.add(new VisualizzaIncassoPanel(struct));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setSize(500, 200);
 		}
