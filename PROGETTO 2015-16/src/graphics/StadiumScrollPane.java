@@ -9,8 +9,26 @@ import struttura.Partita;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
+/**
+ * Classe che estende {@link JScrollPane} ed incorporare un nuovo stadio.
+ * 
+ * @author Maurizio
+ */
 public class StadiumScrollPane extends JScrollPane implements Serializable {
 
+	/**
+	 * Costruisce un nuovo oggetto StadiumScrollPanen.
+	 * 
+	 * @param strutturaSportiva
+	 *            La struttura sportiva che gestisce lo Stadio.
+	 * @param cliente
+	 *            Il cliente che accede allo stadio.
+	 * @param partita
+	 *            La partita che si vuole prenotare(axquiscyare
+	 * @param stadiumMode
+	 *            La modalità con cui si acced allo stadio.
+	 * @author Maurizio
+	 */
 	public StadiumScrollPane(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
 			StadiumMode stadiumMode) {
 		super();
@@ -22,6 +40,12 @@ public class StadiumScrollPane extends JScrollPane implements Serializable {
 		this.setViewportView(this.stadiumPanel);
 	}
 
+	/**
+	 * Restituisce lo StadiumPanel contenuto in queto StadiumScrollPane.
+	 * 
+	 * @return Lo StadiumPanel di questo JScrollPane.
+	 * @author Maurizio
+	 */
 	public StadiumPanel getStadiumPanel() {
 		return this.stadiumPanel;
 	}

@@ -8,12 +8,6 @@
 package struttura;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import struttura.filters.ScontiPerStadio;
-import struttura.filters.ScontiByDayOfWeek;
-import struttura.filters.ScontoPerPartita;
 import user.Cliente;
 
 public class Biglietto implements Serializable {
@@ -23,13 +17,10 @@ public class Biglietto implements Serializable {
 		this.partita = partita;
 		this.settore = settore;
 		this.fila = fila;
-		// this.posto = posto;
 		this.posto = new Posto(this.partita.getStadio(), settore, fila, posto);
-
 		this.IDBiglietto = ++IDCounter;
-
 		this.strutturaSelezionata = stru;
-		this.calcolaPrezzo();
+		this.prezzo = this.strutturaSelezionata.getBestAvailablePrice(this.partita);
 	}
 
 	/**
@@ -78,96 +69,11 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il posto prenotato/acquistato dal cliente
-	 * 
-	 * @return posto
-	 */
-	/*
-	 * public int getPosto() { return posto; }
-	 */
-
-	public void calcolaPrezzo() {
-		double prezzoDiPartenza = this.partita.getStadio().getPrezzoPerPartita();
-
-		ArrayList<Sconti> perPartita = this.strutturaSelezionata
-				.getScontiApplicabili(new ScontoPerPartita(this.strutturaSelezionata.getSconti()), this.partita);
-		ArrayList<Sconti> perStadio = this.strutturaSelezionata
-				.getScontiApplicabili(new ScontiPerStadio(this.strutturaSelezionata.getSconti()), this.partita);
-		ArrayList<Sconti> perGiorno = this.strutturaSelezionata
-				.getScontiApplicabili(new ScontiByDayOfWeek(this.strutturaSelezionata.getSconti()), this.partita);
-
-		double maxScontoPartita = 0.00;
-		double maxScontoStadio = 0.00;
-		double maxScontoGiorno = 0.00;
-
-		for (Sconti s1 : perPartita) {
-			if (maxScontoPartita <= s1.getPercetualeSconto()) {
-				maxScontoPartita = s1.getPercetualeSconto();
-			}
-		}
-
-		for (Sconti s2 : perStadio) {
-			if (maxScontoStadio <= s2.getPercetualeSconto()) {
-				maxScontoStadio = s2.getPercetualeSconto();
-			}
-		}
-
-		for (Sconti s3 : perGiorno) {
-			if (maxScontoGiorno <= s3.getPercetualeSconto()) {
-				maxScontoGiorno = s3.getPercetualeSconto();
-			}
-		}
-
-		double[] scontiMassimi = { maxScontoPartita, maxScontoGiorno, maxScontoStadio };
-		Arrays.sort(scontiMassimi);
-		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
-
-		System.out.println("Verifica Sconto su Biglietto");
-		System.out.println("maxScontoPartita " + maxScontoPartita);
-		System.out.println("maxScontoStadio " + maxScontoStadio);
-		System.out.println("maxScontoGiorno " + maxScontoGiorno);
-
-		/*
-		 * /*double maxSconto = 0; if(maxScontoPartita <= maxScontoStadio)
-		 * maxSconto = maxScontoStadio; else maxSconto = maxScontoPartita;
-		 * 
-		 * if(maxSconto <= maxScontoGiorno) maxSconto = maxScontoGiorno;
-		 * 
-		 * System.out.println("maxSconto " + maxSconto); System.out.println(
-		 * "Fine Verifica Biglietto");
-		 */
-		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
-
-		this.prezzo = prezzoFinale;
-
-	}
-
-	/**
 	 * @return the prezzo
 	 */
 	public double getPrezzo() {
 		return prezzo;
 	}
-
-	/**
-	 * Restituisce lo stato biglietto in riferimento alle prenotazioni
-	 * 
-	 * @return true se il biglietto e' stato prenotato, false se il biglietto e'
-	 *         stato acquistato direttamente
-	 */
-	/*
-	 * public boolean isPrenotato() { return prenotato; }
-	 */
-
-	/**
-	 * Restituisce lo stato del biglietto in riferimento alle vendite
-	 * 
-	 * @return true se il biglietto è stato comprato, quindi pagato, false se
-	 *         il biglietto è stato solo prenotato
-	 */
-	/*
-	 * public boolean isPagato() { return pagato; }
-	 */
 
 	/**
 	 * @param prenotato

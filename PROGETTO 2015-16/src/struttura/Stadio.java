@@ -42,7 +42,6 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		this.ID_Stadio = ++ID_Counter;
 		this.init();
 	}
 
@@ -203,10 +202,6 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		this.init();
 	}
 
-	public int getID() {
-		return this.ID_Stadio;
-	}
-
 	public double getPrezzoPerPartita() {
 		return this.prezzoPerPartita;
 	}
@@ -265,12 +260,10 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private int filePerSettore;
 	private int postiPerSettore;
 	private int postiPerFila;
-	private int ID_Stadio;
 	private double prezzoPerPartita;
 	private ArrayList<Settore> settori;
 	public static final int CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
 	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
-	private static int ID_Counter = 1000;
 
 	public static void main(String[] args) {
 		new Stadio("", 80000, 10);

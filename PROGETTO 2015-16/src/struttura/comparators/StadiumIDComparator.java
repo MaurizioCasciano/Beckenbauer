@@ -14,13 +14,7 @@ public class StadiumIDComparator implements Comparator<Partita>, Serializable {
 
 	@Override
 	public int compare(Partita p1, Partita p2) {
-		if (p1.getStadio().getID() < p2.getStadio().getID()) {
-			return -1;
-		} else if (p1.getStadio().getID() > p2.getStadio().getID()) {
-			return 1;
-		} else {
-			return 0;
-		}
+		return p1.getStadio().getNome().compareTo(p2.getStadio().getNome());
 	}
 
 	private static final long serialVersionUID = -5964931509835566728L;

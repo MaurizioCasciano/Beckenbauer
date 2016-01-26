@@ -5,6 +5,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+/**
+ * Classe per ricavare la data di inizio e la data di fine di una settimana.
+ * 
+ * @author Maurizio
+ */
 public class WeekBounds implements Serializable {
 
 	/**
