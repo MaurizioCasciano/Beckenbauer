@@ -16,7 +16,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 	private Mode mode;
 
 	public PartitaTableModel(Mode mode) {
-		super(COLUMN_NAMES, Partita.class);
+		super(COLUMN_NAMES);
 
 		this.mode = mode;
 		setColumnClass(0, Squadra.class);
@@ -27,7 +27,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 	}
 
 	public PartitaTableModel(Mode mode, ArrayList<Partita> partite) {
-		super(partite, COLUMN_NAMES, Partita.class);
+		super(partite, COLUMN_NAMES);
 
 		this.mode = mode;
 		setColumnClass(0, Squadra.class);

@@ -30,7 +30,7 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 	 * @author Maurizio
 	 */
 	protected PrenotazioneTableModel() {
-		super(COLUMN_NAMES, Prenotazione.class);
+		super(COLUMN_NAMES);
 
 		setColumnClass(0, Cliente.class);
 		setColumnClass(1, Partita.class);
@@ -42,7 +42,7 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 	}
 
 	protected PrenotazioneTableModel(ArrayList<Prenotazione> prenotazioni) {
-		super(prenotazioni, COLUMN_NAMES, Prenotazione.class);
+		super(prenotazioni, COLUMN_NAMES);
 
 		setColumnClass(0, Cliente.class);
 		setColumnClass(1, Partita.class);

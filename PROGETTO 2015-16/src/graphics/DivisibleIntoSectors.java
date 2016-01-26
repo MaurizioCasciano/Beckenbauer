@@ -1,9 +1,9 @@
-/**
- * 
- */
 package graphics;
 
 /**
+ * Interfaccia utilizzata per ottenere le informazioni necessarie alla
+ * realizzazione della parte grafica dell'oggetto {@link Stadio}.
+ * 
  * @author Maurizio
  */
 public interface DivisibleIntoSectors {

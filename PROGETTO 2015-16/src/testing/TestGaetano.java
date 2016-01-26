@@ -10,7 +10,7 @@ import struttura.*;
 import struttura.filters.*;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
-import graphics.testing.*;
+import graphics.incasso.VisualizzaIncassoPanel;
 
 public class TestGaetano {
 	

@@ -1,4 +1,4 @@
-package graphics.testing;
+package graphics.incasso;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

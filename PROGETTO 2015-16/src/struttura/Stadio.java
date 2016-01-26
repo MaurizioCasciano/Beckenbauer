@@ -37,7 +37,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		}
 
 		if (prezzoPerPartita < PREZZO_MINIMO || prezzoPerPartita > PREZZO_MASSIMO) {
-			throw new IllegalArgumentException("La prezzo indicat non è consentito");
+			throw new IllegalArgumentException("Il prezzo indicato non è consentito");
 		}
 
 		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
@@ -227,7 +227,6 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 		this.filePerSettore = numeroFile;
 		this.postiPerFila = numeroPosti;
-
 	}
 
 	@Override
@@ -238,7 +237,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	/**
 	 * Genera il nome del prossimo Settore da creare
 	 * 
-	 * @return
+	 * @return Il nome del prossimo gestore.
 	 * @author Maurizio
 	 */
 	public String getNextNomeSettore() {
@@ -269,7 +268,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private int ID_Stadio;
 	private double prezzoPerPartita;
 	private ArrayList<Settore> settori;
-	public static final int NUMERO_SETTORI = 620, CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
+	public static final int CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
 	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
 	private static int ID_Counter = 1000;
 

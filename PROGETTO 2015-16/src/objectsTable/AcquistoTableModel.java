@@ -27,7 +27,7 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements 
 	 * @author Maurizio
 	 */
 	protected AcquistoTableModel() {
-		super(COLUMN_NAMES, Acquisto.class);
+		super(COLUMN_NAMES);
 
 		setColumnClass(0, Cliente.class);
 		setColumnClass(1, Partita.class);
@@ -39,7 +39,7 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements 
 	}
 
 	protected AcquistoTableModel(ArrayList<Acquisto> acquisti) {
-		super(acquisti, COLUMN_NAMES, Acquisto.class);
+		super(acquisti, COLUMN_NAMES);
 
 		setColumnClass(0, Cliente.class);
 		setColumnClass(1, Partita.class);

@@ -6,14 +6,19 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class ImageLoader implements Serializable{
+/**
+ * Classe utilizzata per il caricamento delle immagini da Resource.
+ * 
+ * @author Maurizio
+ */
+public class ImageLoader implements Serializable {
 
 	/**
-	 * Loads a BufferedImage.
+	 * Carica una {@link BufferedImage}.
 	 * 
 	 * @param path
-	 *            The path of the image.
-	 * @return The loaded image.
+	 *            Il path dell'immagine da caricare.
+	 * @return L'immagine caricata.
 	 */
 	public static BufferedImage loadImage(String imageName) {
 		try {
@@ -24,6 +29,6 @@ public class ImageLoader implements Serializable{
 		}
 		return null;
 	}
-	
+
 	private static final long serialVersionUID = 2976834870464266114L;
 }
