@@ -18,8 +18,8 @@ import user.Cliente;
 public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements Serializable {
 
 	private static final long serialVersionUID = 1934337865637284431L;
-	private static final String[] COLUMN_NAMES = {"Cliente", "Partita", "Data Partita", "Stadio", "Settore", "Posto",
-			"Data Acquisto" };
+	private static final String[] COLUMN_NAMES = { "Cliente", "Partita", "Data Partita", "Stadio", "Settore", "Posto",
+			"Data Acquisto", "Prezzo" };
 
 	/**
 	 * @param columnNames
@@ -36,6 +36,7 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements 
 		setColumnClass(4, Settore.class);
 		setColumnClass(5, Posto.class);
 		setColumnClass(6, GregorianCalendar.class);
+		setColumnClass(7, Double.class);
 	}
 
 	protected AcquistoTableModel(ArrayList<Acquisto> acquisti) {
@@ -48,6 +49,7 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements 
 		setColumnClass(4, Settore.class);
 		setColumnClass(5, Posto.class);
 		setColumnClass(6, GregorianCalendar.class);
+		setColumnClass(7, Double.class);
 	}
 
 	@Override
@@ -90,6 +92,8 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements 
 			return acquisto.getPosto();
 		case 6:
 			return acquisto.getDataAcquisto();
+		case 7:
+			return acquisto.getBiglietto().getPrezzo();
 		default:
 			return null;
 		}

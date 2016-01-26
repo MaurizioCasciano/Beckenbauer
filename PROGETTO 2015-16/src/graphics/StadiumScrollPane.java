@@ -33,7 +33,6 @@ public class StadiumScrollPane extends JScrollPane implements Serializable {
 	private StadiumPanel stadiumPanel;
 	private StadiumMode stadiumMode;
 
-	/***************************************************************/
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("StadiumScrollPane");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

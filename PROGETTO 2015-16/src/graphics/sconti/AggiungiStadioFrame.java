@@ -23,10 +23,11 @@ import struttura.StrutturaSportiva;
 public class AggiungiStadioFrame extends JFrame implements Serializable {
 
 	/**
-	 * Crea un nuovo frame che permette di aggiungere sconti agli stadi passati
-	 * in input.
+	 * Crea un nuovo frame che permette di aggiungere un nuovo Stadio alla
+	 * StrutturaSportiva passata in input.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva a cui si vuole aggiungere uno Stadio.
 	 * @author Maurizio
 	 * @author Gaetano
 	 */
@@ -171,8 +172,6 @@ public class AggiungiStadioFrame extends JFrame implements Serializable {
 	private JPanel buttonPanel;
 	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-
-	/*************************************/
 
 	public static void main(String[] args) {
 		AggiungiStadioFrame scontoStadioFrame = new AggiungiStadioFrame(new StrutturaSportiva(""));

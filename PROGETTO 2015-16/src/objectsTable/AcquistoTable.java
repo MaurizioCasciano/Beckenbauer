@@ -15,6 +15,7 @@ import javax.swing.ListSelectionModel;
 
 import objectsTable.renderers.PartitaCellRenderer;
 import objectsTable.renderers.PostoCellRenderer;
+import objectsTable.renderers.PrezzoCellRenderer;
 import objectsTable.renderers.SettoreCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import objectsTable.renderers.ClienteCellRenderer;
@@ -66,6 +67,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		this.setDefaultRenderer(Settore.class, new SettoreCellRenderer());
 		this.setDefaultRenderer(Posto.class, new PostoCellRenderer());
 		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarCellRenderer());
+		this.setDefaultRenderer(Double.class, new PrezzoCellRenderer());
 	}
 
 	public Acquisto getSelectedAcquisto() {

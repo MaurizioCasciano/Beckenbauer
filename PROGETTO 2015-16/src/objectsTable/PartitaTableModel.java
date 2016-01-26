@@ -58,7 +58,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 	 * Rimuove la riga (Partita), corrispondente all'indice dato in input, dal
 	 * modello di questa tabella.
 	 * 
-	 * @param rowsIndex
+	 * @param rowIndex
 	 *            L'indice della riga (Partita) da rimuovere dlla tabella.
 	 */
 	public void removePartita(int rowIndex) {

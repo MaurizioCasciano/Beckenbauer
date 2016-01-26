@@ -32,6 +32,7 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce gli sconti.
 	 * @param partite
 	 *            L'ArrayList delle partite da mostrare per la scelta.
 	 * @throws IllegalArgumentException
@@ -89,8 +90,8 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 		this.stadioLabel = new JLabel("Partita: ");
 		this.partiteCombo = new JComboBox<>(this.partite.toArray(new Partita[0]));
 		/*
-		 * Sicuro, perchè nel caso non vi siano partite viene lanciata l'eccezione
-		 * illegalargumentexception.
+		 * Sicuro, perchè nel caso non vi siano partite viene lanciata
+		 * l'eccezione illegalargumentexception.
 		 */
 		this.partiteCombo.setSelectedIndex(0);
 		this.partiteComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -195,7 +196,12 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 
 				Sconti s = new Sconti(TIPO_SCONTO.PartitaCorrente, sconto, dataInizio, dataFine, part);
 
+				System.out.println("BEFORE: " + strutturaSportiva.getSconti().size());
+				
 				strutturaSportiva.addSconto(s);
+				
+				System.out.println("AFTER: " + strutturaSportiva.getSconti().size());
+				
 				dispose();
 			}
 		});
@@ -239,11 +245,9 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
 
-	/*************************************/
-
 	public static void main(String[] args) {
 
-		Stadio s = new Stadio("Meazza", 10, 10);
+		Stadio s = new Stadio("Meazza", 20000, 10);
 		ArrayList<Partita> partite = new ArrayList<>();
 		partite.add(new Partita(new Squadra("Inter"), new Squadra("Milan"), s, new GregorianCalendar()));
 

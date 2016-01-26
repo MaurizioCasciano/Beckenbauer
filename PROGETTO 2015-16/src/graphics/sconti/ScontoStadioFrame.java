@@ -30,7 +30,9 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce gli sconti.
 	 * @param stadi
+	 *            Gli stadi della StrutturaSportiva.
 	 * @throws IllegalArgumentException
 	 *             Se la dimensione degli stadi è uguale a 0.
 	 * @throws NullPointerException
@@ -192,7 +194,13 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 
 				Sconti s = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, sconto, dataInizio, dataFine, std);
 
+				System.out.println("SCONTO: " + s.toString());
+
+				System.out.println("SCONTI PRIMA = " + strutturaSportiva.getSconti().size());
+
 				strutturaSportiva.addSconto(s);
+
+				System.out.println("SCONTI DOPO = " + strutturaSportiva.getSconti().size());
 				dispose();
 			}
 		});
@@ -235,11 +243,10 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	private JPanel buttonPanel;
 	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-	/*************************************/
 
 	public static void main(String[] args) {
 
-		Stadio s = new Stadio("Meazza", 10, 10);
+		Stadio s = new Stadio("Meazza", 20000, 10);
 		ArrayList<Stadio> stadi = new ArrayList<>();
 		stadi.add(s);
 		stadi.add(new Stadio("Olimpico", 60000, 30));

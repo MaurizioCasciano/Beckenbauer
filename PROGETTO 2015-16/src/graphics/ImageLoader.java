@@ -16,8 +16,8 @@ public class ImageLoader implements Serializable {
 	/**
 	 * Carica una {@link BufferedImage}.
 	 * 
-	 * @param path
-	 *            Il path dell'immagine da caricare.
+	 * @param imageName
+	 *            Il nome dell'immagine da caricare.
 	 * @return L'immagine caricata.
 	 */
 	public static BufferedImage loadImage(String imageName) {

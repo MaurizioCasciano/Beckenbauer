@@ -28,11 +28,9 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
-	 * @param stadi
-	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi è uguale a 0.
+	 *            La StrutturaSportiva a cui aggiungere lo Sconto.
 	 * @throws NullPointerException
-	 *             Se la strutturaSportiva o l'ArrayList stadi sono null.
+	 *             Se la strutturaSportiva è null.
 	 * @author Maurizio
 	 * @author Gaetano
 	 */
@@ -229,8 +227,6 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 	private JPanel buttonPanel;
 	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-
-	/*************************************/
 
 	public static void main(String[] args) {
 		ScontoGiornoFrame scontoStadioFrame = new ScontoGiornoFrame(new StrutturaSportiva(""));

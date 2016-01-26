@@ -194,6 +194,8 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	/**
 	 * Restituisce l'oggetto della riga all'indice <code>row</code> richiesta.
 	 *
+	 * @param row
+	 *            L'indice della riga dell'oggetto richiesto.
 	 * @return L'oggetto della riga richiesta.
 	 */
 	public T getRow(int row) {

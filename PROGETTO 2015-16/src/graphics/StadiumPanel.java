@@ -40,6 +40,17 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * Crea un pannello rappresentante uno stadio, con la capienza di default.
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
+	 * 
+	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce le partite e le
+	 *            prenotazioni/acquisti.
+	 * @param cliente
+	 *            Il Cliente che deve effettuare una prenotazione/acquisto.
+	 * @param partita
+	 *            La partita da prenotare/acquistare.
+	 * @param stadiumMode
+	 *            La modalità con cui si vuole accedere allo Stadio.
+	 * @author Maurizio
 	 */
 	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
 			StadiumMode stadiumMode) {
@@ -51,8 +62,18 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
 	 * 
+	 * @param strutturaSportiva
+	 * @param cliente
+	 *            La StrutturaSportiva che gestisce le partite e le
+	 *            prenotazioni/acquisti. Il Cliente che deve effettuare una
+	 *            prenotazione/acquisto.
+	 * @param partita
+	 *            La partita da prenotare/acquistare.
+	 * @param stadiumMode
+	 *            La modalità con cui si vuole accedere allo Stadio.
 	 * @param capienza
 	 *            La capienza dello stadio.
+	 * @author Maurizio
 	 */
 	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, StadiumMode stadiumMode,
 			int capienza) {
@@ -542,7 +563,6 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		}
 	}
 
-	/***********************************************************************/
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -28,9 +28,11 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 	 * struttura sportiva
 	 * 
 	 * @param struct
-	 *            La struttura di cui si vogliono conoscere i totali.
+	 *            La struttura sportiva di cui si vogliono conoscere i totali.
 	 * @throws NullPointerException
+	 *             Se la struttura sportiva è null.
 	 * @throws IllegalArgumentException
+	 *             Se la struttura sportiva non contiene stadi.
 	 */
 	public VisualizzaIncassoPanel(StrutturaSportiva struct) throws NullPointerException, IllegalArgumentException {
 		this.struct = struct;

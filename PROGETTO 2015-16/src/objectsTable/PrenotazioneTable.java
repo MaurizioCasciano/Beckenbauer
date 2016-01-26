@@ -14,6 +14,7 @@ import objectsTable.renderers.ClienteCellRenderer;
 import objectsTable.renderers.GregorianCalendarCellRenderer;
 import objectsTable.renderers.PartitaCellRenderer;
 import objectsTable.renderers.PostoCellRenderer;
+import objectsTable.renderers.PrezzoCellRenderer;
 import objectsTable.renderers.SettoreCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import struttura.Acquisto;
@@ -63,6 +64,7 @@ public class PrenotazioneTable extends JTable implements Serializable {
 		this.setDefaultRenderer(Settore.class, new SettoreCellRenderer());
 		this.setDefaultRenderer(Posto.class, new PostoCellRenderer());
 		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarCellRenderer());
+		this.setDefaultRenderer(Double.class, new PrezzoCellRenderer());
 	}
 
 	public Prenotazione getSelectedPrenotazione() {
@@ -82,10 +84,7 @@ public class PrenotazioneTable extends JTable implements Serializable {
 	}
 
 	private static final long serialVersionUID = 8865381633135165349L;
-	
-	
-	
-	
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		/**** Struttura Sportiva ****/
@@ -305,7 +304,6 @@ public class PrenotazioneTable extends JTable implements Serializable {
 			System.out.println("----- stadio -----");
 		}
 
-		
 		JFrame frame = new JFrame("Prenotazioni");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -316,10 +314,11 @@ public class PrenotazioneTable extends JTable implements Serializable {
 		frame.setVisible(true);
 		System.out.println(struct.getPrenotazioni().size());
 		System.out.println("END");
-		
-		while(true){
-			
-			if(false)break;
+
+		while (true) {
+
+			if (false)
+				break;
 		}
 
 		/**** Acquisti ****/
@@ -481,5 +480,5 @@ public class PrenotazioneTable extends JTable implements Serializable {
 		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(arechi)))
 				+ " [Exp: 18.80]");
 	}
-	
+
 }

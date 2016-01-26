@@ -20,8 +20,8 @@ public class MatchByStadiumFilter implements Filter, Serializable {
 	/**
 	 * Filtra una Partita in base allo Stadio in cui si gioca.
 	 * 
-	 * @param La
-	 *            partita da filtrare.
+	 * @param partitaDiCalcio
+	 *            La partita da filtrare.
 	 * 
 	 * @return true se la partita si svolge nello Stadio indicato, false
 	 *         altrimenti.

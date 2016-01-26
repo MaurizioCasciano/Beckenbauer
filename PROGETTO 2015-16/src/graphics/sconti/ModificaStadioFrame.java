@@ -26,6 +26,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param stadi
+	 *            Lo Stadio da modificare.
 	 * @throws IllegalArgumentException
 	 *             Se la dimensione degli stadi è uguale a 0.
 	 * @throws NullPointerException
@@ -110,7 +111,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
 		this.capienzaSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaEffettiva(),
+				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaDesiderataStadio(),
 						Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
 		JSpinner.NumberEditor editor = (NumberEditor) capienzaSpinner.getEditor();
 		editor.getTextField().setEditable(false);
@@ -202,8 +203,6 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/*************************************/
 	private JButton applicaModificheButton, annullaButton;
 	private JPanel buttonPanel;
-
-	/*************************************/
 
 	public static void main(String[] args) {
 

@@ -1252,19 +1252,47 @@ public class Window extends JFrame implements Serializable {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			/*
-			 * Rimuove la JMenuBar.
-			 */
-			Window.this.setJMenuBar(null);
-			/*
-			 * Rimuove tutti i componenti presenti.
-			 */
-			Window.this.mainPanel.removeAll();
-			/*
-			 * Aggiunge nuovamente l'IdentificationPanel.
-			 */
-			Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
-			Window.this.revalidate();
+			new SwingWorker<Boolean, Void>() {
+
+				@Override
+				protected Boolean doInBackground() throws Exception {
+					Boolean done = false;
+
+					Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					Window.this.storeStrutturaSportiva();
+
+					done = true;
+					return done;
+				}
+
+				@Override
+				protected void done() {
+					try {
+						if (get() == true) {
+							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							/*
+							 * Rimuove la JMenuBar.
+							 */
+							Window.this.setJMenuBar(null);
+							/*
+							 * Rimuove tutti i componenti presenti.
+							 */
+							Window.this.mainPanel.removeAll();
+							/*
+							 * Aggiunge nuovamente l'IdentificationPanel.
+							 */
+							Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							Window.this.revalidate();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}.execute();
+
 		}
 
 		private static final long serialVersionUID = 8289365721136717863L;
