@@ -129,7 +129,7 @@ public class Acquisto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data in cui viene effettuato l'acquisto.
+	 * Restituisce la data ({@link GregorianCalendar}) in cui viene effettuato l'acquisto.
 	 * 
 	 * @return la dataAcquisto
 	 * @author Gaetano Antonucci
@@ -179,6 +179,9 @@ public class Acquisto implements Serializable {
 
 		if (this == obj)
 			return true;
+		
+		if (getClass() != obj.getClass())
+			return false;
 
 		Acquisto other = (Acquisto) obj;
 

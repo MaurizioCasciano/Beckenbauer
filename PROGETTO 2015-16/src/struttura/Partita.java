@@ -19,7 +19,7 @@ public class Partita implements Serializable {
 	 * @param squadraInCasa - la {@link Squadra} che gioca in Casa
 	 * @param squadraInTrasferta - la {@link Squadra} che gioca in Trasferta
 	 * @param stadio - lo {@link Stadio} in cui sara' giocata la partita
-	 * @param data - la data in cui sara' disputata la partita
+	 * @param data - la data ({@link GregorianCalendar}) in cui sara' disputata la partita
 	 * 
 	 * @author Maurizio Casciano
 	 */
@@ -153,9 +153,9 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data in cui sara' disputata la partita.
+	 * Restituisce la data ({@link GregorianCalendar}) in cui sara' disputata la partita.
 	 * 
-	 * @return La data in cui sara' disputata la partita.
+	 * @return La data ({@link GregorianCalendar}) in cui sara' disputata la partita.
 	 * @author Maurizio Casciano
 	 */
 	public GregorianCalendar getData() {
@@ -163,9 +163,9 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Imposta la data in cui sara' disputata la partita.
+	 * Imposta la data ({@link GregorianCalendar}) in cui sara' disputata la partita.
 	 * 
-	 * @param data - La data in cui sara' disputata la partita.
+	 * @param data - La data ({@link GregorianCalendar}) in cui sara' disputata la partita.
 	 * @author Maurizio Casciano
 	 */
 	public void setData(GregorianCalendar data) {
@@ -199,19 +199,19 @@ public class Partita implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	@Override
-	public boolean equals(Object obj) { // (GA)
+	public boolean equals(Object obj) {
 		boolean result = false;
 
 		if (this == obj) {
-			result = true;
+			return true;
 		}
 
 		if (obj == null) {
-			result = false;
+			return false;
 		}
 
 		if (getClass() != obj.getClass())
-			result = false;
+			return false;
 
 		Partita other = (Partita) obj;
 

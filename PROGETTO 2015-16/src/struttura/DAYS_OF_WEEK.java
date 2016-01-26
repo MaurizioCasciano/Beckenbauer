@@ -6,6 +6,7 @@ import java.util.Calendar;
  * Enum per i giorni della settimana-
  * 
  * @author Gaetano Antonucci
+ * @author Maurizio Casciano
  *
  */
 public enum DAYS_OF_WEEK {  // DA RINOMINARE
@@ -28,6 +29,7 @@ public enum DAYS_OF_WEEK {  // DA RINOMINARE
 	 *        Il valore da ricercare
 	 * @return il giorno della settimana trovato
 	 * @author Gaetano Antonucci
+	 * @author Maurizio Casciano
 	 */
 	public static DAYS_OF_WEEK findDay(int valore){  // Metodo probabilmente mai usato.
 		switch(valore){

@@ -199,10 +199,13 @@ public class Posto implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
+		
 		if (obj == null)
 			return false;
+		
 		if (getClass() != obj.getClass())
 			return false;
+		
 		Posto other = (Posto) obj;
 
 		if (this.stadio.equals(other.stadio) && this.settore.equals(other.settore)

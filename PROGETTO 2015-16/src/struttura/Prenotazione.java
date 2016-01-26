@@ -6,8 +6,27 @@ import java.util.GregorianCalendar;
 
 import user.Cliente;
 
+/**
+ * Classe che modella una prenotazione per una partita di calcio
+ * 
+ * @author Gaetano Antonucci
+ * @author Maurizio Casciano
+ */
 public class Prenotazione implements Serializable {
 	
+	/**
+	 * Costruisce un oggetto prenotazione in base ai parametri impostati
+	 * 
+	 * @param dataPrenotazione - la data ({@link GregorianCalendar}) in cui viene effetuata la prenotazione
+	 * @param stru - la {@link StrutturaSportiva} sulla quale si sta operando
+	 * @param cliente - il {@link Cliente} che effettua la prenotazione
+	 * @param partita - la {@link Partita} per cui si sta prenotando un biglietto
+	 * @param settore - il {@link Settore} dello {@link Stadio} dove &egrave ubicato il posto
+	 * @param fila - la fila del {@link Settore} dove è ubicato il posto
+	 * @param posto - il posto prenotato
+	 * 
+	 * @author Gaetano Antonucci
+	 */
 	public Prenotazione(GregorianCalendar dataPrenotazione, StrutturaSportiva stru, 
 			Cliente cliente, Partita partita, Settore settore, int fila, int posto){
 		this.IDPrenotazione = ++IDCounter;
@@ -18,6 +37,7 @@ public class Prenotazione implements Serializable {
 		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO); // da modificare
 	}
 
+	// DA ELIMINARE IN QUANTO NON USATO (?)
 	public Prenotazione(GregorianCalendar dataPrenotazione, Biglietto bigliettoPrenotato) {
 		this.IDPrenotazione = ++IDCounter;
 		this.dataPrenotazione = dataPrenotazione;
@@ -27,58 +47,113 @@ public class Prenotazione implements Serializable {
 		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO);
 	}
 
+	/**
+	 * Restituisce il {@link Cliente} che ha prenotato il {@link Biglietto}
+	 * 
+	 * @return Cliente - il cliente che ha prenotato
+	 * @author Maurizio Casciano
+	 */
 	public Cliente getCliente() {
 		return this.bigliettoPrenotato.getCliente();
 	}
 
+	/**
+	 * Restituisce la {@link Partita} per cui si è prenotato un biglietto
+	 * 
+	 * @return la Partita
+	 * @author Maurizio Casciano
+	 */
 	public Partita getPartita() {
 		return this.bigliettoPrenotato.getPartita();
 	}
 
+	/**
+	 * Restituisce il {@link Settore} dello {@link Stadio} dove &egrave ubicato il posto
+	 * 
+	 * @return il Settore
+	 * @author Maurizio Casciano
+	 */
 	public Settore getSettore() {
 		return this.bigliettoPrenotato.getSettore();
 	}
 
+	/**
+	 * Restituisce lo {@link Stadio} dove sara' / &grave stata giocata la partita.
+	 * 
+	 * @return lo Stadio
+	 * @author Maurizio Casciano
+	 */
 	public Stadio getStadio() {
 		return this.getSettore().getStadio();
 	}
 
+	/**
+	 * Restituisce il {@link Posto} prenotato
+	 * 
+	 * @return il Posto
+	 * @author Maurizio Casciano
+	 */
 	public Posto getPosto() {
 		return this.bigliettoPrenotato.getPosto();
 	}
 
+	/**
+	 * Restituisce la fila del {@link Settore} dove &egrave ubicato il posto
+	 * 
+	 * @return la fila
+	 * @author Maurizio Casciano
+	 */
 	public int getFila() {
 		return this.bigliettoPrenotato.getFila();
 	}
 
 	/**
-	 * @return the iDPrenotazione
+	 * Restituisce il codice identificativo (ID) della prenotazione
+	 * 
+	 * @return l'IDPrenotazione
+	 * @author Gaetano Antonucci
 	 */
 	public int getIDPrenotazione() {
 		return IDPrenotazione;
 	}
 
 	/**
-	 * @return the dataPrenotazione
+	 * Restituisce la data ({@link GregorianCalendar}) in cui &egrave stata effettuata la prenotazione.
+	 * 
+	 * @return dataPrenotazione ({@link GregorianCalendar})
+	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getDataPrenotazione() {
 		return dataPrenotazione;
 	}
 
 	/**
-	 * @return the dataPrenotazioneString
+	 * Restituisce la data in cui &egrave stata effettuata la prenotazione come {@link String} formattata.
+	 * 
+	 * @return dataPrenotazioneString
+	 * @author Gaetano Antonucci
 	 */
 	public String getDataPrenotazioneString() {
 		return dataPrenotazioneString;
 	}
 
 	/**
-	 * @return the bigliettoPrenotato
+	 * Restituisce il {@link Biglietto} oggetto della prenotazione
+	 * 
+	 * @return bigliettoPrenotato
+	 * @author Gaetano Antonucci
 	 */
 	public Biglietto getBigliettoPrenotato() {
 		return bigliettoPrenotato;
 	}
 
+	/**
+	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * 
+	 * @param obj - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @author Gaetano Antonucci
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		boolean result = false;
@@ -102,6 +177,11 @@ public class Prenotazione implements Serializable {
 
 	}
 
+	/**
+	 * Restituisce le informazioni dell'oggetto corrente come {@link String}
+	 * 
+	 * @author Gaetano Antonucci
+	 */
 	@Override
 	public String toString() {
 		return ("IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString

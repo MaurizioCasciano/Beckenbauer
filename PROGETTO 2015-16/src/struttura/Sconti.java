@@ -1,18 +1,27 @@
-/**
- * Program: Sconti.java
- * Purpose: Classe che implementa le politiche di sconto
- * @author Gaetano Antonucci
- * @version 2.0 
- * Last Modified: 13/01/2016
- */
 package struttura;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * Classe che modella le politiche di sconto 
+ * 
+ * @author Gaetano Antonucci
+ */
 public class Sconti implements Serializable {
 
+	/**
+	 * Costruisce uno sconto che &egrave attivato su tutte le partite giocate in un determinato stadio.
+	 * 
+	 * @param nomeSconto - il tipo di sconto scelto (TIPO_SCONTO.<i>TutteLePartiteDelloStadio</i>)
+	 * @param percetualeSconto - la percetuale scelta per lo sconto
+	 * @param inizioValidita - la data in cui lo sconto inizia a valere
+	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
+	 * @param stadio - lo {@link Stadio} su cui &egrave attivo lo sconto
+	 * 
+	 * @author Gaetano Antonucci
+	 */
 	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, Stadio stadio) {
 		this.scontoScelto = nomeSconto;
@@ -24,6 +33,17 @@ public class Sconti implements Serializable {
 		this.giornoSettimana = null;
 	}
 	
+	/**
+	 * Costruisce uno sconto che &egrave attivato su una determinata partita
+	 * 
+	 * @param nomeSconto - il tipo di sconto scelto (TIPO_SCONTO.<i>PartitaCorrente</i>)
+	 * @param percetualeSconto - la percetuale scelta per lo sconto
+	 * @param inizioValidita - la data in cui lo sconto inizia a valere
+	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
+	 * @param partita - la {@link Partita} su cui &egrave attivo lo sconto
+	 * 
+	 * @author Gaetano Antonucci
+	 */
 	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, Partita partita) {
 		this.scontoScelto = nomeSconto;
@@ -35,6 +55,17 @@ public class Sconti implements Serializable {
 		this.giornoSettimana = null;
 	}
 	
+	/**
+	 * Costruisce uno sconto che è attivo in un determinato giorno della settimana.
+	 * 
+	 @param nomeSconto - il tipo di sconto scelto (TIPO_SCONTO.<i>GiornoPrestabilito</i>)
+	 * @param percetualeSconto - la percetuale scelta per lo sconto
+	 * @param inizioValidita - la data in cui lo sconto inizia a valere
+	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
+	 * @param giorno - il giorno ({@link DAYS_OF_WEEK}) il cui lo sconto è valido
+	 * 
+	 * @author Gaetano Antonucci
+	 */
 	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, DAYS_OF_WEEK giorno) {
 		this.scontoScelto = nomeSconto;
@@ -48,35 +79,53 @@ public class Sconti implements Serializable {
 	
 
 	/**
-	 * @return the scontoScelto
+	 * Restituisce la tipologi di sconto dell'oggetto corrente
+	 * 
+	 * @return scontoScelto
+	 * @author Gaetano Antonucci
 	 */
 	public TIPO_SCONTO getScontoScelto() {
 		return scontoScelto;
 	}
 
 	/**
-	 * @return the stadio
+	 * Restituisce lo stadio su cui &egrave attivo lo sconto, se si tratta di uno sconto su stadio, 
+	 * altrimenti resituisce {@code null}
+	 * 
+	 * @return stadio
+	 * @author Gaetano Antonucci
 	 */
 	public Stadio getStadio() {
 		return stadio;
 	}
 
 	/**
-	 * @return the partita
+	 * Restituisce la partita su cui &egrave attivo lo sconto, se si tratta di uno sconto su partita, 
+	 * altrimenti restituisce {@code null}
+	 * 
+	 * @return partita
+	 * @author Gaetano Antonucci
 	 */
 	public Partita getPartita() {
 		return partita;
 	}
 
 	/**
-	 * @return the inizioValidita
+	 * Restituisce la data ({@link GregorianCalendar} in cui lo sconto inizia a valere
+	 * 
+	 * @return inizioValidita
+	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getInizioValidita() {
 		return inizioValidita;
 	}
 
 	/**
-	 * @return the fineValidita
+	 * Restituisce l'ultima data ({@link GregorianCalendar} in cui lo sconto vale, dopo questa data
+	 * lo sconto non vale piu'
+	 * 
+	 * @return fineValidita
+	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getFineValidita() {
 		return fineValidita;
@@ -84,16 +133,32 @@ public class Sconti implements Serializable {
 
 
 	/**
+	 * Restituisce il giorno della settimana ({@link DAYS_OF_WEEK}) in cui lo sconto è valido, 
+	 * se si tratta di uno sconto sul giorno della settimana, altrimenti restituisce {@code null}
+	 * 
 	 * @return the giornoSettimana
+	 * @author Gaetano Antonucci
 	 */
 	public DAYS_OF_WEEK getGiornoSettimana() {
 		return giornoSettimana;
 	}
 
+	/**
+	 * Restituisce la percetuale dello sconto
+	 * 
+	 * @return percetualeSconto
+	 * @author Gaetano Antonucci
+	 */
 	public double getPercetualeSconto() {
 		return percetualeSconto;
 	}
 	
+	/**
+	 * Restituisce le informazioni relative all'oggeto come {@link String}
+	 * 
+	 * @author Gaetano Antonucci
+	 */
+	@Override
 	public String toString(){
 		String inizioValiditaString = this.inizioValidita.get(Calendar.DAY_OF_MONTH)+"."+ (this.inizioValidita.get(Calendar.MONTH)+1)+"." 
 								    + this.inizioValidita.get(Calendar.YEAR);
@@ -105,6 +170,72 @@ public class Sconti implements Serializable {
 				+ " Partita: " + this.partita + " GiornoPrest: " + String.valueOf(this.giornoSettimana) 
 				+ "\n Iniz.Val.: " + inizioValiditaString + " Fine Val.: " + fineValiditaString);
 	}
+	
+	/**
+	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * 
+	 * @param obj - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @author Gaetano Antonucci
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null) {
+			return false;
+		}
+
+		if (getClass() != obj.getClass())
+			return false;
+		
+		Sconti other = (Sconti) obj;
+		
+		switch(other.scontoScelto){
+		case PartitaCorrente:
+			if(this.scontoScelto == other.scontoScelto){
+				if(this.partita.equals(other.partita) && this.inizioValidita.equals(other.inizioValidita) 
+						&& this.fineValidita.equals(other.fineValidita)){
+					result = true;
+				}
+			} else {
+				result = false;
+			}
+			break;
+			
+		case TutteLePartiteDelloStadio:
+			if(this.scontoScelto == other.scontoScelto){
+				if(this.stadio.equals(other.stadio) && this.inizioValidita.equals(other.inizioValidita) 
+						&& this.fineValidita.equals(other.fineValidita)){
+					result = true;
+				}
+			} else {
+				result = false;
+			}
+			break;
+		
+		case GiornoPrestabilito:
+			if(this.scontoScelto == other.scontoScelto){
+				if(this.giornoSettimana == other.giornoSettimana && this.inizioValidita.equals(other.inizioValidita) 
+						&& this.fineValidita.equals(other.fineValidita)){
+					result = true;
+				}
+			} else {
+				result = false;
+			}
+			break;
+			
+		default: break;	
+		}
+		
+		return result;
+	}
+
+
 
 	private static final long serialVersionUID = 8088987206686770452L;
 	private TIPO_SCONTO scontoScelto;
