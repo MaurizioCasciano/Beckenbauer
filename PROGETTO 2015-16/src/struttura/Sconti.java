@@ -14,7 +14,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che &egrave attivato su tutte le partite giocate in un determinato stadio.
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto (TIPO_SCONTO.<i>TutteLePartiteDelloStadio</i>)
+	 * @param nomeSconto - il tipo di sconto scelto ({@link TIPO_SCONTO#TutteLePartiteDelloStadio})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -36,7 +36,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che &egrave attivato su una determinata partita
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto (TIPO_SCONTO.<i>PartitaCorrente</i>)
+	 * @param nomeSconto - il tipo di sconto scelto ({@link TIPO_SCONTO#PartitaCorrente})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -58,7 +58,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che è attivo in un determinato giorno della settimana.
 	 * 
-	 @param nomeSconto - il tipo di sconto scelto (TIPO_SCONTO.<i>GiornoPrestabilito</i>)
+	 @param nomeSconto - il tipo di sconto scelto ({@link TIPO_SCONTO#GiornoPrestabilito})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido

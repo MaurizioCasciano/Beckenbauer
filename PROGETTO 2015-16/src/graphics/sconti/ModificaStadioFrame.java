@@ -19,6 +19,12 @@ import javax.swing.JSpinner.NumberEditor;
 import javax.swing.SpinnerNumberModel;
 import struttura.Stadio;
 
+/**
+ * Classe che modella un frame per la modifica delle informazioni di uno Stadio
+ * 
+ * @author Gaetano Antonucci
+ * @author Maurizio Casciano
+ */
 public class ModificaStadioFrame extends JFrame implements Serializable {
 
 	/**
@@ -27,11 +33,11 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	 * 
 	 * @param stadi
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi è uguale a 0.
+	 *             Se la dimensione degli stadi &egrave uguale a 0.
 	 * @throws NullPointerException
-	 *             Se l'ArrayList stadi sono null.
-	 * @author Maurizio
-	 * @author Gaetano
+	 *             Se l'ArrayList stadi &egrave null.
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	public ModificaStadioFrame(ArrayList<Stadio> stadi) throws IllegalArgumentException, NullPointerException {
 		super("Sconto Stadio");
@@ -39,7 +45,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		this.setLayout(new GridLayout(4, 1, 10, 10));
 
 		if (stadi == null) {
-			throw new NullPointerException("stadi non può essere null");
+			throw new NullPointerException("Stadi non puo' essere null");
 		}
 
 		if (stadi.size() == 0) {
@@ -56,7 +62,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza i vari componenti di questo frame.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void init() {
 		this.initStadiComboPanel();
@@ -68,14 +74,15 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza il pannello per selezionare lo stadio.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	private void initStadiComboPanel() {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
 		/*
-		 * Sicuro, perchè nel caso non vi siano stadi viene lanciata l'eccezione
-		 * illegalargumentexception.
+		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata l'eccezione
+		 * IllegalArgumentException.
 		 */
 		this.stadiCombo.setSelectedIndex(0);
 
@@ -103,9 +110,9 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la data di inizio validita.
+	 * Inizializza il pannello per selezionare la capienza dello stadio
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
@@ -121,16 +128,12 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la percentuale di sconto.
+	 * Inizializza il pannello per selezionare il prezzo per partita dello Stadio
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initPrezzoPanel() {
 		this.prezzoLabel = new JLabel("Prezzo per Partita: ");
-		/*
-		 * I valori vengono impostati in questo modo poichè, con l'editor per la
-		 * percentuale saranno moltiplicati per 100.
-		 */
 		this.prezzoSpinner = new JSpinner(
 				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getPrezzoPerPartita(),
 						Stadio.PREZZO_MINIMO, Stadio.PREZZO_MASSIMO, 0.5));
@@ -140,17 +143,18 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(prezzoSpinner, currencyPattern);
 		editor.getTextField().setEditable(false);
 		this.prezzoSpinner.setEditor(editor);
-		this.percentualeScontoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		this.percentualeScontoPanel.add(this.prezzoLabel);
-		this.percentualeScontoPanel.add(this.prezzoSpinner);
-		this.add(this.percentualeScontoPanel);
+		this.prezzoPartitaPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.prezzoPartitaPanel.add(this.prezzoLabel);
+		this.prezzoPartitaPanel.add(this.prezzoSpinner);
+		this.add(this.prezzoPartitaPanel);
 	}
 
 	/**
 	 * Inizializza il pannello contenente i pulsanti per applicare le modifiche
 	 * o per annullare l'operazione.
 	 * 
-	 * @author Maurizio
+	 * @author Gaetano Antonucci
+	 * @author Maurizio Casciano
 	 */
 	private void initButtonPanel() {
 		this.applicaModificheButton = new JButton("Applica Modifiche");
@@ -198,7 +202,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/*************************************/
 	private JLabel prezzoLabel;
 	private JSpinner prezzoSpinner;
-	private JPanel percentualeScontoPanel;
+	private JPanel prezzoPartitaPanel;
 	/*************************************/
 	private JButton applicaModificheButton, annullaButton;
 	private JPanel buttonPanel;
