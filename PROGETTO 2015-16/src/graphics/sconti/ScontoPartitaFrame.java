@@ -23,7 +23,7 @@ import struttura.Sconti;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.TIPO_SCONTO;
+import struttura.TipoSconto;
 
 /**
  * Classe che modella un frame per l'inserimento di Sconti su una determinata partita
@@ -200,7 +200,7 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TIPO_SCONTO.PartitaCorrente, sconto, dataInizio, dataFine, part);
+				Sconti s = new Sconti(TipoSconto.PartitaCorrente, sconto, dataInizio, dataFine, part);
 
 				strutturaSportiva.addSconto(s);
 				dispose();

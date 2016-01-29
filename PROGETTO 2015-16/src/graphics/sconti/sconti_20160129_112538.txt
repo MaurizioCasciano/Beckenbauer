@@ -1,0 +1,39 @@
+WARNING - 11:25:38: First conversion pass
+ERROR - 11:25:38: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:25:38: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:08: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:08: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:20: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:20: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+INFO - 11:27:26: Entering Java JavaProject PROGETTO 2015-16
+INFO - 11:27:26:    UML ModelImpl My.uml was created
+ERROR - 11:27:26: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.handleDemandLoadException(ResourceSetImpl.java:319)
+org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:278)
+org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.getResource(ResourceSetImpl.java:406)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.load(AbstractJava2UMLConverter.java:2274)
+org.eclipse.umlgen.reverse.java.Java2UMLConverter.initializeModel(Java2UMLConverter.java:110)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.doConvertion(AbstractJava2UMLConverter.java:453)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.convert(AbstractJava2UMLConverter.java:253)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.convert(AbstractJava2UMLConverter.java:2248)
+org.eclipse.umlgen.reverse.java.diagram.PrototypeJava2UMLWizard.doFinish(PrototypeJava2UMLWizard.java:144)
+org.eclipse.umlgen.reverse.java.internal.wizards.Java2UMLWizard$1.run(Java2UMLWizard.java:104)
+org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+ERROR - 11:27:26: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.throwCoreException(AbstractJava2UMLConverter.java:2216)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.load(AbstractJava2UMLConverter.java:2281)
+org.eclipse.umlgen.reverse.java.Java2UMLConverter.initializeModel(Java2UMLConverter.java:110)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.doConvertion(AbstractJava2UMLConverter.java:453)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.convert(AbstractJava2UMLConverter.java:253)
+org.eclipse.umlgen.reverse.java.AbstractJava2UMLConverter.convert(AbstractJava2UMLConverter.java:2248)
+org.eclipse.umlgen.reverse.java.diagram.PrototypeJava2UMLWizard.doFinish(PrototypeJava2UMLWizard.java:144)
+org.eclipse.umlgen.reverse.java.internal.wizards.Java2UMLWizard$1.run(Java2UMLWizard.java:104)
+org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+ERROR - 11:27:34: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:34: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:38: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:38: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:56: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:27:56: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:29:01: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 11:29:01: org.xml.sax.SAXParseExceptionpublicId: /PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; systemId: file:///PROGETTO%202015-16/src/graphics/sconti/AggiungiStadioFrame.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.

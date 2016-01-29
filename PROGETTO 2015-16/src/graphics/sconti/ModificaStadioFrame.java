@@ -27,6 +27,7 @@ import struttura.Stadio;
  */
 public class ModificaStadioFrame extends JFrame implements Serializable {
 
+
 	/**
 	 * Crea un nuovo frame che permette di aggiungere sconti agli stadi passati
 	 * in input.
@@ -190,7 +191,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/***************************************************************************************/
-	private static final long serialVersionUID = 260663801632901839L;
+	
 	private ArrayList<Stadio> stadi;
 	private JLabel stadioLabel;
 	private JComboBox<Stadio> stadiCombo;
@@ -208,6 +209,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private JPanel buttonPanel;
 
 	/*************************************/
+	private static final long serialVersionUID = 7236146811425602651L;
 
 	public static void main(String[] args) {
 

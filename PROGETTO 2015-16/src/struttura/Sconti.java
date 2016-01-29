@@ -14,7 +14,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che &egrave attivato su tutte le partite giocate in un determinato stadio.
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto ({@link TIPO_SCONTO#TutteLePartiteDelloStadio})
+	 * @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#TutteLePartiteDelloStadio})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -22,7 +22,7 @@ public class Sconti implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconti(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, Stadio stadio) {
 		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
@@ -36,7 +36,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che &egrave attivato su una determinata partita
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto ({@link TIPO_SCONTO#PartitaCorrente})
+	 * @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#PartitaCorrente})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -44,7 +44,7 @@ public class Sconti implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconti(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, Partita partita) {
 		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
@@ -58,16 +58,16 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che è attivo in un determinato giorno della settimana.
 	 * 
-	 @param nomeSconto - il tipo di sconto scelto ({@link TIPO_SCONTO#GiornoPrestabilito})
+	 @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#GiornoPrestabilito})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
-	 * @param giorno - il giorno ({@link DAYS_OF_WEEK}) il cui lo sconto è valido
+	 * @param giorno - il giorno ({@link DaysOfWeek}) il cui lo sconto è valido
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconti(TIPO_SCONTO nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
-			GregorianCalendar fineValidita, DAYS_OF_WEEK giorno) {
+	public Sconti(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+			GregorianCalendar fineValidita, DaysOfWeek giorno) {
 		this.scontoScelto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
 		this.inizioValidita = inizioValidita;
@@ -84,7 +84,7 @@ public class Sconti implements Serializable {
 	 * @return scontoScelto
 	 * @author Gaetano Antonucci
 	 */
-	public TIPO_SCONTO getScontoScelto() {
+	public TipoSconto getScontoScelto() {
 		return scontoScelto;
 	}
 
@@ -133,13 +133,13 @@ public class Sconti implements Serializable {
 
 
 	/**
-	 * Restituisce il giorno della settimana ({@link DAYS_OF_WEEK}) in cui lo sconto è valido, 
+	 * Restituisce il giorno della settimana ({@link DaysOfWeek}) in cui lo sconto è valido, 
 	 * se si tratta di uno sconto sul giorno della settimana, altrimenti restituisce {@code null}
 	 * 
 	 * @return the giornoSettimana
 	 * @author Gaetano Antonucci
 	 */
-	public DAYS_OF_WEEK getGiornoSettimana() {
+	public DaysOfWeek getGiornoSettimana() {
 		return giornoSettimana;
 	}
 
@@ -238,12 +238,12 @@ public class Sconti implements Serializable {
 
 
 	private static final long serialVersionUID = 8088987206686770452L;
-	private TIPO_SCONTO scontoScelto;
+	private TipoSconto scontoScelto;
 	private double percetualeSconto;
 	private Stadio stadio;
 	private Partita partita;
 	private GregorianCalendar inizioValidita;
 	private GregorianCalendar fineValidita;
-	private DAYS_OF_WEEK giornoSettimana;
+	private DaysOfWeek giornoSettimana;
 
 }

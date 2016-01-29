@@ -21,7 +21,7 @@ import calendar.DateTimePicker;
 import struttura.Sconti;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.TIPO_SCONTO;
+import struttura.TipoSconto;
 
 /**
  * Classe che modella un frame per l'inserimento degli sconti in base allo stadio
@@ -197,7 +197,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, sconto, dataInizio, dataFine, std);
+				Sconti s = new Sconti(TipoSconto.TutteLePartiteDelloStadio, sconto, dataInizio, dataFine, std);
 
 				strutturaSportiva.addSconto(s);
 				dispose();
