@@ -23,7 +23,7 @@ import struttura.Sconti;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.TIPO_SCONTO;
+import struttura.TipoSconto;
 
 public class ScontoPartitaFrame extends JFrame implements Serializable {
 
@@ -194,7 +194,7 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TIPO_SCONTO.PartitaCorrente, sconto, dataInizio, dataFine, part);
+				Sconti s = new Sconti(TipoSconto.PartitaCorrente, sconto, dataInizio, dataFine, part);
 
 				System.out.println("BEFORE: " + strutturaSportiva.getSconti().size());
 				

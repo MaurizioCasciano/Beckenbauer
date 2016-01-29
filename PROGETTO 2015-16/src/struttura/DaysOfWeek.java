@@ -9,13 +9,13 @@ import java.util.Calendar;
  * @author Maurizio Casciano
  *
  */
-public enum DAYS_OF_WEEK {  // DA RINOMINARE
+public enum DaysOfWeek {  // DA RINOMINARE
 	
 	Lunedi(Calendar.MONDAY), Martedi(Calendar.TUESDAY), Mercoledi(Calendar.WEDNESDAY), 
 	Giovedi(Calendar.THURSDAY), Venerdi(Calendar.FRIDAY), Sabato(Calendar.SATURDAY), 
 	Domenica(Calendar.SUNDAY);
 	
-	DAYS_OF_WEEK(int i){
+	DaysOfWeek(int i){
 		this.value = i;
 	}
 	
@@ -31,22 +31,22 @@ public enum DAYS_OF_WEEK {  // DA RINOMINARE
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
-	public static DAYS_OF_WEEK findDay(int valore){  // Metodo probabilmente mai usato.
+	public static DaysOfWeek findDay(int valore){  // Metodo probabilmente mai usato.
 		switch(valore){
 		case Calendar.MONDAY:
-			return DAYS_OF_WEEK.Lunedi;
+			return DaysOfWeek.Lunedi;
 		case Calendar.TUESDAY:
-			return DAYS_OF_WEEK.Martedi;
+			return DaysOfWeek.Martedi;
 		case Calendar.WEDNESDAY:
-			return DAYS_OF_WEEK.Mercoledi;
+			return DaysOfWeek.Mercoledi;
 		case Calendar.THURSDAY:
-			return DAYS_OF_WEEK.Giovedi;
+			return DaysOfWeek.Giovedi;
 		case Calendar.FRIDAY:
-			return DAYS_OF_WEEK.Venerdi;
+			return DaysOfWeek.Venerdi;
 		case Calendar.SATURDAY:
-			return DAYS_OF_WEEK.Sabato;
+			return DaysOfWeek.Sabato;
 		case Calendar.SUNDAY:
-			return DAYS_OF_WEEK.Domenica;
+			return DaysOfWeek.Domenica;
 		default: return findDay((valore % 7) + 1);	
 		}
 	}
@@ -54,7 +54,7 @@ public enum DAYS_OF_WEEK {  // DA RINOMINARE
 	private final int value;
 	
 	public static void main(String[] args) {
-		System.out.println(DAYS_OF_WEEK.findDay(15));
+		System.out.println(DaysOfWeek.findDay(15));
 	}
 	
 }

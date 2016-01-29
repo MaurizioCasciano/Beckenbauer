@@ -183,15 +183,6 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Restituisce i posti dello stadio per la partita corrente
-	 * 
-	 * @return ArrayList<Posto> con i posti dello stadio
-	 */
-	public ArrayList<Posto> getPosti() {
-		return posti;
-	}
-
-	/**
 	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
 	 * 
 	 * @param obj - l'oggetto su cui effettuare la verifica
@@ -226,11 +217,6 @@ public class Partita implements Serializable {
 	private Squadra squadraInCasa, squadraInTrasferta;
 	private Stadio stadio;
 	private GregorianCalendar data;
-
-	/*
-	 * Arraylist per tenere traccia dei posti prenotati, acquistati.
-	 */
-	private ArrayList<Posto> posti;
 	private ArrayList<Settore> settori;
 
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E  dd/MM/yyyy  HH:mm");

@@ -6,11 +6,11 @@ import java.util.Calendar;
 
 import struttura.Partita;
 import struttura.Sconti;
-import struttura.DAYS_OF_WEEK;
+import struttura.DaysOfWeek;
 
 /**
 * Classe di call-back per l'interfaccia ScontiFilter per gli Sconti in base al Giorno Prestabilito
-* ({@link DAYS_OF_WEEK})
+* ({@link DaysOfWeek})
 * 
 * @author Gaetano Antonucci
 */
@@ -37,10 +37,10 @@ public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 	
 	@Override
 	public boolean accept(Partita partitaDiCalcio) {
-		DAYS_OF_WEEK giornoSettimanaSconto = this.sconto.getGiornoSettimana();
+		DaysOfWeek giornoSettimanaSconto = this.sconto.getGiornoSettimana();
 		boolean result = false;
 		int giorno = (partitaDiCalcio.getData().get(Calendar.DAY_OF_WEEK));
-		DAYS_OF_WEEK giornoSettimana = DAYS_OF_WEEK.findDay(giorno);
+		DaysOfWeek giornoSettimana = DaysOfWeek.findDay(giorno);
 		
 		if(giornoSettimanaSconto != null){
 			if((giornoSettimana.getValue() == this.sconto.getGiornoSettimana().getValue()) 

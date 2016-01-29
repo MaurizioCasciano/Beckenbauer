@@ -5,6 +5,6 @@ package struttura;
  * 
  * @author Gaetano Antonucci
  */
-public enum TIPO_SCONTO {
+public enum TipoSconto {
 	PartitaCorrente, TutteLePartiteDelloStadio, GiornoPrestabilito;
 }

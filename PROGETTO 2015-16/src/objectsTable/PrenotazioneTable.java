@@ -19,7 +19,7 @@ import objectsTable.renderers.SettoreCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import struttura.Acquisto;
 import struttura.Biglietto;
-import struttura.DAYS_OF_WEEK;
+import struttura.DaysOfWeek;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.Prenotazione;
@@ -28,7 +28,7 @@ import struttura.Settore;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.TIPO_SCONTO;
+import struttura.TipoSconto;
 import struttura.filters.PrenotationsByCustomer;
 import struttura.filters.PrenotationsByMatch;
 import struttura.filters.PrenotationsByStadium;
@@ -122,32 +122,32 @@ public class PrenotazioneTable extends JTable implements Serializable {
 		struct.addPartita(salernitanaAvellinese);
 
 		/**** Sconti ****/
-		Sconti scontoOlimpico = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, 10,
+		Sconti scontoOlimpico = new Sconti(TipoSconto.TutteLePartiteDelloStadio, 10,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
 				olimpico);
 		struct.addSconto(scontoOlimpico);
 
-		Sconti scontoRomaJuventus = new Sconti(TIPO_SCONTO.PartitaCorrente, 15,
+		Sconti scontoRomaJuventus = new Sconti(TipoSconto.PartitaCorrente, 15,
 				new GregorianCalendar(2016, Calendar.JANUARY, 19), new GregorianCalendar(2016, Calendar.JANUARY, 19),
 				romaJuventus);
 		struct.addSconto(scontoRomaJuventus);
 
-		Sconti scontoMercoledi = new Sconti(TIPO_SCONTO.GiornoPrestabilito, 5,
+		Sconti scontoMercoledi = new Sconti(TipoSconto.GiornoPrestabilito, 5,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
-				DAYS_OF_WEEK.Mercoledi);
+				DaysOfWeek.Mercoledi);
 		struct.addSconto(scontoMercoledi);
 
-		Sconti scontoGiovedi = new Sconti(TIPO_SCONTO.GiornoPrestabilito, 3,
+		Sconti scontoGiovedi = new Sconti(TipoSconto.GiornoPrestabilito, 3,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
-				DAYS_OF_WEEK.Giovedi);
+				DaysOfWeek.Giovedi);
 		struct.addSconto(scontoGiovedi);
 
-		Sconti scontoSalernitanaAvellinese = new Sconti(TIPO_SCONTO.PartitaCorrente, 6,
+		Sconti scontoSalernitanaAvellinese = new Sconti(TipoSconto.PartitaCorrente, 6,
 				new GregorianCalendar(2016, Calendar.JANUARY, 21), new GregorianCalendar(2016, Calendar.JANUARY, 21),
 				salernitanaAvellinese);
 		struct.addSconto(scontoSalernitanaAvellinese);
 
-		Sconti scontoArechi = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, 4.5,
+		Sconti scontoArechi = new Sconti(TipoSconto.TutteLePartiteDelloStadio, 4.5,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
 				arechi);
 		struct.addSconto(scontoArechi);

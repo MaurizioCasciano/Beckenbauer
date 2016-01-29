@@ -187,7 +187,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/***************************************************************************************/
-	private static final long serialVersionUID = 260663801632901839L;
+	private static final long serialVersionUID = 7236146811425602651L;
 	private ArrayList<Stadio> stadi;
 	private JLabel stadioLabel;
 	private JComboBox<Stadio> stadiCombo;

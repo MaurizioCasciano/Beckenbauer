@@ -565,10 +565,10 @@ public class StrutturaSportiva implements Serializable {
 		Arrays.sort(scontiMassimi);
 		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
 
-		System.out.println("Verifica Sconto su Biglietto");
-		System.out.println("maxScontoPartita " + maxScontoPartita);
-		System.out.println("maxScontoStadio " + maxScontoStadio);
-		System.out.println("maxScontoGiorno " + maxScontoGiorno);
+		//System.out.println("Verifica Sconto su Biglietto");
+		//System.out.println("maxScontoPartita " + maxScontoPartita);
+		//System.out.println("maxScontoStadio " + maxScontoStadio);
+		//System.out.println("maxScontoGiorno " + maxScontoGiorno);
 
 		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
 
