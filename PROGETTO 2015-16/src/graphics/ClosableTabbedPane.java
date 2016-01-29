@@ -67,10 +67,10 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable{
 	public ClosableTabbedPane(int tabPlacement, int tabLayoutPolicy) {
 		super(tabPlacement, tabLayoutPolicy);
 	}
-
+	
 	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		this.closeUI.paint(g);
 	}
 
