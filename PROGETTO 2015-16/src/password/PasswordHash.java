@@ -11,23 +11,31 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * PBKDF2
+ * Classe che gestisce i codici hash delle password. I codici hash vengono
+ * generati utilizzando l'algoritmo PBKDF2WithHmacSHA512.
+ * 
+ * <P>
+ * PBKDF2<BR>
  * 
  * Stands for Password-based-Key-Derivative-Function, a successor of PBKDF1 and
  * is used to implement a pseudorandom function, such as a cryptographic hash,
  * cipher, or HMAC to the input password or passphrase along with a salt value
  * and repeats the process many times to produce a derived key, which can then
  * be used as a cryptographic key in subsequent operations.
+ * </P>
  * 
- * HMAC
+ * <P>
+ * HMAC<BR>
  * 
  * Stands for Keyed-Hash Message Authentication Code (HMAC) is a specific
  * construction for calculating a message authentication code (MAC) involving a
  * cryptographic hash function in combination with a secret cryptographic key.
  * Any cryptographic hash function,may be used in the calculation of an HMAC;
  * the resulting MAC algorithm is termed HMAC-MD5 or HMAC-SHA1 accordingly.
+ * </P>
  * 
- * SHA512
+ * <P>
+ * SHA512<BR>
  * 
  * stands for Secure Hash Algorithm. Cryptographic hash functions are
  * mathematical operations run on digital data; by comparing the computed "hash"
@@ -38,6 +46,7 @@ import java.security.spec.InvalidKeySpecException;
  * tampered with.[4] A key aspect of cryptographic hash functions is their
  * collision resistance: nobody should be able to find two different input
  * values that result in the same hash output.
+ * </P>
  */
 public class PasswordHash implements Serializable {
 	private static final long serialVersionUID = -6843744174735008039L;
@@ -56,8 +65,8 @@ public class PasswordHash implements Serializable {
 	 * Restituisce l'hash PBKDF2 con salt della password.
 	 *
 	 * @param password
-	 *            La password di cui si vuole generare l'hash.
-	 * @return L'hash PBKDF2 con salto della password.
+	 *            la password di cui si vuole generare l'hash.
+	 * @return l'hash PBKDF2 con salto della password.
 	 */
 	public static String createHash(String password) {
 		return createHash(password.toCharArray());
@@ -167,7 +176,7 @@ public class PasswordHash implements Serializable {
 	 *            la password di cui si vuole generare l'hash.
 	 * @param salt
 	 *            il sale (salt in inglese) per rafforzare la sicurezza della
-	 *            password e complicare gli attacchi a dizionario.
+	 *            password e complicare gli attacchi a dizionario.<BR><BR>
 	 * 
 	 *            Le lookup-tables e le rainbow-tables funzionano soltanto
 	 *            perchè ogni password hash è generato nello stesso identico
