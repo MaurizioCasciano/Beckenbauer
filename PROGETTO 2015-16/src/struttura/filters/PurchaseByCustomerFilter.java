@@ -6,19 +6,19 @@ import struttura.Acquisto;
 import user.Cliente;
 
 /**
- * Classe di call-back per l'interfaccia PurchasesFilter per gli Acquisti in base
+ * Classe di call-back per l'interfaccia PurchaseFilter per gli Acquisti in base
  * al {@link Cliente}
  *  
  * @author Gaetano Antonucci
  */
-public class PurchasesByCustomer implements PurchasesFilter, Serializable{
+public class PurchaseByCustomerFilter implements PurchaseFilter, Serializable{
 
 	/**
 	 * Costruisce un filtro sugli Acquisti in base al cliente passato come parametro
 	 * 
 	 * @param clt - il {@link Cliente} sul quale si vogliono filtrare i dati
 	 */
-	public PurchasesByCustomer(Cliente clt){
+	public PurchaseByCustomerFilter(Cliente clt){
 		this.cliente = clt;
 	}
 

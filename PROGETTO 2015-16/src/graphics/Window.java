@@ -69,8 +69,8 @@ import struttura.StrutturaSportiva;
 import struttura.filters.MatchByStadiumFilter;
 import struttura.filters.MatchByWeekFilter;
 import struttura.filters.MatchNotYetStartedFilter;
-import struttura.filters.PrenotationsByCustomer;
-import struttura.filters.PurchasesByCustomer;
+import struttura.filters.PrenotationByCustomerFilter;
+import struttura.filters.PurchaseByCustomerFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
@@ -521,7 +521,7 @@ public class Window extends JFrame implements Serializable {
 					protected ArrayList<Prenotazione> doInBackground() throws Exception {
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						ArrayList<Prenotazione> prenotazioniCliente = Window.this.strutturaSportiva
-								.getPrenotazioniFiltrate(new PrenotationsByCustomer((Cliente) Window.this.utente));
+								.getPrenotazioniFiltrate(new PrenotationByCustomerFilter((Cliente) Window.this.utente));
 						return prenotazioniCliente;
 					}
 
@@ -560,7 +560,7 @@ public class Window extends JFrame implements Serializable {
 					protected ArrayList<Acquisto> doInBackground() throws Exception {
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						ArrayList<Acquisto> acquistiCliente = Window.this.strutturaSportiva
-								.getAcquistiFiltrati(new PurchasesByCustomer((Cliente) Window.this.utente));
+								.getAcquistiFiltrati(new PurchaseByCustomerFilter((Cliente) Window.this.utente));
 						return acquistiCliente;
 					}
 

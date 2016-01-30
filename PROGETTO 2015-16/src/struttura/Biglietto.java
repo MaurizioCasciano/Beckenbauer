@@ -14,12 +14,12 @@ public class Biglietto implements Serializable {
 	/**
 	 * Costruisce un biglietto a partire dai parametri impostati.
 	 * 
-	 * @param stru - la {@link StrutturaSportiva} sulla quale si sta operando
-	 * @param cliente - il {@link Cliente} che acquista o prenota il biglietto
-	 * @param partita - la {@link Partita} per la quale viene emesso il biglietto
-	 * @param settore - il {@link Settore} dello stadio 
-	 * @param fila - la fila del settore dello stadio
-	 * @param posto -  il {@link Posto} scelto dal cliente
+	 * @param stru la {@link StrutturaSportiva} sulla quale si sta operando
+	 * @param cliente il {@link Cliente} che acquista o prenota il biglietto
+	 * @param partita la {@link Partita} per la quale viene emesso il biglietto
+	 * @param settore il {@link Settore} dello stadio 
+	 * @param fila la fila del settore dello stadio
+	 * @param posto il {@link Posto} scelto dal cliente.
 	 * 
 	 * @author Gaetano Antonucci
 	 */
@@ -172,7 +172,6 @@ public class Biglietto implements Serializable {
 	private Partita partita;
 	private Settore settore;
 	private int fila;
-	// private int posto;
 	private Posto posto;
 
 	private double prezzo;

@@ -5,13 +5,13 @@ import java.io.Serializable;
 import struttura.Acquisto;
 import struttura.Stadio;
 /**
- * Classe di call-back per l'interfaccia PurchasesFilter per gli Acquisti in base allo
+ * Classe di call-back per l'interfaccia PurchaseFilter per gli Acquisti in base allo
  * {@link Stadio}
  * 
  * @author Gaetano Antonucci
  *
  */
-public class PurchasesByStadium implements PurchasesFilter, Serializable{
+public class PurchaseByStadiumFilter implements PurchaseFilter, Serializable{
 	
 	/**
 	 * Costruisce un filtro sugli Acquisti in base allo {@link Stadio} passato come
@@ -19,7 +19,7 @@ public class PurchasesByStadium implements PurchasesFilter, Serializable{
 	 * 
 	 * @param std - lo stadio in base al quale si vogliono filtrare i dati
 	 */
-	public PurchasesByStadium(Stadio std){
+	public PurchaseByStadiumFilter(Stadio std){
 		this.stadio = std;
 	}
 

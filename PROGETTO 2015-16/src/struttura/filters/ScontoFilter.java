@@ -1,12 +1,12 @@
 package struttura.filters;
 
 /**
- * Interfaccia che modella un filtro sugli {@link Sconti}
+ * Interfaccia che modella un filtro sugllo {@link Sconto}
  * 
  * @author Gaetano Antonucci
  *
  */
-public interface ScontiFilter extends Filter{
+public interface ScontoFilter extends Filter{
 	
 	/**
 	 * Aggiorna lo sconto da analizzare con quello corrente

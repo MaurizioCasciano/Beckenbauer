@@ -19,7 +19,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
 import struttura.Partita;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
@@ -178,7 +178,8 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * Inizializza il pannello contenente i pulsanti per applicare lo sconto o
 	 * per annullare l'operazione.
 	 * 
-	 * @author Maurizio
+	 * @author Gaetano Antonucci
+	 * @author Maurizio Casciano
 	 */
 	private void initButtonPanel() {
 		this.applicaScontoButton = new JButton("Applica Sconto");
@@ -195,12 +196,12 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 				Partita part = (Partita) partiteCombo.getSelectedItem();
 
 				/*
-				 * Moltiplico il valore per 100 poichè il valore restituito è
+				 * Moltiplico il valore per 100 poiche' il valore restituito e'
 				 * compreso tra 0.01 e 1
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TipoSconto.PartitaCorrente, sconto, dataInizio, dataFine, part);
+				Sconto s = new Sconto(TipoSconto.PARTITA_CORRENTE, sconto, dataInizio, dataFine, part);
 
 				System.out.println("BEFORE: " + strutturaSportiva.getSconti().size());
 				

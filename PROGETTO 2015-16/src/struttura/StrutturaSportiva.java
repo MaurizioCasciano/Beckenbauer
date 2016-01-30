@@ -7,13 +7,13 @@ import java.util.GregorianCalendar;
 
 import struttura.filters.Filter;
 import struttura.filters.PrenotationFilter;
-import struttura.filters.PrenotationsByMatch;
-import struttura.filters.PurchasesByMatch;
-import struttura.filters.PurchasesFilter;
-import struttura.filters.ScontiByDayOfWeek;
-import struttura.filters.ScontiFilter;
-import struttura.filters.ScontiPerStadio;
-import struttura.filters.ScontoPerPartita;
+import struttura.filters.PrenotationByMatchFilter;
+import struttura.filters.PurchaseByMatchFilter;
+import struttura.filters.PurchaseFilter;
+import struttura.filters.ScontoByDayOfWeekFilter;
+import struttura.filters.ScontoFilter;
+import struttura.filters.ScontoByStadiumFilter;
+import struttura.filters.ScontoByMatchFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.UserNotFoundException;
@@ -40,7 +40,6 @@ public class StrutturaSportiva implements Serializable {
 		this.utenti = new ArrayList<>();
 		this.sconti = new ArrayList<>();
 		this.prenotazioni = new ArrayList<>();
-		this.prenotazioniScadute = new ArrayList<>();
 		this.acquisti = new ArrayList<>();
 	}
 
@@ -129,7 +128,7 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Aggiunge una politica di sconto ({@link Sconti}) al database.
+	 * Aggiunge una politica di sconto ({@link Sconto}) al database.
 	 * 
 	 * @param sconto - La politica di sconto da inserire.
 	 * @throws AlreadyExistsObjectException Ecceziona lanciata nel caso in cui la politica di  
@@ -137,7 +136,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
-	public void addSconto(Sconti sconto) throws AlreadyExistsObjectException {
+	public void addSconto(Sconto sconto) throws AlreadyExistsObjectException {
 
 		if (this.sconti.contains(sconto)) {
 			throw new AlreadyExistsObjectException("Politica di Sconto gia' presente !!!");
@@ -224,7 +223,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @return ArrayList<Sconti> con tutti sconti.
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Sconti> getSconti() {
+	public ArrayList<Sconto> getSconti() {
 		return this.sconti;
 	}
 
@@ -236,8 +235,8 @@ public class StrutturaSportiva implements Serializable {
 	 * @return ArrayList<Sconti> con gli sconti applicabili alla partita
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Sconti> getScontiApplicabili(ScontiFilter filtroSconti, Partita part) {
-		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
+	public ArrayList<Sconto> getScontiApplicabili(ScontoFilter filtroSconti, Partita part) {
+		ArrayList<Sconto> filteredByChoice = new ArrayList<>();
 
 		for (int j = 0; j < this.sconti.size(); j++) {
 			filtroSconti.updateCurrentSconto(j);
@@ -354,7 +353,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @return ArrayList<Acquisto> con gli acquisti ottenuti.
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Acquisto> getAcquistiFiltrati(PurchasesFilter filtroAcquisti) {
+	public ArrayList<Acquisto> getAcquistiFiltrati(PurchaseFilter filtroAcquisti) {
 		ArrayList<Acquisto> filteredByChoice = new ArrayList<>();
 
 		for (int i = 0; i < this.acquisti.size(); i++) {
@@ -418,8 +417,8 @@ public class StrutturaSportiva implements Serializable {
 		ArrayList<Acquisto> acquistiDaCancellare;
 
 		if (partita != null) {
-			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationsByMatch(partita));
-			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchasesByMatch(partita));
+			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationByMatchFilter(partita));
+			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchaseByMatchFilter(partita));
 
 			for (Prenotazione pren : prenotazioniDaCancellare) {
 				this.cancellaPrenotazione(pren);
@@ -472,23 +471,9 @@ public class StrutturaSportiva implements Serializable {
 				Prenotazione prenotazioneScaduta = this.prenotazioni.get(i);
 				Partita partita = prenotazioneScaduta.getPartita();
 				partita.resetSeatStatus(prenotazioneScaduta);
-
-				this.prenotazioniScadute.add(prenotazioneScaduta);
 				this.cancellaPrenotazione(this.prenotazioni.get(i));
 			}
 		}
-	}
-
-	/**
-	 * Restituisce l'ArrayList delle prenotazioni scadute i cui clienti non
-	 * sono stati ancora avvisati.
-	 * 
-	 * @return L'ArrayList delle prenotazioni scadute per i cui clienti non sono
-	 *         stati ancora avvisati.
-	 * @author Maurizio Casciano
-	 */
-	public ArrayList<Prenotazione> getPrenotazioniScadute() {
-		return this.prenotazioniScadute;
 	}
 
 	/**
@@ -535,27 +520,27 @@ public class StrutturaSportiva implements Serializable {
 
 		double prezzoDiPartenza = partita.getStadio().getPrezzoPerPartita();
 
-		ArrayList<Sconti> perPartita = this.getScontiApplicabili(new ScontoPerPartita(this.getSconti()), partita);
-		ArrayList<Sconti> perStadio = this.getScontiApplicabili(new ScontiPerStadio(this.getSconti()), partita);
-		ArrayList<Sconti> perGiorno = this.getScontiApplicabili(new ScontiByDayOfWeek(this.getSconti()), partita);
+		ArrayList<Sconto> perPartita = this.getScontiApplicabili(new ScontoByMatchFilter(this.getSconti()), partita);
+		ArrayList<Sconto> perStadio = this.getScontiApplicabili(new ScontoByStadiumFilter(this.getSconti()), partita);
+		ArrayList<Sconto> perGiorno = this.getScontiApplicabili(new ScontoByDayOfWeekFilter(this.getSconti()), partita);
 
 		double maxScontoPartita = 0.00;
 		double maxScontoStadio = 0.00;
 		double maxScontoGiorno = 0.00;
 
-		for (Sconti s1 : perPartita) {
+		for (Sconto s1 : perPartita) {
 			if (maxScontoPartita <= s1.getPercetualeSconto()) {
 				maxScontoPartita = s1.getPercetualeSconto();
 			}
 		}
 
-		for (Sconti s2 : perStadio) {
+		for (Sconto s2 : perStadio) {
 			if (maxScontoStadio <= s2.getPercetualeSconto()) {
 				maxScontoStadio = s2.getPercetualeSconto();
 			}
 		}
 
-		for (Sconti s3 : perGiorno) {
+		for (Sconto s3 : perGiorno) {
 			if (maxScontoGiorno <= s3.getPercetualeSconto()) {
 				maxScontoGiorno = s3.getPercetualeSconto();
 			}
@@ -613,8 +598,8 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Stadio> stadi;
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
-	private ArrayList<Sconti> sconti;
-	private ArrayList<Prenotazione> prenotazioni, prenotazioniScadute;
+	private ArrayList<Sconto> sconti;
+	private ArrayList<Prenotazione> prenotazioni;
 	private ArrayList<Acquisto> acquisti;
 
 	private static final int ORE_SCADENZA_PRENOTAZIONE = 12;

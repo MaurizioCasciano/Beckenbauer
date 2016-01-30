@@ -11,14 +11,14 @@ import struttura.Stadio;
  * 
  * @author Gaetano Antonucci
  */
-public class PrenotationsByStadium implements PrenotationFilter, Serializable{
+public class PrenotationByStadiumFilter implements PrenotationFilter, Serializable{
 	
 	/**
 	 * Costruisce un filtro sulle prenotazioni in base allo Stadio passato come parametro
 	 * 
 	 * @param stadio - lo {@link Stadio} in base al quale si vogliono filtrare i dati
 	 */
-	public PrenotationsByStadium(Stadio stadio){
+	public PrenotationByStadiumFilter(Stadio stadio){
 		this.stadio = stadio;
 	}
 	

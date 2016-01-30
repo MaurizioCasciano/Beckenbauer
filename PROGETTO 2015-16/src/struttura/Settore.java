@@ -4,22 +4,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Classe che modella il Settore di uno {@link Stadio}
+ * Classe che modella un Settore di uno {@link Stadio}
  * 
  * @author Gaetano Antonucci
  * @author Maurizio Casciano
  *
  */
-public class Settore implements Serializable{
+public class Settore implements Serializable {
 
 	private static final long serialVersionUID = -9113714476267820001L;
+
 	/**
 	 * Costruisce un settore a partire dai parametri specificati
 	 * 
-	 * @param stadio - lo {@link Stadio} a cui appartiene il Settore
-	 * @param nomeSettore - il nome del settore
-	 * @param numeroPosti - il numero di posti del settore
-	 * @param numeroFile - il numero di file del settore
+	 * @param stadio
+	 *            - lo {@link Stadio} a cui appartiene il Settore
+	 * @param nomeSettore
+	 *            - il nome del settore
+	 * @param numeroPosti
+	 *            - il numero di posti del settore
+	 * @param numeroFile
+	 *            - il numero di file del settore
 	 * 
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
@@ -35,7 +40,8 @@ public class Settore implements Serializable{
 	/**
 	 * Aggiunge il {@link Posto} passato in input alla lista dei Posti.
 	 * 
-	 * @param p -  Il {@link Posto} da aggiungere alla lista.
+	 * @param p
+	 *            - Il {@link Posto} da aggiungere alla lista.
 	 * @author Maurizio Casciano
 	 */
 	public void addPosto(Posto p) {
@@ -108,37 +114,42 @@ public class Settore implements Serializable{
 	 * 
 	 * @author Maurizio Casciano
 	 */
+
 	@Override
 	public String toString() {
-		return "Settore [stadio=" + stadio + ", nomeSettore=" + nomeSettore + ", numeroPosti=" + numeroPosti
-				+ ", numeroFile=" + numeroFile + "]";
+		return this.getClass().getSimpleName() + " [stadio=" + stadio + ", nomeSettore=" + nomeSettore
+				+ ", numeroPosti=" + numeroPosti + ", numeroFile=" + numeroFile + ", posti=" + posti + "]";
 	}
-	
+
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Maurizio Casciano
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if (this == obj)
 			return true;
-		
+
 		if (obj == null)
 			return false;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Settore other = (Settore) obj;
-		
-		if(this.stadio.equals(other.stadio) && this.nomeSettore.equals(other.nomeSettore) && this.numeroFile == other.numeroFile && this.numeroPosti == other.numeroPosti){
+
+		if (this.stadio.equals(other.stadio) && this.nomeSettore.equals(other.nomeSettore)
+				&& this.numeroFile == other.numeroFile && this.numeroPosti == other.numeroPosti) {
 			return true;
 		}
-		
+
 		return false;
 	}
 

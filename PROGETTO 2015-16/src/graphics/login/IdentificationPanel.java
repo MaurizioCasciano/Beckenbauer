@@ -78,7 +78,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 		this.loginPasswordField.setCaretColor(Color.BLUE);
 		this.loginPasswordField.setBorder(BorderFactory.createEmptyBorder());
 		this.loginPasswordField.addMouseListener(new ShowHidePasswordListener());
-		// ActionEvent is dispatched by the JTextField when enter is pressed.
+		// An ActionEvent is dispatched by the JTextField when enter is pressed.
 		this.loginPasswordField.setAction(new LoginAction());
 	}
 
@@ -120,8 +120,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 				new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.BLUE, Color.GRAY), "Existing User",
 						TitledBorder.LEFT, TitledBorder.CENTER, new Font("myFont", Font.ITALIC, 15), Color.WHITE));
 	}
-
-	/********************************************************************/
 
 	private void initializeRegisterNameLabel() {
 		this.registerNameLabel = new JLabel("Name");
@@ -272,8 +270,10 @@ public class IdentificationPanel extends JPanel implements Serializable {
 						strutturaSportiva.addUtente(cliente);
 						myWindow.storeStrutturaSportiva();
 
-						myWindow.setUtente(cliente);
 						JOptionPane.showMessageDialog(null, "Registration Successfully");
+						myWindow.setUtente(cliente);
+						setLoginFields();
+						resetRegistrationFields();
 					} catch (WeakPasswordException e1) {
 
 						JTextArea passwordRequirements = new JTextArea(6, 6);
@@ -361,6 +361,26 @@ public class IdentificationPanel extends JPanel implements Serializable {
 		this.identificationBox.add(this.registerComponentsPanel);
 	}
 
+	private void resetRegistrationFields() {
+		this.registerNameTextField.setText(null);
+		this.registerSurnameTextField.setText(null);
+		this.registerUsernameTextField.setText(null);
+		this.registerPasswordField.setText(null);
+		this.registerPasswordConfirmField.setText(null);
+	}
+
+	/**
+	 * Imposta i campi per il login con i valori presenti nei campi di
+	 * registrazione. Usato per impostare il testo che sarà visualizzato al
+	 * momento del logout.
+	 * 
+	 * @author Maurizio
+	 */
+	private void setLoginFields() {
+		this.loginUserNameTextField.setText(this.registerUsernameTextField.getText());
+		this.loginPasswordField.setText(new String(this.registerPasswordField.getPassword()));
+	}
+
 	public class LoginAction extends AbstractAction implements Serializable {
 
 		@Override
@@ -376,6 +396,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 					if (utente != null && utente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
 						myWindow.setUtente(utente);
+						resetRegistrationFields();
 					} else {
 						JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
 								JOptionPane.INFORMATION_MESSAGE);

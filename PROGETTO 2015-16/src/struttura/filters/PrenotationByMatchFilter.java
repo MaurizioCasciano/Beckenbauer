@@ -10,7 +10,7 @@ import struttura.Prenotazione;
  * 
  * @author Gaetano Antonucci
  */
-public class PrenotationsByMatch implements PrenotationFilter, Serializable{
+public class PrenotationByMatchFilter implements PrenotationFilter, Serializable{
 	
 	/**
 	 * Costruisce un filtro in base alla partita passata come parametro
@@ -18,7 +18,7 @@ public class PrenotationsByMatch implements PrenotationFilter, Serializable{
 	 * @param partita - la {@link Partita} in base alla quale si vogliono filtrare i dati
 	 * @author Gaetano Antonucci
 	 */
-	public PrenotationsByMatch(Partita partita){
+	public PrenotationByMatchFilter(Partita partita){
 		this.partita = partita;
 	}
 	

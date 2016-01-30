@@ -7,7 +7,7 @@ import struttura.Acquisto;
  * @author Gaetano Antonucci
  *
  */
-public interface PurchasesFilter {
+public interface PurchaseFilter {
 	
 	/**
 	 * Metodo che verifica se l'acquisto passato come parametro soddisfa il filtro
@@ -16,5 +16,4 @@ public interface PurchasesFilter {
 	 * @return {@code true} se l'acquisto soddisfa il filtro, {@code false} altrimenti
 	 */
 	public boolean accept(Acquisto acquisto);
-
 }

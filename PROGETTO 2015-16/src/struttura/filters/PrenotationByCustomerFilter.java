@@ -11,14 +11,14 @@ import user.Cliente;
  * 
  * @author Gaetano Antonucci
  */
-public class PrenotationsByCustomer implements PrenotationFilter, Serializable {
+public class PrenotationByCustomerFilter implements PrenotationFilter, Serializable {
 	
 	/**
-	 * Costruisce un filtro sulle Prenotazioni in base al cliente passato come parametro
+	 * Costruisce un filtro sulle Prenotazioni in base al cliente passato come parametro.
 	 * 
-	 * @param clt - il {@link Cliente} in base al quale si vogliono filtrare i dati
+	 * @param clt - il {@link Cliente} in base al quale si vogliono filtrare i dati.
 	 */
-	public PrenotationsByCustomer(Cliente clt){
+	public PrenotationByCustomerFilter(Cliente clt){
 		this.cliente = clt;
 	}
 

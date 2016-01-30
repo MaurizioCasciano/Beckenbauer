@@ -5,34 +5,29 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import struttura.Partita;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.DaysOfWeek;
 
 /**
-* Classe di call-back per l'interfaccia ScontiFilter per gli Sconti in base al Giorno Prestabilito
+* Classe di call-back per l'interfaccia ScontoFilter per gli Sconti in base al Giorno Prestabilito.
 * ({@link DaysOfWeek})
 * 
 * @author Gaetano Antonucci
 */
-public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
-	
-	/*public ScontoByDayOfWeek(Sconti sconto){
-		this.sconto = sconto;
-	}*/
+public class ScontoByDayOfWeekFilter implements ScontoFilter, Serializable{
 	
 	/**
 	 * Costruisce un filtro sugli sconti
 	 * 
 	 * @param sconti - l'ArrayList degli Sconti
 	 */
-	public ScontiByDayOfWeek(ArrayList<Sconti> sconti){
+	public ScontoByDayOfWeekFilter(ArrayList<Sconto> sconti){
 		this.sconti = sconti;
 	}
 
 	@Override
 	public void updateCurrentSconto(int i) {
 		this.sconto = this.sconti.get(i);
-		
 	}
 	
 	@Override
@@ -51,12 +46,11 @@ public class ScontiByDayOfWeek implements ScontiFilter, Serializable{
 			}
 		}
 		
-		
 		return result;
 	}
 	
-	private Sconti sconto;
-	private ArrayList<Sconti> sconti;
+	private Sconto sconto;
+	private ArrayList<Sconto> sconti;
 	
 	private static final long serialVersionUID = 6576677813144320629L;
 

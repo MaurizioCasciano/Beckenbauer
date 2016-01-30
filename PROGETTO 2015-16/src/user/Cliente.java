@@ -1,11 +1,7 @@
 package user;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
 import password.WeakPasswordException;
-import struttura.Acquisto;
-import struttura.Prenotazione;
 
 public class Cliente extends Utente implements Serializable {
 
@@ -29,20 +25,10 @@ public class Cliente extends Utente implements Serializable {
 		super(nome, cognome, username, password);
 	}
 
-	public ArrayList<Prenotazione> getPrenotazioniEffettuate() {
-		return prenotazioniEffettuate;
-	}
-
-	public ArrayList<Acquisto> getAcquistiEffettuati() {
-		return acquistiEffettuati;
-	}
-
 	@Override
 	public String toString() {
 		return super.toString();
 	}
 
 	private static final long serialVersionUID = -3154746431526711515L;
-	private ArrayList<Prenotazione> prenotazioniEffettuate;
-	private ArrayList<Acquisto> acquistiEffettuati;
 }

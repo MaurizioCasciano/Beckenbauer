@@ -129,16 +129,12 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la percentuale di sconto.
+	 * Inizializza il pannello per selezionare il prezzo per partita dello Stadio
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initPrezzoPanel() {
 		this.prezzoLabel = new JLabel("Prezzo per Partita: ");
-		/*
-		 * I valori vengono impostati in questo modo poichè, con l'editor per la
-		 * percentuale saranno moltiplicati per 100.
-		 */
 		this.prezzoSpinner = new JSpinner(
 				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getPrezzoPerPartita(),
 						Stadio.PREZZO_MINIMO, Stadio.PREZZO_MASSIMO, 0.5));
@@ -148,17 +144,18 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(prezzoSpinner, currencyPattern);
 		editor.getTextField().setEditable(false);
 		this.prezzoSpinner.setEditor(editor);
-		this.percentualeScontoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		this.percentualeScontoPanel.add(this.prezzoLabel);
-		this.percentualeScontoPanel.add(this.prezzoSpinner);
-		this.add(this.percentualeScontoPanel);
+		this.prezzoPartitaPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.prezzoPartitaPanel.add(this.prezzoLabel);
+		this.prezzoPartitaPanel.add(this.prezzoSpinner);
+		this.add(this.prezzoPartitaPanel);
 	}
 
 	/**
 	 * Inizializza il pannello contenente i pulsanti per applicare le modifiche
 	 * o per annullare l'operazione.
 	 * 
-	 * @author Maurizio
+	 * @author Gaetano Antonucci
+	 * @author Maurizio Casciano
 	 */
 	private void initButtonPanel() {
 		this.applicaModificheButton = new JButton("Applica Modifiche");
@@ -206,7 +203,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/*************************************/
 	private JLabel prezzoLabel;
 	private JSpinner prezzoSpinner;
-	private JPanel percentualeScontoPanel;
+	private JPanel prezzoPartitaPanel;
 	/*************************************/
 	private JButton applicaModificheButton, annullaButton;
 	private JPanel buttonPanel;

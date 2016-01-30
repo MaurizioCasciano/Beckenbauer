@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Classe che rappresenta un oggetto Week. Un oggetto week è dotato di un inizio
- * e una fine della settimana.
+ * Classe che rappresenta un oggetto Week. Un oggetto week è dotato di una data
+ * indicante l'inizio e una data indicante la fine della settimana.
  * 
  * @author Maurizio
  */

@@ -19,7 +19,7 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.filters.PurchasesByStadium;
+import struttura.filters.PurchaseByStadiumFilter;
 
 /**
  * Classe che modella un Panel per la visualizzazione dell'incasso della struttura
@@ -130,7 +130,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(
-							struct.getAcquistiFiltrati(new PurchasesByStadium((Stadio) comboStadi.getSelectedItem()))));
+							struct.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
 					labelIncasso.setText("Incasso: " + totale);
 				}
 
@@ -183,7 +183,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 				comboButtonPanel.add(comboStadi);
 				comboButtonPanel.revalidate();
 				String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(
-						struct.getAcquistiFiltrati(new PurchasesByStadium((Stadio) comboStadi.getSelectedItem()))));
+						struct.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
 				labelIncasso.setText("Incasso: " + totale);
 			}
 		});

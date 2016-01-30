@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 import graphics.DivisibleIntoSectors;
 
+/**
+ * Classe che modella uno Stadio.
+ * 
+ * @author Maurizio
+ */
 public class Stadio implements Serializable, DivisibleIntoSectors {
 
 	/**
@@ -26,7 +31,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 *             tra {@link Stadio#CAPIENZA_MINIMA} e
 	 *             {@link Stadio#CAPIENZA_MASSIMA}.
 	 * 
-	 *             Oppure se il prezzoPerPartia non e' compreso tra PREZZO_MINIMO e PREZZO_MASSIMO.
+	 *             Oppure se il prezzoPerPartia non e' compreso tra
+	 *             PREZZO_MINIMO e PREZZO_MASSIMO.
 	 *
 	 * @author Maurizio Casciano
 	 */
@@ -41,7 +47,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 			throw new IllegalArgumentException("Il prezzo indicato non e' consentito");
 		}
 
-		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
+		this.capienzaDesiderata = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
 		this.init();
 	}
@@ -62,7 +68,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		firstChar = 'A';
 		secondChar = 'A';
 
-		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
+		this.postiPerSettore = this.capienzaDesiderata / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
 		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
 		/*
@@ -166,6 +172,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 	/**
 	 * Restituisce il nome dello stadio
+	 * 
 	 * @return nome
 	 * 
 	 * @author Gaetano Antonucci
@@ -176,7 +183,9 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 	/**
 	 * Imposta il nome dello stadio
-	 * @param nome - il nome da assegnare
+	 * 
+	 * @param nome
+	 *            - il nome da assegnare
 	 * 
 	 * @author Maurizio Casciano
 	 */
@@ -185,10 +194,13 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come parametro.
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro.
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica.
-	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica.
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -213,22 +225,25 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	}
 
 	/**
-	 * Restituisce la capienza desiderata, ossia quella impostata dall'utente al momento della creazione.
+	 * Restituisce la capienza desiderata, ossia quella impostata dall'utente al
+	 * momento della creazione.
 	 * 
 	 * @return la capienza desiderata
 	 * @author Maurizio Casciano
 	 */
 	public int getCapienzaDesiderataStadio() {
-		return this.capienzaDesiderataStadio;
+		return this.capienzaDesiderata;
 	}
 
 	/**
-	 * Imposta una nuova capienza per lo stadio 
-	 * @param nuovaCapienza - la nuova capienza desiderata
+	 * Imposta una nuova capienza per lo stadio
+	 * 
+	 * @param nuovaCapienza
+	 *            - la nuova capienza desiderata
 	 * @author Maurizio Casciano
 	 */
 	public void setCapienzaStadio(int nuovaCapienza) {
-		this.capienzaDesiderataStadio = nuovaCapienza;
+		this.capienzaDesiderata = nuovaCapienza;
 		this.init();
 	}
 
@@ -237,7 +252,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 * 
 	 * @return il prezzo
 	 * @author Maurizio Casciano
-	 */ 
+	 */
 	public double getPrezzoPerPartita() {
 		return this.prezzoPerPartita;
 	}
@@ -245,30 +260,14 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	/**
 	 * Imposta il prezzo per tutte le partite giocate nello stadio.
 	 * 
-	 * @param prezzo - il nuovo prezzo da impostare
+	 * @param prezzo
+	 *            - il nuovo prezzo da impostare
 	 * @author Maurizio Casciano
 	 */
 	public void setPrezzoPerPartita(double prezzo) {
 		this.prezzoPerPartita = prezzo;
 	}
 
-	public void calcolaPostiEffettivi(int postiRichiesti) {
-		int postiPerSettore = (postiRichiesti / NUMERO_SETTORI);
-		this.postiPerSettore = postiPerSettore;
-
-		int postiEffettivi = postiPerSettore * NUMERO_SETTORI;
-		this.capienzaDesiderataStadio = postiEffettivi;
-
-		int numeroFile = (int) Math.sqrt(postiPerSettore);
-		int numeroPosti = postiPerSettore / numeroFile;
-
-		this.filePerSettore = numeroFile;
-		this.postiPerFila = numeroPosti;
-	}
-
-	/**
-	 * Versione modificata del toString per facilitare la visualizzazione degli Stadi nelle comboBox.
-	 */
 	@Override
 	public String toString() {
 		return this.nome;
@@ -300,7 +299,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;
-	private int capienzaDesiderataStadio;
+	private int capienzaDesiderata;
 	private int capienzaEffettiva;
 	private int filePerSettore;
 	private int postiPerSettore;

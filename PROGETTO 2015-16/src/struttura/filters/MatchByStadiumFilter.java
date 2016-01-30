@@ -5,6 +5,11 @@ import java.io.Serializable;
 import struttura.Partita;
 import struttura.Stadio;
 
+/**
+ * Classe che modella un filto su una partita in base allo stadio in cui si gioca.
+ * 
+ * @author Maurizio
+ */
 public class MatchByStadiumFilter implements Filter, Serializable {
 
 	/**

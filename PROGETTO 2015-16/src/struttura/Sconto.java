@@ -9,12 +9,12 @@ import java.util.GregorianCalendar;
  * 
  * @author Gaetano Antonucci
  */
-public class Sconti implements Serializable {
+public class Sconto implements Serializable {
 
 	/**
 	 * Costruisce uno sconto che &egrave attivato su tutte le partite giocate in un determinato stadio.
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#TutteLePartiteDelloStadio})
+	 * @param tipoSconto - il tipo di sconto scelto ({@link TipoSconto#TUTTE_LE_PARTITE_DELLO_STADIO})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -22,9 +22,9 @@ public class Sconti implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconti(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconto(TipoSconto tipoSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, Stadio stadio) {
-		this.scontoScelto = nomeSconto;
+		this.tipoSconto = tipoSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
 		this.inizioValidita = inizioValidita;
 		this.fineValidita = fineValidita;
@@ -36,7 +36,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che &egrave attivato su una determinata partita
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#PartitaCorrente})
+	 * @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#PARTITA_CORRENTE})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -44,9 +44,9 @@ public class Sconti implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconti(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconto(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, Partita partita) {
-		this.scontoScelto = nomeSconto;
+		this.tipoSconto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
 		this.inizioValidita = inizioValidita;
 		this.fineValidita = fineValidita;
@@ -58,7 +58,7 @@ public class Sconti implements Serializable {
 	/**
 	 * Costruisce uno sconto che è attivo in un determinato giorno della settimana.
 	 * 
-	 @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#GiornoPrestabilito})
+	 @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#GIORNO_PRESTABILITO})
 	 * @param percetualeSconto - la percetuale scelta per lo sconto
 	 * @param inizioValidita - la data in cui lo sconto inizia a valere
 	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
@@ -66,9 +66,9 @@ public class Sconti implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconti(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconto(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
 			GregorianCalendar fineValidita, DaysOfWeek giorno) {
-		this.scontoScelto = nomeSconto;
+		this.tipoSconto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
 		this.inizioValidita = inizioValidita;
 		this.fineValidita = fineValidita;
@@ -85,7 +85,7 @@ public class Sconti implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	public TipoSconto getScontoScelto() {
-		return scontoScelto;
+		return tipoSconto;
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class Sconti implements Serializable {
 		String fineValiditaString = this.fineValidita.get(Calendar.DAY_OF_MONTH)+"."+ (this.fineValidita.get(Calendar.MONTH)+1)+"."
 								    + this.fineValidita.get(Calendar.YEAR);
 		
-		return (" " + String.valueOf(this.scontoScelto) + " Perc.: " + this.percetualeSconto + "\n Stadio: " + this.stadio  
+		return (" " + String.valueOf(this.tipoSconto) + " Perc.: " + this.percetualeSconto + "\n Stadio: " + this.stadio  
 				+ " Partita: " + this.partita + " GiornoPrest: " + String.valueOf(this.giornoSettimana) 
 				+ "\n Iniz.Val.: " + inizioValiditaString + " Fine Val.: " + fineValiditaString);
 	}
@@ -193,11 +193,11 @@ public class Sconti implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Sconti other = (Sconti) obj;
+		Sconto other = (Sconto) obj;
 		
-		switch(other.scontoScelto){
-		case PartitaCorrente:
-			if(this.scontoScelto == other.scontoScelto){
+		switch(other.tipoSconto){
+		case PARTITA_CORRENTE:
+			if(this.tipoSconto == other.tipoSconto){
 				if(this.partita.equals(other.partita) && this.inizioValidita.equals(other.inizioValidita) 
 						&& this.fineValidita.equals(other.fineValidita)){
 					result = true;
@@ -207,8 +207,8 @@ public class Sconti implements Serializable {
 			}
 			break;
 			
-		case TutteLePartiteDelloStadio:
-			if(this.scontoScelto == other.scontoScelto){
+		case TUTTE_LE_PARTITE_DELLO_STADIO:
+			if(this.tipoSconto == other.tipoSconto){
 				if(this.stadio.equals(other.stadio) && this.inizioValidita.equals(other.inizioValidita) 
 						&& this.fineValidita.equals(other.fineValidita)){
 					result = true;
@@ -218,8 +218,8 @@ public class Sconti implements Serializable {
 			}
 			break;
 		
-		case GiornoPrestabilito:
-			if(this.scontoScelto == other.scontoScelto){
+		case GIORNO_PRESTABILITO:
+			if(this.tipoSconto == other.tipoSconto){
 				if(this.giornoSettimana == other.giornoSettimana && this.inizioValidita.equals(other.inizioValidita) 
 						&& this.fineValidita.equals(other.fineValidita)){
 					result = true;
@@ -238,7 +238,7 @@ public class Sconti implements Serializable {
 
 
 	private static final long serialVersionUID = 8088987206686770452L;
-	private TipoSconto scontoScelto;
+	private TipoSconto tipoSconto;
 	private double percetualeSconto;
 	private Stadio stadio;
 	private Partita partita;
