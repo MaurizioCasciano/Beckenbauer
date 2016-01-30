@@ -19,6 +19,12 @@ import javax.swing.JSpinner.NumberEditor;
 import javax.swing.SpinnerNumberModel;
 import struttura.Stadio;
 
+/**
+ * Classe che modella un frame per la modifica delle informazioni di uno Stadio
+ * 
+ * @author Gaetano Antonucci
+ * @author Maurizio Casciano
+ */
 public class ModificaStadioFrame extends JFrame implements Serializable {
 
 	/**
@@ -28,11 +34,11 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	 * @param stadi
 	 *            Lo Stadio da modificare.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi è uguale a 0.
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
-	 *             Se l'ArrayList stadi sono null.
-	 * @author Maurizio
-	 * @author Gaetano
+	 *             Se l'ArrayList stadi e' null.
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	public ModificaStadioFrame(ArrayList<Stadio> stadi) throws IllegalArgumentException, NullPointerException {
 		super("Sconto Stadio");
@@ -57,7 +63,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza i vari componenti di questo frame.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void init() {
 		this.initStadiComboPanel();
@@ -69,14 +75,15 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza il pannello per selezionare lo stadio.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	private void initStadiComboPanel() {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
 		/*
-		 * Sicuro, perchè nel caso non vi siano stadi viene lanciata l'eccezione
-		 * illegalargumentexception.
+		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata l'eccezione
+		 * IllegalArgumentException.
 		 */
 		this.stadiCombo.setSelectedIndex(0);
 
@@ -104,9 +111,9 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la data di inizio validita.
+	 * Inizializza il pannello per selezionare la capienza dello stadio.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");

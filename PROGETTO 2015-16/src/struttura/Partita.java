@@ -183,6 +183,18 @@ public class Partita implements Serializable {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Restituisce i posti dello stadio per la partita corrente
+	 * 
+	 * @return ArrayList<Posto> con i posti dello stadio
+	 */
+	//public ArrayList<Posto> getPosti() {
+		//return posti;
+	//}
+
+	/**
+>>>>>>> refs/remotes/origin/GaetanoTesting
 	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
 	 * 
 	 * @param obj - l'oggetto su cui effettuare la verifica

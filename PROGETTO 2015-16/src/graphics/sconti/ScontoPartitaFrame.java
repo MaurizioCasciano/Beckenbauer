@@ -25,10 +25,16 @@ import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
 
+/**
+ * Classe che modella un frame per l'inserimento di Sconti su una determinata partita
+ * 
+ * @author Gaetano Antonucci
+ * @author Maurizio Casciano
+ */
 public class ScontoPartitaFrame extends JFrame implements Serializable {
 
 	/**
-	 * Crea un nuovo frame che permette di aggiungere sconti agli stadi passati
+	 * Crea un nuovo frame che permette di aggiungere sconti alle partite passate
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
@@ -36,11 +42,11 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * @param partite
 	 *            L'ArrayList delle partite da mostrare per la scelta.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione delle partite è uguale a 0.
+	 *             Se la dimensione delle partite e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva o l'ArrayList partite sono null.
-	 * @author Maurizio
-	 * @author Gaetano
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	public ScontoPartitaFrame(StrutturaSportiva strutturaSportiva, ArrayList<Partita> partite)
 			throws IllegalArgumentException, NullPointerException {
@@ -49,11 +55,11 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 		this.setLayout(new GridLayout(5, 1, 10, 10));
 
 		if (strutturaSportiva == null) {
-			throw new NullPointerException("strutturaSportiva non può essere null");
+			throw new NullPointerException("strutturaSportiva non puo' essere null");
 		}
 
 		if (partite == null) {
-			throw new NullPointerException("partite non può essere null");
+			throw new NullPointerException("partite non puo' essere null");
 		}
 
 		if (partite.size() == 0) {
@@ -71,7 +77,7 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza i vari componenti di questo frame.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void init() {
 		this.initPartiteComboPanel();
@@ -82,16 +88,16 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare lo stadio.
+	 * Inizializza il pannello per selezionare la partita
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initPartiteComboPanel() {
 		this.stadioLabel = new JLabel("Partita: ");
 		this.partiteCombo = new JComboBox<>(this.partite.toArray(new Partita[0]));
 		/*
-		 * Sicuro, perchè nel caso non vi siano partite viene lanciata
-		 * l'eccezione illegalargumentexception.
+		 * Sicuro, perche' nel caso non vi siano partite viene lanciata l'eccezione
+		 * illegalargumentexception.
 		 */
 		this.partiteCombo.setSelectedIndex(0);
 		this.partiteComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -106,11 +112,11 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * @author Maurizio
 	 */
 	private void initDataInizioPanel() {
-		this.inizioLabel = new JLabel("Data inizio validità: ");
+		this.inizioLabel = new JLabel("Data inizio validita': ");
 		this.inizioPicker = new DateTimePicker();
 		this.inizioPicker.getMonthView().setLowerBound(new Date());
 		/*
-		 * Reimposto la data affinchè sia maggiore del LowerBound, altrimenti
+		 * Reimposto la data affinche' sia maggiore del LowerBound, altrimenti
 		 * alla chiamata del metodo getDate() restituirebe null in quanto la
 		 * data impostata risulta antecedente al lowerBound e quindi non
 		 * ammessa.
@@ -125,14 +131,14 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza il pannello per selezionare la data di fine validita.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initDataFinePanel() {
-		this.fineLabel = new JLabel("Data fine validità: ");
+		this.fineLabel = new JLabel("Data fine validita': ");
 		this.finePicker = new DateTimePicker();
 		this.finePicker.getMonthView().setLowerBound(new Date());
 		/*
-		 * Reimposto la data affinchè sia maggiore del LowerBound, altrimenti
+		 * Reimposto la data affinche' sia maggiore del LowerBound, altrimenti
 		 * alla chiamata del metodo getDate() restituirebe null in quanto la
 		 * data impostata risulta antecedente al lowerBound e quindi non
 		 * ammessa.
@@ -147,12 +153,12 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza il pannello per selezionare la percentuale di sconto.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initPercentualeScontoPanel() {
 		this.percentualeScontoLabel = new JLabel("Percentuale sconto: ");
 		/*
-		 * I valori vengono impostati in questo modo poichè, con l'editor per la
+		 * I valori vengono impostati in questo modo poiche', con l'editor per la
 		 * percentuale saranno moltiplicati per 100.
 		 */
 		this.percetualeScontoSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.01, 1, 0.01));

@@ -21,6 +21,11 @@ import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.filters.PurchasesByStadium;
 
+/**
+ * Classe che modella un Panel per la visualizzazione dell'incasso della struttura
+ * 
+ * @author Gaetano Antonucci
+ */
 public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 
 	/**
@@ -28,17 +33,11 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 	 * struttura sportiva
 	 * 
 	 * @param struct
-<<<<<<< HEAD
 	 *            La struttura sportiva di cui si vogliono conoscere i totali.
 	 * @throws NullPointerException
 	 *             Se la struttura sportiva è null.
 	 * @throws IllegalArgumentException
 	 *             Se la struttura sportiva non contiene stadi.
-=======
-	 *            La struttura di cui si vogliono conoscere i totali.
-	 * @throws NullPointerException
-	 * @throws IllegalArgumentException
->>>>>>> refs/remotes/origin/GaetanoTesting
 	 */
 	public VisualizzaIncassoPanel(StrutturaSportiva struct) throws NullPointerException, IllegalArgumentException {
 		this.struct = struct;
@@ -67,6 +66,9 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 
 	}
 
+	/**
+	 * Inizializza le varie componenti del Panel
+	 */
 	public void init() {
 		this.impostaTitolo();
 		this.impostaLineaIncasso();
@@ -93,6 +95,9 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 		this.add(incassoPanel);
 	}
 
+	/**
+	 * Imposta il titolo del Panel, ossia inizializza la JLabel con il titolo
+	 */
 	public void impostaTitolo() {
 		this.titolo = new JLabel("Visualizza Incasso:");
 		this.titolo.setHorizontalAlignment(JLabel.CENTER);
@@ -100,6 +105,9 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 		this.titolo.setForeground(Color.WHITE);
 	}
 
+	/**
+	 * Imposta la linea che visualizzera' l'incasso.
+	 */
 	public void impostaLineaIncasso() {
 		this.labelIncasso = new JLabel();
 		this.labelIncasso.setHorizontalAlignment(JLabel.CENTER);
@@ -107,6 +115,9 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 		this.labelIncasso.setForeground(Color.BLACK);
 	}
 
+	/**
+	 * Crea la ComboBox che conterra' gli Stadi
+	 */
 	private void createComboStadi() {
 		this.comboStadi = new JComboBox<Stadio>(
 				this.struct.getStadi().toArray(new Stadio[this.struct.getStadi().size()]));
@@ -128,6 +139,11 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 		});
 	}
 
+	/**
+	 * Crea i RadioButton per la scelta di visualizzazione dell'incasso
+	 * 
+	 * @throws IllegalArgumentException
+	 */
 	private void createElements() throws IllegalArgumentException {
 		ButtonGroup gruppoRadio = new ButtonGroup();
 		this.radioTotale = new JRadioButton("Totale", true);

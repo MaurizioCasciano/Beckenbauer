@@ -21,18 +21,27 @@ import struttura.Sconti;
 import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
 
+/**
+ * Classe che modella un frame per l'inserimento di Sconti 
+ * su un determinato giorno della settimana
+ * 
+ * @author Gaetano Antonucci
+ * @author Maurizio Casciano
+ */
 public class ScontoGiornoFrame extends JFrame implements Serializable {
 
 	/**
-	 * Crea un nuovo frame che permette di aggiungere sconti agli stadi passati
-	 * in input.
+	 * Crea un nuovo frame che permette di aggiungere sconti in base al giorno scelto.
 	 * 
 	 * @param strutturaSportiva
 	 *            La StrutturaSportiva a cui aggiungere lo Sconto.
+	 * @param stadi
+	 * @throws IllegalArgumentException
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva è null.
-	 * @author Maurizio
-	 * @author Gaetano
+	 * @author Maurizio Casciano
+	 * @author Gaetano Antonucci
 	 */
 	public ScontoGiornoFrame(StrutturaSportiva strutturaSportiva)
 			throws IllegalArgumentException, NullPointerException {

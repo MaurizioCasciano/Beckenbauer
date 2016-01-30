@@ -77,7 +77,6 @@ import user.Gestore;
 import user.UserNotFoundException;
 import user.Utente;
 
-//@SuppressWarnings("unused")
 public class Window extends JFrame implements Serializable {
 
 	public Window(String nomeStruttura) {

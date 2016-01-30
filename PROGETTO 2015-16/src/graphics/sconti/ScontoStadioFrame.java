@@ -23,6 +23,12 @@ import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
 
+/**
+ * Classe che modella un frame per l'inserimento degli sconti in base allo stadio
+ * 
+ * @author Gaetano Antonucci
+ * @author Gaetano Antonucci
+ */
 public class ScontoStadioFrame extends JFrame implements Serializable {
 
 	/**
@@ -34,11 +40,11 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	 * @param stadi
 	 *            Gli stadi della StrutturaSportiva.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi è uguale a 0.
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva o l'ArrayList stadi sono null.
-	 * @author Maurizio
-	 * @author Gaetano
+	 * @author Maurizio Casciano 
+	 * @author Gaetano Antonucci
 	 */
 	public ScontoStadioFrame(StrutturaSportiva strutturaSportiva, ArrayList<Stadio> stadi)
 			throws IllegalArgumentException, NullPointerException {
