@@ -22,7 +22,7 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 
 	private static final long serialVersionUID = 2064556786482215828L;
 	private static final String[] COLUMN_NAMES = { "Cliente", "Partita", "Data Partita", "Stadio", "Settore", "Posto",
-			"Data Prenotazione" };
+			"Data Prenotazione", "Prezzo" };
 
 	/**
 	 * @param columnNames
@@ -30,7 +30,7 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 	 * @author Maurizio
 	 */
 	protected PrenotazioneTableModel() {
-		super(COLUMN_NAMES, Prenotazione.class);
+		super(COLUMN_NAMES);
 
 		setColumnClass(0, Cliente.class);
 		setColumnClass(1, Partita.class);
@@ -39,10 +39,11 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 		setColumnClass(4, Settore.class);
 		setColumnClass(5, Posto.class);
 		setColumnClass(6, GregorianCalendar.class);
+		setColumnClass(7, Double.class);
 	}
 
 	protected PrenotazioneTableModel(ArrayList<Prenotazione> prenotazioni) {
-		super(prenotazioni, COLUMN_NAMES, Prenotazione.class);
+		super(prenotazioni, COLUMN_NAMES);
 
 		setColumnClass(0, Cliente.class);
 		setColumnClass(1, Partita.class);
@@ -51,6 +52,7 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 		setColumnClass(4, Settore.class);
 		setColumnClass(5, Posto.class);
 		setColumnClass(6, GregorianCalendar.class);
+		setColumnClass(7, Double.class);
 	}
 
 	@Override
@@ -93,6 +95,8 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 			return prenotazione.getPosto();
 		case 6:
 			return prenotazione.getDataPrenotazione();
+		case 7:
+			return prenotazione.getBigliettoPrenotato().getPrezzo();
 		default:
 			return null;
 		}

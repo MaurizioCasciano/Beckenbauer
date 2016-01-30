@@ -10,8 +10,10 @@ import struttura.*;
 import struttura.filters.*;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
-import graphics.testing.*;
+import graphics.sconti.*;
+import graphics.incasso.VisualizzaIncassoPanel;
 
+@SuppressWarnings("unused")
 public class TestGaetano {
 	
 	public static void main(String[] args) throws AlreadyRegisteredUserException {
@@ -49,22 +51,22 @@ public class TestGaetano {
 		struct.addPartita(salernitanaAvellinese);
 		
 		/**** Sconti ****/
-		Sconti scontoOlimpico = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, 10, new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), olimpico);
+		Sconto scontoOlimpico = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, 10, new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), olimpico);
 		struct.addSconto(scontoOlimpico); 
 		
-		Sconti scontoRomaJuventus = new Sconti(TIPO_SCONTO.PartitaCorrente, 15, new GregorianCalendar(2016, Calendar.JANUARY, 19), new GregorianCalendar(2016, Calendar.JANUARY, 19), romaJuventus);
+		Sconto scontoRomaJuventus = new Sconto(TipoSconto.PARTITA_CORRENTE, 15, new GregorianCalendar(2016, Calendar.JANUARY, 19), new GregorianCalendar(2016, Calendar.JANUARY, 19), romaJuventus);
 		struct.addSconto(scontoRomaJuventus); 
 	
-		Sconti scontoMercoledi = new Sconti(TIPO_SCONTO.GiornoPrestabilito, 5, new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), DAYS_OF_WEEK.Mercoledi);
+		Sconto scontoMercoledi = new Sconto(TipoSconto.GIORNO_PRESTABILITO, 5, new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), DaysOfWeek.MERCOLEDI);
 		struct.addSconto(scontoMercoledi); 
 		
-		Sconti scontoGiovedi = new Sconti(TIPO_SCONTO.GiornoPrestabilito, 3, new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), DAYS_OF_WEEK.Giovedi);
+		Sconto scontoGiovedi = new Sconto(TipoSconto.GIORNO_PRESTABILITO, 3, new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), DaysOfWeek.GIOVEDI);
 		struct.addSconto(scontoGiovedi);
 		
-		Sconti scontoSalernitanaAvellinese = new Sconti(TIPO_SCONTO.PartitaCorrente, 6, new GregorianCalendar(2016, Calendar.JANUARY, 21), new GregorianCalendar(2016, Calendar.JANUARY, 21), salernitanaAvellinese);
+		Sconto scontoSalernitanaAvellinese = new Sconto(TipoSconto.PARTITA_CORRENTE, 6, new GregorianCalendar(2016, Calendar.JANUARY, 21), new GregorianCalendar(2016, Calendar.JANUARY, 21), salernitanaAvellinese);
 		struct.addSconto(scontoSalernitanaAvellinese);
 		
-		Sconti scontoArechi = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, 4.5,new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), arechi);
+		Sconto scontoArechi = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, 4.5,new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24), arechi);
 		struct.addSconto(scontoArechi);
 		
 		/*** Clienti ****/
@@ -114,7 +116,7 @@ public class TestGaetano {
 		
 		System.out.println("\nPrenotazioni Presenti: " + struct.getPrenotazioni().size() + " [Expected: 5]");
 		/**** Verifica Filtri Prenotazioni ****/
-		ArrayList<Prenotazione> perRomaJuventus = struct.getPrenotazioniFiltrate(new PrenotationsByMatch(romaJuventus));
+		ArrayList<Prenotazione> perRomaJuventus = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(romaJuventus));
 		
 		System.out.println("\nPrenotazioni Partita : " + romaJuventus);
 		for(Prenotazione pren: perRomaJuventus){
@@ -127,7 +129,7 @@ public class TestGaetano {
 		System.out.println("END");
 		
 		System.out.println("\nPrenotazioni Partita : " + juventusRoma);
-		ArrayList<Prenotazione> perJuventusRoma = struct.getPrenotazioniFiltrate(new PrenotationsByMatch(juventusRoma));
+		ArrayList<Prenotazione> perJuventusRoma = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(juventusRoma));
 		
 		for(Prenotazione pren: perJuventusRoma){
 			System.out.println(pren);
@@ -140,7 +142,7 @@ public class TestGaetano {
 		
 		// non ci sono prenotazioni quindi non stampa nulla
 		System.out.println("\nPrenotazioni Partita : " + salernitanaAvellinese);
-		ArrayList<Prenotazione> perSalernitanaAvellinese = struct.getPrenotazioniFiltrate(new PrenotationsByMatch(salernitanaAvellinese));
+		ArrayList<Prenotazione> perSalernitanaAvellinese = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(salernitanaAvellinese));
 		
 		for(Prenotazione pren: perSalernitanaAvellinese){
 			System.out.println(pren);
@@ -152,7 +154,7 @@ public class TestGaetano {
 		System.out.println("END");
 		
 		System.out.println("\nPrenotazioni Cliente : " + gaetano);
-		ArrayList<Prenotazione> perGaetano = struct.getPrenotazioniFiltrate(new PrenotationsByCustomer(gaetano));
+		ArrayList<Prenotazione> perGaetano = struct.getPrenotazioniFiltrate(new PrenotationByCustomerFilter(gaetano));
 		
 		for(Prenotazione pren: perGaetano){
 			System.out.println(pren);
@@ -165,7 +167,7 @@ public class TestGaetano {
 		System.out.println("END");
 		
 		System.out.println("\nPrenotazioni Cliente : " + mario);
-		ArrayList<Prenotazione> perMario = struct.getPrenotazioniFiltrate(new PrenotationsByCustomer(mario));
+		ArrayList<Prenotazione> perMario = struct.getPrenotazioniFiltrate(new PrenotationByCustomerFilter(mario));
 		
 		for(Prenotazione pren: perMario){
 			System.out.println(pren);
@@ -178,7 +180,7 @@ public class TestGaetano {
 		System.out.println("END");
 		
 		System.out.println("\nPrenotazioni Stadio : " + olimpico);
-		ArrayList<Prenotazione> perOlimpico = struct.getPrenotazioniFiltrate(new PrenotationsByStadium(olimpico));
+		ArrayList<Prenotazione> perOlimpico = struct.getPrenotazioniFiltrate(new PrenotationByStadiumFilter(olimpico));
 		
 		for(Prenotazione pren: perOlimpico){
 			System.out.println(pren);
@@ -191,7 +193,7 @@ public class TestGaetano {
 		System.out.println("END");
 		
 		System.out.println("\nPrenotazioni Stadio : " + sanSiro);
-		ArrayList<Prenotazione> perSanSiro = struct.getPrenotazioniFiltrate(new PrenotationsByStadium(sanSiro));
+		ArrayList<Prenotazione> perSanSiro = struct.getPrenotazioniFiltrate(new PrenotationByStadiumFilter(sanSiro));
 		
 		for(Prenotazione pren: perSanSiro){
 			System.out.println(pren);
@@ -274,7 +276,7 @@ public class TestGaetano {
 		/**** Verifica Filtri Acquisti ****/
 		System.out.println("\nAcquisti per Stadio: " + olimpico);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByStadium(olimpico))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Stadio -------");
 		}
@@ -283,7 +285,7 @@ public class TestGaetano {
 		
 		System.out.println("\nAcquisti per Stadio: " + sanSiro);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByStadium(sanSiro))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Stadio -------");
 		}
@@ -292,7 +294,7 @@ public class TestGaetano {
 		
 		System.out.println("\nAcquisti per Stadio: " + arechi);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByStadium(arechi))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(arechi))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Stadio -------");
 		}
@@ -301,7 +303,7 @@ public class TestGaetano {
 		
 		System.out.println("\nAcquisti per Partita: " + romaJuventus);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByMatch(romaJuventus))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByMatchFilter(romaJuventus))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Partita -------");
 		}
@@ -310,7 +312,7 @@ public class TestGaetano {
 		
 		System.out.println("\nAcquisti per Partita: " + juventusRoma);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByMatch(juventusRoma))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByMatchFilter(juventusRoma))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Partita -------");
 		}
@@ -319,7 +321,7 @@ public class TestGaetano {
 		
 		System.out.println("\nAcquisti per Partita: " + salernitanaAvellinese);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByMatch(salernitanaAvellinese))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByMatchFilter(salernitanaAvellinese))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Partita -------");
 		}
@@ -328,7 +330,7 @@ public class TestGaetano {
 		
 		System.out.println("\n Acquisti per Cliente: " + gaetano);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByCustomer(gaetano))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByCustomerFilter(gaetano))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Cliente -------");
 		}
@@ -337,7 +339,7 @@ public class TestGaetano {
 		
 		System.out.println("\n Acquisti per Cliente: " + asdrubale);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByCustomer(asdrubale))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByCustomerFilter(asdrubale))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Cliente -------");
 		}
@@ -346,7 +348,7 @@ public class TestGaetano {
 		
 		System.out.println("\n Acquisti per Cliente: " + mario);
 		
-		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchasesByCustomer(mario))){
+		for(Acquisto acq: struct.getAcquistiFiltrati(new PurchaseByCustomerFilter(mario))){
 			System.out.println(acq);
 			System.out.println("------- Acq. Cliente -------");
 		}
@@ -357,13 +359,13 @@ public class TestGaetano {
 		System.out.println("\nIncasso totale della Struttura " + struct.getNome() + " : " + struct.calcolaIncasso(struct.getAcquisti()) + " [Exp: 100.30]");
 		
 		System.out.println("\n Incasso per stadio: " + olimpico);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(olimpico))) + " [Exp: 34.00]");
+		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico))) + " [Exp: 34.00]");
 		
 		System.out.println("\n Incasso per stadio: " + sanSiro);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(sanSiro))) + " [Exp: 47.50]");
+		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro))) + " [Exp: 47.50]");
 		
 		System.out.println("\n Incasso per stadio: " + arechi);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(arechi))) + " [Exp: 18.80]");
+		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(arechi))) + " [Exp: 18.80]");
 		
 		/******* Grafica Sconti *******/
 		//Partita prova = new Partita(roma, juventus, olimpico, new GregorianCalendar(2016, Calendar.JANUARY, 23, 20, 45));
@@ -382,6 +384,7 @@ public class TestGaetano {
 		
 		JFrame frame = new JFrame("Test");
 		frame.add(new VisualizzaIncassoPanel(struct));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setSize(500, 200);
 		}

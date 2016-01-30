@@ -11,23 +11,31 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * PBKDF2
+ * Classe che gestisce i codici hash delle password. I codici hash vengono
+ * generati utilizzando l'algoritmo PBKDF2WithHmacSHA512.
+ * 
+ * <P>
+ * PBKDF2<BR>
  * 
  * Stands for Password-based-Key-Derivative-Function, a successor of PBKDF1 and
  * is used to implement a pseudorandom function, such as a cryptographic hash,
  * cipher, or HMAC to the input password or passphrase along with a salt value
  * and repeats the process many times to produce a derived key, which can then
  * be used as a cryptographic key in subsequent operations.
+ * </P>
  * 
- * HMAC
+ * <P>
+ * HMAC<BR>
  * 
  * Stands for Keyed-Hash Message Authentication Code (HMAC) is a specific
  * construction for calculating a message authentication code (MAC) involving a
  * cryptographic hash function in combination with a secret cryptographic key.
  * Any cryptographic hash function,may be used in the calculation of an HMAC;
  * the resulting MAC algorithm is termed HMAC-MD5 or HMAC-SHA1 accordingly.
+ * </P>
  * 
- * SHA512
+ * <P>
+ * SHA512<BR>
  * 
  * stands for Secure Hash Algorithm. Cryptographic hash functions are
  * mathematical operations run on digital data; by comparing the computed "hash"
@@ -38,6 +46,7 @@ import java.security.spec.InvalidKeySpecException;
  * tampered with.[4] A key aspect of cryptographic hash functions is their
  * collision resistance: nobody should be able to find two different input
  * values that result in the same hash output.
+ * </P>
  */
 public class PasswordHash implements Serializable {
 	private static final long serialVersionUID = -6843744174735008039L;
@@ -53,22 +62,22 @@ public class PasswordHash implements Serializable {
 	public static final int PBKDF2_INDEX = 2;
 
 	/**
-	 * Returns a salted PBKDF2 hash of the password.
+	 * Restituisce l'hash PBKDF2 con salt della password.
 	 *
 	 * @param password
-	 *            the password to hash
-	 * @return a salted PBKDF2 hash of the password
+	 *            la password di cui si vuole generare l'hash.
+	 * @return l'hash PBKDF2 con salto della password.
 	 */
 	public static String createHash(String password) {
 		return createHash(password.toCharArray());
 	}
 
 	/**
-	 * Returns a salted PBKDF2 hash of the password.
+	 * Restituisce l'hash PBKDF2 con salt della password.
 	 *
 	 * @param password
-	 *            the password to hash
-	 * @return a salted PBKDF2 hash of the password
+	 *            la password di cui si vuole generare l'hash.
+	 * @return l'hash PBKDF2 con salto della password.
 	 */
 	public static String createHash(char[] password) {
 		// Generate a random salt
@@ -84,81 +93,110 @@ public class PasswordHash implements Serializable {
 	}
 
 	/**
-	 * Validates a password using a hash.
+	 * Convalida una password utilizzando il suo codice hash.
 	 *
 	 * @param password
-	 *            the password to check
+	 *            la password da convalidare.
 	 * @param correctHash
-	 *            the hash of the valid password
-	 * @return true if the password is correct, false if not
+	 *            il codice hash della password valida.
+	 * @return true se la password è corretta, false altrimenti.
 	 */
 	public static boolean validatePassword(String password, String correctHash) {
 		return validatePassword(password.toCharArray(), correctHash);
 	}
 
 	/**
-	 * Validates a password using a hash.
+	 * Convalida una password utilizzando il suo codice hash.
 	 *
 	 * @param password
-	 *            the password to check
+	 *            la password da convalidare.
 	 * @param correctHash
-	 *            the hash of the valid password
-	 * @return true if the password is correct, false if not
+	 *            il codice hash della password valida.
+	 * @return true se la password è corretta, false altrimenti.
 	 */
 	public static boolean validatePassword(char[] password, String correctHash) {
-		// Decode the hash into its parameters
+		/*
+		 * Divide l'hash corretto nei suoi parametri.
+		 */
 		String[] params = correctHash.split(":");
 		int originalIterations = Integer.parseInt(params[ITERATION_INDEX]);
 		byte[] originalSaltBytes = fromHex(params[SALT_INDEX]);
 		byte[] originalPasswordHashBytes = fromHex(params[PBKDF2_INDEX]);
 
-		// Compute the hash of the provided password, using the same salt,
-		// iteration count, and hash length
+		/*
+		 * Calcola il codice hash della password passata in input, utilizzando
+		 * lo stesso salt, numero di iterazioni e lunghezza dell'hash originale.
+		 */
 		byte[] testHash = pbkdf2(password, originalSaltBytes, originalIterations, originalPasswordHashBytes.length);
-		// Compare the hashes in constant time. The password is correct if
-		// both hashes match.
+		/*
+		 * Confronta i codici hash in tempo costante rispetto alla loro
+		 * lunghezza. La password è corretta se i codici hash sono uguali.
+		 */
 		return verySlowEquals(originalPasswordHashBytes, testHash);
 	}
 
 	/**
-	 * Compares two byte arrays in length-constant time. This comparison method
-	 * is used so that password hashes cannot be extracted from an on-line
-	 * system using a timing attack and then attacked off-line.
+	 * Confronta due array di byte in tempo costante rispetto alla loro
+	 * lunghezza.
 	 * 
-	 * @param a
-	 *            the first byte array
-	 * @param b
-	 *            the second byte array
-	 * @return true if both byte arrays are the same, false if not
+	 * Questo metodo di confronto è usato per impedire che i codici hash delle
+	 * password siano scaricati in locale da un sistema online tramite un
+	 * attacco temporizzato per poi essere attaccati off-line.
+	 * 
+	 * @param firstBytesArray
+	 *            il primo array da confrontare.
+	 * 
+	 * @param secondBytesArray
+	 *            il secondo array da confrontare.
+	 * 
+	 * @return {@code true} se entrambi gli array di bytes sono uguali,
+	 *         {@code false} altrimenti.
 	 */
-	private static boolean verySlowEquals(byte[] a, byte[] b) {
+	private static boolean verySlowEquals(byte[] firstBytesArray, byte[] secondBytesArray) {
 
 		/*
 		 * Effettua lo XOR bit a bit tra le lunghezze dei due array.
 		 * 
 		 * diff = diff = a.length XOR b.length
 		 */
-		int diff = a.length ^ b.length;
+		int diff = firstBytesArray.length ^ secondBytesArray.length;
 
-		for (int i = 0; i < a.length && i < b.length; i++) {
-			diff |= a[i] ^ b[i]; // OR
+		for (int i = 0; i < firstBytesArray.length && i < secondBytesArray.length; i++) {
+			// OR degli XOR
+			diff |= firstBytesArray[i] ^ secondBytesArray[i];
 		}
 
 		return diff == 0;
 	}
 
 	/**
-	 * Computes the PBKDF2 hash of a password.
+	 * Calcola l'hash PBKDF2 con salt di una password.
 	 *
 	 * @param password
-	 *            the password to hash.
+	 *            la password di cui si vuole generare l'hash.
 	 * @param salt
-	 *            the salt
+	 *            il sale (salt in inglese) per rafforzare la sicurezza della
+	 *            password e complicare gli attacchi a dizionario.<BR><BR>
+	 * 
+	 *            Le lookup-tables e le rainbow-tables funzionano soltanto
+	 *            perchè ogni password hash è generato nello stesso identico
+	 *            modo.
+	 * 
+	 *            Se due utenti hanno la stessa password, avranno gli stessi
+	 *            password hashes.
+	 * 
+	 *            Possiamo prevenire questi attacchi randomizzando ogni hash,
+	 *            per farlo si affianca alla password originale il salt generato
+	 *            in maniera random prima di generare l'hash.
+	 * 
+	 *            In questo modo la stessa password affiancata da salt
+	 *            differenti genera hash totalmente diversi.
 	 * @param iterations
-	 *            the iteration count (slowness factor)
+	 *            il numero di iterazioni (fattore di rallentamento).
 	 * @param bytes
-	 *            the length of the hash to compute in bytes
-	 * @return the PBDKF2 hash of the password
+	 *            la lunghezza dell'hash da calcolare, espressa in numero di
+	 *            bytes.
+	 * @return l'hash PBKDF2 con salt di una password.
 	 */
 	public static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
 		PBEKeySpec myPBEKeySpec = new PBEKeySpec(password, salt, iterations, bytes * 8);
@@ -176,40 +214,32 @@ public class PasswordHash implements Serializable {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	/**
-	 * Converts a string of hexadecimal characters into a byte array.
+	 * Converte una stringa di caratteri esadecimali in un array di bytes.
 	 *
 	 * @param hex
-	 *            the hex string
-	 * @return the hex string decoded into a byte array
+	 *            la stringa di caratteri esadecimali.
+	 * @return la stringa di caratteri esadecimali decodificata in un array di
+	 *         bytes.
 	 */
 	private static byte[] fromHex(String hex) {
 		return DatatypeConverter.parseHexBinary(hex);
 	}
 
 	/**
-	 * Converts a byte array into a hexadecimal string.
+	 * Converte un array di bytes in una stringa di caratteri esadecimali.
 	 *
 	 * @param array
-	 *            the byte array to convert
-	 * @return a length*2 character string encoding the byte array
+	 *            l'array di bytes da convertire.
+	 * @return una stringa del doppio della lunghezza dell'array rappresentante
+	 *         la codifica in caratteri esadecimali dell'array di bytes.
 	 */
 	private static String toHex(byte[] array) {
 		return DatatypeConverter.printHexBinary(array);
 	}
 
-	/**
-	 * Tests the basic functionality of the PasswordHash class
-	 *
-	 * @param args
-	 *            ignored
-	 * @throws UnsupportedEncodingException
-	 * @throws InvalidKeySpecException
-	 * @throws NoSuchAlgorithmException
-	 */
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		String passwordHash = PasswordHash.createHash("Ciao");
 

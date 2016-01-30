@@ -1,6 +1,3 @@
-/**
- * 
- */
 package objectsTable.renderers;
 
 import java.awt.Component;

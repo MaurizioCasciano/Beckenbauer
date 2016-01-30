@@ -5,7 +5,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-public class WeekBounds implements Serializable{
+/**
+ * Classe per ricavare la data di inizio e la data di fine di una settimana.
+ * 
+ * @author Maurizio
+ */
+public class WeekBounds implements Serializable {
 
 	/**
 	 * Restituisce l'oggetto GregorianCalendar corrispondente all'istante in cui
@@ -82,9 +87,7 @@ public class WeekBounds implements Serializable{
 	 * @author Maurizio
 	 */
 	private static final long serialVersionUID = -3430620484153690897L;
-	
-	/*********************************************************************/
-	
+
 	public static void main(String[] args) {
 		GregorianCalendar date = new GregorianCalendar();
 		date.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));

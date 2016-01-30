@@ -1,57 +1,68 @@
 package objectsTable;
 
 import java.io.Serializable;
-import java.lang.reflect.*;
 import java.util.*;
+import javax.swing.JTable;
 import javax.swing.table.*;
 
+/**
+ * Classe che estende {@link AbstractTableModel} per permettere la gestione
+ * delle righe della {@link JTable} come oggetti. Ogni riga della {@link JTable}
+ * mostra i vari campi dell'oggetto.
+ * 
+ * @param <T>
+ *            Il tipo dell'oggetto da inserire nelle righe della tabella.
+ * @author Maurizio
+ */
 public abstract class RowObjectTableModel<T> extends AbstractTableModel implements Serializable {
 
 	/**
-	 * Constructs a <code>RowObjectTableModel</code> with column names.
-	 *
-	 * Each column's name will be taken from the <code>columnNames</code>
-	 * ArrayList and the number of columns is determined by the number of items
-	 * in the <code>columnNames</code> ArrayList.
-	 *
-	 * @param rowClass
-	 *            the class of row data to be added to the model
+	 * Costruisce un {@link RowObjectTableModel} con i nomi delle colonne
+	 * passati in input. Il nome di ogni colonna verrà preso dall'array
+	 * <code>columnNames</code> passato in input, il numero di colonne è
+	 * determinato dalla lunghezza dell'array <code>columnNames</code>.
+	 * 
 	 * @param columnNames
-	 *            <code>ArrayList</code> containing the names of the new columns
+	 *            L'array contenente i nomi delle colonne della {@link JTable}.
+	 * 
+	 * @param rowClass
+	 *            La classe del tipo di oggetto delle righe da inserire in
+	 *            questo modello.
 	 */
-	protected RowObjectTableModel(String[] columnNames, Class<T> rowClass) {
-		this(new ArrayList<T>(), columnNames, rowClass);
+	protected RowObjectTableModel(String[] columnNames) {
+		this(new ArrayList<T>(), columnNames);
 	}
 
 	/**
-	 * Full Constructor for creating a <code>RowTableModel</code>.
+	 * Costruisce un {@link RowObjectTableModel} con gli oggetti dell'
+	 * {@link ArrayList} passata in input.
 	 *
-	 * Each item in the <code>modelData</code> List must also be a List Object
-	 * containing items for each column of the row.
-	 *
-	 * Each column's name will be taken from the <code>columnNames</code> List
-	 * and the number of colums is determined by thenumber of items in the
-	 * <code>columnNames</code> List.
+	 * Ogni elemento nell' {@link ArrayList} <code>modelData</code> deve anche
+	 * contenere i campi per ogni colonna della riga.
+	 * 
+	 * Il nome di ogni colonna verrà preso dall'{@link ArrayList}
+	 * <code>columnNames</code> ed il numero di colonne è determinato dal numero
+	 * di elementi nell' {@link ArrayList} <code>columnNames</code>.
 	 *
 	 * @param modelData
-	 *            the data of the table
+	 *            Gli oggetti da aggiungere alla {@link JTable}.
 	 * @param columnNames
-	 *            <code>List</code> containing the names of the new columns
+	 *            L'array contenente i nomi delle colonne della {@link JTable}.
 	 * @param rowClass
-	 *            the class of row data to be added to the model
+	 *            La classe del tipo di oggetto delle righe da inserire in
+	 *            questo modello.
 	 */
-	protected RowObjectTableModel(ArrayList<T> modelData, String[] columnNames, Class<T> rowClass) {
+	protected RowObjectTableModel(ArrayList<T> modelData, String[] columnNames) {
 		setDataAndColumnNames(modelData, columnNames);
-		setRowClass(rowClass);
 	}
 
 	/**
-	 * Reset the data and column names of the model.
+	 * Imposta i dati e i nomi delle colonne del modello.
 	 *
-	 * A fireTableStructureChanged event will be generated.
+	 * Verrà generato un evento fireTableStructureChanged.
 	 *
 	 * @param modelData
-	 *            the data of the table
+	 *            Gli oggetti da aggiungere alla {@link JTable}.
 	 * @param columnNames
 	 *            <code>List</code> containing the names of the new columns
 	 */
@@ -64,33 +75,26 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * The class of the Row being stored in the TableModel
-	 *
-	 * This is required for the getRowsAsArray() method to return the proper
-	 * class of row.
-	 *
-	 * @param rowClas
-	 *            the class of the row
-	 */
-	protected void setRowClass(Class<T> rowClass) {
-		this.rowClass = rowClass;
-	}
-
-	// Implementation of the TableModel interface
-
-	/**
-	 * Returns the Class of the queried <code>column</code>.
+	 * Restituisce la classe della colonna richiesta.
 	 * 
-	 * First it will check to see if a Class has been specified for the
-	 * <code>column</code> by using the <code>setColumnClass</code> method. If
-	 * not, then the superclass value is returned.
-	 *
+	 * Inizialmente controlla se è stata specificata una classe per la colonna
+	 * tramite il metodo setColumnClass, in caso affermativo restituisce la
+	 * classe impostata.
+	 * 
+	 * In caso negativo scorre le righe della {@link JTable} e al primo elemento
+	 * non nullo nella colonna specificata, restituisce la sua classe.
+	 * 
 	 * @param column
-	 *            the column being queried
-	 * @return the Class of the column being queried
+	 *            La colonna da interrogare.
+	 * @return the Classe della colonna interrogata.
 	 */
 
 	public Class<?> getColumnClass(int column) {
+
+		if (this.columnClasses != null && column < this.columnClasses.length && this.columnClasses[column] != null) {
+			return this.columnClasses[column];
+		}
+
 		Class<?> columnClass = Object.class;
 
 		for (int row = 0; row < getRowCount(); row++) {
@@ -106,14 +110,14 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Sets the Class for the specified column.
+	 * Imposta la Classe per la colonna specificata.
 	 *
 	 * @param column
-	 *            the column whose Class is being changed
+	 *            La colonna di cui si vuole impostare la Classe.
 	 * @param columnClass
-	 *            the new Class of the column
+	 *            La nuova Classe della colonna.
 	 * @exception ArrayIndexOutOfBoundsException
-	 *                if an invalid column was given
+	 *                se viene passato un indice di colonna non valido.
 	 */
 	public void setColumnClass(int column, Class<?> columnClass) {
 		columnClasses[column] = columnClass;
@@ -121,21 +125,22 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Returns the number of columns in this table model.
+	 * Restituisce il numero di colonne in questo modello.
 	 *
-	 * @return the number of columns in the model
+	 * @return Il numero di colonne in questo modello.
 	 */
 	public int getColumnCount() {
 		return columnNames.length;
 	}
 
 	/**
-	 * Returns the column name.
+	 * Restituisce il nome della colonna passata in input.
 	 *
-	 * @return a name for this column using the string value of the appropriate
-	 *         member in <code>columnNames</code>. If <code>columnNames</code>
-	 *         does not have an entry for this index then the default name
-	 *         provided by the superclass is returned
+	 * @return Il nome per la colonna passata in input usando il valore
+	 *         restituito dal metodo toString().
+	 * 
+	 *         Se <code>columnNames</code> non ha un valore per questo indice
+	 *         viene restituito il nome fornito dalla superclasse.
 	 */
 	public String getColumnName(int column) {
 		Object columnName = null;
@@ -157,66 +162,58 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Returns true regardless of parameter values.
+	 * Controlla se una cella è modificabile.
 	 *
 	 * @param row
-	 *            the row whose value is to be queried
+	 *            La riga il cui valore deve essere interrogato.
 	 * @param column
-	 *            the column whose value is to be queried
+	 *            La colonna il cui valore deve essere interrogato.
 	 * @return true
 	 */
 	public boolean isCellEditable(int row, int column) {
 		Boolean isEditable = null;
 
-		// Check is column editability has been set
-
-		if (column < isColumnEditable.length)
+		if (column < isColumnEditable.length) {
 			isEditable = isColumnEditable[column];
+		}
 
 		return (isEditable == null) ? isModelEditable : isEditable.booleanValue();
 	}
 
-	//
-	// Implement custom methods
-	//
 	/**
-	 * Adds a row of data to the end of the model. Notification of the row being
-	 * added will be generated.
+	 * Aggiunge una riga di dati alla fine del modello. Verra generata una
+	 * notifica indicante che si sta aggiungendo una riga.
 	 *
 	 * @param rowData
-	 *            data of the row being added
+	 *            L'oggetto della riga da aggiungere al modello.
 	 */
 	protected void addRow(T rowData) {
 		insertRow(getRowCount(), rowData);
 	}
 
 	/**
-	 * Returns the Object of the requested <code>row</code>.
+	 * Restituisce l'oggetto della riga all'indice <code>row</code> richiesta.
 	 *
-	 * @return the Object of the requested row.
+	 * @param row
+	 *            L'indice della riga dell'oggetto richiesto.
+	 * @return L'oggetto della riga richiesta.
 	 */
 	public T getRow(int row) {
 		return tableObjects.get(row);
 	}
 
 	/**
-	 * Returns an array of Objects for the requested <code>rows</code>.
+	 * Restituisce un' ArrayList di oggetti per le righe agli indici
+	 * <code>rows</code> richiesti.
 	 *
-	 * @return an array of Objects for the requested rows.
-	 */
-	@SuppressWarnings("unchecked")
-	public T[] getRowsAsArray(int... rows) {
-		List<T> rowData = getRowsAsList(rows);
-		T[] array = (T[]) Array.newInstance(rowClass, rowData.size());
-		return (T[]) rowData.toArray(array);
-	}
-
-	/**
-	 * Returns a List of Objects for the requested <code>rows</code>.
+	 * @param rows
+	 *            Gli indici delle righe degli oggetti da restituire
+	 *            nell'ArrayList.
 	 *
-	 * @return a List of Objects for the requested rows.
+	 * @return un'ArrayList di oggetti per le righe agli indici
+	 *         <code>rows</code> richiesti.
 	 */
-	public List<T> getRowsAsList(int... rows) {
+	public ArrayList<T> getRowsAsList(int... rows) {
 		ArrayList<T> rowData = new ArrayList<T>(rows.length);
 
 		for (int i = 0; i < rows.length; i++) {
@@ -227,13 +224,13 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Insert a row of data at the <code>row</code> location in the model.
-	 * Notification of the row being added will be generated.
-	 *
+	 * Inserisce una riga di dati all'indice <code>row</code> nel modello. Viene
+	 * generata una notifica per la riga che si aggiunge.
+	 * 
 	 * @param row
-	 *            row in the model where the data will be inserted
+	 *            L'indice del modello dove i dati saranno inseriti.
 	 * @param rowData
-	 *            data of the row being added
+	 *            I dati della riga da aggiungere.
 	 */
 	public void insertRow(int row, T rowData) {
 		tableObjects.add(row, rowData);
@@ -242,133 +239,30 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Insert multiple rows of data at the <code>row</code> location in the
-	 * model. Notification of the row being added will be generated.
-	 *
+	 * Inserisce una lista di righe all'indice <code>row</code> nel modello.
+	 * Viene generata una notifica per le rige che si aggiungono.
+	 * 
 	 * @param row
-	 *            row in the model where the data will be inserted
+	 *            L'indice nel modello dove i dati verranno aggiunti.
 	 * @param rowList
-	 *            each item in the list is a separate row of data
+	 *            Ogni elemento nella lista è una riga di dati.
 	 */
-	public void insertRows(int row, List<T> rowList) {
+	public void insertRows(int row, ArrayList<T> rowList) {
 		tableObjects.addAll(row, rowList);
 		fireTableRowsInserted(row, row + rowList.size() - 1);
 	}
 
 	/**
-	 * Insert multiple rows of data at the <code>row</code> location in the
-	 * model. Notification of the row being added will be generated.
-	 *
-	 * @param row
-	 *            row in the model where the data will be inserted
-	 * @param rowArray
-	 *            each item in the Array is a separate row of data
-	 */
-	public void insertRows(int row, T[] rowArray) {
-		List<T> rowList = new ArrayList<T>(rowArray.length);
-
-		for (int i = 0; i < rowArray.length; i++) {
-			rowList.add(rowArray[i]);
-		}
-
-		insertRows(row, rowList);
-	}
-
-	/**
-	 * Moves one or more rows from the inlcusive range <code>start</code> to
-	 * <code>end</code> to the <code>to</code> position in the model. After the
-	 * move, the row that was at index <code>start</code> will be at index
-	 * <code>to</code>. This method will send a <code>tableRowsUpdated</code>
-	 * notification message to all the listeners.
-	 * <p>
-	 *
-	 * <pre>
-	 *  Examples of moves:
-	 *  <p>
-	 *  1. moveRow(1,3,5);
-	 *		  a|B|C|D|e|f|g|h|i|j|k   - before
-	 *		  a|e|f|g|h|B|C|D|i|j|k   - after
-	 *  <p>
-	 *  2. moveRow(6,7,1);
-	 *		  a|b|c|d|e|f|G|H|i|j|k   - before
-	 *		  a|G|H|b|c|d|e|f|i|j|k   - after
-	 *  <p>
-	 * </pre>
-	 *
+	 * Rimuove le righe specificate dal modello. Le righe tra gli indici tra
+	 * start ed end, estremi inclusi, verranno rimosse. Viene generata una
+	 * notifica per le righe rimosse.
+	 * 
 	 * @param start
-	 *            the starting row index to be moved
+	 *            L'indice iniziale da cui iniziare la rimozione delle righe.
 	 * @param end
-	 *            the ending row index to be moved
-	 * @param to
-	 *            the destination of the rows to be moved
-	 * @exception IllegalArgumentException
-	 *                if any of the elements would be moved out of the table's
-	 *                range
-	 */
-	public void moveRow(int start, int end, int to) {
-		if (start < 0) {
-			String message = "Start index must be positive: " + start;
-			throw new IllegalArgumentException(message);
-		}
-
-		if (end > getRowCount() - 1) {
-			String message = "End index must be less than total rows: " + end;
-			throw new IllegalArgumentException(message);
-		}
-
-		if (start > end) {
-			String message = "Start index cannot be greater than end index";
-			throw new IllegalArgumentException(message);
-		}
-
-		int rowsMoved = end - start + 1;
-
-		if (to < 0 || to > getRowCount() - rowsMoved) {
-			String message = "New destination row (" + to + ") is invalid";
-			throw new IllegalArgumentException(message);
-		}
-
-		// Save references to the rows that are about to be moved
-
-		ArrayList<T> temp = new ArrayList<T>(rowsMoved);
-
-		for (int i = start; i < end + 1; i++) {
-			temp.add(tableObjects.get(i));
-		}
-
-		// Remove the rows from the current location and add them back
-		// at the specified new location
-
-		tableObjects.subList(start, end + 1).clear();
-		tableObjects.addAll(to, temp);
-
-		// Determine the rows that need to be repainted to reflect the move
-
-		int first;
-		int last;
-
-		if (to < start) {
-			first = to;
-			last = end;
-		} else {
-			first = start;
-			last = to + end - start;
-		}
-
-		fireTableRowsUpdated(first, last);
-	}
-
-	/**
-	 * Remove the specified rows from the model. Rows between the starting and
-	 * ending indexes, inclusively, will be removed. Notification of the rows
-	 * being removed will be generated.
-	 *
-	 * @param start
-	 *            starting row index
-	 * @param end
-	 *            ending row index
+	 *            L'indice final delle righe da rimuovere.
 	 * @exception ArrayIndexOutOfBoundsException
-	 *                if any row index is invalid
+	 *                Se un qualsiasi indice è invalido.
 	 */
 	public void removeRowRange(int start, int end) {
 		tableObjects.subList(start, end + 1).clear();
@@ -376,14 +270,15 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Remove the specified rows from the model. The row indexes in the array
-	 * must be in increasing order. Notification of the rows being removed will
-	 * be generated.
-	 *
+	 * Rimuove le righe specificate dal modello. Gli indici delle righe
+	 * nell'array deve essere in ordine crescente. Viene generata una notifica
+	 * per le righe rimosse.
+	 * 
 	 * @param rows
-	 *            array containing indexes of rows to be removed
+	 *            L'array contenente gli indici delle righe da rimuovere.
+	 * 
 	 * @exception ArrayIndexOutOfBoundsException
-	 *                if any row index is invalid
+	 *                Se un qualsiasi indice è invalido.
 	 */
 	public void removeRows(int... rows) {
 		for (int i = rows.length - 1; i >= 0; i--) {
@@ -394,16 +289,15 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Replace a row of data at the <code>row</code> location in the model.
-	 * Notification of the row being replaced will be generated.
-	 *
+	 * Sostituisce la riga di dati all'indice <code>row</code> nel modello.
+	 * Viene generata una notifica per la riga sostituita.
+	 * 
 	 * @param rowIndex
-	 *            row in the model where the data will be replaced
+	 *            L'indice della riga nel modello, dove i dati verranno
+	 *            sostituiti.
+	 * 
 	 * @param rowData
-	 *            data of the row to replace the existing data
-	 * @exception IllegalArgumentException
-	 *                when the Class of the row data does not match the row
-	 *                Class of the model.
+	 *            I dati da sostituire alla vecchia riga.
 	 */
 	public void replaceRow(int rowIndex, T rowData) {
 		tableObjects.set(rowIndex, rowData);
@@ -411,24 +305,25 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	}
 
 	/**
-	 * Sets the editability for the specified column.
+	 * Imposta l'editabilità di una specifica colonna.
 	 *
 	 * @param column
-	 *            the column whose Class is being changed
+	 *            La colonna di cui si vuole impostare l'editabilità.
 	 * @param isEditable
-	 *            indicates if the column is editable or not
+	 *            Indica se la colonna è editabile o meno.
+	 * 
 	 * @exception ArrayIndexOutOfBoundsException
-	 *                if an invalid column was given
+	 *                Se viene passata un indice di colonna non valido.
 	 */
 	public void setColumnEditable(int column, boolean isEditable) {
 		isColumnEditable[column] = isEditable ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	/**
-	 * Set the ability to edit cell data for the entire model
-	 *
-	 * Note: values set by the setColumnEditable(...) method will have prioritiy
-	 * over this value.
+	 * Imposta l'editabilità dell'intero modello.
+	 * 
+	 * NB: I valori impostati tramite il metodo setColumnEditable(...) avranno
+	 * la priorità su questo valore.
 	 *
 	 * @param isModelEditable
 	 *            true/false
@@ -437,43 +332,10 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 		this.isModelEditable = isModelEditable;
 	}
 
-	/*
-	 * Convert an unformatted column name to a formatted column name. That is:
-	 *
-	 * - insert a space when a new uppercase character is found, insert multiple
-	 * upper case characters are grouped together. - replace any "_" with a
-	 * space
-	 *
-	 * @param columnName unformatted column name
-	 * 
-	 * @return the formatted column name
-	 */
-	public static String formatColumnName(String columnName) {
-		if (columnName.length() < 3)
-			return columnName;
-
-		StringBuffer buffer = new StringBuffer(columnName);
-		boolean isPreviousLowerCase = false;
-
-		for (int i = 1; i < buffer.length(); i++) {
-			boolean isCurrentUpperCase = Character.isUpperCase(buffer.charAt(i));
-
-			if (isCurrentUpperCase && isPreviousLowerCase) {
-				buffer.insert(i, " ");
-				i++;
-			}
-
-			isPreviousLowerCase = !isCurrentUpperCase;
-		}
-
-		return buffer.toString().replaceAll("_", " ");
-	}
-
 	private static final long serialVersionUID = 831989111979834244L;
 	protected ArrayList<T> tableObjects;
 	protected String[] columnNames;
 	protected Class<?>[] columnClasses;
 	protected Boolean[] isColumnEditable;
-	private Class<?> rowClass = Object.class;
 	private boolean isModelEditable = true;
 }

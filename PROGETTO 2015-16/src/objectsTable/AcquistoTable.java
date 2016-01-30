@@ -15,28 +15,29 @@ import javax.swing.ListSelectionModel;
 
 import objectsTable.renderers.PartitaCellRenderer;
 import objectsTable.renderers.PostoCellRenderer;
+import objectsTable.renderers.PrezzoCellRenderer;
 import objectsTable.renderers.SettoreCellRenderer;
 import objectsTable.renderers.StadioCellRenderer;
 import objectsTable.renderers.ClienteCellRenderer;
 import objectsTable.renderers.GregorianCalendarCellRenderer;
 import struttura.Acquisto;
 import struttura.Biglietto;
-import struttura.DAYS_OF_WEEK;
+import struttura.DaysOfWeek;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.Prenotazione;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.Settore;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.TIPO_SCONTO;
-import struttura.filters.PrenotationsByCustomer;
-import struttura.filters.PrenotationsByMatch;
-import struttura.filters.PrenotationsByStadium;
-import struttura.filters.PurchasesByCustomer;
-import struttura.filters.PurchasesByMatch;
-import struttura.filters.PurchasesByStadium;
+import struttura.TipoSconto;
+import struttura.filters.PrenotationByCustomerFilter;
+import struttura.filters.PrenotationByMatchFilter;
+import struttura.filters.PrenotationByStadiumFilter;
+import struttura.filters.PurchaseByCustomerFilter;
+import struttura.filters.PurchaseByMatchFilter;
+import struttura.filters.PurchaseByStadiumFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 
@@ -66,6 +67,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		this.setDefaultRenderer(Settore.class, new SettoreCellRenderer());
 		this.setDefaultRenderer(Posto.class, new PostoCellRenderer());
 		this.setDefaultRenderer(GregorianCalendar.class, new GregorianCalendarCellRenderer());
+		this.setDefaultRenderer(Double.class, new PrezzoCellRenderer());
 	}
 
 	public Acquisto getSelectedAcquisto() {
@@ -122,32 +124,32 @@ public class AcquistoTable extends JTable implements Serializable {
 		struct.addPartita(salernitanaAvellinese);
 
 		/**** Sconti ****/
-		Sconti scontoOlimpico = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, 10,
+		Sconto scontoOlimpico = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, 10,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
 				olimpico);
 		struct.addSconto(scontoOlimpico);
 
-		Sconti scontoRomaJuventus = new Sconti(TIPO_SCONTO.PartitaCorrente, 15,
+		Sconto scontoRomaJuventus = new Sconto(TipoSconto.PARTITA_CORRENTE, 15,
 				new GregorianCalendar(2016, Calendar.JANUARY, 19), new GregorianCalendar(2016, Calendar.JANUARY, 19),
 				romaJuventus);
 		struct.addSconto(scontoRomaJuventus);
 
-		Sconti scontoMercoledi = new Sconti(TIPO_SCONTO.GiornoPrestabilito, 5,
+		Sconto scontoMercoledi = new Sconto(TipoSconto.GIORNO_PRESTABILITO, 5,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
-				DAYS_OF_WEEK.Mercoledi);
+				DaysOfWeek.MERCOLEDI);
 		struct.addSconto(scontoMercoledi);
 
-		Sconti scontoGiovedi = new Sconti(TIPO_SCONTO.GiornoPrestabilito, 3,
+		Sconto scontoGiovedi = new Sconto(TipoSconto.GIORNO_PRESTABILITO, 3,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
-				DAYS_OF_WEEK.Giovedi);
+				DaysOfWeek.GIOVEDI);
 		struct.addSconto(scontoGiovedi);
 
-		Sconti scontoSalernitanaAvellinese = new Sconti(TIPO_SCONTO.PartitaCorrente, 6,
+		Sconto scontoSalernitanaAvellinese = new Sconto(TipoSconto.PARTITA_CORRENTE, 6,
 				new GregorianCalendar(2016, Calendar.JANUARY, 21), new GregorianCalendar(2016, Calendar.JANUARY, 21),
 				salernitanaAvellinese);
 		struct.addSconto(scontoSalernitanaAvellinese);
 
-		Sconti scontoArechi = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, 4.5,
+		Sconto scontoArechi = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, 4.5,
 				new GregorianCalendar(2016, Calendar.JANUARY, 18), new GregorianCalendar(2016, Calendar.JANUARY, 24),
 				arechi);
 		struct.addSconto(scontoArechi);
@@ -216,7 +218,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\nPrenotazioni Presenti: " + struct.getPrenotazioni().size() + " [Expected: 5]");
 		/**** Verifica Filtri Prenotazioni ****/
-		ArrayList<Prenotazione> perRomaJuventus = struct.getPrenotazioniFiltrate(new PrenotationsByMatch(romaJuventus));
+		ArrayList<Prenotazione> perRomaJuventus = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(romaJuventus));
 
 		System.out.println("\nPrenotazioni Partita : " + romaJuventus);
 		for (Prenotazione pren : perRomaJuventus) {
@@ -229,7 +231,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		System.out.println("END");
 
 		System.out.println("\nPrenotazioni Partita : " + juventusRoma);
-		ArrayList<Prenotazione> perJuventusRoma = struct.getPrenotazioniFiltrate(new PrenotationsByMatch(juventusRoma));
+		ArrayList<Prenotazione> perJuventusRoma = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(juventusRoma));
 
 		for (Prenotazione pren : perJuventusRoma) {
 			System.out.println(pren);
@@ -243,7 +245,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		// non ci sono prenotazioni quindi non stampa nulla
 		System.out.println("\nPrenotazioni Partita : " + salernitanaAvellinese);
 		ArrayList<Prenotazione> perSalernitanaAvellinese = struct
-				.getPrenotazioniFiltrate(new PrenotationsByMatch(salernitanaAvellinese));
+				.getPrenotazioniFiltrate(new PrenotationByMatchFilter(salernitanaAvellinese));
 
 		for (Prenotazione pren : perSalernitanaAvellinese) {
 			System.out.println(pren);
@@ -255,7 +257,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		System.out.println("END");
 
 		System.out.println("\nPrenotazioni Cliente : " + gaetano);
-		ArrayList<Prenotazione> perGaetano = struct.getPrenotazioniFiltrate(new PrenotationsByCustomer(gaetano));
+		ArrayList<Prenotazione> perGaetano = struct.getPrenotazioniFiltrate(new PrenotationByCustomerFilter(gaetano));
 
 		for (Prenotazione pren : perGaetano) {
 			System.out.println(pren);
@@ -268,7 +270,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		System.out.println("END");
 
 		System.out.println("\nPrenotazioni Cliente : " + mario);
-		ArrayList<Prenotazione> perMario = struct.getPrenotazioniFiltrate(new PrenotationsByCustomer(mario));
+		ArrayList<Prenotazione> perMario = struct.getPrenotazioniFiltrate(new PrenotationByCustomerFilter(mario));
 
 		for (Prenotazione pren : perMario) {
 			System.out.println(pren);
@@ -281,7 +283,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		System.out.println("END");
 
 		System.out.println("\nPrenotazioni Stadio : " + olimpico);
-		ArrayList<Prenotazione> perOlimpico = struct.getPrenotazioniFiltrate(new PrenotationsByStadium(olimpico));
+		ArrayList<Prenotazione> perOlimpico = struct.getPrenotazioniFiltrate(new PrenotationByStadiumFilter(olimpico));
 
 		for (Prenotazione pren : perOlimpico) {
 			System.out.println(pren);
@@ -294,7 +296,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		System.out.println("END");
 
 		System.out.println("\nPrenotazioni Stadio : " + sanSiro);
-		ArrayList<Prenotazione> perSanSiro = struct.getPrenotazioniFiltrate(new PrenotationsByStadium(sanSiro));
+		ArrayList<Prenotazione> perSanSiro = struct.getPrenotazioniFiltrate(new PrenotationByStadiumFilter(sanSiro));
 
 		for (Prenotazione pren : perSanSiro) {
 			System.out.println(pren);
@@ -370,7 +372,7 @@ public class AcquistoTable extends JTable implements Serializable {
 		/**** Verifica Filtri Acquisti ****/
 		System.out.println("\nAcquisti per Stadio: " + olimpico);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByStadium(olimpico))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Stadio -------");
 		}
@@ -379,7 +381,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\nAcquisti per Stadio: " + sanSiro);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByStadium(sanSiro))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Stadio -------");
 		}
@@ -388,7 +390,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\nAcquisti per Stadio: " + arechi);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByStadium(arechi))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(arechi))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Stadio -------");
 		}
@@ -397,7 +399,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\nAcquisti per Partita: " + romaJuventus);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByMatch(romaJuventus))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByMatchFilter(romaJuventus))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Partita -------");
 		}
@@ -406,7 +408,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\nAcquisti per Partita: " + juventusRoma);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByMatch(juventusRoma))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByMatchFilter(juventusRoma))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Partita -------");
 		}
@@ -415,7 +417,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\nAcquisti per Partita: " + salernitanaAvellinese);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByMatch(salernitanaAvellinese))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByMatchFilter(salernitanaAvellinese))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Partita -------");
 		}
@@ -424,7 +426,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\n Acquisti per Cliente: " + gaetano);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByCustomer(gaetano))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByCustomerFilter(gaetano))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Cliente -------");
 		}
@@ -433,7 +435,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\n Acquisti per Cliente: " + asdrubale);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByCustomer(asdrubale))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByCustomerFilter(asdrubale))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Cliente -------");
 		}
@@ -442,7 +444,7 @@ public class AcquistoTable extends JTable implements Serializable {
 
 		System.out.println("\n Acquisti per Cliente: " + mario);
 
-		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchasesByCustomer(mario))) {
+		for (Acquisto acq : struct.getAcquistiFiltrati(new PurchaseByCustomerFilter(mario))) {
 			System.out.println(acq);
 			System.out.println("------- Acq. Cliente -------");
 		}
@@ -454,15 +456,15 @@ public class AcquistoTable extends JTable implements Serializable {
 				+ struct.calcolaIncasso(struct.getAcquisti()) + " [Exp: 100.30]");
 
 		System.out.println("\n Incasso per stadio: " + olimpico);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(olimpico)))
+		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico)))
 				+ " [Exp: 34.00]");
 
 		System.out.println("\n Incasso per stadio: " + sanSiro);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(sanSiro)))
+		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro)))
 				+ " [Exp: 47.50]");
 
 		System.out.println("\n Incasso per stadio: " + arechi);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchasesByStadium(arechi)))
+		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(arechi)))
 				+ " [Exp: 18.80]");
 
 		JFrame frame = new JFrame("Acquisti");

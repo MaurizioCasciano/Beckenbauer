@@ -5,6 +5,12 @@ import java.util.GregorianCalendar;
 
 import struttura.Partita;
 
+/**
+ * Classe che modella un filto su una partita in base al fatto che debba ancora
+ * giocarsi.
+ * 
+ * @author Maurizio
+ */
 public class MatchNotYetStartedFilter implements Filter, Serializable {
 
 	/**

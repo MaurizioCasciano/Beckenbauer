@@ -18,11 +18,17 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.TIPO_SCONTO;
+import struttura.TipoSconto;
 
+/**
+ * Classe che modella un frame per l'inserimento degli sconti in base allo stadio
+ * 
+ * @author Gaetano Antonucci
+ * @author Gaetano Antonucci
+ */
 public class ScontoStadioFrame extends JFrame implements Serializable {
 
 	/**
@@ -30,13 +36,15 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce gli sconti.
 	 * @param stadi
+	 *            Gli stadi della StrutturaSportiva.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi è uguale a 0.
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva o l'ArrayList stadi sono null.
-	 * @author Maurizio
-	 * @author Gaetano
+	 * @author Maurizio Casciano 
+	 * @author Gaetano Antonucci
 	 */
 	public ScontoStadioFrame(StrutturaSportiva strutturaSportiva, ArrayList<Stadio> stadi)
 			throws IllegalArgumentException, NullPointerException {
@@ -45,11 +53,11 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 		this.setLayout(new GridLayout(5, 1, 10, 10));
 
 		if (strutturaSportiva == null) {
-			throw new NullPointerException("strutturaSportiva non può essere null");
+			throw new NullPointerException("strutturaSportiva non puo' essere null");
 		}
 
 		if (stadi == null) {
-			throw new NullPointerException("stadi non può essere null");
+			throw new NullPointerException("stadi non puo' essere null");
 		}
 
 		if (stadi.size() == 0) {
@@ -67,7 +75,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza i vari componenti di questo frame.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void init() {
 		this.initStadiComboPanel();
@@ -80,13 +88,13 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza il pannello per selezionare lo stadio.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initStadiComboPanel() {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
 		/*
-		 * Sicuro, perchè nel caso non vi siano stadi viene lanciata l'eccezione
+		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata l'eccezione
 		 * illegalargumentexception.
 		 */
 		this.stadiCombo.setSelectedIndex(0);
@@ -97,16 +105,16 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la data di inizio validita.
+	 * Inizializza il pannello per selezionare la data di inizio validita'.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initDataInizioPanel() {
-		this.inizioLabel = new JLabel("Data inizio validità: ");
+		this.inizioLabel = new JLabel("Data inizio validita': ");
 		this.inizioPicker = new DateTimePicker();
 		this.inizioPicker.getMonthView().setLowerBound(new Date());
 		/*
-		 * Reimposto la data affinchè sia maggiore del LowerBound, altrimenti
+		 * Reimposto la data affinche' sia maggiore del LowerBound, altrimenti
 		 * alla chiamata del metodo getDate() restituirebe null in quanto la
 		 * data impostata risulta antecedente al lowerBound e quindi non
 		 * ammessa.
@@ -119,16 +127,16 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la data di fine validita.
+	 * Inizializza il pannello per selezionare la data di fine validita'.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initDataFinePanel() {
-		this.fineLabel = new JLabel("Data fine validità: ");
+		this.fineLabel = new JLabel("Data fine validita': ");
 		this.finePicker = new DateTimePicker();
 		this.finePicker.getMonthView().setLowerBound(new Date());
 		/*
-		 * Reimposto la data affinchè sia maggiore del LowerBound, altrimenti
+		 * Reimposto la data affinche' sia maggiore del LowerBound, altrimenti
 		 * alla chiamata del metodo getDate() restituirebe null in quanto la
 		 * data impostata risulta antecedente al lowerBound e quindi non
 		 * ammessa.
@@ -143,12 +151,12 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	/**
 	 * Inizializza il pannello per selezionare la percentuale di sconto.
 	 * 
-	 * @author Maurizio
+	 * @author Maurizio Casciano
 	 */
 	private void initPercentualeScontoPanel() {
 		this.percentualeScontoLabel = new JLabel("Percentuale sconto: ");
 		/*
-		 * I valori vengono impostati in questo modo poichè, con l'editor per la
+		 * I valori vengono impostati in questo modo poiche', con l'editor per la
 		 * percentuale saranno moltiplicati per 100.
 		 */
 		this.percetualeScontoSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.01, 1, 0.01));
@@ -168,7 +176,8 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	 * Inizializza il pannello contenente i pulsanti per applicare lo sconto o
 	 * per annullare l'operazione.
 	 * 
-	 * @author Maurizio
+	 * @author Gaetano Antonucci
+	 * @author Maurizio Casciano
 	 */
 	private void initButtonPanel() {
 		this.applicaScontoButton = new JButton("Applica Sconto");
@@ -185,14 +194,16 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 				Stadio std = (Stadio) stadiCombo.getSelectedItem();
 
 				/*
-				 * Moltiplico il valore per 100 poichè il valore restituito è
+				 * Moltiplico il valore per 100 poiche' il valore restituito e'
 				 * compreso tra 0.01 e 1
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TIPO_SCONTO.TutteLePartiteDelloStadio, sconto, dataInizio, dataFine, std);
+				Sconto s = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, sconto, dataInizio, dataFine, std);
 
 				strutturaSportiva.addSconto(s);
+
+				System.out.println("SCONTI DOPO = " + strutturaSportiva.getSconti().size());
 				dispose();
 			}
 		});
@@ -235,11 +246,10 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	private JPanel buttonPanel;
 	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-	/*************************************/
 
 	public static void main(String[] args) {
 
-		Stadio s = new Stadio("Meazza", 10, 10);
+		Stadio s = new Stadio("Meazza", 20000, 10);
 		ArrayList<Stadio> stadi = new ArrayList<>();
 		stadi.add(s);
 		stadi.add(new Stadio("Olimpico", 60000, 30));

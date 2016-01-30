@@ -17,11 +17,33 @@ import javax.swing.JPanel;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.Settore;
+import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
+/**
+ * Classe che estende {@link JPanel} per permettere la rappresentazione di un
+ * {@link Settore} di uno {@link Stadio}.
+ * 
+ * @author Maurizio
+ */
 public class SettoreStadioPanel extends JPanel implements Serializable {
 
+	/**
+	 * Crea un nuovo pannello rappresentante un settore di uno {@link Stadio}.
+	 * 
+	 * @param strutturaSportiva
+	 *            La StrutturaSportiva di appartenenza dello Stadio.
+	 * @param cliente
+	 *            Il cliente che accede alla visualizzazione Stadio.
+	 * @param partita
+	 *            La partita che si svolge nello Stadio.
+	 * @param settore
+	 *            Il Settore da rappresentare.
+	 * @param stadiumMode
+	 *            La modalità con cui si vuole accedere allo Stadio.
+	 * @author Maurizio
+	 */
 	public SettoreStadioPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, Settore settore,
 			StadiumMode stadiumMode) {
 		super(new CardLayout());
@@ -34,9 +56,7 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 		this.settore = settore;
 		this.nomeSettore = this.settore.getNomeSettore();
 
-		// this.postiPerSettore = this.partita.getStadio().getPostiPerSettore();
 		this.numeroFilePerSettore = this.partita.getStadio().getNumeroFilePerSettore();
-		// this.postiPerFila = this.partita.getStadio().getPostiPerFila();
 
 		this.labelPanelCard = new JPanel(new BorderLayout());
 
@@ -50,7 +70,7 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 				}
 
 				super.paintComponent(g);
-				this.g = g;
+				this.labelGraphics = g;
 			}
 
 			private ComponentListener componentListener = new ComponentAdapter() {
@@ -63,43 +83,88 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 
 			};
 
+			/**
+			 * Adatta il font massimo della label affinchè il testo riempia la
+			 * larghezza della label.
+			 * 
+			 * @param label
+			 *            La label a cui si vuole adattare la dimensione del
+			 *            font.
+			 * @author Maurizio
+			 */
 			protected void adaptLabelFont(JLabel label) {
-				if (g == null) {
+				if (labelGraphics == null) {
 					return;
 				}
-				Rectangle r = label.getBounds();
+
+				/*
+				 * Le dimensioni della label.
+				 */
+				Rectangle labelRect = label.getBounds();
 				int MIN_FONT_SIZE = 10;
 				int fontSize = MIN_FONT_SIZE;
+
+				/*
+				 * Il font della label.
+				 */
 				Font oldFont = label.getFont();
 
-				Rectangle r1 = new Rectangle();
-				Rectangle r2 = new Rectangle();
+				Rectangle rect1 = new Rectangle();
+				Rectangle rect2 = new Rectangle();
 				int MAX_FONT_SIZE = 1000;
+
 				while (fontSize < MAX_FONT_SIZE) {
-					r1.setSize(getTextSize(label, oldFont.deriveFont(oldFont.getStyle(), fontSize)));
-					r2.setSize(getTextSize(label, oldFont.deriveFont(oldFont.getStyle(), fontSize + 1)));
-					if (r.contains(r1) && !r.contains(r2)) {
+					rect1.setSize(getTextSize(label, oldFont.deriveFont(oldFont.getStyle(), fontSize)));
+					rect2.setSize(getTextSize(label, oldFont.deriveFont(oldFont.getStyle(), fontSize + 1)));
+
+					/*
+					 * Quando si verifica questa condizione significa che
+					 * abbiamo trovato la dimensione massima del font affinchè
+					 * il testo riempia la larghezza della label.
+					 */
+					if (labelRect.contains(rect1) && !labelRect.contains(rect2)) {
 						break;
 					}
+
+					/*
+					 * Ad ogni ciclo incrementa la grandezza del font.
+					 */
 					fontSize++;
 				}
 
+				/*
+				 * Imposta il font della label con il vecchio font a cui si
+				 * applica la dimensione ottenuta.
+				 */
 				label.setFont(oldFont.deriveFont(oldFont.getStyle(), fontSize));
 				label.repaint();
 			}
 
-			private Dimension getTextSize(JLabel l, Font f) {
+			/**
+			 * Restituisce le dimensioni del testo della label passata in input
+			 * con il font passato in input.
+			 * 
+			 * @param label
+			 *            La label di cui si vogliono conoscere le dimensioni
+			 *            del testo.
+			 * @param font
+			 *            Il font utilizzato dalla label.
+			 * @return Le dimensioni del testo della label utilizzando il font
+			 *         passato in input.
+			 * @author Maurizio
+			 */
+			private Dimension getTextSize(JLabel label, Font font) {
 				Dimension size = new Dimension();
-				g.setFont(f);
-				FontMetrics fm = g.getFontMetrics(f);
-				size.width = fm.stringWidth(l.getText());
-				size.height = fm.getHeight();
+				labelGraphics.setFont(font);
+				FontMetrics fontMetrics = labelGraphics.getFontMetrics(font);
+				size.width = fontMetrics.stringWidth(label.getText());
+				size.height = fontMetrics.getHeight();
 
 				return size;
 			}
 
 			private static final long serialVersionUID = -6207535289854212799L;
-			private Graphics g;
+			private Graphics labelGraphics;
 		};
 
 		this.labelPanelCard.add(this.nameLabel, BorderLayout.CENTER);
@@ -137,10 +202,23 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 		((CardLayout) getLayout()).next(this);
 	}
 
+	/**
+	 * Restituisce l'oggetto {@link Settore} collegato a questa rappresentazione
+	 * grafica.
+	 * 
+	 * @return Il Settore collegato a questa rappresentazione grafica.
+	 * @author Maurizio
+	 */
 	public Settore getSettore() {
 		return this.settore;
 	}
 
+	/**
+	 * Restituisce il numero di posti di questo Settore.
+	 * 
+	 * @return Il numero di posti di questo Settore.
+	 * @author Maurizio
+	 */
 	public int getSeats() {
 		return postiPerSettore;
 	}

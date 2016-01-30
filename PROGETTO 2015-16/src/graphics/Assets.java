@@ -5,6 +5,11 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Classe ultilizzata per ottenere le immagini salvate nella ResourceFolder.
+ * 
+ * @author Maurizio
+ */
 public class Assets implements Serializable {
 
 	public static BufferedImage getSoccerPitch() {

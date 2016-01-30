@@ -21,14 +21,28 @@ import struttura.Settore;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
+/**
+ * Classe che estende {@link JButton}, utile per rappresentare graficamente il
+ * posto di uno Stadio.
+ * 
+ * @author Maurizio
+ */
 public class StadiumSeatButton extends JButton implements Serializable {
 
 	/**
+	 * Costruisce un nuovo StadiumSeatButton.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce acquisti/prenotazioni.
 	 * @param cliente
+	 *            Il cliente che accede alla visualizzazione dello stadio.
 	 * @param partita
+	 *            La partita da prenotare/acquistare.
 	 * @param posto
+	 *            Il posto da rappresentare graficamente.
+	 * @param stadiumMode
+	 *            La modalità di visualizzazione dello stadio in cui si trova il
+	 *            posto.
 	 * @author Maurizio
 	 */
 	public StadiumSeatButton(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, Posto posto,
@@ -126,12 +140,14 @@ public class StadiumSeatButton extends JButton implements Serializable {
 					break;
 				}
 
-				//System.out.println("Struttura: " + strutturaSportiva.getNome());
-				//System.out.println("Cliente: " + cliente.getNome());
-				//System.out.println("Partita: " + partita);
-				//System.out.println("NumeroFila: " + numeroFila);
-				//System.out.println("NumeroPosto: " + numeroPosto);
-				//System.out.println(cliente.getNome() + " CLICKED SEAT n° " + getToolTipText());
+				// System.out.println("Struttura: " +
+				// strutturaSportiva.getNome());
+				// System.out.println("Cliente: " + cliente.getNome());
+				// System.out.println("Partita: " + partita);
+				// System.out.println("NumeroFila: " + numeroFila);
+				// System.out.println("NumeroPosto: " + numeroPosto);
+				// System.out.println(cliente.getNome() + " CLICKED SEAT n° " +
+				// getToolTipText());
 			}
 		});
 	}
@@ -149,10 +165,22 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Restituisce il cliente che deve prenotare/acquistare un biglietto.
+	 * 
+	 * @return Il cliente che deve prenotare/acquistare un biglietto.
+	 * @author Maurizio
+	 */
 	public Cliente getCliente() {
 		return this.cliente;
 	}
 
+	/**
+	 * Restituisce la partita da prenotare/acquistare.
+	 * 
+	 * @return La partita da prenotare/acquistare.
+	 * @author Maurizio
+	 */
 	public Partita getPartita() {
 		return this.partita;
 	}
@@ -175,10 +203,25 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		return numeroPosto;
 	}
 
+	/**
+	 * Restituisce la strutturaSportiva che gestisce le prenotazioni e gli
+	 * acquisti.
+	 * 
+	 * @return La strutturaSportiva che gestisce le prenotazioni e gli acquisti.
+	 * @author Maurizio
+	 */
 	public StrutturaSportiva getStrutturaSportiva() {
 		return this.strutturaSportiva;
 	}
 
+	/**
+	 * Restituisce la modalità di accesso con cui si chiede di visualizzare il
+	 * posto.
+	 * 
+	 * @return La modalità di accesso con cui si chiede di visualizzare il
+	 *         posto.
+	 * @author Maurizio
+	 */
 	public StadiumMode getStadiumMode() {
 		return stadiumMode;
 	}

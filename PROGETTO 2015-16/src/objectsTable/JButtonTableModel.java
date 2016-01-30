@@ -11,7 +11,7 @@ public class JButtonTableModel extends RowObjectTableModel<JButton> implements S
 	private static final String[] COLUMN_NAMES = { "Text", "Tool Tip Text", "Enabled", "Visible" };
 
 	public JButtonTableModel() {
-		super(COLUMN_NAMES, JButton.class);
+		super(COLUMN_NAMES);
 
 		setColumnClass(2, Boolean.class);
 		setColumnClass(3, Boolean.class);

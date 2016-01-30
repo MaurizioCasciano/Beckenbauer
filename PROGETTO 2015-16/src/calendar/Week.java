@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Week implements Serializable{
+/**
+ * Classe che rappresenta un oggetto Week. Un oggetto week è dotato di una data
+ * indicante l'inizio e una data indicante la fine della settimana.
+ * 
+ * @author Maurizio
+ */
+public class Week implements Serializable {
 
 	/**
 	 * Crea un oggetto Week rappresentante una settimana.

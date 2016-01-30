@@ -28,6 +28,12 @@ import javax.swing.text.DefaultFormatterFactory;
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.calendar.SingleDaySelectionModel;
 
+/**
+ * Classe che estende {@link JXDatePicker} per consentire di selezionare anche
+ * l'orario insieme alla data.
+ * 
+ * @author Maurizio
+ */
 public class DateTimePicker extends JXDatePicker implements Serializable {
 
 	/**
