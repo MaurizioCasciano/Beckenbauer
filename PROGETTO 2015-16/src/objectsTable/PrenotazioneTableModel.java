@@ -102,4 +102,10 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 		}
 	}
 
+
+	@Override
+	public void replaceData(ArrayList<Prenotazione> modelData) {
+		super.replaceData(modelData);
+	}
+
 }

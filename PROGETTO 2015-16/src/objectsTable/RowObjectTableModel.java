@@ -71,7 +71,17 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 		this.columnNames = columnNames;
 		this.columnClasses = new Class[getColumnCount()];
 		this.isColumnEditable = new Boolean[getColumnCount()];
-		super.fireTableStructureChanged();
+		fireTableStructureChanged();
+	}
+
+	/**
+	 * Sostituisce i dati visualizzati nella tabella con i nuovi dati.
+	 * @param modelData
+	 * @author Maurizio
+	 */
+	protected void replaceData(ArrayList<T> modelData) {
+		this.tableObjects = modelData;
+		fireTableDataChanged();
 	}
 
 	/**

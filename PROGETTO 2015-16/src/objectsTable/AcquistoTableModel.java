@@ -3,7 +3,6 @@ package objectsTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
 import struttura.Acquisto;
 import struttura.Partita;
 import struttura.Posto;
@@ -15,7 +14,7 @@ import user.Cliente;
  * 
  * @author Maurizio
  */
-public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements Serializable {
+public class AcquistoTableModel extends RowObjectTableModel<Acquisto> implements Serializable {
 
 	private static final long serialVersionUID = 1934337865637284431L;
 	private static final String[] COLUMN_NAMES = { "Cliente", "Partita", "Data Partita", "Stadio", "Settore", "Posto",
@@ -97,5 +96,10 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto>implements 
 		default:
 			return null;
 		}
+	}
+
+	@Override
+	public void replaceData(ArrayList<Acquisto> modelData) {
+		super.replaceData(modelData);
 	}
 }

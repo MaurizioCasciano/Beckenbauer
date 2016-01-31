@@ -16,10 +16,15 @@ public class Partita implements Serializable {
 	/**
 	 * Costruisce un oggetto Partita in base ai parametri impostati
 	 * 
-	 * @param squadraInCasa - la {@link Squadra} che gioca in Casa
-	 * @param squadraInTrasferta - la {@link Squadra} che gioca in Trasferta
-	 * @param stadio - lo {@link Stadio} in cui sara' giocata la partita
-	 * @param data - la data ({@link GregorianCalendar}) in cui sara' disputata la partita
+	 * @param squadraInCasa
+	 *            - la {@link Squadra} che gioca in Casa
+	 * @param squadraInTrasferta
+	 *            - la {@link Squadra} che gioca in Trasferta
+	 * @param stadio
+	 *            - lo {@link Stadio} in cui sara' giocata la partita
+	 * @param data
+	 *            - la data ({@link GregorianCalendar}) in cui sara' disputata
+	 *            la partita
 	 * 
 	 * @author Maurizio Casciano
 	 */
@@ -53,7 +58,8 @@ public class Partita implements Serializable {
 	/**
 	 * Restituisce i settori dello stadio per questa partita.
 	 *
-	 * @return ArrayList<Settore> contente i settori dello stadio per questa partita
+	 * @return ArrayList<Settore> contente i settori dello stadio per questa
+	 *         partita
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Settore> getSettori() {
@@ -61,22 +67,22 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Ripristina lo stato del posto della prenotazione passata in input a
-	 * {@link SeatStatus#LIBERO}.
+	 * Imposta lo stato del posto della prenotazione passata in input al nuovo stato a scelta tra
+	 * {@link SeatStatus#LIBERO}, {@link SeatStatus#PRENOTATO}, {@link SeatStatus#VENDUTO}.
 	 * 
-	 * @param prenotazioneEliminata
+	 * @param prenotazione
 	 *            La prenotazione eliminata o scaduta.
 	 * @author Maurizio Casciano
 	 */
-	public void resetSeatStatus(Prenotazione prenotazioneEliminata) {
-		Posto posto = prenotazioneEliminata.getPosto();
+	public void resetSeatStatus(Prenotazione prenotazione, SeatStatus newSeatStaus) {
+		Posto posto = prenotazione.getPosto();
 		Settore settore = posto.getSettore();
 
 		for (Settore s : this.settori) {
 			if (s.equals(settore)) {
 				for (Posto p : s.getPosti()) {
 					if (p.equals(posto)) {
-						p.setStato(SeatStatus.LIBERO);
+						p.setStato(newSeatStaus);
 						break;
 					}
 				}
@@ -140,9 +146,11 @@ public class Partita implements Serializable {
 	/**
 	 * Imposta lo stadio in cui sara' disputata la partita.
 	 * 
-	 * @warning ATTENZIONE: le prenotazioni e gli acquisti presenti andranno persi.
+	 * @warning ATTENZIONE: le prenotazioni e gli acquisti presenti andranno
+	 *          persi.
 	 * 
-	 * @param stadio - Lo stadio in cui sara' disputata la partita.
+	 * @param stadio
+	 *            - Lo stadio in cui sara' disputata la partita.
 	 * @author Maurizio Casciano
 	 */
 	public void setStadio(Stadio stadio) {
@@ -153,9 +161,11 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data ({@link GregorianCalendar}) in cui sara' disputata la partita.
+	 * Restituisce la data ({@link GregorianCalendar}) in cui sara' disputata la
+	 * partita.
 	 * 
-	 * @return La data ({@link GregorianCalendar}) in cui sara' disputata la partita.
+	 * @return La data ({@link GregorianCalendar}) in cui sara' disputata la
+	 *         partita.
 	 * @author Maurizio Casciano
 	 */
 	public GregorianCalendar getData() {
@@ -163,9 +173,12 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * Imposta la data ({@link GregorianCalendar}) in cui sara' disputata la partita.
+	 * Imposta la data ({@link GregorianCalendar}) in cui sara' disputata la
+	 * partita.
 	 * 
-	 * @param data - La data ({@link GregorianCalendar}) in cui sara' disputata la partita.
+	 * @param data
+	 *            - La data ({@link GregorianCalendar}) in cui sara' disputata
+	 *            la partita.
 	 * @author Maurizio Casciano
 	 */
 	public void setData(GregorianCalendar data) {
@@ -174,6 +187,7 @@ public class Partita implements Serializable {
 
 	/**
 	 * Restituisce le informazioni della partita
+	 * 
 	 * @author Maurizio Casciano
 	 */
 	@Override
@@ -183,22 +197,23 @@ public class Partita implements Serializable {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
-	 * Restituisce i posti dello stadio per la partita corrente
+	 * <<<<<<< HEAD ======= Restituisce i posti dello stadio per la partita
+	 * corrente
 	 * 
 	 * @return ArrayList<Posto> con i posti dello stadio
 	 */
-	//public ArrayList<Posto> getPosti() {
-		//return posti;
-	//}
+	// public ArrayList<Posto> getPosti() {
+	// return posti;
+	// }
 
 	/**
->>>>>>> refs/remotes/origin/GaetanoTesting
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * >>>>>>> refs/remotes/origin/GaetanoTesting Verifica se l'oggetto corrente
+	 * è uguale all'oggetto passato come parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
 	@Override
