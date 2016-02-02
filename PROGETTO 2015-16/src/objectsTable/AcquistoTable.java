@@ -75,10 +75,6 @@ public class AcquistoTable extends JTable implements Serializable {
 		int viewIndex = this.getSelectedRow();
 		// System.out.println("viewIndex = " + viewIndex);
 
-		if (viewIndex == -1) {
-			viewIndex = 0;
-		}
-
 		// (INDISPENSABILE PER POTER UTILIZZARE SORTING e FILTERING)
 		int modelIndex = this.convertRowIndexToModel(viewIndex);
 		// System.out.println("modelIndex =" + modelIndex);

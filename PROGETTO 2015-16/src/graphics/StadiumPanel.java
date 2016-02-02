@@ -239,7 +239,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	}
 
 	private void initCentreCentrePanel() {
-		this.centreCentrePanel = new BackgroundImagePanel(Assets.getSoccerPitch());
+		this.centreCentrePanel = new SoccerFieldPanel();
 	}
 
 	private void initCentreRightPanel() {

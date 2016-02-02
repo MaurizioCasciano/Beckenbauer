@@ -62,6 +62,10 @@ public class PartitaTable extends JTable implements Serializable {
 		this.setCellRenderers();
 		this.setCellEditors();
 
+		/*
+		 * If the column class implements Comparable, use a Comparator that
+		 * invokes the compareTo method.
+		 */
 		final TableRowSorter<PartitaTableModel> sorter = new TableRowSorter<PartitaTableModel>(
 				(PartitaTableModel) getModel());
 		this.setRowSorter(sorter);
@@ -82,11 +86,6 @@ public class PartitaTable extends JTable implements Serializable {
 	private void setCellEditors() {
 		this.setDefaultEditor(Squadra.class, new SquadraCellEditor());
 		this.setDefaultEditor(Stadio.class, new StadioCellEditor(this.strutturaSportiva));
-		// this.setDefaultEditor(GregorianCalendar.class, new
-		// GregorianCalendarCellEditor());
-		// this.setDefaultEditor(GregorianCalendar.class, new
-		// GregorianCalendarDatePickerCellEditor());
-		// this.setDefaultEditor(Integer.class, new CapienzaStadioCellEditor());
 		this.setDefaultEditor(GregorianCalendar.class, new GregorianCalendarDateTimePickerCellEditor());
 	}
 
@@ -101,8 +100,6 @@ public class PartitaTable extends JTable implements Serializable {
 		 * In particolare, durante l'editing, avranno lo stesso colore di
 		 * background e lo stesso bordo.
 		 */
-
-		// System.out.println(this);
 
 		if (c instanceof JXDatePicker) {
 			((JXDatePicker) c).getEditor().setBackground(Color.WHITE);
@@ -131,11 +128,6 @@ public class PartitaTable extends JTable implements Serializable {
 		// l'indice della riga selezionata nella parte visiva
 		int viewIndex = this.getSelectedRow();
 		// System.out.println("viewIndex = " + viewIndex);
-
-		// NON SI VERIFICA MAI PERCHé C'è il rightclickselector
-		if (viewIndex == -1) {
-			viewIndex = 0;
-		}
 
 		// (INDISPENSABILE PER POTER UTILIZZARE SORTING e FILTERING)
 		int modelIndex = this.convertRowIndexToModel(viewIndex);

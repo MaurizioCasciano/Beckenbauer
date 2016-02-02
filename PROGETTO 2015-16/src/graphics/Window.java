@@ -1011,13 +1011,13 @@ public class Window extends JFrame implements Serializable {
 		 */
 		@Override
 		public void windowOpened(WindowEvent windowevent) {
-			System.out.println("Opened OPENED OPENED " + new GregorianCalendar().getTime());
+			System.out.println("OPENED " + new GregorianCalendar().getTime());
 
 			new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws Exception {
 
-					TimerTask timerTask = new TimerTask() {
+					final TimerTask timerTask = new TimerTask() {
 						@Override
 						public void run() {
 							strutturaSportiva.cancellaPrenotazioniScadute();
@@ -1026,11 +1026,10 @@ public class Window extends JFrame implements Serializable {
 					};
 
 					Timer timer = new Timer();
-					int MINUTI = 1;
+					final int MINUTI = 1;
 					timer.schedule(timerTask, 1000 * 60 * MINUTI, 1000 * 60 * MINUTI);
 					return null;
 				}
-
 			}.execute();
 		}
 
@@ -1253,15 +1252,12 @@ public class Window extends JFrame implements Serializable {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
-						Partita partita = partitaTable.getSelectedPartita();
-
-						Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
-
-						// METODO REMOVE PRENOTAZIONI/ACQUISTI
-
 						int viewIndex = partitaTable.getSelectedRow();
 
 						if (viewIndex != -1) {
+							Partita partita = partitaTable.getSelectedPartita();
+							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
+
 							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
 						}
@@ -1300,23 +1296,23 @@ public class Window extends JFrame implements Serializable {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
-					Partita partitaPrenotata = prenotazione.getPartita();
-					partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.VENDUTO);
-
 					int viewIndex = prenotazioniTable.getSelectedRow();
 
 					if (viewIndex != -1) {
+						Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
+						Partita partitaPrenotata = prenotazione.getPartita();
+						partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.VENDUTO);
+
 						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 						((PrenotazioneTableModel) prenotazioniTable.getModel()).removePrenotazione(modelIndex);
+
+						Window.this.strutturaSportiva.addAcquisto(new Acquisto(prenotazione, strutturaSportiva));
+						prenotazione.getPosto().setStato(SeatStatus.VENDUTO);
+
+						JOptionPane.showMessageDialog(Window.this.partitaTable,
+								"Complimenti, la prenotazione per questa partita e' stata completata con successo.",
+								"Prenotazione completata.", JOptionPane.INFORMATION_MESSAGE);
 					}
-
-					Window.this.strutturaSportiva.addAcquisto(new Acquisto(prenotazione, strutturaSportiva));
-					prenotazione.getPosto().setStato(SeatStatus.VENDUTO);
-
-					JOptionPane.showMessageDialog(Window.this.partitaTable,
-							"Complimenti, la prenotazione per questa partita e' stata completata con successo.",
-							"Prenotazione completata.", JOptionPane.INFORMATION_MESSAGE);
 				}
 			});
 
@@ -1327,18 +1323,17 @@ public class Window extends JFrame implements Serializable {
 
 				@Override
 				public void actionPerformed(ActionEvent actionevent) {
-					Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
-					Partita partitaPrenotata = prenotazione.getPartita();
-					partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.LIBERO);
-
 					int viewIndex = prenotazioniTable.getSelectedRow();
 
 					if (viewIndex != -1) {
+						Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
+						Partita partitaPrenotata = prenotazione.getPartita();
+						partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.LIBERO);
+
 						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 						((PrenotazioneTableModel) prenotazioniTable.getModel()).removePrenotazione(modelIndex);
+						Window.this.strutturaSportiva.cancellaPrenotazione(prenotazione);
 					}
-
-					Window.this.strutturaSportiva.cancellaPrenotazione(prenotazione);
 				}
 			});
 
