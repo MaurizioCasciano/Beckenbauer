@@ -73,13 +73,13 @@ public class IdentificationPanel extends JPanel implements Serializable {
 	 */
 	private void initializeLoginPasswordField() {
 		this.loginPasswordField = new JPasswordField(7);
+		// An ActionEvent is dispatched by the JTextField when enter is pressed.
+		this.loginPasswordField.setAction(new LoginAction());
 		this.loginPasswordField.setForeground(Color.BLACK);
 		this.loginPasswordField.setToolTipText("Password");
 		this.loginPasswordField.setCaretColor(Color.BLUE);
 		this.loginPasswordField.setBorder(BorderFactory.createEmptyBorder());
 		this.loginPasswordField.addMouseListener(new ShowHidePasswordListener());
-		// An ActionEvent is dispatched by the JTextField when enter is pressed.
-		this.loginPasswordField.setAction(new LoginAction());
 	}
 
 	/**

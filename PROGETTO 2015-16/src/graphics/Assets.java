@@ -12,6 +12,11 @@ import javax.swing.ImageIcon;
  */
 public class Assets implements Serializable {
 
+	/**
+	 * Restituisce l'immagine del campo dello stadio.
+	 * @return
+	 * @author Maurizio
+	 */
 	public static BufferedImage getSoccerPitch() {
 		if (Assets.soccerPitch == null) {
 			Assets.soccerPitch = ImageLoader.loadImage("footballpitch.png");
@@ -76,26 +81,8 @@ public class Assets implements Serializable {
 		return Assets.registerIcon;
 	}
 
-	public static ImageIcon getBlueSeat() {
-		if (Assets.blueSeat == null) {
-			Assets.blueSeat = new ImageIcon(ImageLoader.loadImage("Blue-Seat-icon.png"));
-		}
-
-		return Assets.blueSeat;
-	}
-
-	public static ImageIcon getBlueSeatRollover() {
-		if (blueSeatRollover == null) {
-			blueSeatRollover = new ImageIcon(ImageLoader.loadImage("Blue-Seat-icon-Rollover.png"));
-		}
-
-		return Assets.blueSeatRollover;
-	}
-
 	private static final long serialVersionUID = -6046582922518387221L;
 	public static BufferedImage greenField, ballSchoes, cubeWallpaper, loginBackground, lava, cubes, stadium,
 			stadiumMap, soccerPitch;
 	public static ImageIcon managerIcon, customerIcon, login, registerIcon;
-
-	public static ImageIcon blueSeat, blueSeatRollover;
 }
