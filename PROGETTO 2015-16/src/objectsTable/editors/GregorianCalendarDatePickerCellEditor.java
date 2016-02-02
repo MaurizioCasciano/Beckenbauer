@@ -6,13 +6,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.GregorianCalendar;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-
 import org.jdesktop.swingx.JXDatePicker;
 
+/**
+ * Classe che estende {@link AbstractCellEditor}, usatata per rappresentare
+ * un'oggetto {@link GregorianCalendar} in una {@link JTable} tramite un
+ * {@link JXDatePicker}.
+ * 
+ * @author Maurizio
+ */
 public class GregorianCalendarDatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public GregorianCalendarDatePickerCellEditor() {

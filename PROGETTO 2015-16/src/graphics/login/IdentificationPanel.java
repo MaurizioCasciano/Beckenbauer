@@ -38,6 +38,12 @@ import user.Cliente;
 import user.UserNotFoundException;
 import user.Utente;
 
+/**
+ * Classe che estende {@link JPanel}, usata per gestire la registrazione e il
+ * login di un {@link Utente} ad una {@link StrutturaSportiva}.
+ * 
+ * @author Maurizio
+ */
 public class IdentificationPanel extends JPanel implements Serializable {
 
 	public IdentificationPanel(Window myWindow, BufferedImage bufferedImage, StrutturaSportiva strutturaSportiva) {

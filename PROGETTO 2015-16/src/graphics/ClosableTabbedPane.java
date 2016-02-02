@@ -20,7 +20,7 @@ import javax.swing.JTabbedPane;
  * 
  * @author Maurizio
  */
-public class ClosableTabbedPane extends JTabbedPane implements Serializable{
+public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 
 	/**
 	 * Crea un {@link JTabbedPane} vuoto con un posizionamento delle tab di
@@ -67,7 +67,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable{
 	public ClosableTabbedPane(int tabPlacement, int tabLayoutPolicy) {
 		super(tabPlacement, tabLayoutPolicy);
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -142,7 +142,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable{
 		 * @author Maurizio
 		 */
 		private void controlCursor() {
-			if (this.tabbedPane.getTabCount() > 0)
+			if (this.tabbedPane.getTabCount() > 0) {
 				if (this.isCloseXRectUnderMouse(mouseEventX, mouseEventY)) {
 					this.tabbedPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					if (selectedTab > -1) {
@@ -154,6 +154,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable{
 						this.tabbedPane.setToolTipTextAt(selectedTab, tabbedPane.getTabTitleAt(selectedTab));
 					}
 				}
+			}
 		}
 
 		/**
@@ -322,10 +323,8 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable{
 					return true;
 				}
 			}
-
 			return false;
 		}
-
 	}
 
 	/**

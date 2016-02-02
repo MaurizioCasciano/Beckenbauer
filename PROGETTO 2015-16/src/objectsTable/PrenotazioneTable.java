@@ -38,6 +38,12 @@ import struttura.filters.PurchaseByStadiumFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 
+/**
+ * Classe che estende {@link JTable}, usata per permettere la visualizzazione di
+ * una lista di {@link Prenotazione}.
+ * 
+ * @author Maurizio
+ */
 public class PrenotazioneTable extends JTable implements Serializable {
 
 	public PrenotazioneTable() {
@@ -212,7 +218,8 @@ public class PrenotazioneTable extends JTable implements Serializable {
 
 		System.out.println("\nPrenotazioni Presenti: " + struct.getPrenotazioni().size() + " [Expected: 5]");
 		/**** Verifica Filtri Prenotazioni ****/
-		ArrayList<Prenotazione> perRomaJuventus = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(romaJuventus));
+		ArrayList<Prenotazione> perRomaJuventus = struct
+				.getPrenotazioniFiltrate(new PrenotationByMatchFilter(romaJuventus));
 
 		System.out.println("\nPrenotazioni Partita : " + romaJuventus);
 		for (Prenotazione pren : perRomaJuventus) {
@@ -225,7 +232,8 @@ public class PrenotazioneTable extends JTable implements Serializable {
 		System.out.println("END");
 
 		System.out.println("\nPrenotazioni Partita : " + juventusRoma);
-		ArrayList<Prenotazione> perJuventusRoma = struct.getPrenotazioniFiltrate(new PrenotationByMatchFilter(juventusRoma));
+		ArrayList<Prenotazione> perJuventusRoma = struct
+				.getPrenotazioniFiltrate(new PrenotationByMatchFilter(juventusRoma));
 
 		for (Prenotazione pren : perJuventusRoma) {
 			System.out.println(pren);
@@ -465,8 +473,9 @@ public class PrenotazioneTable extends JTable implements Serializable {
 				+ struct.calcolaIncasso(struct.getAcquisti()) + " [Exp: 100.30]");
 
 		System.out.println("\n Incasso per stadio: " + olimpico);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico)))
-				+ " [Exp: 34.00]");
+		System.out
+				.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico)))
+						+ " [Exp: 34.00]");
 
 		System.out.println("\n Incasso per stadio: " + sanSiro);
 		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro)))

@@ -9,7 +9,13 @@ import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
-public class PartitaTableModel extends RowObjectTableModel<Partita>implements Serializable {
+/**
+ * Classe che estende {@link RowObjectTableModel}, usata per permettere di
+ * gestire una lista di {@link Partita} all'interno di una {@link JTable.}
+ * 
+ * @author Maurizio
+ */
+public class PartitaTableModel extends RowObjectTableModel<Partita> implements Serializable {
 
 	private static final long serialVersionUID = 6082073225853493069L;
 	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Capienza Stadio", "Data" };

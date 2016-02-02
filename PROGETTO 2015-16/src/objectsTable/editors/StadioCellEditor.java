@@ -7,10 +7,18 @@ import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 
+/**
+ * Classe che estende {@link AbstractCellEditor}, usatata per rappresentare
+ * un'oggetto {@link Stadio} in una {@link JTable} tramite una
+ * {@link JTextField}.
+ * 
+ * @author Maurizio
+ */
 public class StadioCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public StadioCellEditor(StrutturaSportiva strutturaSportiva) {

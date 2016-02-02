@@ -172,19 +172,6 @@ public class SettoreStadioPanel extends JPanel implements Serializable {
 		// Pannello dei posti
 		this.seatsPanelCard = new JPanel(new GridLayout(this.numeroFilePerSettore, 0, 3, 3));
 
-		/*
-		 * int numeroFila = 0;
-		 * 
-		 * for (int numeroPosto = 1; numeroPosto <= this.postiPerSettore;
-		 * numeroPosto++) {
-		 * 
-		 * if (numeroPosto % this.postiPerFila == 1) { numeroFila++; }
-		 * 
-		 * this.seatsPanelCard.add(new StadiumSeatButton(this.strutturaSportiva,
-		 * this.cliente, this.partita, numeroFila, numeroPosto, Color.GREEN,
-		 * StadiumMode.PRENOTAZIONE)); }
-		 */
-
 		for (Posto p : this.settore.getPosti()) {
 			this.seatsPanelCard.add(
 					new StadiumSeatButton(this.strutturaSportiva, this.cliente, this.partita, p, this.stadiumMode));

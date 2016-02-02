@@ -1,6 +1,3 @@
-/**
- * 
- */
 package objectsTable;
 
 import java.io.Serializable;
@@ -15,20 +12,17 @@ import struttura.Stadio;
 import user.Cliente;
 
 /**
+ * Classe che estende {@link RowObjectTableModel}, usata per permettere la
+ * gestione di una lista di {@link Prenotazione} in una {@link JTable}.
  * 
  * @author Maurizio
  */
-public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>implements Serializable {
+public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione> implements Serializable {
 
 	private static final long serialVersionUID = 2064556786482215828L;
 	private static final String[] COLUMN_NAMES = { "Cliente", "Partita", "Data Partita", "Stadio", "Settore", "Posto",
 			"Data Prenotazione", "Prezzo" };
 
-	/**
-	 * @param columnNames
-	 * @param rowClass
-	 * @author Maurizio
-	 */
 	protected PrenotazioneTableModel() {
 		super(COLUMN_NAMES);
 
@@ -101,7 +95,6 @@ public class PrenotazioneTableModel extends RowObjectTableModel<Prenotazione>imp
 			return null;
 		}
 	}
-
 
 	@Override
 	public void replaceData(ArrayList<Prenotazione> modelData) {

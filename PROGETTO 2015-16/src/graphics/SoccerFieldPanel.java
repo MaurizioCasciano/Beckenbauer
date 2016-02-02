@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.swing.JPanel;
 
 /**
+ * Classe che disegna il campo da calcio dello stadio.
  * 
  * @author Maurizio
  */
@@ -26,17 +27,17 @@ public class SoccerFieldPanel extends JPanel implements Serializable {
 		// disegna il background
 		super.paintComponent(g);
 		// la distanza da mantenere dai bordi di questo JPanel.
-		double distance = 10;
+		double distanza = 10;
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.WHITE);
 		g2.setStroke(new BasicStroke(2));
 
-		Rectangle2D.Double campo = new Rectangle2D.Double(distance, distance, getWidth() - 2 * distance,
-				getHeight() - 2 * distance);
+		Rectangle2D.Double campo = new Rectangle2D.Double(distanza, distanza, getWidth() - 2 * distanza,
+				getHeight() - 2 * distanza);
 
 		Line2D.Double lineaCentroCampo = new Line2D.Double(campo.getWidth() / 2, campo.getY(), campo.getWidth() / 2,
-				campo.getHeight() + distance);
+				campo.getHeight() + distanza);
 
 		double diametroCerchioCentroCampo = campo.getHeight() / 6;
 		double xCerchio = (campo.getWidth() - diametroCerchioCentroCampo) / 2;
@@ -67,10 +68,10 @@ public class SoccerFieldPanel extends JPanel implements Serializable {
 		Rectangle2D.Double smallArea1 = new Rectangle2D.Double(campo.getX(), (campo.getHeight() - altezzaSmallArea) / 2,
 				larghezzaSmallArea, altezzaSmallArea);
 
-		Rectangle2D.Double area2 = new Rectangle2D.Double(campo.getWidth() - larghezzaArea + distance,
+		Rectangle2D.Double area2 = new Rectangle2D.Double(campo.getWidth() - larghezzaArea + distanza,
 				(campo.getHeight() - altezzaArea) / 2, larghezzaArea, altezzaArea);
 
-		Rectangle2D.Double smallArea2 = new Rectangle2D.Double(campo.getWidth() - larghezzaSmallArea + distance,
+		Rectangle2D.Double smallArea2 = new Rectangle2D.Double(campo.getWidth() - larghezzaSmallArea + distanza,
 				(campo.getHeight() - altezzaSmallArea) / 2, larghezzaSmallArea, altezzaSmallArea);
 
 		g2.draw(campo);

@@ -9,9 +9,17 @@ import javax.swing.JFrame;
 
 import struttura.StrutturaSportiva;
 
+/**
+ * Classe che estende {@link JFrame} usata per la visualizzazione degli incassi
+ * di una StrutturaSportiva.
+ * 
+ * @author Maurizio
+ */
 public class VisualizzaIncassoFrame extends JFrame implements Serializable {
 
 	/**
+	 * Crea un nuovo frame per la visualizzazione degli incassi di una
+	 * StrutturaSportiva.
 	 * 
 	 * @param strutturaSportiva
 	 *            La struttura di cui si vogliono conoscere gli incassi.

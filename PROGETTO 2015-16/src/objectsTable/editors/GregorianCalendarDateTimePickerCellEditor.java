@@ -11,6 +11,13 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import calendar.DateTimePicker;
 
+/**
+ * Classe che estende {@link AbstractCellEditor}, usatata per rappresentare
+ * un'oggetto {@link GregorianCalendar} in una {@link JTable} tramite un
+ * {@link DateTimePicker}.
+ * 
+ * @author Maurizio
+ */
 public class GregorianCalendarDateTimePickerCellEditor extends AbstractCellEditor
 		implements TableCellEditor, Serializable {
 

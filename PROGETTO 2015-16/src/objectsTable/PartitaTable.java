@@ -33,6 +33,12 @@ import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 
+/**
+ * Classe che estende {@link JTable}, usata per permettere la visualizzazione di
+ * una lista di {@link Partita}.
+ * 
+ * @author Maurizio
+ */
 public class PartitaTable extends JTable implements Serializable {
 
 	public PartitaTable(Mode mode, StrutturaSportiva strutturaSportiva) {

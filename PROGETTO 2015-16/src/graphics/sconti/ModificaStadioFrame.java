@@ -82,8 +82,8 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
 		/*
-		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata l'eccezione
-		 * IllegalArgumentException.
+		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata
+		 * l'eccezione IllegalArgumentException.
 		 */
 		this.stadiCombo.setSelectedIndex(0);
 
@@ -129,7 +129,8 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare il prezzo per partita dello Stadio
+	 * Inizializza il pannello per selezionare il prezzo per partita dello
+	 * Stadio
 	 * 
 	 * @author Maurizio Casciano
 	 */
@@ -190,21 +191,17 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
 	private static final long serialVersionUID = 7236146811425602651L;
 	private ArrayList<Stadio> stadi;
 	private JLabel stadioLabel;
 	private JComboBox<Stadio> stadiCombo;
 	private JPanel stadiComboPanel;
-	/***************************************/
 	private JLabel capienzaLabel;
 	private JSpinner capienzaSpinner;
 	private JPanel capienzaPanel;
-	/*************************************/
 	private JLabel prezzoLabel;
 	private JSpinner prezzoSpinner;
 	private JPanel prezzoPartitaPanel;
-	/*************************************/
 	private JButton applicaModificheButton, annullaButton;
 	private JPanel buttonPanel;
 

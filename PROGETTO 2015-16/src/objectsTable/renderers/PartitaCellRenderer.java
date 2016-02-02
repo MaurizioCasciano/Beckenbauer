@@ -2,15 +2,17 @@ package objectsTable.renderers;
 
 import java.awt.Component;
 import java.io.Serializable;
-
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import objectsTable.utilities.ObjectTextField;
 import struttura.Partita;
 /**
+ * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
+ * un oggetto {@link Partita} in una {@link JTable} tramite un
+ * {@link JTextField}.
  * 
  * @author Maurizio
  */

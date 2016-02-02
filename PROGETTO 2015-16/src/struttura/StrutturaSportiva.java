@@ -20,7 +20,7 @@ import user.UserNotFoundException;
 import user.Utente;
 
 /**
- * Classe Principale che modella l'intera Struttura Sportiva
+ * Classe principale che modella l'intera Struttura Sportiva
  * 
  * @author Maurizio Casciano
  * @author Gaetano Antonucci

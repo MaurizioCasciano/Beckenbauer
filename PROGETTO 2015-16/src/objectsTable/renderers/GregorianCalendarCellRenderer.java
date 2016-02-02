@@ -4,15 +4,20 @@ import java.awt.Component;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import objectsTable.utilities.ObjectTextField;
 import struttura.Partita;
-
+/**
+ * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
+ * un oggetto {@link GregorianCalendar} in una {@link JTable} tramite una
+ * {@link JTextField}.
+ * 
+ * @author Maurizio
+ */
 public class GregorianCalendarCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer, Serializable {
 
 	public GregorianCalendarCellRenderer() {

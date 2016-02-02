@@ -223,28 +223,22 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
 	private static final long serialVersionUID = 260663801632901839L;
 	private ArrayList<Stadio> stadi;
 	private JLabel stadioLabel;
 	private JComboBox<Stadio> stadiCombo;
 	private JPanel stadiComboPanel;
-	/***************************************/
 	private JLabel inizioLabel;
 	private DateTimePicker inizioPicker;
 	private JPanel dataInizioPanel;
-	/**************************************/
 	private JLabel fineLabel;
 	private DateTimePicker finePicker;
 	private JPanel dataFinePanel;
-	/*************************************/
 	private JLabel percentualeScontoLabel;
 	private JSpinner percetualeScontoSpinner;
 	private JPanel percentualeScontoPanel;
-	/*************************************/
 	private JButton applicaScontoButton, annullaButton;
 	private JPanel buttonPanel;
-	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
 
 	public static void main(String[] args) {

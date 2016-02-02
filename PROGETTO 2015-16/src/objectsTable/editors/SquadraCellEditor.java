@@ -4,14 +4,19 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.EventObject;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
-
 import objectsTable.utilities.ObjectTextField;
 import struttura.Squadra;
-
+/**
+ * Classe che estende {@link AbstractCellEditor}, usatata per rappresentare
+ * un'oggetto {@link Squadra} in una {@link JTable} tramite una
+ * {@link JTextField}.
+ * 
+ * @author Maurizio
+ */
 public class SquadraCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public SquadraCellEditor() {

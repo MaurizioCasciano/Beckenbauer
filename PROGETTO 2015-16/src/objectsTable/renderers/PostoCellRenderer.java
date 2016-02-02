@@ -4,11 +4,18 @@ import java.awt.Component;
 import java.io.Serializable;
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import objectsTable.utilities.ObjectTextField;
 import struttura.Posto;
-
+/**
+ * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
+ * un oggetto {@link Posto} in una {@link JTable} tramite un
+ * {@link JTextField}.
+ * 
+ * @author Maurizio
+ */
 public class PostoCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer, Serializable {
 
 	public PostoCellRenderer() {

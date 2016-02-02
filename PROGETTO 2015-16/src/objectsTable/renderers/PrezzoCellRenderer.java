@@ -1,6 +1,3 @@
-/**
- * 
- */
 package objectsTable.renderers;
 
 import java.awt.Component;
@@ -9,10 +6,16 @@ import java.text.NumberFormat;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import struttura.Partita;
+
 /**
+ * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
+ * il prezzo di una {@link Partita} in una {@link JTable} tramite un
+ * {@link JTextField}.
  * 
  * @author Maurizio
  */
