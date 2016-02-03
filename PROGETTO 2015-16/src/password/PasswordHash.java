@@ -137,11 +137,33 @@ public class PasswordHash implements Serializable {
 
 	/**
 	 * Confronta due array di byte in tempo costante rispetto alla loro
-	 * lunghezza.
+	 * lunghezza. In questo modo si impiega lo stesso tempo per effettuare il
+	 * controllo sia che i due array siano uguali, sia che i due array siano
+	 * totalmente differenti. <br>
+	 * <br>
+	 * Questo metodo di confronto è pensato come protezione da un eventuale
+	 * attacco temporizzato ad un sito web.<br>
 	 * 
-	 * Questo metodo di confronto è usato per impedire che i codici hash delle
-	 * password siano scaricati in locale da un sistema online tramite un
-	 * attacco temporizzato per poi essere attaccati off-line.
+	 * Supponiamo che un'hacker voglia rompere un sistema di sicurezza online
+	 * che limita il numero di tentativi ad un tentativo ogni 10 secondi.
+	 * Supponiamo inoltre che conosca tutte le informazioni sul codice hash (il
+	 * salt, il tipo di hash, le iterazioni) eccetto l'hash ed ovviamente la
+	 * password. Se l'hacker potesse misurare con precisione il tempo impiegato
+	 * dal sistema online per confrontare il codice hash della password reale
+	 * con il codice hash generato dalla password immessa, allora potrebbe
+	 * effettuare un timing-attack per estrarre parte del codice hash e passare
+	 * poi ad un attacco offline, bypassando le limitazioni di tentativi del
+	 * sistema online.<br>
+	 * <br>
+	 * Dopo aver trovato 2^8 = 256 stringhe i cui codici hash iniziano con tutti
+	 * i possibili byte, invia ogni stringa al sistema online registrando i
+	 * tempi di risposta del server. La stringa che impiega il tempo maggiore,
+	 * sara' quella il cui primo byte del codice hash corrisponde con il primo
+	 * byte del reale codice hash. Ora l'hacker conosce il primo byte, e puo
+	 * continuare l'attacco alla stessa maniera sul secondo byte, poi il terzo e
+	 * cosi' via. Quando l'hacker conosce abbastanza del codice hash, puo'
+	 * tentare di scoprire la vera password off-line, senza le limitazioni del
+	 * sistema online.
 	 * 
 	 * @param firstBytesArray
 	 *            il primo array da confrontare.
@@ -176,7 +198,8 @@ public class PasswordHash implements Serializable {
 	 *            la password di cui si vuole generare l'hash.
 	 * @param salt
 	 *            il sale (salt in inglese) per rafforzare la sicurezza della
-	 *            password e complicare gli attacchi a dizionario.<BR><BR>
+	 *            password e complicare gli attacchi a dizionario.<BR>
+	 *            <BR>
 	 * 
 	 *            Le lookup-tables e le rainbow-tables funzionano soltanto
 	 *            perchè ogni password hash è generato nello stesso identico

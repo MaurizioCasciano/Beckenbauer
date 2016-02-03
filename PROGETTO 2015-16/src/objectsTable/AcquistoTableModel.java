@@ -3,6 +3,9 @@ package objectsTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
+import javax.swing.JTable;
+
 import struttura.Acquisto;
 import struttura.Partita;
 import struttura.Posto;
@@ -11,6 +14,8 @@ import struttura.Stadio;
 import user.Cliente;
 
 /**
+ * Classe che estende {@link RowObjectTableModel}, usata per gestire una lista
+ * di {@link Acquisto} all'interno di una {@link JTable}.
  * 
  * @author Maurizio
  */

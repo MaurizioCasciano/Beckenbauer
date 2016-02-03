@@ -76,7 +76,9 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 
 	/**
 	 * Sostituisce i dati visualizzati nella tabella con i nuovi dati.
+	 * 
 	 * @param modelData
+	 *            I nuovi dati da visualizzare nella tabella.
 	 * @author Maurizio
 	 */
 	protected void replaceData(ArrayList<T> modelData) {

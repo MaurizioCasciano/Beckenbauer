@@ -35,8 +35,8 @@ import struttura.StrutturaSportiva;
 import user.Cliente;
 
 /**
- * Classe che estende {@link JPanel}, utile per contenere la rappresentazione di
- * uno stadio.
+ * Classe che estende {@link JPanel}, utile per effettuare la rappresentazione
+ * grafica di uno stadio.
  * 
  * @author Maurizio
  */
@@ -69,10 +69,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * essere inserito in un JScrollPane.
 	 * 
 	 * @param strutturaSportiva
-	 * @param cliente
 	 *            La StrutturaSportiva che gestisce le partite e le
-	 *            prenotazioni/acquisti. Il Cliente che deve effettuare una
-	 *            prenotazione/acquisto.
+	 *            prenotazioni/acquisti.
+	 * @param cliente
+	 *            Il Cliente che deve effettuare una prenotazione/acquisto.
 	 * @param partita
 	 *            La partita da prenotare/acquistare.
 	 * @param stadiumMode
@@ -143,8 +143,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			if ((i >= 3 && i <= 26) || (i >= 31 && i <= 58) || (i >= 61 && i <= 88) || (i >= 90 && i <= 239)) {
 				this.numeroSettori++;
 				JButton settoreButton = new JButton();
-				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol()
-						+ " " + this.strutturaSportiva.getBestAvailablePrice(this.partita));
+				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+						+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
 				 * mouse.
@@ -207,8 +207,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 
 			this.numeroSettori++;
 			JButton settoreButton = new JButton();
-			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol()
-					+ " " + this.strutturaSportiva.getBestAvailablePrice(this.partita));
+			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+					+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -239,7 +239,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	}
 
 	private void initCentreCentrePanel() {
-		this.centreCentrePanel = new BackgroundImagePanel(Assets.getSoccerPitch());
+		this.centreCentrePanel = new SoccerFieldPanel();
 	}
 
 	private void initCentreRightPanel() {
@@ -252,8 +252,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 
 			this.numeroSettori++;
 			JButton settoreButton = new JButton();
-			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol()
-					+ " " + this.strutturaSportiva.getBestAvailablePrice(this.partita));
+			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+					+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -299,8 +299,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			if ((i <= 149) || (i >= 151 && i <= 178) || (i >= 181 && i <= 208) || (i >= 213 && i <= 236)) {
 				this.numeroSettori++;
 				JButton settoreButton = new JButton();
-				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol()
-						+ " " + this.strutturaSportiva.getBestAvailablePrice(this.partita));
+				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+						+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del

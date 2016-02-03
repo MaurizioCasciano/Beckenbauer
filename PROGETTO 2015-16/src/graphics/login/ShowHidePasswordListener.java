@@ -7,6 +7,14 @@ import java.io.Serializable;
 import javax.swing.JPasswordField;
 import javax.swing.SwingUtilities;
 
+/**
+ * Classe che estende {@link MouseAdapter}, usata per permettere la temporanea
+ * visualizzazione della password digitata in una {@link JPasswordField} alla
+ * pressione del tasto destro del mouse. La password verra' nuovamente nascosta
+ * al rilascio del tasto desto del mouse.
+ * 
+ * @author Maurizio
+ */
 public class ShowHidePasswordListener extends MouseAdapter implements Serializable {
 	@Override
 	public void mouseReleased(MouseEvent e) {

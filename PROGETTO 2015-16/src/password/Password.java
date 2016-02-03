@@ -11,7 +11,7 @@ public class Password implements Serializable{
 	 * Controlla che la password passata in input rispecchi i requisiti minimi
 	 * di sicurezza. I requisiti minimi di sicurezza impongono che una password
 	 * sicura sia composta da almeno un carattere numerico, un carattere
-	 * maiuscolo, un carattere minuscolo ed un carattere speciale (&@#$%?£€^+=).
+	 * maiuscolo, un carattere minuscolo ed un carattere speciale {@literal (&@#$%?£€^+=)}.
 	 * E' inoltra necessario che la lunghezza della password non sia inferiore
 	 * ad 8 caratteri.
 	 * 

@@ -3,6 +3,11 @@ package user;
 import java.io.Serializable;
 import password.WeakPasswordException;
 
+/**
+ * Classe che modella un cliente di un sistema informatico.
+ * 
+ * @author Maurizio
+ */
 public class Cliente extends Utente implements Serializable {
 
 	/**

@@ -10,10 +10,10 @@ import struttura.Partita;
 import struttura.filters.Filter;
 
 /**
- * Classe che estende {@link RowFilter}, utilizzata per filtrare le righe della
- * {@link JTable}.
+ * Classe che estende {@link RowFilter}, utilizzata per filtrare le righe (
+ * {@link Partita}) della {@link JTable}.
  */
-public class PartitaRowFilter extends RowFilter<PartitaTableModel, Integer>implements Serializable {
+public class PartitaRowFilter extends RowFilter<PartitaTableModel, Integer> implements Serializable {
 
 	/**
 	 * Crea un nuovo PartitaRowFilter con il filtro passato in input.

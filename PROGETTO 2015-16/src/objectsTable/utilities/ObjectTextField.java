@@ -4,7 +4,15 @@ import java.io.Serializable;
 
 import javax.swing.JTextField;
 
-public class ObjectTextField<T> extends JTextField implements Serializable{
+/**
+ * Classe che estende {@link JTextField}, in aggiunta permette di contenere un
+ * oggetto generico e di restituirlo quando necessario.
+ * 
+ * @param <T>
+ *            il tipo dell'oggetto da contenere.
+ * @author Maurizio
+ */
+public class ObjectTextField<T> extends JTextField implements Serializable {
 
 	public ObjectTextField() {
 		super();

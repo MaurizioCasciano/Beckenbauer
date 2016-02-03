@@ -20,6 +20,12 @@ import struttura.AlreadyExistsObjectException;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 
+/**
+ * Classe che estende {@link JFrame}, usata per permettere l'aggiunta di uno
+ * {@link Stadio} ad una {@link StrutturaSportiva}.
+ * 
+ * @author Maurizio
+ */
 public class AggiungiStadioFrame extends JFrame implements Serializable {
 
 	/**
@@ -154,23 +160,18 @@ public class AggiungiStadioFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
 	private static final long serialVersionUID = 260663801632901839L;
 	private JLabel nomeStadioLabel;
 	private JTextField nomeStadioTextField;
 	private JPanel nomeStadioPanel;
-	/***************************************/
 	private JLabel capienzaLabel;
 	private JSpinner capienzaSpinner;
 	private JPanel capienzaPanel;
-	/*************************************/
 	private JLabel prezzoLabel;
 	private JSpinner prezzoSpinner;
 	private JPanel percentualeScontoPanel;
-	/*************************************/
 	private JButton aggiungiStadioButton, annullaButton;
 	private JPanel buttonPanel;
-	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
 
 	public static void main(String[] args) {

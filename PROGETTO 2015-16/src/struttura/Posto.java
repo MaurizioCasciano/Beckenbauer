@@ -93,7 +93,6 @@ public class Posto implements Serializable {
 		return this.stato;
 	}
 
-	
 	public void setStato(SeatStatus newSeatStatus) {
 		SeatStatus oldStatus = this.stato;
 		this.stato = newSeatStatus;
@@ -116,7 +115,7 @@ public class Posto implements Serializable {
 	 * @param prenotato
 	 *            the prenotato to set
 	 */
-	public void setPrenotato(boolean prenotato) {     // DA CONTROLLARE
+	public void setPrenotato(boolean prenotato) { // DA CONTROLLARE
 		this.stato = SeatStatus.PRENOTATO;
 	}
 
@@ -134,7 +133,7 @@ public class Posto implements Serializable {
 	 * @param venduto
 	 *            the venduto to set
 	 */
-	public void setVenduto(boolean venduto) {    //DA CONTROLLARE
+	public void setVenduto(boolean venduto) { // DA CONTROLLARE
 		this.stato = SeatStatus.VENDUTO;
 	}
 
@@ -149,8 +148,10 @@ public class Posto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il {@link Settore} dello {@link Stadio} in cui &egrave ubicato il posto
-	 * @return il settore
+	 * Restituisce il {@link Settore} dello {@link Stadio} in cui e' situato il
+	 * posto.
+	 * 
+	 * @return il settore il settore in cui e' situato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public Settore getSettore() {
@@ -158,9 +159,10 @@ public class Posto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la fila del {@link Settore} dello {@link Stadio} in cui &egrave ubicato il posto
+	 * Restituisce la fila del {@link Settore} dello {@link Stadio} in cui e'
+	 * situato il posto.
 	 * 
-	 * @return la fila
+	 * @return la fila la fila in cui e' situato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public int getFila() {
@@ -168,9 +170,9 @@ public class Posto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il numero del posto 
+	 * Restituisce il numero del posto.
 	 * 
-	 * @return the posto
+	 * @return il numero del posto relativo al settore in cui � situato.
 	 * @author Gaetano Antonucci
 	 */
 	public int getPosto() {
@@ -184,28 +186,31 @@ public class Posto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [stadio=" + stadio + ", settore=" + settore.getNomeSettore() + ", fila=" + numeroFila
-				+ ", posto=" + numeroPosto + ", stato=" + stato + "]";
+		return this.getClass().getSimpleName() + " [stadio=" + stadio + ", settore=" + settore.getNomeSettore()
+				+ ", fila=" + numeroFila + ", posto=" + numeroPosto + ", stato=" + stato + "]";
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Maurizio Casciano
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if (obj == null)
 			return false;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Posto other = (Posto) obj;
 
 		if (this.stadio.equals(other.stadio) && this.settore.equals(other.settore)

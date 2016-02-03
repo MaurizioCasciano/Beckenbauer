@@ -22,7 +22,7 @@ import struttura.StrutturaSportiva;
 import struttura.filters.PurchaseByStadiumFilter;
 
 /**
- * Classe che modella un Panel per la visualizzazione dell'incasso della struttura
+ * Classe che modella un JPanel per la visualizzazione dell'incasso della struttura
  * 
  * @author Gaetano Antonucci
  */

@@ -11,7 +11,7 @@ import graphics.DivisibleIntoSectors;
  * 
  * @author Maurizio
  */
-public class Stadio implements Serializable, DivisibleIntoSectors {
+public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<Stadio> {
 
 	/**
 	 * Crea un nuovo {@link Stadio} con la capienza e il prezzo passati in
@@ -128,8 +128,6 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 				 * Aggiunge il posto corrente al settore corrente.
 				 */
 				settore.addPosto(posto);
-
-				// System.out.println(posto);
 			}
 
 			/*
@@ -142,7 +140,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	/**
 	 * Restituisce una copia dei settori dello stadio.
 	 * 
-	 * @return
+	 * @return un clone dell'ArrayList dei settori dello stadio.
 	 * @author Maurizio
 	 */
 	@SuppressWarnings("unchecked")
@@ -266,6 +264,19 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 */
 	public void setPrezzoPerPartita(double prezzo) {
 		this.prezzoPerPartita = prezzo;
+	}
+
+	/**
+	 * Confronta due Stadi in base al loro nome.
+	 * 
+	 * @param s
+	 *            lo Stadio con cui effettuare il confronto lessicografico.
+	 * @return Il valore restituito dal metodo {@link String#compareTo(String)}
+	 *         applicato ai nomi dei due stadi.
+	 */
+	@Override
+	public int compareTo(Stadio s) {
+		return this.getNome().compareTo(s.getNome());
 	}
 
 	@Override

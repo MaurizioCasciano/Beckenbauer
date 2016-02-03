@@ -12,14 +12,12 @@ import javax.swing.ImageIcon;
  */
 public class Assets implements Serializable {
 
-	public static BufferedImage getSoccerPitch() {
-		if (Assets.soccerPitch == null) {
-			Assets.soccerPitch = ImageLoader.loadImage("footballpitch.png");
-		}
-
-		return Assets.soccerPitch;
-	}
-
+	/**
+	 * Restituisce l'icona del Cliente.
+	 * 
+	 * @return l'icona del Cliente.
+	 * @author Maurizio
+	 */
 	public static ImageIcon getCustomerIcon() {
 		if (Assets.customerIcon == null) {
 			Assets.customerIcon = new ImageIcon(ImageLoader.loadImage("User-Clients-icon.png"));
@@ -28,6 +26,12 @@ public class Assets implements Serializable {
 		return Assets.customerIcon;
 	}
 
+	/**
+	 * Restituisce l'icona del Gestore.
+	 * 
+	 * @return l'icona del Gestore.
+	 * @author Maurizio
+	 */
 	public static ImageIcon getManagerIcon() {
 		if (Assets.managerIcon == null) {
 			Assets.managerIcon = new ImageIcon(ImageLoader.loadImage("Office-Customer-Male-Light-icon.png"));
@@ -44,6 +48,12 @@ public class Assets implements Serializable {
 		return Assets.cubes;
 	}
 
+	/**
+	 * Restituisce l'icona di login.
+	 * 
+	 * @return l'icona di login.
+	 * @author Maurizio
+	 */
 	public static ImageIcon getLoginIcon() {
 		if (Assets.login == null) {
 			Assets.login = new ImageIcon(ImageLoader.loadImage("login.png"));
@@ -68,6 +78,12 @@ public class Assets implements Serializable {
 		return Assets.greenField;
 	}
 
+	/**
+	 * Restituisce l'icona di registrazione.
+	 * 
+	 * @return l'icona di registrazione.
+	 * @author Maurizio
+	 */
 	public static ImageIcon getRegisterIcon() {
 		if (Assets.registerIcon == null) {
 			Assets.registerIcon = new ImageIcon(ImageLoader.loadImage("Add-Male-User.png"));
@@ -76,26 +92,7 @@ public class Assets implements Serializable {
 		return Assets.registerIcon;
 	}
 
-	public static ImageIcon getBlueSeat() {
-		if (Assets.blueSeat == null) {
-			Assets.blueSeat = new ImageIcon(ImageLoader.loadImage("Blue-Seat-icon.png"));
-		}
-
-		return Assets.blueSeat;
-	}
-
-	public static ImageIcon getBlueSeatRollover() {
-		if (blueSeatRollover == null) {
-			blueSeatRollover = new ImageIcon(ImageLoader.loadImage("Blue-Seat-icon-Rollover.png"));
-		}
-
-		return Assets.blueSeatRollover;
-	}
-
 	private static final long serialVersionUID = -6046582922518387221L;
-	public static BufferedImage greenField, ballSchoes, cubeWallpaper, loginBackground, lava, cubes, stadium,
-			stadiumMap, soccerPitch;
+	public static BufferedImage greenField, cubeWallpaper, loginBackground, cubes;
 	public static ImageIcon managerIcon, customerIcon, login, registerIcon;
-
-	public static ImageIcon blueSeat, blueSeatRollover;
 }

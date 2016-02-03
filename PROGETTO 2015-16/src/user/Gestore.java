@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import password.WeakPasswordException;
 
+/**
+ * Classe che modella un gestore di un sistema informatico.
+ * 
+ * @author Maurizio
+ */
 public class Gestore extends Utente implements Serializable {
 
 	/**

@@ -57,21 +57,22 @@ public class Partita implements Serializable {
 
 	/**
 	 * Restituisce i settori dello stadio per questa partita.
-	 *
-	 * @return ArrayList<Settore> contente i settori dello stadio per questa
-	 *         partita
-	 * @author Gaetano Antonucci
+	 * 
+	 * @return l'ArrayList contenente i settori dello stadio per questa partita
 	 */
 	public ArrayList<Settore> getSettori() {
 		return this.settori;
 	}
 
 	/**
-	 * Imposta lo stato del posto della prenotazione passata in input al nuovo stato a scelta tra
-	 * {@link SeatStatus#LIBERO}, {@link SeatStatus#PRENOTATO}, {@link SeatStatus#VENDUTO}.
+	 * Imposta lo stato del posto della prenotazione passata in input al nuovo
+	 * stato a scelta tra {@link SeatStatus#LIBERO},
+	 * {@link SeatStatus#PRENOTATO}, {@link SeatStatus#VENDUTO}.
 	 * 
 	 * @param prenotazione
 	 *            La prenotazione eliminata o scaduta.
+	 * @param newSeatStaus
+	 *            Il nuovo stato da impostare per il posto della prenotazione.
 	 * @author Maurizio Casciano
 	 */
 	public void resetSeatStatus(Prenotazione prenotazione, SeatStatus newSeatStaus) {
@@ -125,7 +126,7 @@ public class Partita implements Serializable {
 	/**
 	 * Imposta la squadra che gioca in trasferta.
 	 * 
-	 * @param squadraInCasa
+	 * @param squadraInTrasferta
 	 *            La squadra che gioca in trasferta.
 	 * @author Maurizio Casciano
 	 */
@@ -146,8 +147,7 @@ public class Partita implements Serializable {
 	/**
 	 * Imposta lo stadio in cui sara' disputata la partita.
 	 * 
-	 * @warning ATTENZIONE: le prenotazioni e gli acquisti presenti andranno
-	 *          persi.
+	 * ATTENZIONE: le prenotazioni e gli acquisti presenti andranno persi.
 	 * 
 	 * @param stadio
 	 *            - Lo stadio in cui sara' disputata la partita.
@@ -197,18 +197,8 @@ public class Partita implements Serializable {
 	}
 
 	/**
-	 * <<<<<<< HEAD ======= Restituisce i posti dello stadio per la partita
-	 * corrente
-	 * 
-	 * @return ArrayList<Posto> con i posti dello stadio
-	 */
-	// public ArrayList<Posto> getPosti() {
-	// return posti;
-	// }
-
-	/**
-	 * >>>>>>> refs/remotes/origin/GaetanoTesting Verifica se l'oggetto corrente
-	 * è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
 	 * @param obj
 	 *            - l'oggetto su cui effettuare la verifica

@@ -20,7 +20,7 @@ import user.UserNotFoundException;
 import user.Utente;
 
 /**
- * Classe Principale che modella l'intera Struttura Sportiva
+ * Classe principale che modella l'intera Struttura Sportiva
  * 
  * @author Maurizio Casciano
  * @author Gaetano Antonucci
@@ -118,10 +118,10 @@ public class StrutturaSportiva implements Serializable {
 	 * Aggiunge uno {@link Stadio} al database.
 	 * 
 	 * @param s
-	 *            - Lo stadio da aggiungere.
+	 *            Lo stadio da aggiungere.
 	 * @throws AlreadyExistsObjectException
 	 *             Ecceziona lanciata nel caso in cui lo stadio che si vuole
-	 *             inserire gia' &egrave nel database
+	 *             inserire gia' e' nel database
 	 * @author Maurzio Casciano
 	 * @author Gaetano Antonucci
 	 */
@@ -141,7 +141,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            - La politica di sconto da inserire.
 	 * @throws AlreadyExistsObjectException
 	 *             Ecceziona lanciata nel caso in cui la politica di sconto che
-	 *             si vuole inserire gia' &egrave nel database
+	 *             si vuole inserire gia' e' nel database
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
@@ -160,7 +160,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            - La prenotazione da inserire.
 	 * @throws AlreadyExistsObjectException
 	 *             Ecceziona lanciata nel caso in cui la prenotazione che si
-	 *             vuole inserire gia' &egrave nel database
+	 *             vuole inserire gia' e' nel database
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
@@ -179,7 +179,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            - L'acquisto da inserire
 	 * @throws AlreadyExistsObjectException
 	 *             Ecceziona lanciata nel caso in cui l'acquisto che si vuole
-	 *             inserire gia' &egrave nel database
+	 *             inserire gia' e' nel database
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
@@ -234,7 +234,7 @@ public class StrutturaSportiva implements Serializable {
 	 * Restituisce tutte le politiche di sconto, passate ed attuali, che sono
 	 * presenti nel database.
 	 * 
-	 * @return ArrayList<Sconti> con tutti sconti.
+	 * @return ArrayList con tutti sconti.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Sconto> getSconti() {
@@ -249,7 +249,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @param part
 	 *            La {@link Partita} sulla quale si vuole verificare ci siano
 	 *            sconti
-	 * @return ArrayList<Sconti> con gli sconti applicabili alla partita
+	 * @return ArrayList con gli sconti applicabili alla partita
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Sconto> getScontiApplicabili(ScontoFilter filtroSconti, Partita part) {
@@ -268,7 +268,7 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce tutte le prenotazioni presenti nel database.
 	 * 
-	 * @return ArrayList<Prenotazione> con tutte le prenotazioni.
+	 * @return ArrayList con tutte le prenotazioni.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Prenotazione> getPrenotazioni() {
@@ -280,7 +280,7 @@ public class StrutturaSportiva implements Serializable {
 	 * 
 	 * @param filtroPrenotazioni
 	 *            Il filtro da applicare
-	 * @return ArrayList<Prenotazione> con le prenotazioni ottenute.
+	 * @return ArrayList con le prenotazioni ottenute.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Prenotazione> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni) {
@@ -316,8 +316,8 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Cancella la prenotazione passata come parametro dall'ArrayList
-	 * <Prenotazione> prenotazioni della struttura sportiva.
+	 * Cancella la prenotazione passata come parametro dall'ArrayList delle
+	 * prenotazioni della struttura sportiva.
 	 * 
 	 * @param prenotazioneDaCancellare
 	 *            - La prenotazione da cancellare
@@ -363,7 +363,7 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce tutti gli acquisti presenti nel database.
 	 * 
-	 * @return ArrayList<Acquisto> con tutti gli acquisti.
+	 * @return ArrayList con tutti gli acquisti.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Acquisto> getAcquisti() {
@@ -375,7 +375,7 @@ public class StrutturaSportiva implements Serializable {
 	 * 
 	 * @param filtroAcquisti
 	 *            - Il filtro da applicare.
-	 * @return ArrayList<Acquisto> con gli acquisti ottenuti.
+	 * @return ArrayList con gli acquisti ottenuti.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Acquisto> getAcquistiFiltrati(PurchaseFilter filtroAcquisti) {
@@ -414,8 +414,8 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList
-	 * <Acquisto> acquisti della struttura sportiva
+	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList di
+	 * acquisti della struttura sportiva.
 	 * 
 	 * @param acquistoDaCancellare
 	 *            - L'acquisto da cancellare.
