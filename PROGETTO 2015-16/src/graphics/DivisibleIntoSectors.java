@@ -1,5 +1,7 @@
 package graphics;
 
+import struttura.Stadio;
+
 /**
  * Interfaccia utilizzata per ottenere le informazioni necessarie alla
  * realizzazione della parte grafica dell'oggetto {@link Stadio}.

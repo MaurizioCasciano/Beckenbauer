@@ -69,10 +69,10 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * essere inserito in un JScrollPane.
 	 * 
 	 * @param strutturaSportiva
-	 * @param cliente
 	 *            La StrutturaSportiva che gestisce le partite e le
-	 *            prenotazioni/acquisti. Il Cliente che deve effettuare una
-	 *            prenotazione/acquisto.
+	 *            prenotazioni/acquisti.
+	 * @param cliente
+	 *            Il Cliente che deve effettuare una prenotazione/acquisto.
 	 * @param partita
 	 *            La partita da prenotare/acquistare.
 	 * @param stadiumMode

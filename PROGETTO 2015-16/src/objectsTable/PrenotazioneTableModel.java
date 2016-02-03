@@ -3,7 +3,7 @@ package objectsTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
+import javax.swing.JTable;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.Prenotazione;

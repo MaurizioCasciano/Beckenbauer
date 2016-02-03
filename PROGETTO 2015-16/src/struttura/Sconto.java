@@ -5,24 +5,31 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Classe che modella le politiche di sconto 
+ * Classe che modella le politiche di sconto
  * 
  * @author Gaetano Antonucci
  */
 public class Sconto implements Serializable {
 
 	/**
-	 * Costruisce uno sconto che &egrave attivato su tutte le partite giocate in un determinato stadio.
+	 * Costruisce uno sconto che e' attivato su tutte le partite giocate in un
+	 * determinato stadio.
 	 * 
-	 * @param tipoSconto - il tipo di sconto scelto ({@link TipoSconto#TUTTE_LE_PARTITE_DELLO_STADIO})
-	 * @param percetualeSconto - la percetuale scelta per lo sconto
-	 * @param inizioValidita - la data in cui lo sconto inizia a valere
-	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
-	 * @param stadio - lo {@link Stadio} su cui &egrave attivo lo sconto
+	 * @param tipoSconto
+	 *            - il tipo di sconto scelto (
+	 *            {@link TipoSconto#TUTTE_LE_PARTITE_DELLO_STADIO})
+	 * @param percetualeSconto
+	 *            - la percetuale scelta per lo sconto
+	 * @param inizioValidita
+	 *            - la data in cui lo sconto inizia a valere
+	 * @param fineValidita
+	 *            - l'ultima data in cui lo sconto e' valido
+	 * @param stadio
+	 *            - lo {@link Stadio} su cui e' attivo lo sconto
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconto(TipoSconto tipoSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconto(TipoSconto tipoSconto, double percetualeSconto, GregorianCalendar inizioValidita,
 			GregorianCalendar fineValidita, Stadio stadio) {
 		this.tipoSconto = tipoSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
@@ -32,19 +39,25 @@ public class Sconto implements Serializable {
 		this.partita = null;
 		this.giornoSettimana = null;
 	}
-	
+
 	/**
-	 * Costruisce uno sconto che &egrave attivato su una determinata partita
+	 * Costruisce uno sconto che e' attivato su una determinata partita
 	 * 
-	 * @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#PARTITA_CORRENTE})
-	 * @param percetualeSconto - la percetuale scelta per lo sconto
-	 * @param inizioValidita - la data in cui lo sconto inizia a valere
-	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
-	 * @param partita - la {@link Partita} su cui &egrave attivo lo sconto
+	 * @param nomeSconto
+	 *            - il tipo di sconto scelto (
+	 *            {@link TipoSconto#PARTITA_CORRENTE})
+	 * @param percetualeSconto
+	 *            - la percetuale scelta per lo sconto
+	 * @param inizioValidita
+	 *            - la data in cui lo sconto inizia a valere
+	 * @param fineValidita
+	 *            - l'ultima data in cui lo sconto e' valido
+	 * @param partita
+	 *            - la {@link Partita} su cui e' attivo lo sconto
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconto(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconto(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita,
 			GregorianCalendar fineValidita, Partita partita) {
 		this.tipoSconto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
@@ -54,19 +67,26 @@ public class Sconto implements Serializable {
 		this.partita = partita;
 		this.giornoSettimana = null;
 	}
-	
+
 	/**
-	 * Costruisce uno sconto che è attivo in un determinato giorno della settimana.
+	 * Costruisce uno sconto che è attivo in un determinato giorno della
+	 * settimana.
 	 * 
-	 @param nomeSconto - il tipo di sconto scelto ({@link TipoSconto#GIORNO_PRESTABILITO})
-	 * @param percetualeSconto - la percetuale scelta per lo sconto
-	 * @param inizioValidita - la data in cui lo sconto inizia a valere
-	 * @param fineValidita - l'ultima data in cui lo sconto &egrave valido
-	 * @param giorno - il giorno ({@link DaysOfWeek}) il cui lo sconto è valido
+	 * @param nomeSconto
+	 *            - il tipo di sconto scelto (
+	 *            {@link TipoSconto#GIORNO_PRESTABILITO})
+	 * @param percetualeSconto
+	 *            - la percetuale scelta per lo sconto
+	 * @param inizioValidita
+	 *            - la data in cui lo sconto inizia a valere
+	 * @param fineValidita
+	 *            - l'ultima data in cui lo sconto e' valido
+	 * @param giorno
+	 *            - il giorno ({@link DaysOfWeek}) il cui lo sconto e' valido
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Sconto(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita, 
+	public Sconto(TipoSconto nomeSconto, double percetualeSconto, GregorianCalendar inizioValidita,
 			GregorianCalendar fineValidita, DaysOfWeek giorno) {
 		this.tipoSconto = nomeSconto;
 		this.percetualeSconto = (percetualeSconto / 100);
@@ -76,12 +96,11 @@ public class Sconto implements Serializable {
 		this.partita = null;
 		this.giornoSettimana = giorno;
 	}
-	
 
 	/**
-	 * Restituisce la tipologi di sconto dell'oggetto corrente
+	 * Restituisce la tipologia di sconto dell'oggetto corrente.
 	 * 
-	 * @return scontoScelto
+	 * @return scontoScelto il tipo di sconto.
 	 * @author Gaetano Antonucci
 	 */
 	public TipoSconto getScontoScelto() {
@@ -89,10 +108,11 @@ public class Sconto implements Serializable {
 	}
 
 	/**
-	 * Restituisce lo stadio su cui &egrave attivo lo sconto, se si tratta di uno sconto su stadio, 
-	 * altrimenti resituisce {@code null}
+	 * Restituisce lo stadio su cui e' attivo lo sconto, se si tratta di uno
+	 * sconto su stadio, altrimenti resituisce {@code null}
 	 * 
-	 * @return stadio
+	 * @return stadio l'eventuale Stadio su chui e' applicato lo sconto, oppure
+	 *         null.
 	 * @author Gaetano Antonucci
 	 */
 	public Stadio getStadio() {
@@ -100,10 +120,11 @@ public class Sconto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la partita su cui &egrave attivo lo sconto, se si tratta di uno sconto su partita, 
-	 * altrimenti restituisce {@code null}
+	 * Restituisce la partita su cui e' attivo lo sconto, se si tratta di uno
+	 * sconto su partita, altrimenti restituisce {@code null}
 	 * 
-	 * @return partita
+	 * @return partita l'eventuale partita su cui e' applicato lo sconto, oppure
+	 *         null.
 	 * @author Gaetano Antonucci
 	 */
 	public Partita getPartita() {
@@ -111,9 +132,10 @@ public class Sconto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data ({@link GregorianCalendar} in cui lo sconto inizia a valere
+	 * Restituisce la data ({@link GregorianCalendar} in cui lo sconto inizia a
+	 * valere.
 	 * 
-	 * @return inizioValidita
+	 * @return inizioValidita la data di inizio validita' dello sconto.
 	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getInizioValidita() {
@@ -121,22 +143,23 @@ public class Sconto implements Serializable {
 	}
 
 	/**
-	 * Restituisce l'ultima data ({@link GregorianCalendar} in cui lo sconto vale, dopo questa data
-	 * lo sconto non vale piu'
+	 * Restituisce l'ultima data ({@link GregorianCalendar} in cui lo sconto
+	 * vale, dopo questa data lo sconto non vale piu'
 	 * 
-	 * @return fineValidita
+	 * @return fineValidita la data di fine validita' dello sconto.
 	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getFineValidita() {
 		return fineValidita;
 	}
 
-
 	/**
-	 * Restituisce il giorno della settimana ({@link DaysOfWeek}) in cui lo sconto è valido, 
-	 * se si tratta di uno sconto sul giorno della settimana, altrimenti restituisce {@code null}
+	 * Restituisce il giorno della settimana ({@link DaysOfWeek}) in cui lo
+	 * sconto e' valido, se si tratta di uno sconto sul giorno della settimana,
+	 * altrimenti restituisce {@code null}
 	 * 
-	 * @return the giornoSettimana
+	 * @return l'eventuale giornoSettimana su cui � applicato questo sconto,
+	 *         oppure null.
 	 * @author Gaetano Antonucci
 	 */
 	public DaysOfWeek getGiornoSettimana() {
@@ -146,36 +169,39 @@ public class Sconto implements Serializable {
 	/**
 	 * Restituisce la percetuale dello sconto
 	 * 
-	 * @return percetualeSconto
+	 * @return percetualeSconto la percentuale dello sconto.
 	 * @author Gaetano Antonucci
 	 */
 	public double getPercetualeSconto() {
 		return percetualeSconto;
 	}
-	
+
 	/**
 	 * Restituisce le informazioni relative all'oggeto come {@link String}
 	 * 
 	 * @author Gaetano Antonucci
 	 */
 	@Override
-	public String toString(){
-		String inizioValiditaString = this.inizioValidita.get(Calendar.DAY_OF_MONTH)+"."+ (this.inizioValidita.get(Calendar.MONTH)+1)+"." 
-								    + this.inizioValidita.get(Calendar.YEAR);
-		
-		String fineValiditaString = this.fineValidita.get(Calendar.DAY_OF_MONTH)+"."+ (this.fineValidita.get(Calendar.MONTH)+1)+"."
-								    + this.fineValidita.get(Calendar.YEAR);
-		
-		return (" " + String.valueOf(this.tipoSconto) + " Perc.: " + this.percetualeSconto + "\n Stadio: " + this.stadio  
-				+ " Partita: " + this.partita + " GiornoPrest: " + String.valueOf(this.giornoSettimana) 
+	public String toString() {
+		String inizioValiditaString = this.inizioValidita.get(Calendar.DAY_OF_MONTH) + "."
+				+ (this.inizioValidita.get(Calendar.MONTH) + 1) + "." + this.inizioValidita.get(Calendar.YEAR);
+
+		String fineValiditaString = this.fineValidita.get(Calendar.DAY_OF_MONTH) + "."
+				+ (this.fineValidita.get(Calendar.MONTH) + 1) + "." + this.fineValidita.get(Calendar.YEAR);
+
+		return (" " + String.valueOf(this.tipoSconto) + " Perc.: " + this.percetualeSconto + "\n Stadio: " + this.stadio
+				+ " Partita: " + this.partita + " GiornoPrest: " + String.valueOf(this.giornoSettimana)
 				+ "\n Iniz.Val.: " + inizioValiditaString + " Fine Val.: " + fineValiditaString);
 	}
-	
+
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
 	@Override
@@ -192,50 +218,49 @@ public class Sconto implements Serializable {
 
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Sconto other = (Sconto) obj;
-		
-		switch(other.tipoSconto){
+
+		switch (other.tipoSconto) {
 		case PARTITA_CORRENTE:
-			if(this.tipoSconto == other.tipoSconto){
-				if(this.partita.equals(other.partita) && this.inizioValidita.equals(other.inizioValidita) 
-						&& this.fineValidita.equals(other.fineValidita)){
+			if (this.tipoSconto == other.tipoSconto) {
+				if (this.partita.equals(other.partita) && this.inizioValidita.equals(other.inizioValidita)
+						&& this.fineValidita.equals(other.fineValidita)) {
 					result = true;
 				}
 			} else {
 				result = false;
 			}
 			break;
-			
+
 		case TUTTE_LE_PARTITE_DELLO_STADIO:
-			if(this.tipoSconto == other.tipoSconto){
-				if(this.stadio.equals(other.stadio) && this.inizioValidita.equals(other.inizioValidita) 
-						&& this.fineValidita.equals(other.fineValidita)){
+			if (this.tipoSconto == other.tipoSconto) {
+				if (this.stadio.equals(other.stadio) && this.inizioValidita.equals(other.inizioValidita)
+						&& this.fineValidita.equals(other.fineValidita)) {
 					result = true;
 				}
 			} else {
 				result = false;
 			}
 			break;
-		
+
 		case GIORNO_PRESTABILITO:
-			if(this.tipoSconto == other.tipoSconto){
-				if(this.giornoSettimana == other.giornoSettimana && this.inizioValidita.equals(other.inizioValidita) 
-						&& this.fineValidita.equals(other.fineValidita)){
+			if (this.tipoSconto == other.tipoSconto) {
+				if (this.giornoSettimana == other.giornoSettimana && this.inizioValidita.equals(other.inizioValidita)
+						&& this.fineValidita.equals(other.fineValidita)) {
 					result = true;
 				}
 			} else {
 				result = false;
 			}
 			break;
-			
-		default: break;	
+
+		default:
+			break;
 		}
-		
+
 		return result;
 	}
-
-
 
 	private static final long serialVersionUID = 8088987206686770452L;
 	private TipoSconto tipoSconto;
@@ -245,5 +270,4 @@ public class Sconto implements Serializable {
 	private GregorianCalendar inizioValidita;
 	private GregorianCalendar fineValidita;
 	private DaysOfWeek giornoSettimana;
-
 }

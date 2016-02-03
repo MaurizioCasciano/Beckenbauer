@@ -3,7 +3,7 @@ package objectsTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
+import javax.swing.JTable;
 import struttura.Mode;
 import struttura.Partita;
 import struttura.Squadra;
@@ -11,7 +11,7 @@ import struttura.Stadio;
 
 /**
  * Classe che estende {@link RowObjectTableModel}, usata per permettere di
- * gestire una lista di {@link Partita} all'interno di una {@link JTable.}
+ * gestire una lista di {@link Partita} all'interno di una {@link JTable}
  * 
  * @author Maurizio
  */

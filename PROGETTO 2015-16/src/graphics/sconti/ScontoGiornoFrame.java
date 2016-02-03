@@ -35,7 +35,6 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 	 * 
 	 * @param strutturaSportiva
 	 *            La StrutturaSportiva a cui aggiungere lo Sconto.
-	 * @param stadi
 	 * @throws IllegalArgumentException
 	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException

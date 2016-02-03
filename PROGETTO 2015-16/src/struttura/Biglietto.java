@@ -14,12 +14,18 @@ public class Biglietto implements Serializable {
 	/**
 	 * Costruisce un biglietto a partire dai parametri impostati.
 	 * 
-	 * @param stru la {@link StrutturaSportiva} sulla quale si sta operando
-	 * @param cliente il {@link Cliente} che acquista o prenota il biglietto
-	 * @param partita la {@link Partita} per la quale viene emesso il biglietto
-	 * @param settore il {@link Settore} dello stadio 
-	 * @param fila la fila del settore dello stadio
-	 * @param posto il {@link Posto} scelto dal cliente.
+	 * @param stru
+	 *            la {@link StrutturaSportiva} sulla quale si sta operando
+	 * @param cliente
+	 *            il {@link Cliente} che acquista o prenota il biglietto
+	 * @param partita
+	 *            la {@link Partita} per la quale viene emesso il biglietto
+	 * @param settore
+	 *            il {@link Settore} dello stadio
+	 * @param fila
+	 *            la fila del settore dello stadio
+	 * @param posto
+	 *            il {@link Posto} scelto dal cliente.
 	 * 
 	 * @author Gaetano Antonucci
 	 */
@@ -47,7 +53,7 @@ public class Biglietto implements Serializable {
 	/**
 	 * Restituisce il cliente che ha prenotato/acquistato il biglietto
 	 * 
-	 * @return cliente
+	 * @return cliente il cliente relativo al biglietto.
 	 * @author Gaetano Antonucci
 	 * 
 	 */
@@ -56,9 +62,9 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la partita a cui il biglietto fa riferimento
+	 * Restituisce la partita a cui il biglietto fa riferimento.
 	 * 
-	 * @return partita
+	 * @return partita la partita a cui il biglietto fa riferimento.
 	 * @author Gaetano Antonucci
 	 */
 	public Partita getPartita() {
@@ -66,9 +72,9 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il settore dello stadio in cui e' locato il posto
+	 * Restituisce il settore dello stadio in cui e' locato il posto.
 	 * 
-	 * @return settore
+	 * @return settore il settore dello stadio in cui e' locato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public Settore getSettore() {
@@ -76,9 +82,9 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la fila in cui e' locato il posto
+	 * Restituisce la fila in cui e' locato il posto.
 	 * 
-	 * @return fila
+	 * @return fila la fila in cui e' locato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public int getFila() {
@@ -87,7 +93,8 @@ public class Biglietto implements Serializable {
 
 	/**
 	 * Restituisce il prezzo del biglietto
-	 * @return the prezzo
+	 * 
+	 * @return the prezzo il prezzo del biglietto.
 	 * @author Gaetano Antonucci
 	 */
 	public double getPrezzo() {
@@ -98,6 +105,7 @@ public class Biglietto implements Serializable {
 	 * Imposta il {@link Posto} come prenotatato
 	 * 
 	 * @param prenotato
+	 *            true se prenotato, false altrimenti.
 	 * @author Maurizio Casciano
 	 */
 	public void setPrenotato(boolean prenotato) {
@@ -108,6 +116,7 @@ public class Biglietto implements Serializable {
 	 * Imposta il {@link Posto} come venduto, quindi pagato
 	 * 
 	 * @param pagato
+	 *            true se pagato, false altrimenti.
 	 * @author Maurizio Casciano
 	 */
 	public void setPagato(boolean pagato) {
@@ -117,8 +126,8 @@ public class Biglietto implements Serializable {
 	/**
 	 * Restituisce il {@link Posto} prenotato/acquistato dal cliente
 	 * 
-	 * @return posto
-	 * @authir Gaetano Antonucci
+	 * @return posto il posto relativo al biglietto.
+	 * @author Gaetano Antonucci
 	 */
 	public Posto getPosto() {
 		return this.posto;
@@ -139,10 +148,13 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
 	@Override

@@ -19,6 +19,9 @@ public class WeakPasswordException extends IllegalArgumentException implements S
 	/**
 	 * Indica che la password scelta non rispecchia i requisiti minimi di
 	 * sicurezza.
+	 * 
+	 * @param s
+	 *            Il messaggio da mostrare.
 	 */
 	public WeakPasswordException(String s) {
 		super(s);

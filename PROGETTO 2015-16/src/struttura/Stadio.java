@@ -128,8 +128,6 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 				 * Aggiunge il posto corrente al settore corrente.
 				 */
 				settore.addPosto(posto);
-
-				// System.out.println(posto);
 			}
 
 			/*
@@ -142,7 +140,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	/**
 	 * Restituisce una copia dei settori dello stadio.
 	 * 
-	 * @return
+	 * @return un clone dell'ArrayList dei settori dello stadio.
 	 * @author Maurizio
 	 */
 	@SuppressWarnings("unchecked")

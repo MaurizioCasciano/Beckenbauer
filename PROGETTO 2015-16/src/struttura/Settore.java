@@ -51,7 +51,7 @@ public class Settore implements Serializable {
 	/**
 	 * Restituisce la lista dei posti del settore
 	 * 
-	 * @return ArrayList<Posto> dei posti del Settore
+	 * @return ArrayList dei posti del Settore
 	 */
 	public ArrayList<Posto> getPosti() {
 		return this.posti;

@@ -80,6 +80,12 @@ import user.Gestore;
 import user.UserNotFoundException;
 import user.Utente;
 
+/**
+ * Classe che estende {@link JFrame}, usata per la visualizzazione
+ * dell'interfaccia grafica della StrutturaSportiva.
+ * 
+ * @author Maurizio
+ */
 public class Window extends JFrame implements Serializable {
 
 	public Window(String nomeStruttura) {

@@ -98,12 +98,6 @@ public class StadiumSeatButton extends JButton implements Serializable {
 								new Biglietto(strutturaSportiva, cliente, partita, settore, numeroFila, numeroPosto)));
 
 						posto.setStato(SeatStatus.PRENOTATO);
-						// setBackground(posto.getStato().getColor());
-						// StadiumSeatButton.this.setToolTipText("Fila: " +
-						// numeroFila + " " + "Posto: " + numeroPosto
-						// + " " + "Stato: " + posto.getStato());
-						// repaint();
-
 						JOptionPane.showMessageDialog(null,
 								"Complimenti, prenotazione aggiunta correttamente.\nN.B.: Si ricorda che la prenotazione scade 12 ore prima dell'inizio della partita.\nIn assenza di un acquisto ad essa collegato, la prenotazione, verra' cancellata automaticamente.",
 								"Prenotazione effettuata.", JOptionPane.INFORMATION_MESSAGE);

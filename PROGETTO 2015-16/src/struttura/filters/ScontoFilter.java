@@ -1,4 +1,5 @@
 package struttura.filters;
+import struttura.Sconto;
 
 /**
  * Interfaccia che modella un filtro sugllo {@link Sconto}
