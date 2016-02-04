@@ -15,5 +15,5 @@ public interface PurchaseFilter {
 	 * @param acquisto - l'{@link Acquisto} su cui s'imposta il filtro
 	 * @return {@code true} se l'acquisto soddisfa il filtro, {@code false} altrimenti
 	 */
-	public boolean accept(Acquisto acquisto);
+	boolean accept(Acquisto acquisto);
 }

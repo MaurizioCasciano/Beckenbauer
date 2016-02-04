@@ -18,5 +18,5 @@ public interface Filter {
 	 *         altrimenti
 	 * @author Maurizio Casciano
 	 */
-	public boolean accept(Partita partitaDiCalcio);
+	boolean accept(Partita partitaDiCalcio);
 }
