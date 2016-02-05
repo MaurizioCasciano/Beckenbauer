@@ -49,18 +49,6 @@ import java.security.spec.InvalidKeySpecException;
  * </P>
  */
 public class PasswordHash implements Serializable {
-	private static final long serialVersionUID = -6843744174735008039L;
-
-	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA512";
-
-	public static final int SALT_BYTE_SIZE = 64;
-	public static final int HASH_BYTE_SIZE = 64;
-	public static final int PBKDF2_ITERATIONS = 100000;
-
-	public static final int ITERATION_INDEX = 0;
-	public static final int SALT_INDEX = 1;
-	public static final int PBKDF2_INDEX = 2;
-
 	/**
 	 * Restituisce l'hash PBKDF2 con salt della password.
 	 *
@@ -263,6 +251,15 @@ public class PasswordHash implements Serializable {
 		return DatatypeConverter.printHexBinary(array);
 	}
 
+	private static final long serialVersionUID = -6843744174735008039L;
+	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA512";
+	public static final int SALT_BYTE_SIZE = 64;
+	public static final int HASH_BYTE_SIZE = 64;
+	public static final int PBKDF2_ITERATIONS = 100000;
+	public static final int ITERATION_INDEX = 0;
+	public static final int SALT_INDEX = 1;
+	public static final int PBKDF2_INDEX = 2;
+	
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		String passwordHash = PasswordHash.createHash("Ciao");
 

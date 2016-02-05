@@ -140,11 +140,9 @@ public class Biglietto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return ("IDBiglietto: " + this.IDBiglietto + " " + this.partita
-				+ " \n" /*
-						 * + "Settore: " + this.settore + " Fila: " + this.fila
-						 * + " Posto: " + this.posto
-						 */);
+		return this.getClass().getName() + " [IDBiglietto=" + IDBiglietto + ", cliente=" + cliente + ", partita="
+				+ partita + ", settore=" + settore + ", fila=" + fila + ", posto=" + posto + ", prezzo=" + prezzo
+				+ ", strutturaSelezionata=" + strutturaSelezionata + "]";
 	}
 
 	/**

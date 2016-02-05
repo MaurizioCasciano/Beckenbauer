@@ -1,7 +1,6 @@
 package struttura;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -183,15 +182,9 @@ public class Sconto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		String inizioValiditaString = this.inizioValidita.get(Calendar.DAY_OF_MONTH) + "."
-				+ (this.inizioValidita.get(Calendar.MONTH) + 1) + "." + this.inizioValidita.get(Calendar.YEAR);
-
-		String fineValiditaString = this.fineValidita.get(Calendar.DAY_OF_MONTH) + "."
-				+ (this.fineValidita.get(Calendar.MONTH) + 1) + "." + this.fineValidita.get(Calendar.YEAR);
-
-		return (" " + String.valueOf(this.tipoSconto) + " Perc.: " + this.percetualeSconto + "\n Stadio: " + this.stadio
-				+ " Partita: " + this.partita + " GiornoPrest: " + String.valueOf(this.giornoSettimana)
-				+ "\n Iniz.Val.: " + inizioValiditaString + " Fine Val.: " + fineValiditaString);
+		return this.getClass().getName() + " [tipoSconto=" + tipoSconto + ", percetualeSconto=" + percetualeSconto
+				+ ", stadio=" + stadio + ", partita=" + partita + ", inizioValidita=" + inizioValidita.getTime()
+				+ ", fineValidita=" + fineValidita.getTime() + ", giornoSettimana=" + giornoSettimana + "]";
 	}
 
 	/**

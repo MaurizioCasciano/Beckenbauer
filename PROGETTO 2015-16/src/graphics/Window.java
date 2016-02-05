@@ -516,7 +516,6 @@ public class Window extends JFrame implements Serializable {
 		fileMenu.add(exitMenuItem);
 		menuBar.add(fileMenu);
 
-		/************************************************************************************/
 		JMenu showMenu = new JMenu("Visualizza");
 		JMenuItem showPrenotazioni = new JMenuItem("Prenotazioni");
 
@@ -1001,8 +1000,6 @@ public class Window extends JFrame implements Serializable {
 		this.mainPanel.repaint();
 	}
 
-	/************************************************************************************************/
-
 	/**
 	 * Classe per gestire le operazioni da eseguire all'apertura e alla chiusura
 	 * della finestra.
@@ -1026,14 +1023,14 @@ public class Window extends JFrame implements Serializable {
 					final TimerTask timerTask = new TimerTask() {
 						@Override
 						public void run() {
-							strutturaSportiva.cancellaPrenotazioniScadute();
+							Window.this.strutturaSportiva.cancellaPrenotazioniScadute();
 							System.out.println("Controllate prenotazioni scadute " + new GregorianCalendar().getTime());
 						}
 					};
 
-					Timer timer = new Timer();
+					final Timer timer = new Timer();
 					final int MINUTI = 1;
-					timer.schedule(timerTask, 1000 * 60 * MINUTI, 1000 * 60 * MINUTI);
+					timer.schedule(timerTask, 0, 1000 * 60 * MINUTI);
 					return null;
 				}
 			}.execute();
@@ -1194,7 +1191,7 @@ public class Window extends JFrame implements Serializable {
 						}.execute();
 					}
 				});
-				/*****************************************************************/
+
 				this.prenota.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -1235,7 +1232,7 @@ public class Window extends JFrame implements Serializable {
 						}.execute();
 					}
 				});
-				/*****************************************************************/
+
 				this.addSeparator();
 				this.add(prenota);
 				this.add(completaPrenotazione);
@@ -1245,7 +1242,7 @@ public class Window extends JFrame implements Serializable {
 			case GESTORE:
 				this.addPartita = new JMenuItem("Aggiungi Partita");
 				this.removePartita = new JMenuItem("Rimuovi Partita");
-				/*************************************************************************/
+
 				this.addPartita.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -1269,7 +1266,7 @@ public class Window extends JFrame implements Serializable {
 						}
 					}
 				});
-				/***********************************************************************************************/
+
 				this.add(addPartita);
 				this.add(removePartita);
 				break;
@@ -1280,7 +1277,6 @@ public class Window extends JFrame implements Serializable {
 
 		private static final long serialVersionUID = 6108564986742304925L;
 		private JMenuItem prenota, completaPrenotazione, acquista;
-		/********************************************************************/
 		private JMenuItem addPartita, removePartita;
 	}
 
@@ -1417,14 +1413,12 @@ public class Window extends JFrame implements Serializable {
 	private IdentificationPanel identificationPanel;
 	private Utente utente;
 	private Mode mode;
-
 	private PrenotazioneTable prenotazioniTable;
 	private AcquistoTable acquistiTabel;
 	private PartitaTable partitaTable;
 	private JScrollPane partitaTableScrollPane;
 	private JPanel partitePanel;
 	private ClosableTabbedPane tabbedPane;
-	/************************************************/
 	private String strutturaSportivaName;
 	private StrutturaSportiva strutturaSportiva;
 	private File strutturaSportiva_DB_File;
