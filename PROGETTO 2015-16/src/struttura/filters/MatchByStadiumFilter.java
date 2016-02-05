@@ -6,7 +6,7 @@ import struttura.Partita;
 import struttura.Stadio;
 
 /**
- * Classe che modella un filto su una partita in base allo stadio in cui si gioca.
+ * Classe di call-back che modella un filto su una partita in base allo stadio in cui si gioca.
  * 
  * @author Maurizio
  */

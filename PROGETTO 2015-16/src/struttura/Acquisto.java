@@ -1,7 +1,6 @@
 package struttura;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import user.Cliente;
@@ -169,13 +168,20 @@ public class Acquisto implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
+	/*
+	 * @Override public String toString() { int giornoAcquisto =
+	 * this.dataAcquisto.get(Calendar.DAY_OF_MONTH); int meseAcquisto =
+	 * this.dataAcquisto.get(Calendar.MONTH) + 1; int annoAcquisto =
+	 * this.dataAcquisto.get(Calendar.YEAR); return ("ID Acquisto: " +
+	 * this.IDAcquisto + " Data Acquisto: " + giornoAcquisto + "/" +
+	 * meseAcquisto + "/" + annoAcquisto + " \n" + "Biglietto: " +
+	 * this.biglietto); }
+	 */
+
 	@Override
 	public String toString() {
-		int giornoAcquisto = this.dataAcquisto.get(Calendar.DAY_OF_MONTH);
-		int meseAcquisto = this.dataAcquisto.get(Calendar.MONTH) + 1;
-		int annoAcquisto = this.dataAcquisto.get(Calendar.YEAR);
-		return ("ID Acquisto: " + this.IDAcquisto + " Data Acquisto: " + giornoAcquisto + "/" + meseAcquisto + "/"
-				+ annoAcquisto + " \n" + "Biglietto: " + this.biglietto);
+		return this.getClass().getName() + " [IDAcquisto=" + IDAcquisto + ", dataAcquisto=" + dataAcquisto.getTime()
+				+ ", biglietto=" + biglietto + "]";
 	}
 
 	/**

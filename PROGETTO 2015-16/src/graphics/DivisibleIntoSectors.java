@@ -22,7 +22,7 @@ public interface DivisibleIntoSectors {
 	 * @return Il numero di posti per ogni settore.
 	 * @author Maurizio
 	 */
-	public int getPostiPerSettore();
+	int getPostiPerSettore();
 
 	/**
 	 * Restituisce il numero di file per ogni settore.
@@ -34,7 +34,7 @@ public interface DivisibleIntoSectors {
 	 * @return Il numero di file di ogni settore.
 	 * @author Maurizio
 	 */
-	public int getNumeroFilePerSettore();
+	int getNumeroFilePerSettore();
 
 	/**
 	 * Restituisce il numero di posti per ogni fila del settore.
@@ -47,7 +47,7 @@ public interface DivisibleIntoSectors {
 	 * @return Il numero di posti per ogni fila del settore.
 	 * @author Maurizio
 	 */
-	public int getPostiPerFila();
+	int getPostiPerFila();
 
 	/**
 	 * Restituisce la capienza effettiva dello Stadio.
@@ -58,7 +58,7 @@ public interface DivisibleIntoSectors {
 	 * @return La capienza effettiva dello Stadio.
 	 * @author Maurizio
 	 */
-	public int getCapienzaEffettiva();
+	int getCapienzaEffettiva();
 
 	/**
 	 * Il numero di settori dello Stadio.

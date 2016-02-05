@@ -1,7 +1,10 @@
 package graphics;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
@@ -57,6 +60,20 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		this.numeroFila = this.posto.getNumeroFila();
 		this.numeroPosto = this.posto.getNumeroPosto();
 		this.stadiumMode = stadiumMode;
+
+		this.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+
+		});
 
 		this.posto.addPropertyChangeListener(new PropertyChangeListener() {
 

@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 import struttura.Partita;
 
 /**
- * Classe che modella un filto su una partita in base alla settimana in cui si gioca.
+ * Classe di call-back che modella un filto su una partita in base alla settimana in cui si gioca.
  * 
  * @author Maurizio
  */

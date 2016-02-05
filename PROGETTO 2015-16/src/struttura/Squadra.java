@@ -63,7 +63,7 @@ public class Squadra implements Serializable, Comparable<Squadra> {
 	 */
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [nome = " + nome + "]";
+		return this.getClass().getName() + " [nome=" + nome + "]";
 	}
 
 	/**

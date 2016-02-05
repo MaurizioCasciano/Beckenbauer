@@ -40,9 +40,9 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 * Ogni elemento nell' {@link ArrayList} <code>modelData</code> deve anche
 	 * contenere i campi per ogni colonna della riga.
 	 * 
-	 * Il nome di ogni colonna verrà preso dall'{@link ArrayList}
-	 * <code>columnNames</code> ed il numero di colonne è determinato dal numero
-	 * di elementi nell' {@link ArrayList} <code>columnNames</code>.
+	 * Il nome di ogni colonna verrà preso dall'Array <code>columnNames</code>
+	 * ed il numero di colonne è determinato dal numero di elementi nell'
+	 * {@link ArrayList} <code>columnNames</code>.
 	 *
 	 * @param modelData
 	 *            Gli oggetti da aggiungere alla {@link JTable}.
@@ -64,7 +64,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 * @param modelData
 	 *            Gli oggetti da aggiungere alla {@link JTable}.
 	 * @param columnNames
-	 *            <code>List</code> containing the names of the new columns
+	 *            <code>Array</code> containing the names of the new columns
 	 */
 	protected void setDataAndColumnNames(ArrayList<T> modelData, String[] columnNames) {
 		this.tableObjects = modelData;

@@ -16,5 +16,5 @@ public interface PrenotationFilter {
 	 * @param prenotazione - la {@link Prenotazione} su cui s'imposta il filtro
 	 * @return {@code true} se la prenotazione soddisfa il filtro, {@code false} altrimenti
 	 */
-	public boolean accept(Prenotazione prenotazione);
+	boolean accept(Prenotazione prenotazione);
 }
