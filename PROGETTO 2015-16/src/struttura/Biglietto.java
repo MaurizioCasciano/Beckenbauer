@@ -94,7 +94,7 @@ public class Biglietto implements Serializable {
 	/**
 	 * Restituisce il prezzo del biglietto
 	 * 
-	 * @return the prezzo il prezzo del biglietto.
+	 * @return il prezzo del biglietto.
 	 * @author Gaetano Antonucci
 	 */
 	public double getPrezzo() {
