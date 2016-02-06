@@ -9,10 +9,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import objectsTable.utilities.ObjectTextField;
 import struttura.Posto;
+
 /**
  * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
- * un oggetto {@link Posto} in una {@link JTable} tramite un
- * {@link JTextField}.
+ * un oggetto {@link Posto} in una {@link JTable} tramite un {@link JTextField}.
  * 
  * @author Maurizio
  */
@@ -32,7 +32,7 @@ public class PostoCellRenderer extends DefaultTableCellRenderer implements Table
 		JComponent defaultBorderComponent = (JComponent) super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
 
-		this.postoTextField.setText("Fila: " + posto.getFila() + "  Posto: " + posto.getPosto());
+		this.postoTextField.setText("Fila: " + posto.getNumeroFila() + "  Posto: " + posto.getNumeroPosto());
 		this.postoTextField.setObject(posto);
 
 		if (isSelected) {

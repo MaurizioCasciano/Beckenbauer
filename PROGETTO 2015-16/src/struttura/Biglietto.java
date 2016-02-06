@@ -103,24 +103,16 @@ public class Biglietto implements Serializable {
 
 	/**
 	 * Imposta il {@link Posto} come prenotatato
-	 * 
-	 * @param prenotato
-	 *            true se prenotato, false altrimenti.
-	 * @author Maurizio Casciano
 	 */
-	public void setPrenotato(boolean prenotato) {
-		this.posto.setPrenotato(prenotato);
+	public void setPrenotato() {
+		this.posto.setStato(SeatStatus.PRENOTATO);
 	}
 
 	/**
 	 * Imposta il {@link Posto} come venduto, quindi pagato
-	 * 
-	 * @param pagato
-	 *            true se pagato, false altrimenti.
-	 * @author Maurizio Casciano
 	 */
-	public void setPagato(boolean pagato) {
-		this.posto.setVenduto(pagato);
+	public void setVenduto() {
+		this.posto.setStato(SeatStatus.VENDUTO);
 	}
 
 	/**

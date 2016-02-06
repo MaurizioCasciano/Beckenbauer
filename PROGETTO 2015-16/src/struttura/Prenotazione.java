@@ -42,18 +42,7 @@ public class Prenotazione implements Serializable {
 		this.dataPrenotazione = dataPrenotazione;
 		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
 		this.bigliettoPrenotato = new Biglietto(stru, cliente, partita, settore, fila, posto);
-
-		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO); // da modificare
-	}
-
-	// DA ELIMINARE IN QUANTO NON USATO (?)
-	public Prenotazione(GregorianCalendar dataPrenotazione, Biglietto bigliettoPrenotato) {
-		this.IDPrenotazione = ++IDCounter;
-		this.dataPrenotazione = dataPrenotazione;
-		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
-		this.bigliettoPrenotato = bigliettoPrenotato;
-
-		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO);
+		this.bigliettoPrenotato.setPrenotato(); // da modificare
 	}
 
 	/**
@@ -210,9 +199,6 @@ public class Prenotazione implements Serializable {
 	private GregorianCalendar dataPrenotazione;
 	private String dataPrenotazioneString;
 	private Biglietto bigliettoPrenotato;
-
-	private static final boolean IS_PRENOTATO = true;
-
 	// Iteratore
 	private static int IDCounter = 0;
 

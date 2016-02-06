@@ -37,7 +37,7 @@ public class Partita implements Serializable {
 		/********************************************/
 		/* ArrayList per salvare lo stato dei posti */
 		/********************************************/
-		this.settori = this.stadio.getSettoriClone();
+		this.settori = this.stadio.getCopyOfSettori();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Partita implements Serializable {
 		this.squadraInTrasferta = new Squadra("-");
 		this.stadio = new Stadio("-", Stadio.CAPIENZA_MINIMA, Stadio.PREZZO_MINIMO);
 		this.data = new GregorianCalendar();
-		this.settori = this.stadio.getSettoriClone();
+		this.settori = this.stadio.getCopyOfSettori();
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class Partita implements Serializable {
 	public void setStadio(Stadio stadio) {
 		if (stadio != null) {
 			this.stadio = stadio;
-			this.settori = this.stadio.getSettoriClone();
+			this.settori = this.stadio.getCopyOfSettori();
 		}
 	}
 
@@ -202,7 +202,7 @@ public class Partita implements Serializable {
 	 * 
 	 * @param obj
 	 *            - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
 	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */

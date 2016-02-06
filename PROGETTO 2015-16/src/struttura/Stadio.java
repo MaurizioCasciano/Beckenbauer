@@ -3,7 +3,6 @@ package struttura;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import graphics.DivisibleIntoSectors;
 
 /**
@@ -49,7 +48,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 
 		this.capienzaDesiderata = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		this.init();
+		this.settori = this.createSettori();
 	}
 
 	/**
@@ -58,11 +57,11 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	 * 
 	 * @author Maurizio Casciano
 	 */
-	private void init() {
+	private ArrayList<Settore> createSettori() {
 
 		/*
 		 * Necessita' di re-inizializzare i due caratteri, altrimenti alla
-		 * chiamata del metodo setCapienza() che richiama init() i settori dello
+		 * chiamata del metodo setCapienza() che richiama createSettori() i settori dello
 		 * stadio non partiranno da AA.
 		 */
 		firstChar = 'A';
@@ -96,7 +95,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		// System.out.println("PostiPerFila arrotondati = " + Math.ceil((double)
 		// this.postiPerSettore / (double) this.filePerSettore));
 
-		this.settori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
+		ArrayList<Settore> localSettori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
 
 		/*
 		 * Crea i settori dello stadio.
@@ -133,19 +132,25 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 			/*
 			 * Aggiunge il settore corrente all'ArrayList di setttori.
 			 */
-			this.settori.add(settore);
+			localSettori.add(settore);
 		}
+		return localSettori;
 	}
 
 	/**
-	 * Restituisce una copia dei settori dello stadio.
+	 * Restituisce una copia dei settori dello stadio, in cui ogni posto ha come
+	 * stato LIBERO.
 	 * 
-	 * @return un clone dell'ArrayList dei settori dello stadio.
+	 * @return una copia dell'ArrayList dei settori dello stadio.
 	 * @author Maurizio
 	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<Settore> getSettoriClone() {
-		return (ArrayList<Settore>) this.settori.clone();
+	public ArrayList<Settore> getCopyOfSettori() {
+
+		return createSettori();
+	}
+
+	public ArrayList<Settore> getSettori() {
+		return this.settori;
 	}
 
 	@Override
@@ -242,7 +247,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	 */
 	public void setCapienzaStadio(int nuovaCapienza) {
 		this.capienzaDesiderata = nuovaCapienza;
-		this.init();
+		this.createSettori();
 	}
 
 	/**

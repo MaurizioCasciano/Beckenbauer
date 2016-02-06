@@ -11,10 +11,8 @@ import java.io.Serializable;
 import java.util.GregorianCalendar;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-
 import struttura.Acquisto;
 import struttura.AlreadyExistsObjectException;
-import struttura.Biglietto;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.PostoIndisponibileException;
@@ -111,8 +109,14 @@ public class StadiumSeatButton extends JButton implements Serializable {
 							throw new PrenotationNotAllowed();
 						}
 
-						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(),
-								new Biglietto(strutturaSportiva, cliente, partita, settore, numeroFila, numeroPosto)));
+						/*
+						 * strutturaSportiva.addPrenotazione(new
+						 * Prenotazione(new GregorianCalendar(), new
+						 * Biglietto(strutturaSportiva, cliente, partita,
+						 * settore, numeroFila, numeroPosto)));
+						 */
+						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(), strutturaSportiva,
+								cliente, partita, settore, numeroFila, numeroPosto));
 
 						posto.setStato(SeatStatus.PRENOTATO);
 						JOptionPane.showMessageDialog(null,
