@@ -19,7 +19,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
 import struttura.Partita;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.Squadra;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
@@ -38,10 +38,11 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce gli sconti.
 	 * @param partite
 	 *            L'ArrayList delle partite da mostrare per la scelta.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione delle partite &egrave uguale a 0.
+	 *             Se la dimensione delle partite e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva o l'ArrayList partite sono null.
 	 * @author Maurizio Casciano
@@ -157,7 +158,7 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	private void initPercentualeScontoPanel() {
 		this.percentualeScontoLabel = new JLabel("Percentuale sconto: ");
 		/*
-		 * I valori vengono impostati in questo modo poich�, con l'editor per la
+		 * I valori vengono impostati in questo modo poiche', con l'editor per la
 		 * percentuale saranno moltiplicati per 100.
 		 */
 		this.percetualeScontoSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.01, 1, 0.01));
@@ -200,9 +201,14 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TipoSconto.PartitaCorrente, sconto, dataInizio, dataFine, part);
+				Sconto s = new Sconto(TipoSconto.PARTITA_CORRENTE, sconto, dataInizio, dataFine, part);
 
+				System.out.println("BEFORE: " + strutturaSportiva.getSconti().size());
+				
 				strutturaSportiva.addSconto(s);
+				
+				System.out.println("AFTER: " + strutturaSportiva.getSconti().size());
+				
 				dispose();
 			}
 		});
@@ -222,35 +228,27 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
 	private static final long serialVersionUID = 260663801632901839L;
 	private ArrayList<Partita> partite;
 	private JLabel stadioLabel;
 	private JComboBox<Partita> partiteCombo;
 	private JPanel partiteComboPanel;
-	/***************************************/
 	private JLabel inizioLabel;
 	private DateTimePicker inizioPicker;
 	private JPanel dataInizioPanel;
-	/**************************************/
 	private JLabel fineLabel;
 	private DateTimePicker finePicker;
 	private JPanel dataFinePanel;
-	/*************************************/
 	private JLabel percentualeScontoLabel;
 	private JSpinner percetualeScontoSpinner;
 	private JPanel percentualeScontoPanel;
-	/*************************************/
 	private JButton applicaScontoButton, annullaButton;
 	private JPanel buttonPanel;
-	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-
-	/*************************************/
 
 	public static void main(String[] args) {
 
-		Stadio s = new Stadio("Meazza", 10, 10);
+		Stadio s = new Stadio("Meazza", 20000, 10);
 		ArrayList<Partita> partite = new ArrayList<>();
 		partite.add(new Partita(new Squadra("Inter"), new Squadra("Milan"), s, new GregorianCalendar()));
 

@@ -19,10 +19,10 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
-import struttura.filters.PurchasesByStadium;
+import struttura.filters.PurchaseByStadiumFilter;
 
 /**
- * Classe che modella un Panel per la visualizzazione dell'incasso della struttura
+ * Classe che modella un JPanel per la visualizzazione dell'incasso della struttura
  * 
  * @author Gaetano Antonucci
  */
@@ -32,9 +32,12 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 	 * Crea un nuovo pannello per la visualizzazione degli incassi della
 	 * struttura sportiva
 	 * 
-	 * @param struct -  La struttura di cui si vogliono conoscere i totali.
+	 * @param struct
+	 *            La struttura sportiva di cui si vogliono conoscere i totali.
 	 * @throws NullPointerException
+	 *             Se la struttura sportiva è null.
 	 * @throws IllegalArgumentException
+	 *             Se la struttura sportiva non contiene stadi.
 	 */
 	public VisualizzaIncassoPanel(StrutturaSportiva struct) throws NullPointerException, IllegalArgumentException {
 		this.struct = struct;
@@ -127,7 +130,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(
-							struct.getAcquistiFiltrati(new PurchasesByStadium((Stadio) comboStadi.getSelectedItem()))));
+							struct.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
 					labelIncasso.setText("Incasso: " + totale);
 				}
 
@@ -180,7 +183,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 				comboButtonPanel.add(comboStadi);
 				comboButtonPanel.revalidate();
 				String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(
-						struct.getAcquistiFiltrati(new PurchasesByStadium((Stadio) comboStadi.getSelectedItem()))));
+						struct.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
 				labelIncasso.setText("Incasso: " + totale);
 			}
 		});

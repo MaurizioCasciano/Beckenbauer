@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
@@ -36,9 +36,11 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	 * in input.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce gli sconti.
 	 * @param stadi
+	 *            Gli stadi della StrutturaSportiva.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi &egrave uguale a 0.
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva o l'ArrayList stadi sono null.
 	 * @author Maurizio Casciano 
@@ -197,9 +199,11 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TipoSconto.TutteLePartiteDelloStadio, sconto, dataInizio, dataFine, std);
+				Sconto s = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, sconto, dataInizio, dataFine, std);
 
 				strutturaSportiva.addSconto(s);
+
+				System.out.println("SCONTI DOPO = " + strutturaSportiva.getSconti().size());
 				dispose();
 			}
 		});
@@ -219,34 +223,27 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
 	private static final long serialVersionUID = 260663801632901839L;
 	private ArrayList<Stadio> stadi;
 	private JLabel stadioLabel;
 	private JComboBox<Stadio> stadiCombo;
 	private JPanel stadiComboPanel;
-	/***************************************/
 	private JLabel inizioLabel;
 	private DateTimePicker inizioPicker;
 	private JPanel dataInizioPanel;
-	/**************************************/
 	private JLabel fineLabel;
 	private DateTimePicker finePicker;
 	private JPanel dataFinePanel;
-	/*************************************/
 	private JLabel percentualeScontoLabel;
 	private JSpinner percetualeScontoSpinner;
 	private JPanel percentualeScontoPanel;
-	/*************************************/
 	private JButton applicaScontoButton, annullaButton;
 	private JPanel buttonPanel;
-	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-	/*************************************/
 
 	public static void main(String[] args) {
 
-		Stadio s = new Stadio("Meazza", 10, 10);
+		Stadio s = new Stadio("Meazza", 20000, 10);
 		ArrayList<Stadio> stadi = new ArrayList<>();
 		stadi.add(s);
 		stadi.add(new Stadio("Olimpico", 60000, 30));

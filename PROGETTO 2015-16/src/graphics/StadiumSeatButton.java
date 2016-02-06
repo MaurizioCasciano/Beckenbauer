@@ -1,34 +1,50 @@
 package graphics;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-
 import struttura.Acquisto;
 import struttura.AlreadyExistsObjectException;
-import struttura.Biglietto;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.PostoIndisponibileException;
+import struttura.PrenotationNotAllowed;
 import struttura.Prenotazione;
 import struttura.SeatStatus;
 import struttura.Settore;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
+/**
+ * Classe che estende {@link JButton}, utile per rappresentare graficamente il
+ * posto di uno Stadio.
+ * 
+ * @author Maurizio
+ */
 public class StadiumSeatButton extends JButton implements Serializable {
 
 	/**
+	 * Costruisce un nuovo StadiumSeatButton.
 	 * 
 	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce acquisti/prenotazioni.
 	 * @param cliente
+	 *            Il cliente che accede alla visualizzazione dello stadio.
 	 * @param partita
+	 *            La partita da prenotare/acquistare.
 	 * @param posto
+	 *            Il posto da rappresentare graficamente.
+	 * @param stadiumMode
+	 *            La modalità di visualizzazione dello stadio in cui si trova il
+	 *            posto.
 	 * @author Maurizio
 	 */
 	public StadiumSeatButton(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, Posto posto,
@@ -43,12 +59,32 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		this.numeroPosto = this.posto.getNumeroPosto();
 		this.stadiumMode = stadiumMode;
 
-		this.posto.addPropertyChangeListener(new PropertyChangeListener() {
+		this.addMouseListener(new MouseAdapter() {
 
 			@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+
+		});
+
+		this.posto.addPropertyChangeListener(new PropertyChangeListener() {
+
+			/*
+			 * Aggiorna il colore del posto sulla sagoma grafica al cambio dello
+			 * stato del posto corrispondente.
+			 */
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				setBackground(posto.getStato().getColor());
-				repaint();
+				StadiumSeatButton.this.setBackground(posto.getStato().getColor());
+				StadiumSeatButton.this.setToolTipText(
+						"Fila: " + numeroFila + "  " + "Posto: " + numeroPosto + " " + "Stato: " + posto.getStato());
+				StadiumSeatButton.this.repaint();
 			}
 		});
 
@@ -69,24 +105,32 @@ public class StadiumSeatButton extends JButton implements Serializable {
 							throw new PostoIndisponibileException();
 						}
 
-						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(),
-								new Biglietto(strutturaSportiva, cliente, partita, settore, numeroFila, numeroPosto)));
+						if (strutturaSportiva.verificaAcquisto(cliente, partita)) {
+							throw new PrenotationNotAllowed();
+						}
+
+						/*
+						 * strutturaSportiva.addPrenotazione(new
+						 * Prenotazione(new GregorianCalendar(), new
+						 * Biglietto(strutturaSportiva, cliente, partita,
+						 * settore, numeroFila, numeroPosto)));
+						 */
+						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(), strutturaSportiva,
+								cliente, partita, settore, numeroFila, numeroPosto));
 
 						posto.setStato(SeatStatus.PRENOTATO);
-						setBackground(posto.getStato().getColor());
-						StadiumSeatButton.this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto
-								+ " " + "Stato: " + posto.getStato());
-						repaint();
-
 						JOptionPane.showMessageDialog(null,
-								"Complimenti, prenotazione aggiunta correttamente.\nN.B.: Si ricorda che la prenotazione scade 12 ore prima dell'inizio della partita.\nIn assenza di un acquisto ad essa collegato, la prenotazione, verrà cancellata automaticamente.",
+								"Complimenti, prenotazione aggiunta correttamente.\nN.B.: Si ricorda che la prenotazione scade 12 ore prima dell'inizio della partita.\nIn assenza di un acquisto ad essa collegato, la prenotazione, verra' cancellata automaticamente.",
 								"Prenotazione effettuata.", JOptionPane.INFORMATION_MESSAGE);
 
 					} catch (AlreadyExistsObjectException e2) {
 						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione già presente",
 								JOptionPane.ERROR_MESSAGE);
 					} catch (PostoIndisponibileException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Posto Indisponibile Exception",
+						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getClass().getSimpleName(),
+								JOptionPane.ERROR_MESSAGE);
+					} catch (PrenotationNotAllowed e3) {
+						JOptionPane.showMessageDialog(null, e3.getMessage(), e3.getClass().getSimpleName(),
 								JOptionPane.ERROR_MESSAGE);
 					}
 					break;
@@ -102,10 +146,11 @@ public class StadiumSeatButton extends JButton implements Serializable {
 									numeroPosto, strutturaSportiva));
 
 							posto.setStato(SeatStatus.VENDUTO);
-							setBackground(posto.getStato().getColor());
-							StadiumSeatButton.this.setToolTipText("Fila: " + numeroFila + "  " + "Posto: " + numeroPosto
-									+ " " + "Stato: " + posto.getStato());
-							repaint();
+							// setBackground(posto.getStato().getColor());
+							// StadiumSeatButton.this.setToolTipText("Fila: " +
+							// numeroFila + " " + "Posto: " + numeroPosto
+							// + " " + "Stato: " + posto.getStato());
+							// repaint();
 
 							JOptionPane.showMessageDialog(null, "Complimenti, acquisto aggiunto correttamente.",
 									"Prenotazione presente", JOptionPane.INFORMATION_MESSAGE);
@@ -125,13 +170,6 @@ public class StadiumSeatButton extends JButton implements Serializable {
 				default:
 					break;
 				}
-
-				//System.out.println("Struttura: " + strutturaSportiva.getNome());
-				//System.out.println("Cliente: " + cliente.getNome());
-				//System.out.println("Partita: " + partita);
-				//System.out.println("NumeroFila: " + numeroFila);
-				//System.out.println("NumeroPosto: " + numeroPosto);
-				//System.out.println(cliente.getNome() + " CLICKED SEAT n° " + getToolTipText());
 			}
 		});
 	}
@@ -149,10 +187,22 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Restituisce il cliente che deve prenotare/acquistare un biglietto.
+	 * 
+	 * @return Il cliente che deve prenotare/acquistare un biglietto.
+	 * @author Maurizio
+	 */
 	public Cliente getCliente() {
 		return this.cliente;
 	}
 
+	/**
+	 * Restituisce la partita da prenotare/acquistare.
+	 * 
+	 * @return La partita da prenotare/acquistare.
+	 * @author Maurizio
+	 */
 	public Partita getPartita() {
 		return this.partita;
 	}
@@ -175,10 +225,25 @@ public class StadiumSeatButton extends JButton implements Serializable {
 		return numeroPosto;
 	}
 
+	/**
+	 * Restituisce la strutturaSportiva che gestisce le prenotazioni e gli
+	 * acquisti.
+	 * 
+	 * @return La strutturaSportiva che gestisce le prenotazioni e gli acquisti.
+	 * @author Maurizio
+	 */
 	public StrutturaSportiva getStrutturaSportiva() {
 		return this.strutturaSportiva;
 	}
 
+	/**
+	 * Restituisce la modalità di accesso con cui si chiede di visualizzare il
+	 * posto.
+	 * 
+	 * @return La modalità di accesso con cui si chiede di visualizzare il
+	 *         posto.
+	 * @author Maurizio
+	 */
 	public StadiumMode getStadiumMode() {
 		return stadiumMode;
 	}

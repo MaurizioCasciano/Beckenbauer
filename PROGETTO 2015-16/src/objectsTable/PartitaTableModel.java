@@ -3,20 +3,26 @@ package objectsTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
+import javax.swing.JTable;
 import struttura.Mode;
 import struttura.Partita;
 import struttura.Squadra;
 import struttura.Stadio;
 
-public class PartitaTableModel extends RowObjectTableModel<Partita>implements Serializable {
+/**
+ * Classe che estende {@link RowObjectTableModel}, usata per permettere di
+ * gestire una lista di {@link Partita} all'interno di una {@link JTable}
+ * 
+ * @author Maurizio
+ */
+public class PartitaTableModel extends RowObjectTableModel<Partita> implements Serializable {
 
 	private static final long serialVersionUID = 6082073225853493069L;
 	private static final String[] COLUMN_NAMES = { "Casa", "Trasferta", "Stadio", "Capienza Stadio", "Data" };
 	private Mode mode;
 
 	public PartitaTableModel(Mode mode) {
-		super(COLUMN_NAMES, Partita.class);
+		super(COLUMN_NAMES);
 
 		this.mode = mode;
 		setColumnClass(0, Squadra.class);
@@ -27,7 +33,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 	}
 
 	public PartitaTableModel(Mode mode, ArrayList<Partita> partite) {
-		super(partite, COLUMN_NAMES, Partita.class);
+		super(partite, COLUMN_NAMES);
 
 		this.mode = mode;
 		setColumnClass(0, Squadra.class);
@@ -58,7 +64,7 @@ public class PartitaTableModel extends RowObjectTableModel<Partita>implements Se
 	 * Rimuove la riga (Partita), corrispondente all'indice dato in input, dal
 	 * modello di questa tabella.
 	 * 
-	 * @param rowsIndex
+	 * @param rowIndex
 	 *            L'indice della riga (Partita) da rimuovere dlla tabella.
 	 */
 	public void removePartita(int rowIndex) {

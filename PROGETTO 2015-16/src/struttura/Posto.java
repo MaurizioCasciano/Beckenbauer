@@ -12,8 +12,6 @@ import java.beans.PropertyChangeSupport;
  */
 public class Posto implements Serializable {
 
-	private static final long serialVersionUID = 7526566854555308360L;
-
 	/**
 	 * Crea un nuovo {@link Posto} impostando lo stato a
 	 * {@link SeatStatus#LIBERO}.
@@ -23,7 +21,7 @@ public class Posto implements Serializable {
 	 * @param settore
 	 *            Il settore a cui appartiene questo Posto.
 	 * @param numeroFila
-	 *            Il numero della fila in cui � situato questo Posto.
+	 *            Il numero della fila in cui e' situato questo Posto.
 	 * @param numeroPosto
 	 *            Il numero di questo Posto.
 	 * @author Maurizio Casciano
@@ -57,10 +55,28 @@ public class Posto implements Serializable {
 		this.stato = stato;
 	}
 
+	/**
+	 * Aggiunge un listener alla lista degli ascoltatori per il cambiamento
+	 * dello stato del posto.
+	 * 
+	 * @param listener
+	 *            il listener a cui notificare il cambiamento dello stato del
+	 *            posto.
+	 * @author Maurizio
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.PROPERTY_CHANGE_SUPPORT.addPropertyChangeListener(listener);
 	}
 
+	/**
+	 * Rimuove il listener dalla lista degli ascoltatori per il cambiamento di
+	 * stato del posto. Se il listener e' null oppure non e' mai stato aggiunto,
+	 * non viene lanciata nessuna eccezione e non viene eseguita nessuna azione.
+	 * 
+	 * @param listener
+	 *            il listener da rimuovere.
+	 * @author Maurizio
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.PROPERTY_CHANGE_SUPPORT.removePropertyChangeListener(listener);
 	}
@@ -71,7 +87,7 @@ public class Posto implements Serializable {
 	 * @return il numero di fila
 	 */
 	public int getNumeroFila() {
-		return numeroFila;
+		return this.numeroFila;
 	}
 
 	/**
@@ -80,7 +96,7 @@ public class Posto implements Serializable {
 	 * @return il numero del posto
 	 */
 	public int getNumeroPosto() {
-		return numeroPosto;
+		return this.numeroPosto;
 	}
 
 	/**
@@ -93,49 +109,17 @@ public class Posto implements Serializable {
 		return this.stato;
 	}
 
-	
+	/**
+	 * Imposta lo stato del posto.
+	 * 
+	 * @param newSeatStatus
+	 *            il nuovo stato del posto.
+	 * @author Maurizio
+	 */
 	public void setStato(SeatStatus newSeatStatus) {
 		SeatStatus oldStatus = this.stato;
 		this.stato = newSeatStatus;
-
 		this.PROPERTY_CHANGE_SUPPORT.firePropertyChange(STATUS_PROPERTY_CHANGED, oldStatus, newSeatStatus);
-	}
-
-	/**
-	 * Verifica se il posto è prenotato
-	 * 
-	 * @return {@code true} se il posto è prenotato, {@code false} altrimenti
-	 * @author Maurizio Casciano
-	 */
-	public boolean isPrenotato() {
-		return this.stato == SeatStatus.PRENOTATO;
-	}
-
-	/**
-	 * 
-	 * @param prenotato
-	 *            the prenotato to set
-	 */
-	public void setPrenotato(boolean prenotato) {     // DA CONTROLLARE
-		this.stato = SeatStatus.PRENOTATO;
-	}
-
-	/**
-	 * Verifica se il posto è venduto
-	 * 
-	 * @return {@code true} se il posto è venduto, {@code false} altrimenti
-	 * @author Maurizio Casciano
-	 */
-	public boolean isVenduto() {
-		return this.stato == SeatStatus.VENDUTO;
-	}
-
-	/**
-	 * @param venduto
-	 *            the venduto to set
-	 */
-	public void setVenduto(boolean venduto) {    //DA CONTROLLARE
-		this.stato = SeatStatus.VENDUTO;
 	}
 
 	/**
@@ -144,37 +128,20 @@ public class Posto implements Serializable {
 	 * @return lo stadio
 	 * @author Gaetano Antonucci
 	 */
+
 	public Stadio getStadio() {
-		return stadio;
+		return this.stadio;
 	}
 
 	/**
-	 * Restituisce il {@link Settore} dello {@link Stadio} in cui &egrave ubicato il posto
-	 * @return il settore
+	 * Restituisce il {@link Settore} dello {@link Stadio} in cui e' situato il
+	 * posto.
+	 * 
+	 * @return il settore il settore in cui e' situato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public Settore getSettore() {
 		return this.settore;
-	}
-
-	/**
-	 * Restituisce la fila del {@link Settore} dello {@link Stadio} in cui &egrave ubicato il posto
-	 * 
-	 * @return la fila
-	 * @author Gaetano Antonucci
-	 */
-	public int getFila() {
-		return this.numeroFila;
-	}
-
-	/**
-	 * Restituisce il numero del posto 
-	 * 
-	 * @return the posto
-	 * @author Gaetano Antonucci
-	 */
-	public int getPosto() {
-		return this.numeroPosto;
 	}
 
 	/**
@@ -184,28 +151,31 @@ public class Posto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [stadio=" + stadio + ", settore=" + settore + ", fila=" + numeroFila
-				+ ", posto=" + numeroPosto + ", stato=" + stato + "]";
+		return this.getClass().getName() + " [stadio=" + stadio + ", settore=" + settore.getNomeSettore() + ", fila="
+				+ numeroFila + ", posto=" + numeroPosto + ", stato=" + stato + "]";
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Maurizio Casciano
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if (obj == null)
 			return false;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Posto other = (Posto) obj;
 
 		if (this.stadio.equals(other.stadio) && this.settore.equals(other.settore)
@@ -216,12 +186,12 @@ public class Posto implements Serializable {
 		return false;
 	}
 
+	private static final long serialVersionUID = 7526566854555308360L;
 	private Stadio stadio;
 	private Settore settore;
 	private int numeroFila;
 	private int numeroPosto;
 	private SeatStatus stato;
-
 	private String STATUS_PROPERTY_CHANGED = "stato";
 	private final PropertyChangeSupport PROPERTY_CHANGE_SUPPORT = new PropertyChangeSupport(this);;
 }

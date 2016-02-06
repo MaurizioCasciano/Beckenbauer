@@ -8,7 +8,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import calendar.DateTimePicker;
-
+/**
+ * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
+ * un oggetto {@link GregorianCalendar} in una {@link JTable} tramite un
+ * {@link DateTimePicker}.
+ * 
+ * @author Maurizio
+ */
 public class GregorianCalendarDateTimePickerCellRenderer extends DefaultTableCellRenderer
 		implements TableCellRenderer, Serializable {
 

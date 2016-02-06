@@ -1,13 +1,13 @@
 package struttura;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import user.Cliente;
 
 /**
- * Classe che modella l'acquisto di un biglietto sia direttamente sia da una prenotazione
+ * Classe che modella l'acquisto di un biglietto sia direttamente sia da una
+ * prenotazione
  * 
  * @author Gaetano Antonucci
  * @author Maurizio Casciano
@@ -15,33 +15,39 @@ import user.Cliente;
  */
 public class Acquisto implements Serializable {
 	/**
-	 * Costruisce un acquisto diretto, cioè senza una prenotazione in base ai parametri impostati
+	 * Costruisce un acquisto diretto, cioe' senza una prenotazione in base ai
+	 * parametri impostati
 	 * 
-	 * @param c - il cliente che acquista il biglietto
-	 * @param partita - la partita su cui si effettua l'acquisto
-	 * @param settore - il settore dello stadio 
-	 * @param fila - la fila del settore
-	 * @param posto - il posto scelto dal cliente
-	 * @param stru - la struttura sportiva sui cui si sta operando
+	 * @param c
+	 *            - il cliente che acquista il biglietto
+	 * @param partita
+	 *            - la partita su cui si effettua l'acquisto
+	 * @param settore
+	 *            - il settore dello stadio
+	 * @param fila
+	 *            - la fila del settore
+	 * @param posto
+	 *            - il posto scelto dal cliente
+	 * @param stru
+	 *            - la struttura sportiva sui cui si sta operando
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru){
+	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru) {
 		this.IDAcquisto = ++IDCounter;
 		this.dataAcquisto = new GregorianCalendar();
 		this.biglietto = new Biglietto(stru, c, partita, settore, fila, posto);
-
-		this.biglietto.setPrenotato(NOT_PRENOTATO);
-		this.biglietto.setPagato(IS_PAGATO); 
-
+		this.biglietto.setVenduto();
 	}
 
 	/**
-	 * Costruisce un acquisto basato su una prenotazione, dopodiche' elimina la 
+	 * Costruisce un acquisto basato su una prenotazione, dopodiche' elimina la
 	 * {@link Prenotazione}
 	 * 
-	 * @param prenotazione -  la prenotazione da cui si ricavano le informazioni
-	 * @param struct - la struttura sportiva sulla quale si sta operando
+	 * @param prenotazione
+	 *            - la prenotazione da cui si ricavano le informazioni
+	 * @param struct
+	 *            - la struttura sportiva sulla quale si sta operando
 	 * 
 	 * @author Gaetano Antonucci
 	 */
@@ -52,7 +58,7 @@ public class Acquisto implements Serializable {
 
 		this.biglietto = prenotazione.getBigliettoPrenotato();
 
-		this.biglietto.setPagato(IS_PAGATO);
+		this.biglietto.setVenduto();
 
 		/* Cancella la prenotazione in quanto e' stato effettuato l'acquisto */
 		struct.cancellaPrenotazioneCliente(this.biglietto.getCliente(), this.biglietto.getPartita());
@@ -60,7 +66,8 @@ public class Acquisto implements Serializable {
 	}
 
 	/**
-	 * Reistituisce il cliente che ha effetuato l'acquisto recuperandolo dal {@link Biglietto}
+	 * Reistituisce il cliente che ha effetuato l'acquisto recuperandolo dal
+	 * {@link Biglietto}
 	 * 
 	 * @return il cliente che ha acquistato
 	 * @author Maurizio Casciano
@@ -70,9 +77,10 @@ public class Acquisto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la partita su cui è stato effetuato l'acquisto, recuperandola dal {@link Biglietto}
+	 * Restituisce la partita su cui e' stato effetuato l'acquisto,
+	 * recuperandola dal {@link Biglietto}
 	 * 
-	 * @return la partita
+	 * @return la partita su cui e' stato effettuato l'acquisto.
 	 * @author Maurizio Casciano
 	 */
 	public Partita getPartita() {
@@ -80,9 +88,10 @@ public class Acquisto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il {@link Settore}  dello {@link Stadio} scelto dal {@link Cliente}
+	 * Restituisce il {@link Settore} dello {@link Stadio} scelto dal
+	 * {@link Cliente}
 	 * 
-	 * @return il settore
+	 * @return il settore relativo all'acquisto.
 	 * @author Maurizio Casciano
 	 */
 	public Settore getSettore() {
@@ -90,9 +99,10 @@ public class Acquisto implements Serializable {
 	}
 
 	/**
-	 * Restituisce lo {@link Stadio} dove sara' / &egrave stata giocata la {@link Partita}
+	 * Restituisce lo {@link Stadio} dove sara'/e' stata giocata la
+	 * {@link Partita}
 	 * 
-	 * @return lo stadio
+	 * @return lo stadio.
 	 * @author Maurizio Casciano
 	 */
 	public Stadio getStadio() {
@@ -101,7 +111,8 @@ public class Acquisto implements Serializable {
 
 	/**
 	 * Restituisce la fila del {@link Settore} scelto dal {@link Cliente}
-	 * @return
+	 * 
+	 * @return la fila relativa all'acquisto.
 	 * @author Maurizio Cascaino
 	 */
 	public int getFila() {
@@ -111,7 +122,7 @@ public class Acquisto implements Serializable {
 	/**
 	 * Restituisce il {@link Posto} scelto dal {@link Cliente}
 	 * 
-	 * @return il posto
+	 * @return il posto relativo all'acquisto.
 	 * @author Maurizio Casciano
 	 */
 	public Posto getPosto() {
@@ -129,7 +140,8 @@ public class Acquisto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data ({@link GregorianCalendar}) in cui viene effettuato l'acquisto.
+	 * Restituisce la data ({@link GregorianCalendar}) in cui viene effettuato
+	 * l'acquisto.
 	 * 
 	 * @return la dataAcquisto
 	 * @author Gaetano Antonucci
@@ -148,27 +160,20 @@ public class Acquisto implements Serializable {
 		return this.biglietto;
 	}
 
-
-	/**
-	 * Restituisce le informazioni relative all'oggetto
-	 * 
-	 * @author Gaetano Antonucci
-	 */
 	@Override
 	public String toString() {
-		int giornoAcquisto = this.dataAcquisto.get(Calendar.DAY_OF_MONTH);
-		int meseAcquisto = this.dataAcquisto.get(Calendar.MONTH) + 1;
-		int annoAcquisto = this.dataAcquisto.get(Calendar.YEAR);
-		return ("ID Acquisto: " + this.IDAcquisto + " Data Acquisto: " + giornoAcquisto + "/" + meseAcquisto + "/"
-				+ annoAcquisto + " \n" + "Biglietto: " + this.biglietto);
+		return this.getClass().getName() + " [IDAcquisto=" + IDAcquisto + ", dataAcquisto=" + dataAcquisto.getTime()
+				+ ", biglietto=" + biglietto + "]";
 	}
 
-
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -179,7 +184,7 @@ public class Acquisto implements Serializable {
 
 		if (this == obj)
 			return true;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
 
@@ -192,14 +197,9 @@ public class Acquisto implements Serializable {
 
 	}
 
-	
 	private int IDAcquisto;
 	private GregorianCalendar dataAcquisto;
 	private Biglietto biglietto;
-
-	private static final boolean NOT_PRENOTATO = false;
-	private static final boolean IS_PAGATO = true;
-
 	// Iteratore
 	private static int IDCounter = 1;
 

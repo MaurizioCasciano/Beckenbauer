@@ -3,14 +3,19 @@ package objectsTable.renderers;
 import java.awt.Component;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
-
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import org.jdesktop.swingx.JXDatePicker;
 
+/**
+ * Classe che estende {@link DefaultTableCellRenderer}, usata per rappresentare
+ * un oggetto {@link GregorianCalendar} in una {@link JTable} tramite un
+ * {@link JXDatePicker}.
+ * 
+ * @author Maurizio
+ */
 public class GregorianCalendarDatePickerCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer, Serializable {
 
 	public GregorianCalendarDatePickerCellRenderer() {

@@ -9,11 +9,19 @@ import java.util.EventObject;
 import java.util.GregorianCalendar;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
 
 import objectsTable.utilities.ObjectTextField;
 import struttura.Partita;
 
+/**
+ * Classe che estende {@link AbstractCellEditor}, usatata per rappresentare
+ * un'oggetto {@link GregorianCalendar} in una {@link JTable} tramite una
+ * {@link JTextField}.
+ * 
+ * @author Maurizio
+ */
 public class GregorianCalendarCellEditor extends AbstractCellEditor implements TableCellEditor, Serializable {
 
 	public GregorianCalendarCellEditor() {

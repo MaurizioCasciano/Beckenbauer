@@ -3,17 +3,19 @@ package struttura;
 import java.io.Serializable;
 
 /**
- * Classe che modella una Squdra
+ * Classe che modella una Squdra.
  * 
  * @author Maurizio Casciano
  * @author Gaetano Antonucci
  */
-public class Squadra implements Serializable {
+public class Squadra implements Serializable, Comparable<Squadra> {
 
 	/**
-	 * Costruisce un'oggetto Squadra impostandone il nome
+	 * Costruisce un'oggetto Squadra impostandone il nome al valore passato in
+	 * input.
 	 * 
 	 * @param nome
+	 *            il nome della Squadra.
 	 * @author Maurizio Casciano
 	 */
 	public Squadra(String nome) {
@@ -21,9 +23,9 @@ public class Squadra implements Serializable {
 	}
 
 	/**
-	 * Resituisce il nome della Squdra
+	 * Resituisce il nome della Squdra.
 	 * 
-	 * @return nome
+	 * @return nome il nome della Squadra.
 	 * @author Maurizio Casciano
 	 */
 	public String getNome() {
@@ -34,6 +36,7 @@ public class Squadra implements Serializable {
 	 * Imposta un nuovo nome per la Squdra
 	 * 
 	 * @param nuovoNome
+	 *            il nuovo nome della Squadra.
 	 * @author Maurizio Casciano
 	 */
 	public void setNome(String nuovoNome) {
@@ -41,20 +44,36 @@ public class Squadra implements Serializable {
 	}
 
 	/**
-	 * Resituisce le informazioni relative alla Squdra come {@link String}
+	 * Confronta due Squadre in base al loro nome.
 	 * 
-	 * @author Maurizio Casciano 
+	 * @param s
+	 *            La squadra con cui effettuare il confronto lessicografico.
+	 * @return Il valore restituito dal metodo {@link String#compareTo(String)}
+	 *         applicato ai nomi delle due squadre.
 	 */
 	@Override
-	public String toString() {
-		return this.getClass().getSimpleName() + " [nome = " + nome + "]";
+	public int compareTo(Squadra s) {
+		return this.getNome().compareTo(s.getNome());
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Resituisce le informazioni relative alla Squdra.
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @author Maurizio Casciano
+	 */
+	@Override
+	public String toString() {
+		return this.getClass().getName() + " [nome=" + nome + "]";
+	}
+
+	/**
+	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come
+	 * parametro
+	 * 
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
 	@Override
@@ -71,7 +90,7 @@ public class Squadra implements Serializable {
 
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		Squadra other = (Squadra) obj;
 
 		if (this.nome.equals(other.getNome())) {

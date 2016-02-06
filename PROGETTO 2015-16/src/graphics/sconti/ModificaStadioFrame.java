@@ -27,16 +27,16 @@ import struttura.Stadio;
  */
 public class ModificaStadioFrame extends JFrame implements Serializable {
 
-
 	/**
 	 * Crea un nuovo frame che permette di aggiungere sconti agli stadi passati
 	 * in input.
 	 * 
 	 * @param stadi
+	 *            Lo Stadio da modificare.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi &egrave uguale a 0.
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
-	 *             Se l'ArrayList stadi &egrave null.
+	 *             Se l'ArrayList stadi e' null.
 	 * @author Maurizio Casciano
 	 * @author Gaetano Antonucci
 	 */
@@ -46,7 +46,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		this.setLayout(new GridLayout(4, 1, 10, 10));
 
 		if (stadi == null) {
-			throw new NullPointerException("Stadi non puo' essere null");
+			throw new NullPointerException("stadi non può essere null");
 		}
 
 		if (stadi.size() == 0) {
@@ -82,8 +82,8 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
 		/*
-		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata l'eccezione
-		 * IllegalArgumentException.
+		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata
+		 * l'eccezione IllegalArgumentException.
 		 */
 		this.stadiCombo.setSelectedIndex(0);
 
@@ -111,14 +111,14 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare la capienza dello stadio
+	 * Inizializza il pannello per selezionare la capienza dello stadio.
 	 * 
 	 * @author Maurizio Casciano
 	 */
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
 		this.capienzaSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaEffettiva(),
+				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaDesiderataStadio(),
 						Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
 		JSpinner.NumberEditor editor = (NumberEditor) capienzaSpinner.getEditor();
 		editor.getTextField().setEditable(false);
@@ -129,7 +129,8 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Inizializza il pannello per selezionare il prezzo per partita dello Stadio
+	 * Inizializza il pannello per selezionare il prezzo per partita dello
+	 * Stadio
 	 * 
 	 * @author Maurizio Casciano
 	 */
@@ -190,26 +191,19 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
-	
+	private static final long serialVersionUID = 7236146811425602651L;
 	private ArrayList<Stadio> stadi;
 	private JLabel stadioLabel;
 	private JComboBox<Stadio> stadiCombo;
 	private JPanel stadiComboPanel;
-	/***************************************/
 	private JLabel capienzaLabel;
 	private JSpinner capienzaSpinner;
 	private JPanel capienzaPanel;
-	/*************************************/
 	private JLabel prezzoLabel;
 	private JSpinner prezzoSpinner;
 	private JPanel prezzoPartitaPanel;
-	/*************************************/
 	private JButton applicaModificheButton, annullaButton;
 	private JPanel buttonPanel;
-
-	/*************************************/
-	private static final long serialVersionUID = 7236146811425602651L;
 
 	public static void main(String[] args) {
 

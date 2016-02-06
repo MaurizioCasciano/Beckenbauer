@@ -3,7 +3,7 @@ package struttura.filters;
 import struttura.Prenotazione;
 
 /**
- * Interfaccia che modella un filtro su una {@link Prenotazione}
+ * Interfaccia che modella un filtro su una {@link Prenotazione}.
  * 
  * @author Gaetano Antonucci
  *
@@ -11,11 +11,10 @@ import struttura.Prenotazione;
 public interface PrenotationFilter {
 	
 	/**
-	 * Metodo che verifica se una prenotazione soddisfa o meno il filtro
+	 * Metodo che verifica se una prenotazione soddisfa o meno il filtro.
 	 * 
 	 * @param prenotazione - la {@link Prenotazione} su cui s'imposta il filtro
 	 * @return {@code true} se la prenotazione soddisfa il filtro, {@code false} altrimenti
 	 */
-	public boolean accept(Prenotazione prenotazione);
-
+	boolean accept(Prenotazione prenotazione);
 }

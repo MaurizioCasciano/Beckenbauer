@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
@@ -34,16 +33,33 @@ import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import user.Cliente;
 
-public class StadiumPanel extends JPanel implements MouseWheelListener, Serializable {
+/**
+ * Classe che estende {@link JPanel}, utile per effettuare la rappresentazione
+ * grafica di uno stadio.
+ * 
+ * @author Maurizio
+ */
+public class StadiumPanel extends JPanel implements Serializable {
 
 	/**
 	 * Crea un pannello rappresentante uno stadio, con la capienza di default.
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
+	 * 
+	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce le partite e le
+	 *            prenotazioni/acquisti.
+	 * @param cliente
+	 *            Il Cliente che deve effettuare una prenotazione/acquisto.
+	 * @param partita
+	 *            La partita da prenotare/acquistare.
+	 * @param stadiumMode
+	 *            La modalità con cui si vuole accedere allo Stadio.
+	 * @author Maurizio
 	 */
 	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
 			StadiumMode stadiumMode) {
-		this(strutturaSportiva, cliente, partita, stadiumMode, CAPIENZA_DEFAULT);
+		this(strutturaSportiva, cliente, partita, stadiumMode, Stadio.CAPIENZA_MINIMA);
 	}
 
 	/**
@@ -51,8 +67,18 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	 * Per un corretto funzionamento (zoom e scrolling con mouse dragging) deve
 	 * essere inserito in un JScrollPane.
 	 * 
+	 * @param strutturaSportiva
+	 *            La StrutturaSportiva che gestisce le partite e le
+	 *            prenotazioni/acquisti.
+	 * @param cliente
+	 *            Il Cliente che deve effettuare una prenotazione/acquisto.
+	 * @param partita
+	 *            La partita da prenotare/acquistare.
+	 * @param stadiumMode
+	 *            La modalità con cui si vuole accedere allo Stadio.
 	 * @param capienza
 	 *            La capienza dello stadio.
+	 * @author Maurizio
 	 */
 	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, StadiumMode stadiumMode,
 			int capienza) {
@@ -99,7 +125,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	/**
 	 * Crea il pannello della parte nord e vi aggiunge i vari settori. Ogni
 	 * settore è rappresentato da un {@link JButton} contenente un
-	 * {@link JPanel} che gesti
+	 * {@link JPanel} che gestisce la visualizzazione dei due JPanel per il nome
+	 * del settore e i posti.
 	 */
 	private void initNorthPanel() {
 		final int NORTH_PANEL_ROWS = 8;
@@ -110,14 +137,14 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.northPanel.setOpaque(false);
 
 		for (int i = 0; i < NORTH_PANEL_ROWS * NORTH_PANEL_COLUMNS; i++) {
-			JPanel cellaPanel = new JPanel(new BorderLayout());
+			final JPanel cellaPanel = new JPanel(new BorderLayout());
 			cellaPanel.setOpaque(false);
 
 			if ((i >= 3 && i <= 26) || (i >= 31 && i <= 58) || (i >= 61 && i <= 88) || (i >= 90 && i <= 239)) {
 				this.numeroSettori++;
-				JButton settoreButton = new JButton();
-				settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
-						+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
+				final JButton settoreButton = new JButton();
+				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+						+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
 				 * mouse.
@@ -130,8 +157,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-						this.partita, this.getNextSettore(), this.stadiumMode);
+				final SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva,
+						this.cliente, this.partita, this.getNextSettore(), this.stadiumMode);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -175,13 +202,13 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.centreLeftPanel.setOpaque(false);
 
 		for (int i = 0; i < CENTRE_LEFT_PANEL_ROWS * CENTRE_LEFT_PANEL_COLUMNS; i++) {
-			JPanel cellaPanel = new JPanel(new BorderLayout());
+			final JPanel cellaPanel = new JPanel(new BorderLayout());
 			cellaPanel.setOpaque(true);
 
 			this.numeroSettori++;
-			JButton settoreButton = new JButton();
-			settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
-					+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
+			final JButton settoreButton = new JButton();
+			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+					+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -193,7 +220,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
+			final SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
 					this.partita, this.getNextSettore(), this.stadiumMode);
 
 			settoreButton.add(settoreStadioPanel);
@@ -212,7 +239,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 	}
 
 	private void initCentreCentrePanel() {
-		this.centreCentrePanel = new BackgroundImagePanel(Assets.getSoccerPitch());
+		this.centreCentrePanel = new SoccerFieldPanel();
 	}
 
 	private void initCentreRightPanel() {
@@ -220,13 +247,13 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.centreRightPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 10; i++) {
-			JPanel cellaPanel = new JPanel(new BorderLayout());
+			final JPanel cellaPanel = new JPanel(new BorderLayout());
 			cellaPanel.setOpaque(true);
 
 			this.numeroSettori++;
-			JButton settoreButton = new JButton();
-			settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
-					+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
+			final JButton settoreButton = new JButton();
+			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+					+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -238,7 +265,7 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 			 */
 			settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-			SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
+			final SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
 					this.partita, this.getNextSettore(), this.stadiumMode);
 
 			settoreButton.add(settoreStadioPanel);
@@ -266,14 +293,14 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		this.southPanel.setOpaque(false);
 
 		for (int i = 0; i < 8 * 30; i++) {
-			JPanel cellaPanel = new JPanel(new BorderLayout());
+			final JPanel cellaPanel = new JPanel(new BorderLayout());
 			cellaPanel.setOpaque(false);
 
 			if ((i <= 149) || (i >= 151 && i <= 178) || (i >= 181 && i <= 208) || (i >= 213 && i <= 236)) {
 				this.numeroSettori++;
-				JButton settoreButton = new JButton();
-				settoreButton.setToolTipText("Prezzo base: " + partita.getStadio().getPrezzoPerPartita()
-						+ DecimalFormatSymbols.getInstance().getCurrencySymbol());
+				final JButton settoreButton = new JButton();
+				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
+						+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
 
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
@@ -287,8 +314,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				 */
 				settoreButton.addMouseMotionListener(this.myMouseAdapter);
 
-				SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva, this.cliente,
-						this.partita, this.getNextSettore(), this.stadiumMode);
+				final SettoreStadioPanel settoreStadioPanel = new SettoreStadioPanel(this.strutturaSportiva,
+						this.cliente, this.partita, this.getNextSettore(), this.stadiumMode);
 
 				settoreButton.add(settoreStadioPanel);
 
@@ -324,24 +351,24 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		g2.fill(roundRectangle);
 	}
 
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		updatePreferredSize(StadiumPanel.this, e.getPreciseWheelRotation(), e.getPoint());
-	}
-
 	/**
-	 * Updates the preferredSize of the component depending on the value of
+	 * Aggiorna la dimensione preferita del componente in base al valore di
 	 * preciseWheelRotation.
 	 * 
 	 * @param component
-	 *            The component to which update the preferred size.
+	 *            Il componente a cui si vuole aggiornare la dimensione
+	 *            preferita.
 	 * @param preciseWheelRotation
-	 *            The wheel rotations of the mouse.
+	 *            Le rotazioni della rotellina del mouse.
 	 * @param mousePosition
-	 *            The position of the mouse when MouseWheelEvent was generated.
+	 *            La posizione del mouse quando è stato generato il
+	 *            MouseWheelEvent.
 	 */
-	private void updatePreferredSize(JComponent component, double preciseWheelRotation, Point mousePosition) {
+	protected void updatePreferredSize(JComponent component, double preciseWheelRotation, Point mousePosition) {
 
+		/*
+		 * Il fattore di zoom.
+		 */
 		double zoomFactor = preciseWheelRotation * 1.08;
 		zoomFactor = (preciseWheelRotation > 0) ? 1 / zoomFactor : -zoomFactor;
 
@@ -351,8 +378,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		 */
 		int newWidth = (int) (component.getWidth() * zoomFactor);
 		/*
-		 * La nuova larghezza viene calcolata moltiplicando quella attuale per
-		 * lo zoomFactor.
+		 * La nuova altezza viene calcolata moltiplicando quella attuale per lo
+		 * zoomFactor.
 		 */
 		int newHeight = (int) (component.getHeight() * zoomFactor);
 
@@ -362,8 +389,8 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		component.setPreferredSize(new Dimension(newWidth, newHeight));
 
 		/*
-		 * Calcola la posizione del mouse in seguito allo zoom (moltiplica per
-		 * lo zoomFactor).
+		 * Calcola la posizione del mouse in seguito allo zoom (moltiplica la
+		 * vecchia posizione per lo zoomFactor).
 		 */
 		double mouseX_AfterZoom = mousePosition.x * zoomFactor;
 		double mouseY_AfterZoom = mousePosition.y * zoomFactor;
@@ -415,33 +442,16 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		return this.settori.get(settoreIndex++);
 	}
 
+	/**
+	 * Restituisce il numero di settori creati.
+	 * 
+	 * @return Il numero di settori creati.
+	 * @author Maurizio
+	 */
 	public int getNumeroSettori() {
 		return this.numeroSettori;
 	}
 
-	private int settoreIndex = 0;
-	private static final long serialVersionUID = -1931003973640128793L;
-	private StrutturaSportiva strutturaSportiva;
-	private Cliente cliente;
-	private Partita partita;
-	private JPanel northPanel, centrePanel, southPanel;
-	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;
-	private ArrayList<Settore> settori;
-
-	private StadiumMode stadiumMode;
-	private int capienza;
-	public static final int CAPIENZA_DEFAULT = 50000;
-	private int numeroSettori;
-	public static final int SETTORI_TOTALI = 620;
-
-	private static final int STADIUM_PANEL_ROWS = 3;
-	private static final int STADIUM_PANEL_COLUMNS = 1;
-
-	private static final int HORIZONTAL_GAP = 5, VERTICAL_GAP = 5;
-
-	private final MouseAdapter myMouseAdapter = new MyMouseAdapter();
-
-	/**************************************************************************************/
 	class MyMouseAdapter extends MouseAdapter {
 		private Point origin = null;
 
@@ -450,13 +460,6 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		 */
 		@Override
 		public void mousePressed(MouseEvent e) {
-			/*
-			 * Alla pressione del mouse imposta il cursore mano.
-			 */
-			Component component = e.getComponent();
-			if (component != null) {
-				component.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			}
 			this.origin = new Point(e.getPoint());
 		}
 
@@ -478,12 +481,34 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 				if (StadiumPanel.this.getParent() != null && StadiumPanel.this.getParent() instanceof JViewport) {
 					viewPort = (JViewport) StadiumPanel.this.getParent();
 
+					/*
+					 * Calcola la distanza percorsa sulla asse delle ascisse
+					 * trascinando il mouse, a partire dal punto in cui ha avuto
+					 * inizio il trascinamento.
+					 */
 					int deltaX = this.origin.x - e.getX();
+
+					/*
+					 * Calcola la distanza percorsa sulla asse delle ordinate
+					 * trascinando il mouse, a partire dal punto in cui ha avuto
+					 * inizio il trascinamento.
+					 */
 					int deltaY = this.origin.y - e.getY();
 
+					/*
+					 * La parte attualmente visibile.
+					 */
 					Rectangle view = viewPort.getViewRect();
+
+					/*
+					 * Trasla la parte visibile in base alla distanza percorsa
+					 * trascinando il mouse.
+					 */
 					view.translate(deltaX, deltaY);
 
+					/*
+					 * Imposta la nuova parte visibile al rettangolo traslato.
+					 */
 					StadiumPanel.this.scrollRectToVisible(view);
 				}
 			}
@@ -510,7 +535,27 @@ public class StadiumPanel extends JPanel implements MouseWheelListener, Serializ
 		}
 	}
 
-	/***********************************************************************/
+	private int settoreIndex = 0;
+	private static final long serialVersionUID = -1931003973640128793L;
+	private StrutturaSportiva strutturaSportiva;
+	private Cliente cliente;
+	private Partita partita;
+	private JPanel northPanel, centrePanel, southPanel;
+	private JPanel centreLeftPanel, centreCentrePanel, centreRightPanel;
+	private ArrayList<Settore> settori;
+
+	private StadiumMode stadiumMode;
+	private int capienza;
+	private int numeroSettori;
+	// public static final int SETTORI_TOTALI = 620;
+
+	private static final int STADIUM_PANEL_ROWS = 3;
+	private static final int STADIUM_PANEL_COLUMNS = 1;
+
+	private static final int HORIZONTAL_GAP = 5, VERTICAL_GAP = 5;
+
+	private final MouseAdapter myMouseAdapter = new MyMouseAdapter();
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

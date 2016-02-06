@@ -2,10 +2,9 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -27,7 +26,6 @@ import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -42,28 +40,22 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.table.TableRowSorter;
 import calendar.Week;
+import graphics.incasso.VisualizzaIncassoFrame;
 import graphics.login.IdentificationPanel;
 import graphics.sconti.AggiungiStadioFrame;
 import graphics.sconti.ModificaStadioFrame;
 import graphics.sconti.ScontoGiornoFrame;
 import graphics.sconti.ScontoPartitaFrame;
 import graphics.sconti.ScontoStadioFrame;
-import graphics.incasso.VisualizzaIncassoFrame;
-import graphics.incasso.VisualizzaIncassoPanel;
-//import graphics.testing.ScontoStadioFrame;
 import objectsTable.AcquistoTable;
+import objectsTable.AcquistoTableModel;
 import objectsTable.PartitaTable;
 import objectsTable.PartitaTableModel;
 import objectsTable.PrenotazioneTable;
@@ -74,20 +66,26 @@ import struttura.Acquisto;
 import struttura.Mode;
 import struttura.Partita;
 import struttura.Prenotazione;
+import struttura.SeatStatus;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.filters.MatchByStadiumFilter;
 import struttura.filters.MatchByWeekFilter;
 import struttura.filters.MatchNotYetStartedFilter;
-import struttura.filters.PrenotationsByCustomer;
-import struttura.filters.PurchasesByCustomer;
+import struttura.filters.PrenotationByCustomerFilter;
+import struttura.filters.PurchaseByCustomerFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.Gestore;
 import user.UserNotFoundException;
 import user.Utente;
 
-@SuppressWarnings("unused")
+/**
+ * Classe che estende {@link JFrame}, usata per la visualizzazione
+ * dell'interfaccia grafica della StrutturaSportiva.
+ * 
+ * @author Maurizio
+ */
 public class Window extends JFrame implements Serializable {
 
 	public Window(String nomeStruttura) {
@@ -518,7 +516,6 @@ public class Window extends JFrame implements Serializable {
 		fileMenu.add(exitMenuItem);
 		menuBar.add(fileMenu);
 
-		/************************************************************************************/
 		JMenu showMenu = new JMenu("Visualizza");
 		JMenuItem showPrenotazioni = new JMenuItem("Prenotazioni");
 
@@ -532,7 +529,7 @@ public class Window extends JFrame implements Serializable {
 					protected ArrayList<Prenotazione> doInBackground() throws Exception {
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						ArrayList<Prenotazione> prenotazioniCliente = Window.this.strutturaSportiva
-								.getPrenotazioniFiltrate(new PrenotationsByCustomer((Cliente) Window.this.utente));
+								.getPrenotazioniFiltrate(new PrenotationByCustomerFilter((Cliente) Window.this.utente));
 						return prenotazioniCliente;
 					}
 
@@ -543,8 +540,51 @@ public class Window extends JFrame implements Serializable {
 								Window.this.prenotazioniTable = new PrenotazioneTable(get());
 								Window.this.prenotazioniTable.setComponentPopupMenu(new PrenotazioniPopupMenu());
 
+								JPanel prenotazioniPanel = new JPanel(new BorderLayout());
+								JPanel buttonNorthPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+								prenotazioniPanel.add(buttonNorthPanel, BorderLayout.NORTH);
+
+								JButton updateButton = new JButton("Update");
+								buttonNorthPanel.add(updateButton);
+								updateButton.addActionListener(new ActionListener() {
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										new SwingWorker<ArrayList<Prenotazione>, Void>() {
+
+											@Override
+											protected ArrayList<Prenotazione> doInBackground() throws Exception {
+												Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+												ArrayList<Prenotazione> prenotazioniCliente = Window.this.strutturaSportiva
+														.getPrenotazioniFiltrate(new PrenotationByCustomerFilter(
+																(Cliente) Window.this.utente));
+												return prenotazioniCliente;
+											}
+
+											@Override
+											protected void done() {
+												try {
+													try {
+														((PrenotazioneTableModel) (Window.this.prenotazioniTable
+																.getModel())).replaceData(get());
+													} finally {
+														Window.this.tabbedPane
+																.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+													}
+												} catch (InterruptedException e) {
+													e.printStackTrace();
+												} catch (ExecutionException e) {
+													e.printStackTrace();
+												}
+											}
+										}.execute();
+									}
+								});
+
 								JScrollPane prenotazioniScrollPane = new JScrollPane(Window.this.prenotazioniTable);
-								Window.this.tabbedPane.addTab("Prenotazioni", prenotazioniScrollPane);
+								prenotazioniPanel.add(prenotazioniScrollPane, BorderLayout.CENTER);
+
+								Window.this.tabbedPane.addTab("Prenotazioni", prenotazioniPanel);
 								Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 								Window.this.tabbedPane.revalidate();
 							} finally {
@@ -571,7 +611,7 @@ public class Window extends JFrame implements Serializable {
 					protected ArrayList<Acquisto> doInBackground() throws Exception {
 						Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						ArrayList<Acquisto> acquistiCliente = Window.this.strutturaSportiva
-								.getAcquistiFiltrati(new PurchasesByCustomer((Cliente) Window.this.utente));
+								.getAcquistiFiltrati(new PurchaseByCustomerFilter((Cliente) Window.this.utente));
 						return acquistiCliente;
 					}
 
@@ -580,9 +620,55 @@ public class Window extends JFrame implements Serializable {
 
 						try {
 							try {
-								AcquistoTable acquistiTable = new AcquistoTable(get());
-								JScrollPane acquistiScrollPane = new JScrollPane(acquistiTable);
-								Window.this.tabbedPane.addTab("Acquisti", acquistiScrollPane);
+								Window.this.acquistiTabel = new AcquistoTable(get());
+
+								JPanel acquistiPanel = new JPanel(new BorderLayout());
+								JPanel buttonNorthPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+								acquistiPanel.add(buttonNorthPanel, BorderLayout.NORTH);
+
+								JButton updateButton = new JButton("Update");
+								buttonNorthPanel.add(updateButton);
+
+								updateButton.addActionListener(new ActionListener() {
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										new SwingWorker<ArrayList<Acquisto>, Void>() {
+
+											@Override
+											protected ArrayList<Acquisto> doInBackground() throws Exception {
+												Window.this.tabbedPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+												ArrayList<Acquisto> acquistiCliente = Window.this.strutturaSportiva
+														.getAcquistiFiltrati(new PurchaseByCustomerFilter(
+																(Cliente) Window.this.utente));
+												return acquistiCliente;
+											}
+
+											@Override
+											protected void done() {
+												try {
+													try {
+														((AcquistoTableModel) (Window.this.acquistiTabel.getModel()))
+																.replaceData(get());
+													} finally {
+														Window.this.tabbedPane
+																.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+													}
+												} catch (InterruptedException e) {
+													e.printStackTrace();
+												} catch (ExecutionException e) {
+													e.printStackTrace();
+												}
+											}
+										}.execute();
+
+									}
+								});
+
+								JScrollPane acquistiScrollPane = new JScrollPane(Window.this.acquistiTabel);
+								acquistiPanel.add(acquistiScrollPane, BorderLayout.CENTER);
+
+								Window.this.tabbedPane.addTab("Acquisti", acquistiPanel);
 								Window.this.tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
 								Window.this.tabbedPane.revalidate();
 							} finally {
@@ -914,8 +1000,6 @@ public class Window extends JFrame implements Serializable {
 		this.mainPanel.repaint();
 	}
 
-	/************************************************************************************************/
-
 	/**
 	 * Classe per gestire le operazioni da eseguire all'apertura e alla chiusura
 	 * della finestra.
@@ -930,26 +1014,25 @@ public class Window extends JFrame implements Serializable {
 		 */
 		@Override
 		public void windowOpened(WindowEvent windowevent) {
-			System.out.println("Opened OPENED OPENED " + new GregorianCalendar().getTime());
+			System.out.println("OPENED " + new GregorianCalendar().getTime());
 
 			new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws Exception {
 
-					TimerTask timerTask = new TimerTask() {
+					final TimerTask timerTask = new TimerTask() {
 						@Override
 						public void run() {
-							strutturaSportiva.cancellaPrenotazioniScadute();
+							Window.this.strutturaSportiva.cancellaPrenotazioniScadute();
 							System.out.println("Controllate prenotazioni scadute " + new GregorianCalendar().getTime());
 						}
 					};
 
-					Timer timer = new Timer();
-					int MINUTI = 1;
-					timer.schedule(timerTask, 1000 * 60 * MINUTI, 1000 * 60 * MINUTI);
+					final Timer timer = new Timer();
+					final int MINUTI = 1;
+					timer.schedule(timerTask, 0, 1000 * 60 * MINUTI);
 					return null;
 				}
-
 			}.execute();
 		}
 
@@ -1039,7 +1122,11 @@ public class Window extends JFrame implements Serializable {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							Partita partitaPrenotata = prenotazione.getPartita();
+							partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.VENDUTO);
+
 							strutturaSportiva.addAcquisto(new Acquisto(prenotazione, strutturaSportiva));
+							prenotazione.getPosto().setStato(SeatStatus.VENDUTO);
 
 							JOptionPane.showMessageDialog(Window.this.partitaTable,
 									"Complimenti, la prenotazione per questa partita e' stata completata con successo.",
@@ -1104,7 +1191,7 @@ public class Window extends JFrame implements Serializable {
 						}.execute();
 					}
 				});
-				/*****************************************************************/
+
 				this.prenota.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -1145,7 +1232,7 @@ public class Window extends JFrame implements Serializable {
 						}.execute();
 					}
 				});
-				/*****************************************************************/
+
 				this.addSeparator();
 				this.add(prenota);
 				this.add(completaPrenotazione);
@@ -1155,7 +1242,7 @@ public class Window extends JFrame implements Serializable {
 			case GESTORE:
 				this.addPartita = new JMenuItem("Aggiungi Partita");
 				this.removePartita = new JMenuItem("Rimuovi Partita");
-				/*************************************************************************/
+
 				this.addPartita.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -1168,21 +1255,18 @@ public class Window extends JFrame implements Serializable {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
-						Partita partita = partitaTable.getSelectedPartita();
-
-						Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
-
-						// METODO REMOVE PRENOTAZIONI/ACQUISTI
-
 						int viewIndex = partitaTable.getSelectedRow();
 
 						if (viewIndex != -1) {
+							Partita partita = partitaTable.getSelectedPartita();
+							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
+
 							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
 						}
 					}
 				});
-				/***********************************************************************************************/
+
 				this.add(addPartita);
 				this.add(removePartita);
 				break;
@@ -1192,13 +1276,13 @@ public class Window extends JFrame implements Serializable {
 		}
 
 		private static final long serialVersionUID = 6108564986742304925L;
-		private JMenuItem dettaggli, prenota, completaPrenotazione, acquista;
-		/********************************************************************/
+		private JMenuItem prenota, completaPrenotazione, acquista;
 		private JMenuItem addPartita, removePartita;
 	}
 
 	/**
-	 * PopupMenu per consentire la cancellazione delle prenotazioni.
+	 * PopupMenu per consentire il completamento e la cancellazione delle
+	 * prenotazioni.
 	 * 
 	 * @author Maurizio
 	 */
@@ -1208,6 +1292,32 @@ public class Window extends JFrame implements Serializable {
 		public PrenotazioniPopupMenu() {
 			super();
 
+			this.completaPrenotazione = new JMenuItem("Completa Prenotazione");
+			this.add(completaPrenotazione);
+			this.completaPrenotazione.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int viewIndex = prenotazioniTable.getSelectedRow();
+
+					if (viewIndex != -1) {
+						Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
+						Partita partitaPrenotata = prenotazione.getPartita();
+						partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.VENDUTO);
+
+						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
+						((PrenotazioneTableModel) prenotazioniTable.getModel()).removePrenotazione(modelIndex);
+
+						Window.this.strutturaSportiva.addAcquisto(new Acquisto(prenotazione, strutturaSportiva));
+						prenotazione.getPosto().setStato(SeatStatus.VENDUTO);
+
+						JOptionPane.showMessageDialog(Window.this.partitaTable,
+								"Complimenti, la prenotazione per questa partita e' stata completata con successo.",
+								"Prenotazione completata.", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			});
+
 			this.deletePrenotazioneItem = new JMenuItem("Canella Prenotazione");
 			this.add(deletePrenotazioneItem);
 
@@ -1215,24 +1325,23 @@ public class Window extends JFrame implements Serializable {
 
 				@Override
 				public void actionPerformed(ActionEvent actionevent) {
-					Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
-					Partita partitaPrenotata = prenotazione.getPartita();
-					partitaPrenotata.resetSeatStatus(prenotazione);
-
 					int viewIndex = prenotazioniTable.getSelectedRow();
 
 					if (viewIndex != -1) {
+						Prenotazione prenotazione = prenotazioniTable.getSelectedPrenotazione();
+						Partita partitaPrenotata = prenotazione.getPartita();
+						partitaPrenotata.resetSeatStatus(prenotazione, SeatStatus.LIBERO);
+
 						int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 						((PrenotazioneTableModel) prenotazioniTable.getModel()).removePrenotazione(modelIndex);
+						Window.this.strutturaSportiva.cancellaPrenotazione(prenotazione);
 					}
-
-					Window.this.strutturaSportiva.cancellaPrenotazione(prenotazione);
 				}
 			});
 
 		}
 
-		private JMenuItem deletePrenotazioneItem;
+		private JMenuItem completaPrenotazione, deletePrenotazioneItem;
 		private static final long serialVersionUID = -8528048458887315464L;
 	}
 
@@ -1252,19 +1361,47 @@ public class Window extends JFrame implements Serializable {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			/*
-			 * Rimuove la JMenuBar.
-			 */
-			Window.this.setJMenuBar(null);
-			/*
-			 * Rimuove tutti i componenti presenti.
-			 */
-			Window.this.mainPanel.removeAll();
-			/*
-			 * Aggiunge nuovamente l'IdentificationPanel.
-			 */
-			Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
-			Window.this.revalidate();
+			new SwingWorker<Boolean, Void>() {
+
+				@Override
+				protected Boolean doInBackground() throws Exception {
+					Boolean done = false;
+
+					Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					Window.this.storeStrutturaSportiva();
+
+					done = true;
+					return done;
+				}
+
+				@Override
+				protected void done() {
+					try {
+						if (get() == true) {
+							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							/*
+							 * Rimuove la JMenuBar.
+							 */
+							Window.this.setJMenuBar(null);
+							/*
+							 * Rimuove tutti i componenti presenti.
+							 */
+							Window.this.mainPanel.removeAll();
+							/*
+							 * Aggiunge nuovamente l'IdentificationPanel.
+							 */
+							Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							Window.this.revalidate();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}.execute();
+
 		}
 
 		private static final long serialVersionUID = 8289365721136717863L;
@@ -1276,13 +1413,12 @@ public class Window extends JFrame implements Serializable {
 	private IdentificationPanel identificationPanel;
 	private Utente utente;
 	private Mode mode;
-
 	private PrenotazioneTable prenotazioniTable;
+	private AcquistoTable acquistiTabel;
 	private PartitaTable partitaTable;
 	private JScrollPane partitaTableScrollPane;
 	private JPanel partitePanel;
 	private ClosableTabbedPane tabbedPane;
-	/************************************************/
 	private String strutturaSportivaName;
 	private StrutturaSportiva strutturaSportiva;
 	private File strutturaSportiva_DB_File;

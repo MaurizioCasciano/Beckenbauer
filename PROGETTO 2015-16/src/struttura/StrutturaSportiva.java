@@ -2,21 +2,25 @@ package struttura;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 import struttura.filters.Filter;
 import struttura.filters.PrenotationFilter;
-import struttura.filters.PrenotationsByMatch;
-import struttura.filters.PurchasesByMatch;
-import struttura.filters.PurchasesFilter;
-import struttura.filters.ScontiFilter;
+import struttura.filters.PrenotationByMatchFilter;
+import struttura.filters.PurchaseByMatchFilter;
+import struttura.filters.PurchaseFilter;
+import struttura.filters.ScontoByDayOfWeekFilter;
+import struttura.filters.ScontoFilter;
+import struttura.filters.ScontoByStadiumFilter;
+import struttura.filters.ScontoByMatchFilter;
 import user.AlreadyRegisteredUserException;
 import user.Cliente;
 import user.UserNotFoundException;
 import user.Utente;
 
 /**
- * Classe Principale che modella l'intera Struttura Sportiva
+ * Classe principale che modella l'intera Struttura Sportiva
  * 
  * @author Maurizio Casciano
  * @author Gaetano Antonucci
@@ -25,7 +29,8 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Costruisce un oggetto StrutturaSportiva.
 	 * 
-	 * @param nome - Il nome della StrutturaSportiva.
+	 * @param nome
+	 *            - Il nome della StrutturaSportiva.
 	 * @author Maurizio Casciano
 	 * @author Gaetano Antonucci
 	 */
@@ -36,7 +41,6 @@ public class StrutturaSportiva implements Serializable {
 		this.utenti = new ArrayList<>();
 		this.sconti = new ArrayList<>();
 		this.prenotazioni = new ArrayList<>();
-		this.prenotazioniScadute = new ArrayList<>();
 		this.acquisti = new ArrayList<>();
 	}
 
@@ -51,10 +55,11 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Aggiunge un {@link Utente} al database se non e' gia' presente, altrimenti lancia
-	 * eccezione.
+	 * Aggiunge un {@link Utente} al database se non e' gia' presente,
+	 * altrimenti lancia eccezione.
 	 * 
-	 * @param utente - L'{@link Utente} da registrare
+	 * @param utente
+	 *            - L'{@link Utente} da registrare
 	 * @throws AlreadyRegisteredUserException
 	 *             L'eccezione lanciata nel caso l'utente che si prova ad
 	 *             inserire sia gia' presente nel database
@@ -71,10 +76,11 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Restituisce un {@link Utente} del database cercandolo tramite username, se non
-	 * viene trovato viene lanciata eccezione.
+	 * Restituisce un {@link Utente} del database cercandolo tramite username,
+	 * se non viene trovato viene lanciata eccezione.
 	 * 
-	 * @param username - L'username da ricercare
+	 * @param username
+	 *            - L'username da ricercare
 	 * @return l'utente trovato
 	 * @throws UserNotFoundException
 	 *             L'eccezione lanciata nel caso l'utente non venga trovato
@@ -93,9 +99,11 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Aggiunge una {@link Partita} al database.
 	 * 
-	 * @param p - La partita da aggiungere.
-	 * @throws AlreadyExistsObjectException Ecceziona lanciata nel caso in cui la partita che 
-	 * 										si vuole inserire gia' &egrave nel database
+	 * @param p
+	 *            - La partita da aggiungere.
+	 * @throws AlreadyExistsObjectException
+	 *             Ecceziona lanciata nel caso in cui la partita che si vuole
+	 *             inserire e' gia' nel database
 	 * @author Maurizio Casciano
 	 * @author Gaetano Antonucci
 	 */
@@ -109,9 +117,11 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Aggiunge uno {@link Stadio} al database.
 	 * 
-	 * @param s - Lo stadio da aggiungere.
-	 * @throws AlreadyExistsObjectException Ecceziona lanciata nel caso in cui lo stadio che 
-	 * 										si vuole inserire gia' &egrave nel database 
+	 * @param s
+	 *            Lo stadio da aggiungere.
+	 * @throws AlreadyExistsObjectException
+	 *             Ecceziona lanciata nel caso in cui lo stadio che si vuole
+	 *             inserire gia' e' nel database
 	 * @author Maurzio Casciano
 	 * @author Gaetano Antonucci
 	 */
@@ -125,15 +135,17 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Aggiunge una politica di sconto ({@link Sconti}) al database.
+	 * Aggiunge una politica di sconto ({@link Sconto}) al database.
 	 * 
-	 * @param sconto - La politica di sconto da inserire.
-	 * @throws AlreadyExistsObjectException Ecceziona lanciata nel caso in cui la politica di  
-	 * 										sconto che si vuole inserire gia' &egrave nel database 
+	 * @param sconto
+	 *            - La politica di sconto da inserire.
+	 * @throws AlreadyExistsObjectException
+	 *             Ecceziona lanciata nel caso in cui la politica di sconto che
+	 *             si vuole inserire gia' e' nel database
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
-	public void addSconto(Sconti sconto) throws AlreadyExistsObjectException {
+	public void addSconto(Sconto sconto) throws AlreadyExistsObjectException {
 
 		if (this.sconti.contains(sconto)) {
 			throw new AlreadyExistsObjectException("Politica di Sconto gia' presente !!!");
@@ -143,10 +155,12 @@ public class StrutturaSportiva implements Serializable {
 
 	/**
 	 * Aggiunge una {@link Prenotazione} al database.
-	 *  
-	 * @param pren - La prenotazione da inserire.
-	 * @throws AlreadyExistsObjectException Ecceziona lanciata nel caso in cui la prenotazione
-	 * 									   che si vuole inserire gia' &egrave nel database
+	 * 
+	 * @param pren
+	 *            - La prenotazione da inserire.
+	 * @throws AlreadyExistsObjectException
+	 *             Ecceziona lanciata nel caso in cui la prenotazione che si
+	 *             vuole inserire gia' e' nel database
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
@@ -161,9 +175,11 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Aggiunge l'acquisto di un biglietto al database.
 	 * 
-	 * @param acq - L'acquisto da inserire
-	 * @throws AlreadyExistsObjectException Ecceziona lanciata nel caso in cui l'acquisto  
-	 * 									   che si vuole inserire gia' &egrave nel database
+	 * @param acq
+	 *            - L'acquisto da inserire
+	 * @throws AlreadyExistsObjectException
+	 *             Ecceziona lanciata nel caso in cui l'acquisto che si vuole
+	 *             inserire gia' e' nel database
 	 * @author Gaetano Antonucci
 	 * @author Maurizio Casciano
 	 */
@@ -188,7 +204,8 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce le partite programmate filtrate dal Filtro passato in input.
 	 * 
-	 * @param myFilter - Il filtro da applicare.
+	 * @param myFilter
+	 *            Il filtro da applicare.
 	 * @return Le partite programmate dopo l'applicazione del filtro.
 	 * @author Maurizio Casciano
 	 */
@@ -217,23 +234,26 @@ public class StrutturaSportiva implements Serializable {
 	 * Restituisce tutte le politiche di sconto, passate ed attuali, che sono
 	 * presenti nel database.
 	 * 
-	 * @return ArrayList<Sconti> con tutti sconti.
+	 * @return ArrayList con tutti sconti.
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Sconti> getSconti() {
+	public ArrayList<Sconto> getSconti() {
 		return this.sconti;
 	}
 
 	/**
 	 * Restituisce gli sconti applicabili alla partita passata come parametro.
 	 * 
-	 * @param filtroSconti - Il filtro da applicare.
-	 * @param part - La {@link Partita} sulla quale si vuole verificare ci siano sconti
-	 * @return ArrayList<Sconti> con gli sconti applicabili alla partita
+	 * @param filtroSconti
+	 *            Il filtro da applicare.
+	 * @param part
+	 *            La {@link Partita} sulla quale si vuole verificare ci siano
+	 *            sconti
+	 * @return ArrayList con gli sconti applicabili alla partita
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Sconti> getScontiApplicabili(ScontiFilter filtroSconti, Partita part) {
-		ArrayList<Sconti> filteredByChoice = new ArrayList<>();
+	public ArrayList<Sconto> getScontiApplicabili(ScontoFilter filtroSconti, Partita part) {
+		ArrayList<Sconto> filteredByChoice = new ArrayList<>();
 
 		for (int j = 0; j < this.sconti.size(); j++) {
 			filtroSconti.updateCurrentSconto(j);
@@ -248,7 +268,7 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce tutte le prenotazioni presenti nel database.
 	 * 
-	 * @return ArrayList<Prenotazione> con tutte le prenotazioni.
+	 * @return ArrayList con tutte le prenotazioni.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Prenotazione> getPrenotazioni() {
@@ -258,8 +278,9 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce le prenotazioni in base al filtro passato in input.
 	 * 
-	 * @param filtroPrenotazioni - Il filtro da applicare
-	 * @return ArrayList<Prenotazione> con le prenotazioni ottenute.
+	 * @param filtroPrenotazioni
+	 *            Il filtro da applicare
+	 * @return ArrayList con le prenotazioni ottenute.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Prenotazione> getPrenotazioniFiltrate(PrenotationFilter filtroPrenotazioni) {
@@ -277,11 +298,13 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Cancella una prenotazione dal database in base al cliente e alla partita
 	 * 
-	 * @param c - Il cliente che ha prenotato
-	 * @param part - La partita per cui è stata fatta una prenotazione
+	 * @param c
+	 *            Il cliente che ha prenotato
+	 * @param part
+	 *            La partita per cui è stata fatta una prenotazione
 	 * @author Gaetano Antonucci
 	 */
-	public void cancellaPrenotazioneCliente(Cliente c, Partita part) {  // DA VERIFICARNE L'UTILITA'
+	public void cancellaPrenotazioneCliente(Cliente c, Partita part) {
 
 		for (int i = (this.prenotazioni.size() - 1); i >= 0; i--) {
 			if ((this.prenotazioni.get(i).getBigliettoPrenotato().getCliente().equals(c))
@@ -293,10 +316,11 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Cancella la prenotazione passata come parametro dall'ArrayList
-	 * <Prenotazione> prenotazioni della struttura sportiva.
+	 * Cancella la prenotazione passata come parametro dall'ArrayList delle
+	 * prenotazioni della struttura sportiva.
 	 * 
-	 * @param prenotazioneDaCancellare - La prenotazione da cancellare
+	 * @param prenotazioneDaCancellare
+	 *            - La prenotazione da cancellare
 	 * 
 	 * @author Gaetano Antonucci
 	 */
@@ -315,8 +339,11 @@ public class StrutturaSportiva implements Serializable {
 	 * Verifica se una determinata partita e' stata prenotata da un determinato
 	 * cliente
 	 * 
-	 * @param clt - Il {@link Cliente} su cui si effettua la verifica.
-	 * @param prt - La {@link Partita} su cui si vuole verificare la prenotazione
+	 * @param clt
+	 *            - Il {@link Cliente} su cui si effettua la verifica.
+	 * @param prt
+	 *            - La {@link Partita} su cui si vuole verificare la
+	 *            prenotazione
 	 * @return {@code boolean} con l'esito della verifica.
 	 * @author Gaetano Antonucci
 	 */
@@ -336,7 +363,7 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce tutti gli acquisti presenti nel database.
 	 * 
-	 * @return ArrayList<Acquisto> con tutti gli acquisti.
+	 * @return ArrayList con tutti gli acquisti.
 	 * @author Gaetano Antonucci
 	 */
 	public ArrayList<Acquisto> getAcquisti() {
@@ -346,11 +373,12 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Restituisce gli acquisti in base al filtro passato in input.
 	 * 
-	 * @param filtroAcquisti - Il filtro da applicare.
-	 * @return ArrayList<Acquisto> con gli acquisti ottenuti.
+	 * @param filtroAcquisti
+	 *            - Il filtro da applicare.
+	 * @return ArrayList con gli acquisti ottenuti.
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Acquisto> getAcquistiFiltrati(PurchasesFilter filtroAcquisti) {
+	public ArrayList<Acquisto> getAcquistiFiltrati(PurchaseFilter filtroAcquisti) {
 		ArrayList<Acquisto> filteredByChoice = new ArrayList<>();
 
 		for (int i = 0; i < this.acquisti.size(); i++) {
@@ -365,8 +393,10 @@ public class StrutturaSportiva implements Serializable {
 	 * Verifica se un biglietto per una determinata partita e' stato acquistato
 	 * da un determinato cliente.
 	 * 
-	 * @param clt - Il {@link Cliente} su cui si effettua la verifica.
-	 * @param prt - La {@link Partita} su cui si effettua la verifica.
+	 * @param clt
+	 *            - Il {@link Cliente} su cui si effettua la verifica.
+	 * @param prt
+	 *            - La {@link Partita} su cui si effettua la verifica.
 	 * @return {@code boolean} con l'esito della verifica.
 	 * @author Gaetano Antonucci
 	 */
@@ -384,10 +414,11 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList
-	 * <Acquisto> acquisti della struttura sportiva
+	 * Cancella l'oggetto acquisto passato come paramentro dall'ArrayList di
+	 * acquisti della struttura sportiva.
 	 * 
-	 * @param acquistoDaCancellare - L'acquisto da cancellare.
+	 * @param acquistoDaCancellare
+	 *            - L'acquisto da cancellare.
 	 * @author Gaetano Antonucci
 	 */
 	public void cancellaAcquisto(Acquisto acquistoDaCancellare) {
@@ -404,8 +435,9 @@ public class StrutturaSportiva implements Serializable {
 	/**
 	 * Cancella le prenotazioni e gli acquisti di una determinata partita
 	 * 
-	 * @param partita - La partita per cui si desidera eliminare acquisti e
-	 *            	    prenotazioni
+	 * @param partita
+	 *            - La partita per cui si desidera eliminare acquisti e
+	 *            prenotazioni
 	 * @author Gaetano Antonucci
 	 */
 	public void cancellaPrenotazioniAcquistiPerPartita(Partita partita) {
@@ -414,8 +446,8 @@ public class StrutturaSportiva implements Serializable {
 		ArrayList<Acquisto> acquistiDaCancellare;
 
 		if (partita != null) {
-			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationsByMatch(partita));
-			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchasesByMatch(partita));
+			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationByMatchFilter(partita));
+			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchaseByMatchFilter(partita));
 
 			for (Prenotazione pren : prenotazioniDaCancellare) {
 				this.cancellaPrenotazione(pren);
@@ -428,10 +460,11 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Verifica se una prenotazione e' ancora valida. 
-	 * N.B. - Una prenotazione scade 12 ore prima della partita a cui fa riferimento.
+	 * Verifica se una prenotazione e' ancora valida. N.B. - Una prenotazione
+	 * scade 12 ore prima della partita a cui fa riferimento.
 	 * 
-	 * @param prenotazione - La prenotazione da controllare
+	 * @param prenotazione
+	 *            - La prenotazione da controllare
 	 * @return {@code boolean} che indica la validita'
 	 * @author Maurizio Casciano
 	 * @author Gaetano Antonucci
@@ -467,32 +500,20 @@ public class StrutturaSportiva implements Serializable {
 				// metodo di reset dei posti
 				Prenotazione prenotazioneScaduta = this.prenotazioni.get(i);
 				Partita partita = prenotazioneScaduta.getPartita();
-				partita.resetSeatStatus(prenotazioneScaduta);
-
-				this.prenotazioniScadute.add(prenotazioneScaduta);
+				partita.resetSeatStatus(prenotazioneScaduta, SeatStatus.LIBERO);
 				this.cancellaPrenotazione(this.prenotazioni.get(i));
 			}
 		}
 	}
 
 	/**
-	 * Restituisce l'ArrayList delle prenotazioni scadute per i cui clienti non
-	 * sono stati ancora avvisati.
-	 * 
-	 * @return L'ArrayList delle prenotazioni scadute per i cui clienti non sono
-	 *         stati ancora avvisati.
-	 * @author Maurizio Casciano
-	 */
-	public ArrayList<Prenotazione> getPrenotazioniScadute() {
-		return this.prenotazioniScadute;
-	}
-
-	/**
 	 * Dato un cliente e una partita, restituisce un prenotazione se presente.
 	 * 
-	 * @param clt - Il cliente su cui si effettua la ricerca.
-	 * @param partita - La partita su cui si effettua la ricerca.
-	 * @return la prenotazione trovata 
+	 * @param clt
+	 *            - Il cliente su cui si effettua la ricerca.
+	 * @param partita
+	 *            - La partita su cui si effettua la ricerca.
+	 * @return la prenotazione trovata
 	 * @author Gaetano Antonucci
 	 */
 	public Prenotazione getPrenotazioneCliente(Cliente clt, Partita partita) {
@@ -527,11 +548,58 @@ public class StrutturaSportiva implements Serializable {
 		return sommaPrezzi;
 	}
 
+	public double getBestAvailablePrice(Partita partita) {
+
+		double prezzoDiPartenza = partita.getStadio().getPrezzoPerPartita();
+
+		ArrayList<Sconto> perPartita = this.getScontiApplicabili(new ScontoByMatchFilter(this.getSconti()), partita);
+		ArrayList<Sconto> perStadio = this.getScontiApplicabili(new ScontoByStadiumFilter(this.getSconti()), partita);
+		ArrayList<Sconto> perGiorno = this.getScontiApplicabili(new ScontoByDayOfWeekFilter(this.getSconti()), partita);
+
+		double maxScontoPartita = 0.00;
+		double maxScontoStadio = 0.00;
+		double maxScontoGiorno = 0.00;
+
+		for (Sconto s1 : perPartita) {
+			if (maxScontoPartita <= s1.getPercetualeSconto()) {
+				maxScontoPartita = s1.getPercetualeSconto();
+			}
+		}
+
+		for (Sconto s2 : perStadio) {
+			if (maxScontoStadio <= s2.getPercetualeSconto()) {
+				maxScontoStadio = s2.getPercetualeSconto();
+			}
+		}
+
+		for (Sconto s3 : perGiorno) {
+			if (maxScontoGiorno <= s3.getPercetualeSconto()) {
+				maxScontoGiorno = s3.getPercetualeSconto();
+			}
+		}
+
+		double[] scontiMassimi = { maxScontoPartita, maxScontoGiorno, maxScontoStadio };
+		Arrays.sort(scontiMassimi);
+		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
+
+		// System.out.println("Verifica Sconto su Biglietto");
+		// System.out.println("maxScontoPartita " + maxScontoPartita);
+		// System.out.println("maxScontoStadio " + maxScontoStadio);
+		// System.out.println("maxScontoGiorno " + maxScontoGiorno);
+
+		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
+
+		return prezzoFinale;
+	}
+
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti.
 	 * @author Gaetano Antonucci
 	 */
 	@Override
@@ -564,8 +632,8 @@ public class StrutturaSportiva implements Serializable {
 	private ArrayList<Stadio> stadi;
 	private ArrayList<Partita> partiteProgrammate;
 	private ArrayList<Utente> utenti;
-	private ArrayList<Sconti> sconti;
-	private ArrayList<Prenotazione> prenotazioni, prenotazioniScadute;
+	private ArrayList<Sconto> sconti;
+	private ArrayList<Prenotazione> prenotazioni;
 	private ArrayList<Acquisto> acquisti;
 
 	private static final int ORE_SCADENZA_PRENOTAZIONE = 12;

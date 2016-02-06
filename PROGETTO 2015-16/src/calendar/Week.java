@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Week implements Serializable{
+/**
+ * Classe che rappresenta un oggetto Week. Un oggetto week è dotato di una data
+ * indicante l'inizio e una data indicante la fine della settimana.
+ * 
+ * @author Maurizio
+ */
+public class Week implements Serializable {
 
 	/**
 	 * Crea un oggetto Week rappresentante una settimana.
@@ -93,14 +99,18 @@ public class Week implements Serializable{
 		return allWeeks;
 	}
 
+	// Versione modificate del toString per favorire la visualizzazione nella
+	// JComboBox.
 	@Override
 	public String toString() {
 		return DATE_FORMAT.format(start.getTime()) + " - " + DATE_FORMAT.format(end.getTime());
 	}
 
-	/**
-	 * @author Maurizio
-	 */
+	public String trueToString() {
+		return this.getClass().getName() + " [start=" + DATE_FORMAT.format(start.getTime()) + ", end="
+				+ DATE_FORMAT.format(end.getTime()) + "]";
+	}
+
 	private static final long serialVersionUID = 3468338459207003613L;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E dd/MM/yyyy HH:mm:ss:SS");
 	private GregorianCalendar start, end;

@@ -17,7 +17,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
 import struttura.DaysOfWeek;
-import struttura.Sconti;
+import struttura.Sconto;
 import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
 
@@ -34,11 +34,11 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 	 * Crea un nuovo frame che permette di aggiungere sconti in base al giorno scelto.
 	 * 
 	 * @param strutturaSportiva
-	 * @param stadi
+	 *            La StrutturaSportiva a cui aggiungere lo Sconto.
 	 * @throws IllegalArgumentException
-	 *             Se la dimensione degli stadi &egrave uguale a 0.
+	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
-	 *             Se la strutturaSportiva o l'ArrayList stadi sono null.
+	 *             Se la strutturaSportiva è null.
 	 * @author Maurizio Casciano
 	 * @author Gaetano Antonucci
 	 */
@@ -82,16 +82,16 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 	private void initGiorniComboPanel() {
 		this.giornoLabel = new JLabel("Giorno: ");
 		DaysOfWeek[] giorniDaInserire = new DaysOfWeek[7];
-		giorniDaInserire[0] = DaysOfWeek.Lunedi;
-		giorniDaInserire[1] = DaysOfWeek.Martedi;
-		giorniDaInserire[2] = DaysOfWeek.Mercoledi;
-		giorniDaInserire[3] = DaysOfWeek.Giovedi;
-		giorniDaInserire[4] = DaysOfWeek.Venerdi;
-		giorniDaInserire[5] = DaysOfWeek.Sabato;
-		giorniDaInserire[6] = DaysOfWeek.Domenica;
+		giorniDaInserire[0] = DaysOfWeek.LUNEDI;
+		giorniDaInserire[1] = DaysOfWeek.MARTEDI;
+		giorniDaInserire[2] = DaysOfWeek.MERCOLEDI;
+		giorniDaInserire[3] = DaysOfWeek.GIOVEDI;
+		giorniDaInserire[4] = DaysOfWeek.VENERDI;
+		giorniDaInserire[5] = DaysOfWeek.SABATO;
+		giorniDaInserire[6] = DaysOfWeek.DOMENICA;
 
 		this.giorniCombo = new JComboBox<>(giorniDaInserire);
-		this.giorniCombo.setSelectedItem(DaysOfWeek.Lunedi);
+		this.giorniCombo.setSelectedItem(DaysOfWeek.LUNEDI);
 
 		this.stadiComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		this.stadiComboPanel.add(this.giornoLabel);
@@ -194,7 +194,7 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 				 */
 				double sconto = (double) (percetualeScontoSpinner.getValue()) * 100;
 
-				Sconti s = new Sconti(TipoSconto.GiornoPrestabilito, sconto, dataInizio, dataFine, day);
+				Sconto s = new Sconto(TipoSconto.GIORNO_PRESTABILITO, sconto, dataInizio, dataFine, day);
 
 				strutturaSportiva.addSconto(s);
 				dispose();
@@ -216,30 +216,22 @@ public class ScontoGiornoFrame extends JFrame implements Serializable {
 		this.add(this.buttonPanel);
 	}
 
-	/***************************************************************************************/
 	private static final long serialVersionUID = 260663801632901839L;
 	private JLabel giornoLabel;
 	private JComboBox<DaysOfWeek> giorniCombo;
 	private JPanel stadiComboPanel;
-	/***************************************/
 	private JLabel inizioLabel;
 	private DateTimePicker inizioPicker;
 	private JPanel dataInizioPanel;
-	/**************************************/
 	private JLabel fineLabel;
 	private DateTimePicker finePicker;
 	private JPanel dataFinePanel;
-	/*************************************/
 	private JLabel percentualeScontoLabel;
 	private JSpinner percetualeScontoSpinner;
 	private JPanel percentualeScontoPanel;
-	/*************************************/
 	private JButton applicaScontoButton, annullaButton;
 	private JPanel buttonPanel;
-	/*************************************/
 	private StrutturaSportiva strutturaSportiva;
-
-	/*************************************/
 
 	public static void main(String[] args) {
 		ScontoGiornoFrame scontoStadioFrame = new ScontoGiornoFrame(new StrutturaSportiva(""));

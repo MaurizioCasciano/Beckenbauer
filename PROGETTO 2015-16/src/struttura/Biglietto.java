@@ -1,12 +1,6 @@
 package struttura;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import struttura.filters.ScontiPerStadio;
-import struttura.filters.ScontiByDayOfWeek;
-import struttura.filters.ScontoPerPartita;
 import user.Cliente;
 
 /**
@@ -20,12 +14,18 @@ public class Biglietto implements Serializable {
 	/**
 	 * Costruisce un biglietto a partire dai parametri impostati.
 	 * 
-	 * @param stru - la {@link StrutturaSportiva} sulla quale si sta operando
-	 * @param cliente - il {@link Cliente} che acquista o prenota il biglietto
-	 * @param partita - la {@link Partita} per la quale viene emesso il biglietto
-	 * @param settore - il {@link Settore} dello stadio 
-	 * @param fila - la fila del settore dello stadio
-	 * @param posto -  il {@link Posto} scelto dal cliente
+	 * @param stru
+	 *            la {@link StrutturaSportiva} sulla quale si sta operando
+	 * @param cliente
+	 *            il {@link Cliente} che acquista o prenota il biglietto
+	 * @param partita
+	 *            la {@link Partita} per la quale viene emesso il biglietto
+	 * @param settore
+	 *            il {@link Settore} dello stadio
+	 * @param fila
+	 *            la fila del settore dello stadio
+	 * @param posto
+	 *            il {@link Posto} scelto dal cliente.
 	 * 
 	 * @author Gaetano Antonucci
 	 */
@@ -34,13 +34,10 @@ public class Biglietto implements Serializable {
 		this.partita = partita;
 		this.settore = settore;
 		this.fila = fila;
-		// this.posto = posto;
 		this.posto = new Posto(this.partita.getStadio(), settore, fila, posto);
-
 		this.IDBiglietto = ++IDCounter;
-
 		this.strutturaSelezionata = stru;
-		this.calcolaPrezzo();
+		this.prezzo = this.strutturaSelezionata.getBestAvailablePrice(this.partita);
 	}
 
 	/**
@@ -56,7 +53,7 @@ public class Biglietto implements Serializable {
 	/**
 	 * Restituisce il cliente che ha prenotato/acquistato il biglietto
 	 * 
-	 * @return cliente
+	 * @return cliente il cliente relativo al biglietto.
 	 * @author Gaetano Antonucci
 	 * 
 	 */
@@ -65,9 +62,9 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la partita a cui il biglietto fa riferimento
+	 * Restituisce la partita a cui il biglietto fa riferimento.
 	 * 
-	 * @return partita
+	 * @return partita la partita a cui il biglietto fa riferimento.
 	 * @author Gaetano Antonucci
 	 */
 	public Partita getPartita() {
@@ -75,9 +72,9 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce il settore dello stadio in cui e' locato il posto
+	 * Restituisce il settore dello stadio in cui e' locato il posto.
 	 * 
-	 * @return settore
+	 * @return settore il settore dello stadio in cui e' locato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public Settore getSettore() {
@@ -85,9 +82,9 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Restituisce la fila in cui e' locato il posto
+	 * Restituisce la fila in cui e' locato il posto.
 	 * 
-	 * @return fila
+	 * @return fila la fila in cui e' locato il posto.
 	 * @author Gaetano Antonucci
 	 */
 	public int getFila() {
@@ -95,120 +92,34 @@ public class Biglietto implements Serializable {
 	}
 
 	/**
-	 * Calcola il prezzo del biglietto in base alla migliore politica di sconto attiva.
-	 * 
-	 * @author Gaetano Antonucci
-	 */
-	public void calcolaPrezzo() {
-		double prezzoDiPartenza = this.partita.getStadio().getPrezzoPerPartita();
-
-		ArrayList<Sconti> perPartita = this.strutturaSelezionata
-				.getScontiApplicabili(new ScontoPerPartita(this.strutturaSelezionata.getSconti()), this.partita);
-		ArrayList<Sconti> perStadio = this.strutturaSelezionata
-				.getScontiApplicabili(new ScontiPerStadio(this.strutturaSelezionata.getSconti()), this.partita);
-		ArrayList<Sconti> perGiorno = this.strutturaSelezionata
-				.getScontiApplicabili(new ScontiByDayOfWeek(this.strutturaSelezionata.getSconti()), this.partita);
-
-		double maxScontoPartita = 0.00;
-		double maxScontoStadio = 0.00;
-		double maxScontoGiorno = 0.00;
-
-		for (Sconti s1 : perPartita) {
-			if (maxScontoPartita <= s1.getPercetualeSconto()) {
-				maxScontoPartita = s1.getPercetualeSconto();
-			}
-		}
-
-		for (Sconti s2 : perStadio) {
-			if (maxScontoStadio <= s2.getPercetualeSconto()) {
-				maxScontoStadio = s2.getPercetualeSconto();
-			}
-		}
-
-		for (Sconti s3 : perGiorno) {
-			if (maxScontoGiorno <= s3.getPercetualeSconto()) {
-				maxScontoGiorno = s3.getPercetualeSconto();
-			}
-		}
-
-		double[] scontiMassimi = { maxScontoPartita, maxScontoGiorno, maxScontoStadio };
-		Arrays.sort(scontiMassimi);
-		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
-
-		/*
-		 * System.out.println("Verifica Sconto su Biglietto");
-		 * System.out.println("maxScontoPartita " + maxScontoPartita);
-		 * System.out.println("maxScontoStadio " + maxScontoStadio);
-		 * System.out.println("maxScontoGiorno " + maxScontoGiorno);
-		 * 
-		 * /*double maxSconto = 0; if(maxScontoPartita <= maxScontoStadio)
-		 * maxSconto = maxScontoStadio; else maxSconto = maxScontoPartita;
-		 * 
-		 * if(maxSconto <= maxScontoGiorno) maxSconto = maxScontoGiorno;
-		 * 
-		 * System.out.println("maxSconto " + maxSconto); System.out.println(
-		 * "Fine Verifica Biglietto");
-		 */
-		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
-
-		this.prezzo = prezzoFinale;
-
-	}
-
-	/**
 	 * Restituisce il prezzo del biglietto
-	 * @return the prezzo
+	 * 
+	 * @return il prezzo del biglietto.
 	 * @author Gaetano Antonucci
 	 */
 	public double getPrezzo() {
 		return prezzo;
 	}
 
-	/*/**
-	 * Restituisce lo stato biglietto in riferimento alle prenotazioni
-	 * 
-	 * @return true se il biglietto e' stato prenotato, false se il biglietto e'      DA ELIMINARE
-	 *         stato acquistato direttamente
-	 */
-	/*
-	 * public boolean isPrenotato() { return prenotato; }
-	 */
-
-	/*/**
-	 * Restituisce lo stato del biglietto in riferimento alle vendite
-	 * 
-	 * @return true se il biglietto è stato comprato, quindi pagato, false se        DA ELIMINARE
-	 *         il biglietto è stato solo prenotato
-	 */
-	/*
-	 * public boolean isPagato() { return pagato; }
-	 */
-
 	/**
 	 * Imposta il {@link Posto} come prenotatato
-	 * 
-	 * @param prenotato
-	 * @author Maurizio Casciano
 	 */
-	public void setPrenotato(boolean prenotato) {
-		this.posto.setPrenotato(prenotato);
+	public void setPrenotato() {
+		this.posto.setStato(SeatStatus.PRENOTATO);
 	}
 
 	/**
 	 * Imposta il {@link Posto} come venduto, quindi pagato
-	 * 
-	 * @param pagato
-	 * @author Maurizio Casciano
 	 */
-	public void setPagato(boolean pagato) {
-		this.posto.setVenduto(pagato);
+	public void setVenduto() {
+		this.posto.setStato(SeatStatus.VENDUTO);
 	}
 
 	/**
 	 * Restituisce il {@link Posto} prenotato/acquistato dal cliente
 	 * 
-	 * @return posto
-	 * @authir Gaetano Antonucci
+	 * @return posto il posto relativo al biglietto.
+	 * @author Gaetano Antonucci
 	 */
 	public Posto getPosto() {
 		return this.posto;
@@ -221,18 +132,19 @@ public class Biglietto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return ("IDBiglietto: " + this.IDBiglietto + " " + this.partita
-				+ " \n" /*
-						 * + "Settore: " + this.settore + " Fila: " + this.fila
-						 * + " Posto: " + this.posto
-						 */);
+		return this.getClass().getName() + " [IDBiglietto=" + IDBiglietto + ", cliente=" + cliente + ", partita="
+				+ partita + ", settore=" + settore + ", fila=" + fila + ", posto=" + posto + ", prezzo=" + prezzo
+				+ ", strutturaSelezionata=" + strutturaSelezionata + "]";
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
 	@Override
@@ -262,7 +174,6 @@ public class Biglietto implements Serializable {
 	private Partita partita;
 	private Settore settore;
 	private int fila;
-	// private int posto;
 	private Posto posto;
 
 	private double prezzo;

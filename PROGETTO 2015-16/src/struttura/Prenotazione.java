@@ -13,38 +13,36 @@ import user.Cliente;
  * @author Maurizio Casciano
  */
 public class Prenotazione implements Serializable {
-	
+
 	/**
 	 * Costruisce un oggetto prenotazione in base ai parametri impostati
 	 * 
-	 * @param dataPrenotazione - la data ({@link GregorianCalendar}) in cui viene effetuata la prenotazione
-	 * @param stru - la {@link StrutturaSportiva} sulla quale si sta operando
-	 * @param cliente - il {@link Cliente} che effettua la prenotazione
-	 * @param partita - la {@link Partita} per cui si sta prenotando un biglietto
-	 * @param settore - il {@link Settore} dello {@link Stadio} dove &egrave ubicato il posto
-	 * @param fila - la fila del {@link Settore} dove è ubicato il posto
-	 * @param posto - il posto prenotato
+	 * @param dataPrenotazione
+	 *            - la data ({@link GregorianCalendar}) in cui viene effetuata
+	 *            la prenotazione
+	 * @param stru
+	 *            - la {@link StrutturaSportiva} sulla quale si sta operando
+	 * @param cliente
+	 *            - il {@link Cliente} che effettua la prenotazione
+	 * @param partita
+	 *            - la {@link Partita} per cui si sta prenotando un biglietto
+	 * @param settore
+	 *            - il {@link Settore} dello {@link Stadio} dove e' ubicato il
+	 *            posto
+	 * @param fila
+	 *            - la fila del {@link Settore} dove e' ubicato il posto
+	 * @param posto
+	 *            - il posto prenotato
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Prenotazione(GregorianCalendar dataPrenotazione, StrutturaSportiva stru, 
-			Cliente cliente, Partita partita, Settore settore, int fila, int posto){
+	public Prenotazione(GregorianCalendar dataPrenotazione, StrutturaSportiva stru, Cliente cliente, Partita partita,
+			Settore settore, int fila, int posto) {
 		this.IDPrenotazione = ++IDCounter;
 		this.dataPrenotazione = dataPrenotazione;
 		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
 		this.bigliettoPrenotato = new Biglietto(stru, cliente, partita, settore, fila, posto);
-		
-		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO); // da modificare
-	}
-
-	// DA ELIMINARE IN QUANTO NON USATO (?)
-	public Prenotazione(GregorianCalendar dataPrenotazione, Biglietto bigliettoPrenotato) {
-		this.IDPrenotazione = ++IDCounter;
-		this.dataPrenotazione = dataPrenotazione;
-		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
-		this.bigliettoPrenotato = bigliettoPrenotato;
-
-		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO);
+		this.bigliettoPrenotato.setPrenotato(); // da modificare
 	}
 
 	/**
@@ -68,9 +66,10 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce il {@link Settore} dello {@link Stadio} dove &egrave ubicato il posto
+	 * Restituisce il {@link Settore} dello {@link Stadio} dove e' ubicato il
+	 * posto.
 	 * 
-	 * @return il Settore
+	 * @return il Settore del posto della prenotazione.
 	 * @author Maurizio Casciano
 	 */
 	public Settore getSettore() {
@@ -78,9 +77,9 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce lo {@link Stadio} dove sara' / &grave stata giocata la partita.
+	 * Restituisce lo {@link Stadio} dove sara'/e' stata giocata la partita.
 	 * 
-	 * @return lo Stadio
+	 * @return lo Stadio lo stadio in cui si gioca la partita.
 	 * @author Maurizio Casciano
 	 */
 	public Stadio getStadio() {
@@ -90,7 +89,7 @@ public class Prenotazione implements Serializable {
 	/**
 	 * Restituisce il {@link Posto} prenotato
 	 * 
-	 * @return il Posto
+	 * @return il Posto il posto prenotato.
 	 * @author Maurizio Casciano
 	 */
 	public Posto getPosto() {
@@ -98,9 +97,9 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce la fila del {@link Settore} dove &egrave ubicato il posto
+	 * Restituisce la fila del {@link Settore} dove e' situato il posto
 	 * 
-	 * @return la fila
+	 * @return la fila in cui e' situato il posto prenotato.
 	 * @author Maurizio Casciano
 	 */
 	public int getFila() {
@@ -118,9 +117,11 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data ({@link GregorianCalendar}) in cui &egrave stata effettuata la prenotazione.
+	 * Restituisce la data ({@link GregorianCalendar}) in cui e' stata
+	 * effettuata la prenotazione.
 	 * 
-	 * @return dataPrenotazione ({@link GregorianCalendar})
+	 * @return dataPrenotazione ({@link GregorianCalendar}) la data della
+	 *         prenotazione.
 	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getDataPrenotazione() {
@@ -128,9 +129,10 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce la data in cui &egrave stata effettuata la prenotazione come {@link String} formattata.
+	 * Restituisce la data in cui e' stata effettuata la prenotazione come
+	 * {@link String} formattata.
 	 * 
-	 * @return dataPrenotazioneString
+	 * @return dataPrenotazioneString la data della prenotazione.
 	 * @author Gaetano Antonucci
 	 */
 	public String getDataPrenotazioneString() {
@@ -140,7 +142,7 @@ public class Prenotazione implements Serializable {
 	/**
 	 * Restituisce il {@link Biglietto} oggetto della prenotazione
 	 * 
-	 * @return bigliettoPrenotato
+	 * @return bigliettoPrenotato il biglietto prenotato.
 	 * @author Gaetano Antonucci
 	 */
 	public Biglietto getBigliettoPrenotato() {
@@ -148,10 +150,13 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
 	@Override
@@ -194,9 +199,6 @@ public class Prenotazione implements Serializable {
 	private GregorianCalendar dataPrenotazione;
 	private String dataPrenotazioneString;
 	private Biglietto bigliettoPrenotato;
-
-	private static final boolean IS_PRENOTATO = true;
-
 	// Iteratore
 	private static int IDCounter = 0;
 

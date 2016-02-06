@@ -11,9 +11,9 @@ import java.util.Calendar;
  */
 public enum DaysOfWeek {  // DA RINOMINARE
 	
-	Lunedi(Calendar.MONDAY), Martedi(Calendar.TUESDAY), Mercoledi(Calendar.WEDNESDAY), 
-	Giovedi(Calendar.THURSDAY), Venerdi(Calendar.FRIDAY), Sabato(Calendar.SATURDAY), 
-	Domenica(Calendar.SUNDAY);
+	LUNEDI(Calendar.MONDAY), MARTEDI(Calendar.TUESDAY), MERCOLEDI(Calendar.WEDNESDAY), 
+	GIOVEDI(Calendar.THURSDAY), VENERDI(Calendar.FRIDAY), SABATO(Calendar.SATURDAY), 
+	DOMENICA(Calendar.SUNDAY);
 	
 	DaysOfWeek(int i){
 		this.value = i;
@@ -34,19 +34,19 @@ public enum DaysOfWeek {  // DA RINOMINARE
 	public static DaysOfWeek findDay(int valore){  // Metodo probabilmente mai usato.
 		switch(valore){
 		case Calendar.MONDAY:
-			return DaysOfWeek.Lunedi;
+			return DaysOfWeek.LUNEDI;
 		case Calendar.TUESDAY:
-			return DaysOfWeek.Martedi;
+			return DaysOfWeek.MARTEDI;
 		case Calendar.WEDNESDAY:
-			return DaysOfWeek.Mercoledi;
+			return DaysOfWeek.MERCOLEDI;
 		case Calendar.THURSDAY:
-			return DaysOfWeek.Giovedi;
+			return DaysOfWeek.GIOVEDI;
 		case Calendar.FRIDAY:
-			return DaysOfWeek.Venerdi;
+			return DaysOfWeek.VENERDI;
 		case Calendar.SATURDAY:
-			return DaysOfWeek.Sabato;
+			return DaysOfWeek.SABATO;
 		case Calendar.SUNDAY:
-			return DaysOfWeek.Domenica;
+			return DaysOfWeek.DOMENICA;
 		default: return findDay((valore % 7) + 1);	
 		}
 	}
@@ -54,7 +54,7 @@ public enum DaysOfWeek {  // DA RINOMINARE
 	private final int value;
 	
 	public static void main(String[] args) {
-		System.out.println(DaysOfWeek.findDay(15));
+		System.out.println(DaysOfWeek.findDay(16));
+		System.out.println(DaysOfWeek.findDay(33));
 	}
-	
 }

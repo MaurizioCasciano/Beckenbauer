@@ -3,10 +3,14 @@ package struttura;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import graphics.DivisibleIntoSectors;
 
-public class Stadio implements Serializable, DivisibleIntoSectors {
+/**
+ * Classe che modella uno Stadio.
+ * 
+ * @author Maurizio
+ */
+public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<Stadio> {
 
 	/**
 	 * Crea un nuovo {@link Stadio} con la capienza e il prezzo passati in
@@ -27,6 +31,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 *             {@link Stadio#CAPIENZA_MASSIMA}.
 	 * 
 	 *             Oppure se il prezzoPerPartia non e' compreso tra
+	 *             PREZZO_MINIMO e PREZZO_MASSIMO.
 	 *
 	 * @author Maurizio Casciano
 	 */
@@ -41,10 +46,9 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 			throw new IllegalArgumentException("Il prezzo indicato non e' consentito");
 		}
 
-		this.capienzaDesiderataStadio = capienzaDesiderataStadio;
+		this.capienzaDesiderata = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		//this.ID_Stadio = ++ID_Counter;  DA ELIMINARE
-		this.init();
+		this.settori = this.createSettori();
 	}
 
 	/**
@@ -53,17 +57,17 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	 * 
 	 * @author Maurizio Casciano
 	 */
-	private void init() {
+	private ArrayList<Settore> createSettori() {
 
 		/*
 		 * Necessita' di re-inizializzare i due caratteri, altrimenti alla
-		 * chiamata del metodo setCapienza() che richiama init() i settori dello
+		 * chiamata del metodo setCapienza() che richiama createSettori() i settori dello
 		 * stadio non partiranno da AA.
 		 */
 		firstChar = 'A';
 		secondChar = 'A';
 
-		this.postiPerSettore = this.capienzaDesiderataStadio / DivisibleIntoSectors.NUMERO_SETTORI;
+		this.postiPerSettore = this.capienzaDesiderata / DivisibleIntoSectors.NUMERO_SETTORI;
 		this.filePerSettore = (int) Math.sqrt(this.postiPerSettore);
 		this.capienzaEffettiva = this.postiPerSettore * DivisibleIntoSectors.NUMERO_SETTORI;
 		/*
@@ -91,7 +95,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 		// System.out.println("PostiPerFila arrotondati = " + Math.ceil((double)
 		// this.postiPerSettore / (double) this.filePerSettore));
 
-		this.settori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
+		ArrayList<Settore> localSettori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
 
 		/*
 		 * Crea i settori dello stadio.
@@ -123,26 +127,30 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 				 * Aggiunge il posto corrente al settore corrente.
 				 */
 				settore.addPosto(posto);
-
-				// System.out.println(posto);
 			}
 
 			/*
 			 * Aggiunge il settore corrente all'ArrayList di setttori.
 			 */
-			this.settori.add(settore);
+			localSettori.add(settore);
 		}
+		return localSettori;
 	}
 
 	/**
-	 * Restituisce una copia dei settori dello stadio.
+	 * Restituisce una copia dei settori dello stadio, in cui ogni posto ha come
+	 * stato LIBERO.
 	 * 
-	 * @return
+	 * @return una copia dell'ArrayList dei settori dello stadio.
 	 * @author Maurizio
 	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<Settore> getSettoriClone() {
-		return (ArrayList<Settore>) this.settori.clone();
+	public ArrayList<Settore> getCopyOfSettori() {
+
+		return createSettori();
+	}
+
+	public ArrayList<Settore> getSettori() {
+		return this.settori;
 	}
 
 	@Override
@@ -167,6 +175,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 	/**
 	 * Restituisce il nome dello stadio
+	 * 
 	 * @return nome
 	 * 
 	 * @author Gaetano Antonucci
@@ -177,7 +186,9 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 
 	/**
 	 * Imposta il nome dello stadio
-	 * @param nome - il nome da assegnare
+	 * 
+	 * @param nome
+	 *            - il nome da assegnare
 	 * 
 	 * @author Maurizio Casciano
 	 */
@@ -186,10 +197,13 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come parametro
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
+	 * parametro.
 	 * 
-	 * @param obj - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come parametro, {@code false} altrimenti
+	 * @param obj
+	 *            - l'oggetto su cui effettuare la verifica.
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
+	 *         parametro, {@code false} altrimenti
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -214,36 +228,34 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	}
 
 	/**
-	 * Restituisce la capienza desiderata, ossia quella impostata dall'utente al momento della creazione
+	 * Restituisce la capienza desiderata, ossia quella impostata dall'utente al
+	 * momento della creazione.
 	 * 
 	 * @return la capienza desiderata
 	 * @author Maurizio Casciano
 	 */
 	public int getCapienzaDesiderataStadio() {
-		return this.capienzaDesiderataStadio;
+		return this.capienzaDesiderata;
 	}
 
 	/**
-	 * Imposta una nuova capienza per lo stadio 
-	 * @param nuovaCapienza - la nuova capienza desiderata
+	 * Imposta una nuova capienza per lo stadio
+	 * 
+	 * @param nuovaCapienza
+	 *            - la nuova capienza desiderata
 	 * @author Maurizio Casciano
 	 */
 	public void setCapienzaStadio(int nuovaCapienza) {
-		this.capienzaDesiderataStadio = nuovaCapienza;
-		this.init();
+		this.capienzaDesiderata = nuovaCapienza;
+		this.createSettori();
 	}
-
-	/*
-	public int getID() {							
-		return this.ID_Stadio;	   DA ELIMINARE
-	}*/
 
 	/**
 	 * Restituisce il prezzo per ogni partita giocata nello stadio.
 	 * 
 	 * @return il prezzo
 	 * @author Maurizio Casciano
-	 */ 
+	 */
 	public double getPrezzoPerPartita() {
 		return this.prezzoPerPartita;
 	}
@@ -251,7 +263,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	/**
 	 * Imposta il prezzo per tutte le partite giocate nello stadio.
 	 * 
-	 * @param prezzo - il nuovo prezzo da impostare
+	 * @param prezzo
+	 *            - il nuovo prezzo da impostare
 	 * @author Maurizio Casciano
 	 */
 	public void setPrezzoPerPartita(double prezzo) {
@@ -259,36 +272,41 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	}
 
 	/**
-	 * Calcola il numero effettivi di posti disponibili per lo stadio,
-	 * in accordo con la creazione della sagoma grafica.
+	 * Confronta due Stadi in base al loro nome.
 	 * 
-	 * @param postiRichiesti - 
+	 * @param s
+	 *            lo Stadio con cui effettuare il confronto lessicografico.
+	 * @return Il valore restituito dal metodo {@link String#compareTo(String)}
+	 *         applicato ai nomi dei due stadi.
 	 */
-	/*public void calcolaPostiEffettivi(int postiRichiesti) {       DA ELIMINARE
-		int postiPerSettore = (postiRichiesti / NUMERO_SETTORI);
-		this.postiPerSettore = postiPerSettore;
+	@Override
+	public int compareTo(Stadio s) {
+		return this.getNome().compareTo(s.getNome());
+	}
 
-		int postiEffettivi = postiPerSettore * NUMERO_SETTORI;
-		this.capienzaDesiderataStadio = postiEffettivi;
-
-		int numeroFile = (int) Math.sqrt(postiPerSettore);
-		int numeroPosti = postiPerSettore / numeroFile;
-
-		this.filePerSettore = numeroFile;
-		this.postiPerFila = numeroPosti;
-
-	}*/
-
-	/**
-	 * Versione modificata del toString per facilitare la visualizzazione degli Stadi nelle comboBox
+	/*
+	 * Versione modificata del toString per la visualizzazione nella comboBox.
 	 */
+
 	@Override
 	public String toString() {
 		return this.nome;
 	}
 
 	/**
-	 * Genera il nome del prossimo Settore da creare
+	 * Il to string effettivo.
+	 * 
+	 * @author Maurizio
+	 */
+	public String trueToString() {
+		return this.getClass().getName() + " [" + "nome=" + nome + ", capienzaDesiderata=" + capienzaDesiderata
+				+ ", capienzaEffettiva=" + capienzaEffettiva + ", filePerSettore=" + filePerSettore
+				+ ", postiPerSettore=" + postiPerSettore + ", postiPerFila=" + postiPerFila + ", prezzoPerPartita="
+				+ prezzoPerPartita + ", settori=" + settori + "]";
+	}
+
+	/**
+	 * Genera il nome del prossimo Settore da creare.
 	 * 
 	 * @return il nome del prossimo settore
 	 * @author Maurizio Casciano
@@ -313,18 +331,15 @@ public class Stadio implements Serializable, DivisibleIntoSectors {
 	private char firstChar = 'A', secondChar = 'A';
 	private static final long serialVersionUID = -5785492477034953352L;
 	private String nome;
-	private int capienzaDesiderataStadio;
+	private int capienzaDesiderata;
 	private int capienzaEffettiva;
 	private int filePerSettore;
 	private int postiPerSettore;
 	private int postiPerFila;
-	//private int ID_Stadio; DA ELIMINARE
 	private double prezzoPerPartita;
 	private ArrayList<Settore> settori;
-	public static final int NUMERO_SETTORI = 620, CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
+	public static final int CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
 	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
-	
-	//private static int ID_Counter = 1000; DA ELIMINARE
 
 	public static void main(String[] args) {
 		new Stadio("", 80000, 10);

@@ -8,6 +8,12 @@ import java.io.Serializable;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
+/**
+ * Classe che estende {@link MouseAdapter}, usata per permettere la selezione di
+ * una riga di una {@link JTable} alla pressione del tasto destro del mouse.
+ * 
+ * @author Maurizio
+ */
 public class RightClickRowSelectionListener extends MouseAdapter implements Serializable {
 
 	@Override
