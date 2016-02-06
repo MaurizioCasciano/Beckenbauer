@@ -13,6 +13,7 @@ import struttura.Sconto;
  * 
  * @author Gaetano Antonucci
  */
+@SuppressWarnings("unused")
 public class ScontoByMatchFilter implements ScontoFilter, Serializable {
 
 	/*
@@ -43,7 +44,7 @@ public class ScontoByMatchFilter implements ScontoFilter, Serializable {
 		 * Si effettua una verifica diversa rispetto agli altri sconti in quanto
 		 * quello su partita e' valido un solo giorno
 		 */
-		int annoInizioValidita = sconto.getInizioValidita().get(Calendar.YEAR);
+	/*	int annoInizioValidita = sconto.getInizioValidita().get(Calendar.YEAR);
 		int meseInizioValidita = sconto.getInizioValidita().get(Calendar.MONTH);
 		int giornoInizioValidita = sconto.getInizioValidita().get(Calendar.DAY_OF_MONTH);
 
@@ -53,13 +54,16 @@ public class ScontoByMatchFilter implements ScontoFilter, Serializable {
 
 		int annoPartita = partitaDiCalcio.getData().get(Calendar.YEAR);
 		int mesePartita = partitaDiCalcio.getData().get(Calendar.MONTH);
-		int giornoPartita = partitaDiCalcio.getData().get(Calendar.DAY_OF_MONTH);
+		int giornoPartita = partitaDiCalcio.getData().get(Calendar.DAY_OF_MONTH); */
 
 		if (partitaSconto != null) {
-			if ((partitaDiCalcio.equals(sconto.getPartita())) && (annoPartita == annoInizioValidita)
+			/*if ((partitaDiCalcio.equals(sconto.getPartita())) && (annoPartita == annoInizioValidita)
 					&& (mesePartita == meseInizioValidita) && (giornoPartita == giornoInizioValidita)
 					&& (annoPartita == annoFineValidita) && (mesePartita == meseFineValidita)
-					&& (giornoPartita == giornoFineValidita)) {
+					&& (giornoPartita == giornoFineValidita)) { */
+			if(partitaDiCalcio.equals(sconto.getPartita()) 
+				&& !(partitaDiCalcio.getData().before(sconto.getInizioValidita()))
+				&& !(partitaDiCalcio.getData().after(sconto.getFineValidita())))	{
 				result = true;
 			}
 		}
