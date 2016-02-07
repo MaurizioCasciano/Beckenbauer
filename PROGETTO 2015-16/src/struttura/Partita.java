@@ -193,7 +193,7 @@ public class Partita implements Serializable {
 	@Override
 	public String toString() {
 		return this.getClass().getName() + " [squadraInCasa=" + squadraInCasa + ", squadraInTrasferta="
-				+ squadraInTrasferta + ", stadio=" + stadio.getNome() + ", data=" + data.getTime() + "]";
+				+ squadraInTrasferta + ", stadio=" + stadio.getNome() + ", data=" + DATE_FORMAT.format(data.getTime()) + "]";
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class Partita implements Serializable {
 		Partita other = (Partita) obj;
 
 		if ((this.data.equals(other.data)) && (this.squadraInCasa.equals(other.squadraInCasa))
-				&& (this.squadraInTrasferta.equals(other.squadraInTrasferta))) {
+				&& (this.squadraInTrasferta.equals(other.squadraInTrasferta)) && (this.stadio.equals(other.stadio))) {
 			result = true;
 		}
 

@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.SpinnerNumberModel;
+
+import combo.renderers.StadioComboRenderer;
 import struttura.Stadio;
 
 /**
@@ -81,6 +83,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initStadiComboPanel() {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
+		this.stadiCombo.setRenderer(new StadioComboRenderer());
 		/*
 		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata
 		 * l'eccezione IllegalArgumentException.
@@ -118,7 +121,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
 		this.capienzaSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaDesiderataStadio(),
+				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaEffettiva(),
 						Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
 		JSpinner.NumberEditor editor = (NumberEditor) capienzaSpinner.getEditor();
 		editor.getTextField().setEditable(false);
@@ -211,6 +214,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		ArrayList<Stadio> stadi = new ArrayList<>();
 		stadi.add(s);
 		stadi.add(new Stadio("Olimpico", 60000, 30));
+		stadi.add(new Stadio("Camp Nou", 99354, 30));
 
 		ModificaStadioFrame scontoStadioFrame = new ModificaStadioFrame(stadi);
 		scontoStadioFrame.setLocationRelativeTo(null);

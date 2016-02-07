@@ -54,7 +54,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 	 * @param partita
 	 *            La partita da prenotare/acquistare.
 	 * @param stadiumMode
-	 *            La modalità con cui si vuole accedere allo Stadio.
+	 *            La modalitï¿½ con cui si vuole accedere allo Stadio.
 	 * @author Maurizio
 	 */
 	public StadiumPanel(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita,
@@ -75,7 +75,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 	 * @param partita
 	 *            La partita da prenotare/acquistare.
 	 * @param stadiumMode
-	 *            La modalità con cui si vuole accedere allo Stadio.
+	 *            La modalitï¿½ con cui si vuole accedere allo Stadio.
 	 * @param capienza
 	 *            La capienza dello stadio.
 	 * @author Maurizio
@@ -124,7 +124,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 
 	/**
 	 * Crea il pannello della parte nord e vi aggiunge i vari settori. Ogni
-	 * settore è rappresentato da un {@link JButton} contenente un
+	 * settore ï¿½ rappresentato da un {@link JButton} contenente un
 	 * {@link JPanel} che gestisce la visualizzazione dei due JPanel per il nome
 	 * del settore e i posti.
 	 */
@@ -144,7 +144,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 				this.numeroSettori++;
 				final JButton settoreButton = new JButton();
 				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
-						+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
+						+ this.strutturaSportiva.getBestAvailablePrice(this.partita, new GregorianCalendar()));
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
 				 * mouse.
@@ -208,7 +208,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 			this.numeroSettori++;
 			final JButton settoreButton = new JButton();
 			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
-					+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
+					+ this.strutturaSportiva.getBestAvailablePrice(this.partita, new GregorianCalendar()));
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -253,7 +253,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 			this.numeroSettori++;
 			final JButton settoreButton = new JButton();
 			settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
-					+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
+					+ this.strutturaSportiva.getBestAvailablePrice(this.partita, new GregorianCalendar()));
 			/*
 			 * Per ottenere il punto in cui inizia il trascinamento del mouse.
 			 */
@@ -300,7 +300,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 				this.numeroSettori++;
 				final JButton settoreButton = new JButton();
 				settoreButton.setToolTipText("Prezzo: " + DecimalFormatSymbols.getInstance().getCurrencySymbol() + " "
-						+ this.strutturaSportiva.getBestAvailablePrice(this.partita));
+						+ this.strutturaSportiva.getBestAvailablePrice(this.partita, new GregorianCalendar()));
 
 				/*
 				 * Per ottenere il punto in cui inizia il trascinamento del
@@ -361,7 +361,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 	 * @param preciseWheelRotation
 	 *            Le rotazioni della rotellina del mouse.
 	 * @param mousePosition
-	 *            La posizione del mouse quando è stato generato il
+	 *            La posizione del mouse quando ï¿½ stato generato il
 	 *            MouseWheelEvent.
 	 */
 	protected void updatePreferredSize(JComponent component, double preciseWheelRotation, Point mousePosition) {
@@ -402,7 +402,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 		double offsetY = mouseY_AfterZoom - mousePosition.y;
 
 		/**
-		 * Calcola le nuove coordinate del componente affinchè il mouse rimanga
+		 * Calcola le nuove coordinate del componente affinchï¿½ il mouse rimanga
 		 * sulla stessa posizione anche dopo lo zoom.
 		 */
 		Point oldComponentLocation = component.getLocation();

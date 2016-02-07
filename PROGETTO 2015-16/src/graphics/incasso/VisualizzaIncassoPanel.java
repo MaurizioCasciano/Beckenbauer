@@ -17,12 +17,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
+
+import combo.renderers.StadioComboRenderer;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.filters.PurchaseByStadiumFilter;
 
 /**
- * Classe che modella un JPanel per la visualizzazione dell'incasso della struttura
+ * Classe che modella un JPanel per la visualizzazione dell'incasso della
+ * struttura
  * 
  * @author Gaetano Antonucci
  */
@@ -121,6 +124,7 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 	private void createComboStadi() {
 		this.comboStadi = new JComboBox<Stadio>(
 				this.struct.getStadi().toArray(new Stadio[this.struct.getStadi().size()]));
+		this.comboStadi.setRenderer(new StadioComboRenderer());
 		this.comboStadi.setSelectedIndex(0);
 
 		this.comboStadi.addItemListener(new ItemListener() {
@@ -129,8 +133,8 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 			public void itemStateChanged(ItemEvent e) {
 
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(
-							struct.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
+					String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(struct
+							.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
 					labelIncasso.setText("Incasso: " + totale);
 				}
 
@@ -182,8 +186,8 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 				comboButtonPanel.removeAll();
 				comboButtonPanel.add(comboStadi);
 				comboButtonPanel.revalidate();
-				String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(
-						struct.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
+				String totale = CURRENCY_FORMATTER.format(struct.calcolaIncasso(struct
+						.getAcquistiFiltrati(new PurchaseByStadiumFilter((Stadio) comboStadi.getSelectedItem()))));
 				labelIncasso.setText("Incasso: " + totale);
 			}
 		});

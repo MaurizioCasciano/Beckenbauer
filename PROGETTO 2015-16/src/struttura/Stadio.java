@@ -48,6 +48,10 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 
 		this.capienzaDesiderata = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
+		/*
+		 * Inizializza le variabili di
+		 * postiPerSettore,filePerSettore,postiPerFila e capienzaEffettiva,
+		 */
 		this.settori = this.createSettori();
 	}
 
@@ -149,6 +153,12 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		return createSettori();
 	}
 
+	/**
+	 * Restituisce i settori dello stadio.
+	 * 
+	 * @return l'ArrayList dei settori dello stadio.
+	 * @author Maurizio
+	 */
 	public ArrayList<Settore> getSettori() {
 		return this.settori;
 	}
@@ -284,21 +294,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		return this.getNome().compareTo(s.getNome());
 	}
 
-	/*
-	 * Versione modificata del toString per la visualizzazione nella comboBox.
-	 */
-
 	@Override
 	public String toString() {
-		return this.nome;
-	}
-
-	/**
-	 * Il to string effettivo.
-	 * 
-	 * @author Maurizio
-	 */
-	public String trueToString() {
 		return this.getClass().getName() + " [" + "nome=" + nome + ", capienzaDesiderata=" + capienzaDesiderata
 				+ ", capienzaEffettiva=" + capienzaEffettiva + ", filePerSettore=" + filePerSettore
 				+ ", postiPerSettore=" + postiPerSettore + ", postiPerFila=" + postiPerFila + ", prezzoPerPartita="

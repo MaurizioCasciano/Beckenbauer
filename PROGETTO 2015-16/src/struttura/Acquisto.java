@@ -34,8 +34,8 @@ public class Acquisto implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru) {
-		this.IDAcquisto = ++IDCounter;
-		this.dataAcquisto = new GregorianCalendar();
+		//this.IDAcquisto = ++IDCounter;
+		//this.dataAcquisto = new GregorianCalendar();
 		this.biglietto = new Biglietto(stru, c, partita, settore, fila, posto);
 		this.biglietto.setVenduto();
 	}
@@ -53,8 +53,8 @@ public class Acquisto implements Serializable {
 	 */
 	public Acquisto(Prenotazione prenotazione, StrutturaSportiva struct) {
 
-		this.IDAcquisto = ++IDCounter;
-		this.dataAcquisto = new GregorianCalendar();
+		//this.IDAcquisto = ++IDCounter;
+		//this.dataAcquisto = new GregorianCalendar();
 
 		this.biglietto = prenotazione.getBigliettoPrenotato();
 
@@ -135,9 +135,9 @@ public class Acquisto implements Serializable {
 	 * @return l'IDAcquisto
 	 * @author Gaetano Antonucci
 	 */
-	public int getIDAcquisto() {
+	/*public int getIDAcquisto() {
 		return IDAcquisto;
-	}
+	}*/
 
 	/**
 	 * Restituisce la data ({@link GregorianCalendar}) in cui viene effettuato
@@ -147,7 +147,7 @@ public class Acquisto implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getDataAcquisto() {
-		return this.dataAcquisto;
+		return this.biglietto.getDataBiglietto();
 	}
 
 	/**
@@ -162,8 +162,8 @@ public class Acquisto implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.getClass().getName() + " [IDAcquisto=" + IDAcquisto + ", dataAcquisto=" + dataAcquisto.getTime()
-				+ ", biglietto=" + biglietto + "]";
+		return this.getClass().getName() + /*" [IDAcquisto=" + IDAcquisto + */"[dataAcquisto=" + biglietto.getDataBiglietto().getTime()
+				+ ", biglietto=" + biglietto.getIDBiglietto() + "]";
 	}
 
 	/**
@@ -196,12 +196,14 @@ public class Acquisto implements Serializable {
 		return result;
 
 	}
-
-	private int IDAcquisto;
-	private GregorianCalendar dataAcquisto;
+	
+	//private int IDAcquisto;
+	//private GregorianCalendar dataAcquisto;
 	private Biglietto biglietto;
 	// Iteratore
-	private static int IDCounter = 1;
+	//private static int IDCounter = 1;
 
 	private static final long serialVersionUID = -7156904400269928829L;
+
+	
 }

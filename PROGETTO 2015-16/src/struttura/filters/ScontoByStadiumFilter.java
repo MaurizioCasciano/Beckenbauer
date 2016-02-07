@@ -2,6 +2,7 @@ package struttura.filters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import struttura.Partita;
 import struttura.Sconto;
@@ -31,14 +32,14 @@ public class ScontoByStadiumFilter implements ScontoFilter, Serializable {
 	}
 
 	@Override
-	public boolean accept(Partita partitaDiCalcio) {
+	public boolean accept(Partita partitaDiCalcio, GregorianCalendar dataDaVerificare) {
 		Stadio stadio = this.sconto.getStadio();
 		boolean result = false;
 
 		if (stadio != null) {
 			if (partitaDiCalcio.getStadio().equals(stadio)
-					&& !(partitaDiCalcio.getData().before(sconto.getInizioValidita()))
-					&& !(partitaDiCalcio.getData().after(sconto.getFineValidita()))) {
+					&& !(dataDaVerificare.before(sconto.getInizioValidita()))
+					&& !(dataDaVerificare.after(sconto.getFineValidita()))) {
 				result = true;
 			}
 		}
