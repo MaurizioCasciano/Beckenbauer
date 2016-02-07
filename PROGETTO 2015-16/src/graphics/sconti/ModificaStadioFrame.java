@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.SpinnerNumberModel;
+
+import combo.renderers.StadioComboRenderer;
 import struttura.Stadio;
 
 /**
@@ -81,6 +83,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initStadiComboPanel() {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
+		this.stadiCombo.setRenderer(new StadioComboRenderer());
 		/*
 		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata
 		 * l'eccezione IllegalArgumentException.

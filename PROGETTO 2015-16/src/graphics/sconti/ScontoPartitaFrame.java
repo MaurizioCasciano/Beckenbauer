@@ -9,7 +9,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
+import combo.renderers.PartitaComboRenderer;
 import struttura.Partita;
 import struttura.Sconto;
 import struttura.Squadra;
@@ -26,7 +26,8 @@ import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
 
 /**
- * Classe che modella un frame per l'inserimento di Sconti su una determinata partita
+ * Classe che modella un frame per l'inserimento di Sconti su una determinata
+ * partita
  * 
  * @author Gaetano Antonucci
  * @author Maurizio Casciano
@@ -34,8 +35,8 @@ import struttura.TipoSconto;
 public class ScontoPartitaFrame extends JFrame implements Serializable {
 
 	/**
-	 * Crea un nuovo frame che permette di aggiungere sconti alle partite passate
-	 * in input.
+	 * Crea un nuovo frame che permette di aggiungere sconti alle partite
+	 * passate in input.
 	 * 
 	 * @param strutturaSportiva
 	 *            La StrutturaSportiva che gestisce gli sconti.
@@ -95,9 +96,10 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	private void initPartiteComboPanel() {
 		this.stadioLabel = new JLabel("Partita: ");
 		this.partiteCombo = new JComboBox<>(this.partite.toArray(new Partita[0]));
+		this.partiteCombo.setRenderer(new PartitaComboRenderer());
 		/*
-		 * Sicuro, perche' nel caso non vi siano partite viene lanciata l'eccezione
-		 * illegalargumentexception.
+		 * Sicuro, perche' nel caso non vi siano partite viene lanciata
+		 * l'eccezione illegalargumentexception.
 		 */
 		this.partiteCombo.setSelectedIndex(0);
 		this.partiteComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -158,8 +160,8 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 	private void initPercentualeScontoPanel() {
 		this.percentualeScontoLabel = new JLabel("Percentuale sconto: ");
 		/*
-		 * I valori vengono impostati in questo modo poiche', con l'editor per la
-		 * percentuale saranno moltiplicati per 100.
+		 * I valori vengono impostati in questo modo poiche', con l'editor per
+		 * la percentuale saranno moltiplicati per 100.
 		 */
 		this.percetualeScontoSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.01, 1, 0.01));
 		char digit = DecimalFormatSymbols.getInstance().getDigit();
@@ -204,11 +206,11 @@ public class ScontoPartitaFrame extends JFrame implements Serializable {
 				Sconto s = new Sconto(TipoSconto.PARTITA_CORRENTE, sconto, dataInizio, dataFine, part);
 
 				System.out.println("BEFORE: " + strutturaSportiva.getSconti().size());
-				
+
 				strutturaSportiva.addSconto(s);
-				
+
 				System.out.println("AFTER: " + strutturaSportiva.getSconti().size());
-				
+
 				dispose();
 			}
 		});

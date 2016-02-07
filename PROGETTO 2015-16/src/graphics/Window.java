@@ -47,6 +47,8 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.table.TableRowSorter;
 import calendar.Week;
+import combo.renderers.StadioComboRenderer;
+import combo.renderers.WeekComboRenderer;
 import graphics.incasso.VisualizzaIncassoFrame;
 import graphics.login.IdentificationPanel;
 import graphics.sconti.AggiungiStadioFrame;
@@ -331,6 +333,7 @@ public class Window extends JFrame implements Serializable {
 				ArrayList<Week> nextYearWeeks = Week.getNextYearWeeks();
 
 				JComboBox<Week> weeks = new JComboBox<Week>(nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
+				weeks.setRenderer(new WeekComboRenderer());
 
 				JButton filtraButton = new JButton("Filtra");
 
@@ -380,6 +383,7 @@ public class Window extends JFrame implements Serializable {
 				ArrayList<Stadio> stadi = Window.this.strutturaSportiva.getStadi();
 
 				JComboBox<Stadio> stadiums = new JComboBox<Stadio>(stadi.toArray(new Stadio[stadi.size()]));
+				stadiums.setRenderer(new StadioComboRenderer());
 
 				JButton filtraButton = new JButton("Filtra");
 

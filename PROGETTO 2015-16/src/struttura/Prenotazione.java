@@ -36,11 +36,10 @@ public class Prenotazione implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Prenotazione(StrutturaSportiva stru, Cliente cliente, Partita partita,
-			Settore settore, int fila, int posto) {
-		//this.IDPrenotazione = ++IDCounter;
+	public Prenotazione(StrutturaSportiva stru, Cliente cliente, Partita partita, Settore settore, int fila,
+			int posto) {
 		this.bigliettoPrenotato = new Biglietto(stru, cliente, partita, settore, fila, posto);
-		this.bigliettoPrenotato.setPrenotato(); // da modificare
+		this.bigliettoPrenotato.setPrenotato();
 	}
 
 	/**
@@ -110,9 +109,9 @@ public class Prenotazione implements Serializable {
 	 * @return l'IDPrenotazione
 	 * @author Gaetano Antonucci
 	 */
-	/*public int getIDPrenotazione() {
-		return IDPrenotazione;
-	}*/
+	/*
+	 * public int getIDPrenotazione() { return IDPrenotazione; }
+	 */
 
 	/**
 	 * Restituisce la data ({@link GregorianCalendar}) in cui e' stata
@@ -133,9 +132,10 @@ public class Prenotazione implements Serializable {
 	 * @return dataPrenotazioneString la data della prenotazione.
 	 * @author Gaetano Antonucci
 	 */
-	public String getDataPrenotazioneString() {
-		return dataPrenotazioneString;
-	}
+	/*
+	 * public String getDataPrenotazioneString() { return
+	 * dataPrenotazioneString; }
+	 */
 
 	/**
 	 * Restituisce il {@link Biglietto} oggetto della prenotazione
@@ -187,22 +187,12 @@ public class Prenotazione implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return (/*"IDPrenotazione: " + this.IDPrenotazione + */" Data Prenotazione: " + this.dataPrenotazioneString
-				+ "\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
+		return ("IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
 				+ this.bigliettoPrenotato.getCliente().getCognome() + " "
 				+ this.bigliettoPrenotato.getCliente().getNome());
 	}
-	
-	//private int IDPrenotazione;
-	//private GregorianCalendar dataPrenotazione;
-	private String dataPrenotazioneString;
+
 	private Biglietto bigliettoPrenotato;
-	
-	// Iteratore
-	//private static int IDCounter = 0;
-
 	private static final long serialVersionUID = -5821307391776070857L;
-
-
 
 }

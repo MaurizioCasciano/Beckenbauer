@@ -9,7 +9,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,13 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import calendar.DateTimePicker;
+import combo.renderers.StadioComboRenderer;
 import struttura.Sconto;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 import struttura.TipoSconto;
 
 /**
- * Classe che modella un frame per l'inserimento degli sconti in base allo stadio
+ * Classe che modella un frame per l'inserimento degli sconti in base allo
+ * stadio
  * 
  * @author Gaetano Antonucci
  * @author Gaetano Antonucci
@@ -43,7 +44,7 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	 *             Se la dimensione degli stadi e' uguale a 0.
 	 * @throws NullPointerException
 	 *             Se la strutturaSportiva o l'ArrayList stadi sono null.
-	 * @author Maurizio Casciano 
+	 * @author Maurizio Casciano
 	 * @author Gaetano Antonucci
 	 */
 	public ScontoStadioFrame(StrutturaSportiva strutturaSportiva, ArrayList<Stadio> stadi)
@@ -93,9 +94,10 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	private void initStadiComboPanel() {
 		this.stadioLabel = new JLabel("Stadio: ");
 		this.stadiCombo = new JComboBox<>(this.stadi.toArray(new Stadio[0]));
+		this.stadiCombo.setRenderer(new StadioComboRenderer());
 		/*
-		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata l'eccezione
-		 * illegalargumentexception.
+		 * Sicuro, perche' nel caso non vi siano stadi viene lanciata
+		 * l'eccezione illegalargumentexception.
 		 */
 		this.stadiCombo.setSelectedIndex(0);
 		this.stadiComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -156,8 +158,8 @@ public class ScontoStadioFrame extends JFrame implements Serializable {
 	private void initPercentualeScontoPanel() {
 		this.percentualeScontoLabel = new JLabel("Percentuale sconto: ");
 		/*
-		 * I valori vengono impostati in questo modo poiche', con l'editor per la
-		 * percentuale saranno moltiplicati per 100.
+		 * I valori vengono impostati in questo modo poiche', con l'editor per
+		 * la percentuale saranno moltiplicati per 100.
 		 */
 		this.percetualeScontoSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.01, 1, 0.01));
 		char digit = DecimalFormatSymbols.getInstance().getDigit();
