@@ -163,7 +163,7 @@ public class Acquisto implements Serializable {
 	@Override
 	public String toString() {
 		return this.getClass().getName() + /*" [IDAcquisto=" + IDAcquisto + */"[dataAcquisto=" + biglietto.getDataBiglietto().getTime()
-				+ ", biglietto=" + biglietto + "]";
+				+ ", biglietto=" + biglietto.getIDBiglietto() + "]";
 	}
 
 	/**

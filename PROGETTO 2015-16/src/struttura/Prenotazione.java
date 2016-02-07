@@ -104,16 +104,6 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce il codice identificativo (ID) della prenotazione
-	 * 
-	 * @return l'IDPrenotazione
-	 * @author Gaetano Antonucci
-	 */
-	/*
-	 * public int getIDPrenotazione() { return IDPrenotazione; }
-	 */
-
-	/**
 	 * Restituisce la data ({@link GregorianCalendar}) in cui e' stata
 	 * effettuata la prenotazione.
 	 * 
@@ -124,18 +114,6 @@ public class Prenotazione implements Serializable {
 	public GregorianCalendar getDataPrenotazione() {
 		return this.bigliettoPrenotato.getDataBiglietto();
 	}
-
-	/**
-	 * Restituisce la data in cui e' stata effettuata la prenotazione come
-	 * {@link String} formattata.
-	 * 
-	 * @return dataPrenotazioneString la data della prenotazione.
-	 * @author Gaetano Antonucci
-	 */
-	/*
-	 * public String getDataPrenotazioneString() { return
-	 * dataPrenotazioneString; }
-	 */
 
 	/**
 	 * Restituisce il {@link Biglietto} oggetto della prenotazione

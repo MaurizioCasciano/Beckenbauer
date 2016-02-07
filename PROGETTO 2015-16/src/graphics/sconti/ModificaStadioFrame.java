@@ -121,7 +121,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
 		this.capienzaSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaDesiderataStadio(),
+				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaEffettiva(),
 						Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
 		JSpinner.NumberEditor editor = (NumberEditor) capienzaSpinner.getEditor();
 		editor.getTextField().setEditable(false);
@@ -214,6 +214,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 		ArrayList<Stadio> stadi = new ArrayList<>();
 		stadi.add(s);
 		stadi.add(new Stadio("Olimpico", 60000, 30));
+		stadi.add(new Stadio("Camp Nou", 99354, 30));
 
 		ModificaStadioFrame scontoStadioFrame = new ModificaStadioFrame(stadi);
 		scontoStadioFrame.setLocationRelativeTo(null);

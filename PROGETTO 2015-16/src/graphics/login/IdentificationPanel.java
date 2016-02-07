@@ -410,7 +410,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 				} catch (UserNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Utente non trovato",
 							JOptionPane.INFORMATION_MESSAGE);
-					e1.printStackTrace();
+					//e1.printStackTrace();
 				}
 			} else if (!loginIsAllFilledIn) {
 				JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "", JOptionPane.INFORMATION_MESSAGE);
