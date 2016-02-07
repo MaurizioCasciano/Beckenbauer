@@ -37,16 +37,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="struttura.Sconti" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/Sconti.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1428" y="785"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="6" language="java" name="struttura.AlreadyExistsObjectException" project="PROGETTO 2015-16" 
+  <class id="5" language="java" name="struttura.AlreadyExistsObjectException" project="PROGETTO 2015-16" 
     file="/PROGETTO 2015-16/src/struttura/AlreadyExistsObjectException.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="64" y="485"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 

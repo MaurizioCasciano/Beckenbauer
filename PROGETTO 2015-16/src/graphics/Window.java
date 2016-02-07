@@ -1259,8 +1259,8 @@ public class Window extends JFrame implements Serializable {
 
 						if (viewIndex != -1) {
 							Partita partita = partitaTable.getSelectedPartita();
-							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
-
+							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiScontiPerPartita(partita);
+								
 							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
 						}

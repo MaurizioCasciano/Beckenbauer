@@ -440,7 +440,7 @@ public class StrutturaSportiva implements Serializable {
 	 *            prenotazioni
 	 * @author Gaetano Antonucci
 	 */
-	public void cancellaPrenotazioniAcquistiPerPartita(Partita partita) {
+	public void cancellaPrenotazioniAcquistiScontiPerPartita(Partita partita) {
 
 		ArrayList<Prenotazione> prenotazioniDaCancellare;
 		ArrayList<Acquisto> acquistiDaCancellare;
@@ -448,11 +448,20 @@ public class StrutturaSportiva implements Serializable {
 		if (partita != null) {
 			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationByMatchFilter(partita));
 			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchaseByMatchFilter(partita));
-
+			
+			// Cancella gli sconti attivi sulla partita 
+			for(int i = this.sconti.size() - 1; i >= 0; i--){
+				if(this.sconti.get(i).getPartita().equals(partita)){
+					this.sconti.remove(i);
+				}
+			}
+			
+			// Cancella le prenotazioni sulla partita
 			for (Prenotazione pren : prenotazioniDaCancellare) {
 				this.cancellaPrenotazione(pren);
 			}
-
+			
+			// Cancella gli acquisti sulla partita
 			for (Acquisto acq : acquistiDaCancellare) {
 				this.cancellaAcquisto(acq);
 			}

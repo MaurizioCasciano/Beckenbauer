@@ -133,9 +133,9 @@ public class Prenotazione implements Serializable {
 	 * @return dataPrenotazioneString la data della prenotazione.
 	 * @author Gaetano Antonucci
 	 */
-	public String getDataPrenotazioneString() {
+	/*public String getDataPrenotazioneString() {
 		return dataPrenotazioneString;
-	}
+	}*/
 
 	/**
 	 * Restituisce il {@link Biglietto} oggetto della prenotazione
@@ -187,15 +187,15 @@ public class Prenotazione implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return (/*"IDPrenotazione: " + this.IDPrenotazione + */" Data Prenotazione: " + this.dataPrenotazioneString
-				+ "\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
+		return (/*"IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString 
+				+ */"\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
 				+ this.bigliettoPrenotato.getCliente().getCognome() + " "
 				+ this.bigliettoPrenotato.getCliente().getNome());
 	}
 	
 	//private int IDPrenotazione;
 	//private GregorianCalendar dataPrenotazione;
-	private String dataPrenotazioneString;
+	//private String dataPrenotazioneString;
 	private Biglietto bigliettoPrenotato;
 	
 	// Iteratore
