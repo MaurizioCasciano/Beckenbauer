@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.GregorianCalendar;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import struttura.Acquisto;
@@ -43,7 +42,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 	 * @param posto
 	 *            Il posto da rappresentare graficamente.
 	 * @param stadiumMode
-	 *            La modalità di visualizzazione dello stadio in cui si trova il
+	 *            La modalitï¿½ di visualizzazione dello stadio in cui si trova il
 	 *            posto.
 	 * @author Maurizio
 	 */
@@ -115,7 +114,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 						 * Biglietto(strutturaSportiva, cliente, partita,
 						 * settore, numeroFila, numeroPosto)));
 						 */
-						strutturaSportiva.addPrenotazione(new Prenotazione(new GregorianCalendar(), strutturaSportiva,
+						strutturaSportiva.addPrenotazione(new Prenotazione(strutturaSportiva,
 								cliente, partita, settore, numeroFila, numeroPosto));
 
 						posto.setStato(SeatStatus.PRENOTATO);
@@ -124,7 +123,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 								"Prenotazione effettuata.", JOptionPane.INFORMATION_MESSAGE);
 
 					} catch (AlreadyExistsObjectException e2) {
-						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione già presente",
+						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione giï¿½ presente",
 								JOptionPane.ERROR_MESSAGE);
 					} catch (PostoIndisponibileException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getClass().getSimpleName(),
@@ -156,11 +155,11 @@ public class StadiumSeatButton extends JButton implements Serializable {
 									"Prenotazione presente", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							JOptionPane.showMessageDialog(StadiumSeatButton.this,
-									"Spiacenti, è presente una sua prenotazione per questa partita nel sistema. Completarla.",
-									"Prenotazione già presente", JOptionPane.ERROR_MESSAGE);
+									"Spiacenti, ï¿½ presente una sua prenotazione per questa partita nel sistema. Completarla.",
+									"Prenotazione giï¿½ presente", JOptionPane.ERROR_MESSAGE);
 						}
 					} catch (AlreadyExistsObjectException e2) {
-						JOptionPane.showMessageDialog(null, e2.getMessage(), "Acquisto già presente Exception.",
+						JOptionPane.showMessageDialog(null, e2.getMessage(), "Acquisto giï¿½ presente Exception.",
 								JOptionPane.ERROR_MESSAGE);
 					} catch (PostoIndisponibileException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Posto Indisponibile Exception",
@@ -175,9 +174,9 @@ public class StadiumSeatButton extends JButton implements Serializable {
 	}
 
 	/**
-	 * Controlla se il posto è indisponibile o meno.
+	 * Controlla se il posto ï¿½ indisponibile o meno.
 	 * 
-	 * @return true se il posto è indisponibile, false altrimenti.
+	 * @return true se il posto ï¿½ indisponibile, false altrimenti.
 	 * @author Maurizio
 	 */
 	public boolean isIndisponibile() {
@@ -237,10 +236,10 @@ public class StadiumSeatButton extends JButton implements Serializable {
 	}
 
 	/**
-	 * Restituisce la modalità di accesso con cui si chiede di visualizzare il
+	 * Restituisce la modalitï¿½ di accesso con cui si chiede di visualizzare il
 	 * posto.
 	 * 
-	 * @return La modalità di accesso con cui si chiede di visualizzare il
+	 * @return La modalitï¿½ di accesso con cui si chiede di visualizzare il
 	 *         posto.
 	 * @author Maurizio
 	 */

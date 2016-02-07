@@ -151,7 +151,7 @@ public class Posto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return this.getClass().getName() + " [stadio=" + stadio + ", settore=" + settore.getNomeSettore() + ", fila="
+		return this.getClass().getName() + " [stadio=" + stadio.getNome() + ", settore=" + settore.getNomeSettore() + ", fila="
 				+ numeroFila + ", posto=" + numeroPosto + ", stato=" + stato + "]";
 	}
 

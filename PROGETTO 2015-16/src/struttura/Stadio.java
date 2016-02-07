@@ -48,7 +48,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 
 		this.capienzaDesiderata = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		this.settori = this.createSettori();
+		//this.settori = this.createSettori();
 	}
 
 	/**
@@ -149,9 +149,9 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		return createSettori();
 	}
 
-	public ArrayList<Settore> getSettori() {
+	/*public ArrayList<Settore> getSettori() {
 		return this.settori;
-	}
+	}*/
 
 	@Override
 	public int getPostiPerSettore() {
@@ -302,7 +302,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		return this.getClass().getName() + " [" + "nome=" + nome + ", capienzaDesiderata=" + capienzaDesiderata
 				+ ", capienzaEffettiva=" + capienzaEffettiva + ", filePerSettore=" + filePerSettore
 				+ ", postiPerSettore=" + postiPerSettore + ", postiPerFila=" + postiPerFila + ", prezzoPerPartita="
-				+ prezzoPerPartita + ", settori=" + settori + "]";
+				+ prezzoPerPartita + "]";
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	private int postiPerSettore;
 	private int postiPerFila;
 	private double prezzoPerPartita;
-	private ArrayList<Settore> settori;
+	//private ArrayList<Settore> settori;
 	public static final int CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
 	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
 

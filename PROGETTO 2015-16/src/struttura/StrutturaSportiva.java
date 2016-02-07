@@ -252,12 +252,12 @@ public class StrutturaSportiva implements Serializable {
 	 * @return ArrayList con gli sconti applicabili alla partita
 	 * @author Gaetano Antonucci
 	 */
-	public ArrayList<Sconto> getScontiApplicabili(ScontoFilter filtroSconti, Partita part) {
+	public ArrayList<Sconto> getScontiApplicabili(ScontoFilter filtroSconti, Partita part, GregorianCalendar dataVer) {
 		ArrayList<Sconto> filteredByChoice = new ArrayList<>();
 
 		for (int j = 0; j < this.sconti.size(); j++) {
 			filtroSconti.updateCurrentSconto(j);
-			if (filtroSconti.accept(part)) {
+			if (filtroSconti.accept(part, dataVer)) {
 				filteredByChoice.add(this.sconti.get(j));
 			}
 		}
@@ -548,13 +548,13 @@ public class StrutturaSportiva implements Serializable {
 		return sommaPrezzi;
 	}
 
-	public double getBestAvailablePrice(Partita partita) {
+	public double getBestAvailablePrice(Partita partita, GregorianCalendar dataBiglietto) {
 
 		double prezzoDiPartenza = partita.getStadio().getPrezzoPerPartita();
 
-		ArrayList<Sconto> perPartita = this.getScontiApplicabili(new ScontoByMatchFilter(this.getSconti()), partita);
-		ArrayList<Sconto> perStadio = this.getScontiApplicabili(new ScontoByStadiumFilter(this.getSconti()), partita);
-		ArrayList<Sconto> perGiorno = this.getScontiApplicabili(new ScontoByDayOfWeekFilter(this.getSconti()), partita);
+		ArrayList<Sconto> perPartita = this.getScontiApplicabili(new ScontoByMatchFilter(this.getSconti()), partita, dataBiglietto);
+		ArrayList<Sconto> perStadio = this.getScontiApplicabili(new ScontoByStadiumFilter(this.getSconti()), partita, dataBiglietto);
+		ArrayList<Sconto> perGiorno = this.getScontiApplicabili(new ScontoByDayOfWeekFilter(this.getSconti()), partita, dataBiglietto);
 
 		double maxScontoPartita = 0.00;
 		double maxScontoStadio = 0.00;
@@ -582,10 +582,10 @@ public class StrutturaSportiva implements Serializable {
 		Arrays.sort(scontiMassimi);
 		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
 
-		// System.out.println("Verifica Sconto su Biglietto");
-		// System.out.println("maxScontoPartita " + maxScontoPartita);
-		// System.out.println("maxScontoStadio " + maxScontoStadio);
-		// System.out.println("maxScontoGiorno " + maxScontoGiorno);
+		 /*System.out.println("Verifica Sconto su Biglietto");
+		 System.out.println("maxScontoPartita " + maxScontoPartita);
+		 System.out.println("maxScontoStadio " + maxScontoStadio);
+		 System.out.println("maxScontoGiorno " + maxScontoGiorno); */
 
 		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
 

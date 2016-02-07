@@ -46,41 +46,41 @@ public class TestGaetano {
 		struct.addPartita(romaJuventus);
 
 		Partita juventusRoma = new Partita(juventus, roma, sanSiro,
-				new GregorianCalendar(2016, Calendar.AUGUST, 20, 20, 0));
+				new GregorianCalendar(2016, Calendar.AUGUST, 17, 20, 0));
 		struct.addPartita(juventusRoma);
 
 		Partita salernitanaAvellinese = new Partita(salernitana, avellinese, arechi,
-				new GregorianCalendar(2016, Calendar.AUGUST, 21, 17, 0));
+				new GregorianCalendar(2016, Calendar.AUGUST, 18, 17, 0));
 		struct.addPartita(salernitanaAvellinese);
 
 		/**** Sconti ****/
 		Sconto scontoOlimpico = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, 10,
-				new GregorianCalendar(2016, Calendar.AUGUST, 18), new GregorianCalendar(2016, Calendar.AUGUST, 24),
+				new GregorianCalendar(2016, Calendar.AUGUST, 18, 0, 0), new GregorianCalendar(2016, Calendar.AUGUST, 24, 23, 59),
 				olimpico);
 		struct.addSconto(scontoOlimpico);
 
 		Sconto scontoRomaJuventus = new Sconto(TipoSconto.PARTITA_CORRENTE, 15,
-				new GregorianCalendar(2016, Calendar.AUGUST, 19), new GregorianCalendar(2016, Calendar.AUGUST, 19),
+				new GregorianCalendar(2016, Calendar.AUGUST, 10, 0, 0), new GregorianCalendar(2016, Calendar.AUGUST, 19),
 				romaJuventus);
 		struct.addSconto(scontoRomaJuventus);
 
 		Sconto scontoMercoledi = new Sconto(TipoSconto.GIORNO_PRESTABILITO, 5,
-				new GregorianCalendar(2016, Calendar.AUGUST, 18), new GregorianCalendar(2016, Calendar.AUGUST, 24),
+				new GregorianCalendar(2016, Calendar.AUGUST, 16), new GregorianCalendar(2016, Calendar.AUGUST, 24),
 				DaysOfWeek.MERCOLEDI);
 		struct.addSconto(scontoMercoledi);
 
 		Sconto scontoGiovedi = new Sconto(TipoSconto.GIORNO_PRESTABILITO, 3,
-				new GregorianCalendar(2016, Calendar.AUGUST, 18), new GregorianCalendar(2016, Calendar.AUGUST, 24),
+				new GregorianCalendar(2016, Calendar.AUGUST, 12), new GregorianCalendar(2016, Calendar.AUGUST, 24),
 				DaysOfWeek.GIOVEDI);
 		struct.addSconto(scontoGiovedi);
 
 		Sconto scontoSalernitanaAvellinese = new Sconto(TipoSconto.PARTITA_CORRENTE, 6,
-				new GregorianCalendar(2016, Calendar.AUGUST, 21), new GregorianCalendar(2016, Calendar.AUGUST, 21),
+				new GregorianCalendar(2016, Calendar.AUGUST, 15), new GregorianCalendar(2016, Calendar.AUGUST, 18),
 				salernitanaAvellinese);
 		struct.addSconto(scontoSalernitanaAvellinese);
 
 		Sconto scontoArechi = new Sconto(TipoSconto.TUTTE_LE_PARTITE_DELLO_STADIO, 4.5,
-				new GregorianCalendar(2016, Calendar.AUGUST, 18), new GregorianCalendar(2016, Calendar.AUGUST, 24),
+				new GregorianCalendar(2016, Calendar.AUGUST, 16), new GregorianCalendar(2016, Calendar.AUGUST, 24),
 				arechi);
 		struct.addSconto(scontoArechi);
 
@@ -102,13 +102,13 @@ public class TestGaetano {
 
 		/**** Biglietti da Prenotare ****/
 		// Roma - Juventus
-		Biglietto billRJGaetano = new Biglietto(struct, gaetano, romaJuventus, tribunaOlimpico, 1, 3);
+	/*	Biglietto billRJGaetano = new Biglietto(struct, gaetano, romaJuventus, tribunaOlimpico, 1, 3);
 		Biglietto billRJAsdrubale = new Biglietto(struct, asdrubale, romaJuventus, tribunaOlimpico, 1, 4);
 		Biglietto billRJMario = new Biglietto(struct, mario, romaJuventus, tribunaOlimpico, 1, 2);
 
 		// Juventus - Roma
 		Biglietto billJRGaetano = new Biglietto(struct, gaetano, juventusRoma, curvaSanSiro, 1, 3);
-		Biglietto billJRMario = new Biglietto(struct, mario, juventusRoma, curvaSanSiro, 1, 2);
+		Biglietto billJRMario = new Biglietto(struct, mario, juventusRoma, curvaSanSiro, 1, 2); */
 
 		/**** Prenotazioni ****/
 
@@ -116,34 +116,34 @@ public class TestGaetano {
 		// Prenotazione prenRJGaetano = new Prenotazione(new
 		// GregorianCalendar(2016, Calendar.JANUARY, 18), billRJGaetano);
 
-		Prenotazione prenRJGaetano = new Prenotazione(new GregorianCalendar(2016, Calendar.JANUARY, 18), struct,
-				gaetano, romaJuventus, tribunaOlimpico, 1, 3);
+		Prenotazione prenRJGaetano = new Prenotazione(struct, gaetano, romaJuventus, tribunaOlimpico, 1, 3);
+		prenRJGaetano.getBigliettoPrenotato().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 16));
 		struct.addPrenotazione(prenRJGaetano);
 
 		// Prenotazione prenRJAsdrubale = new Prenotazione(new
 		// GregorianCalendar(2016, Calendar.JANUARY, 18), billRJAsdrubale);
-		Prenotazione prenRJAsdrubale = new Prenotazione(new GregorianCalendar(2016, Calendar.JANUARY, 18), struct,
-				asdrubale, romaJuventus, tribunaOlimpico, 1, 4);
+		Prenotazione prenRJAsdrubale = new Prenotazione(struct, asdrubale, romaJuventus, tribunaOlimpico, 1, 4);
+		prenRJAsdrubale.getBigliettoPrenotato().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 17));
 		struct.addPrenotazione(prenRJAsdrubale);
 
 		// Prenotazione prenRJMario = new Prenotazione(new
 		// GregorianCalendar(2016, Calendar.JANUARY, 18, 16, 0), billRJMario);
 		// //test su tempo
-		Prenotazione prenRJMario = new Prenotazione(new GregorianCalendar(2016, Calendar.JANUARY, 18, 16, 0), struct,
-				mario, romaJuventus, tribunaOlimpico, 1, 2);
+		Prenotazione prenRJMario = new Prenotazione(struct, mario, romaJuventus, tribunaOlimpico, 1, 2);
+		prenRJMario.getBigliettoPrenotato().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 18, 16, 0));
 		struct.addPrenotazione(prenRJMario);
 
 		// Juventus - Roma
 		// Prenotazione prenJRGaetano = new Prenotazione(new
 		// GregorianCalendar(2016, Calendar.JANUARY, 18), billJRGaetano);
-		Prenotazione prenJRGaetano = new Prenotazione(new GregorianCalendar(2016, Calendar.JANUARY, 18), struct,
-				gaetano, juventusRoma, curvaSanSiro, 1, 3);
+		Prenotazione prenJRGaetano = new Prenotazione(struct, gaetano, juventusRoma, curvaSanSiro, 1, 3);
+		prenJRGaetano.getBigliettoPrenotato().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 18));
 		struct.addPrenotazione(prenJRGaetano);
 
 		// Prenotazione prenJRMario = new Prenotazione(new
 		// GregorianCalendar(2016, Calendar.JANUARY, 18), billJRMario);
-		Prenotazione prenJRMario = new Prenotazione(new GregorianCalendar(2016, Calendar.JANUARY, 18), struct, mario,
-				juventusRoma, curvaSanSiro, 1, 2);
+		Prenotazione prenJRMario = new Prenotazione(struct, mario, juventusRoma, curvaSanSiro, 1, 2);
+		prenJRMario.getBigliettoPrenotato().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 18));
 		struct.addPrenotazione(prenJRMario);
 
 		// Salernitana - Avellinese
@@ -158,7 +158,7 @@ public class TestGaetano {
 		for (Prenotazione pren : perRomaJuventus) {
 			System.out.println(pren);
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo() + " [Exp: 17.00]");
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()) + " [Exp: 17.00]");
 			System.out.println("----- partita -----");
 		}
 
@@ -171,7 +171,7 @@ public class TestGaetano {
 		for (Prenotazione pren : perJuventusRoma) {
 			System.out.println(pren);
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo() + " [Exp: 23.75]");
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()) + " [Exp: 23.75]");
 			System.out.println("----- partita -----");
 		}
 
@@ -185,7 +185,7 @@ public class TestGaetano {
 		for (Prenotazione pren : perSalernitanaAvellinese) {
 			System.out.println(pren);
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo() + " [Exp: 9.40]");
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()) + " [Exp: 9.40]");
 			System.out.println("----- partita -----");
 		}
 
@@ -198,7 +198,7 @@ public class TestGaetano {
 			System.out.println(pren);
 			System.out.println("Cliente: " + pren.getBigliettoPrenotato().getCliente().getNome());
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo());
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()));
 			System.out.println("----- cliente ------");
 		}
 
@@ -211,7 +211,7 @@ public class TestGaetano {
 			System.out.println(pren);
 			System.out.println("Cliente: " + pren.getBigliettoPrenotato().getCliente().getNome());
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo());
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()));
 			System.out.println("----- cliente ------");
 		}
 
@@ -224,7 +224,7 @@ public class TestGaetano {
 			System.out.println(pren);
 			System.out.println("Stadio: " + pren.getBigliettoPrenotato().getPartita().getStadio());
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo());
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()));
 			System.out.println("----- stadio -----");
 		}
 
@@ -237,7 +237,7 @@ public class TestGaetano {
 			System.out.println(pren);
 			System.out.println("Stadio: " + pren.getBigliettoPrenotato().getPartita().getStadio());
 			System.out.println(pren.getBigliettoPrenotato().getPartita());
-			System.out.println(pren.getBigliettoPrenotato().getPrezzo());
+			System.out.println(String.format(" %.2f",pren.getBigliettoPrenotato().getPrezzo()));
 			System.out.println("----- stadio -----");
 		}
 
@@ -259,8 +259,13 @@ public class TestGaetano {
 
 		// Salernitana - Avellinese (senza prenotazione)
 		Acquisto acqSAMario = new Acquisto(mario, salernitanaAvellinese, curvaSudArechi, 1, 3, struct);
+		acqSAMario.getBiglietto().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 16, 17, 0));
 		struct.addAcquisto(acqSAMario);
+		
+		//System.out.println("Prezzo S - A: " + String.format(" %.2f", acqSAMario.getBiglietto().getPrezzo()) + " [Exp: 9.40]");
+		
 		Acquisto acqSAAsdrubale = new Acquisto(asdrubale, salernitanaAvellinese, curvaSudArechi, 1, 4, struct);
+		acqSAAsdrubale.getBiglietto().setDataBiglietto(new GregorianCalendar(2016, Calendar.AUGUST, 15, 14, 0));
 		struct.addAcquisto(acqSAAsdrubale);
 
 		/*
@@ -317,7 +322,7 @@ public class TestGaetano {
 
 		for (Acquisto acq : struct.getAcquisti()) {
 			System.out.println(
-					"Partita:" + acq.getBiglietto().getPartita() + "\nPrezzo:" + acq.getBiglietto().getPrezzo());
+					"Partita:" + acq.getBiglietto().getPartita() + "\nPrezzo:" + String.format(" %.2f",acq.getBiglietto().getPrezzo()));
 		}
 
 		/**** Verifica Filtri Acquisti ****/
@@ -404,19 +409,19 @@ public class TestGaetano {
 
 		/***** Incassi *****/
 		System.out.println("\nIncasso totale della Struttura " + struct.getNome() + " : "
-				+ struct.calcolaIncasso(struct.getAcquisti()) + " [Exp: 100.30]");
+				+ String.format(" %.2f",struct.calcolaIncasso(struct.getAcquisti())) + " [Exp: 100.30]");
 
 		System.out.println("\n Incasso per stadio: " + olimpico);
 		System.out
-				.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico)))
+				.println(" " + String.format(" %.2f",struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(olimpico))))
 						+ " [Exp: 34.00]");
 
 		System.out.println("\n Incasso per stadio: " + sanSiro);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro)))
+		System.out.println(" " + String.format(" %.2f",struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(sanSiro))))
 				+ " [Exp: 47.50]");
 
 		System.out.println("\n Incasso per stadio: " + arechi);
-		System.out.println(" " + struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(arechi)))
+		System.out.println(" " + String.format(" %.2f",struct.calcolaIncasso(struct.getAcquistiFiltrati(new PurchaseByStadiumFilter(arechi))))
 				+ " [Exp: 18.80]");
 
 		/******* Grafica Sconti *******/
