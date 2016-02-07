@@ -118,7 +118,7 @@ public class Settore implements Serializable {
 	@Override
 	public String toString() {
 		return this.getClass().getName() + " [stadio=" + stadio.getNome() + ", nomeSettore=" + nomeSettore
-				+ ", numeroPosti=" + numeroPosti + ", numeroFile=" + numeroFile + ", posti=" + posti + "]";
+				+ ", numeroPosti=" + numeroPosti + ", numeroFile=" + numeroFile + "]";
 	}
 
 	/**

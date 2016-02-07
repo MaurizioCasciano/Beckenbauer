@@ -61,8 +61,8 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 
 		/*
 		 * Necessita' di re-inizializzare i due caratteri, altrimenti alla
-		 * chiamata del metodo setCapienza() che richiama createSettori() i settori dello
-		 * stadio non partiranno da AA.
+		 * chiamata del metodo setCapienza() che richiama createSettori() i
+		 * settori dello stadio non partiranno da AA.
 		 */
 		firstChar = 'A';
 		secondChar = 'A';
@@ -302,7 +302,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		return this.getClass().getName() + " [" + "nome=" + nome + ", capienzaDesiderata=" + capienzaDesiderata
 				+ ", capienzaEffettiva=" + capienzaEffettiva + ", filePerSettore=" + filePerSettore
 				+ ", postiPerSettore=" + postiPerSettore + ", postiPerFila=" + postiPerFila + ", prezzoPerPartita="
-				+ prezzoPerPartita + ", settori=" + settori + "]";
+				+ prezzoPerPartita + "]";
 	}
 
 	/**
