@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.9" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="struttura.Biglietto" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/Biglietto.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="835" y="951"/>    
+  <interface id="1" language="java" name="struttura.filters.Filter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="546" y="102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="struttura.filters.MatchByStadiumFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/MatchByStadiumFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="167" y="292"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="struttura.Acquisto" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/Acquisto.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1241" y="954"/>    
+  <class id="3" language="java" name="struttura.filters.MatchNotYetStartedFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/MatchNotYetStartedFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="529" y="282"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="struttura.Prenotazione" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/Prenotazione.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="346" y="910"/>    
+  <class id="4" language="java" name="struttura.filters.MatchByWeekFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/MatchByWeekFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="866" y="290"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="struttura.Settore" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/Settore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="402" y="187"/>    
+  <interface id="5" language="java" name="struttura.filters.PrenotationFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/PrenotationFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="522" y="451"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="struttura.filters.PrenotationByStadiumFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/PrenotationByStadiumFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="163" y="609"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="struttura.Posto" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/Posto.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1138" y="288"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+  <class id="7" language="java" name="struttura.filters.PrenotationByMatchFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/PrenotationByMatchFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="524" y="619"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="struttura.PostoIndisponibileException" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/PostoIndisponibileException.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="609" y="474"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <enumeration id="7" language="java" name="struttura.SeatStatus" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/SeatStatus.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="260" y="512"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </enumeration>  
-  <class id="8" language="java" name="struttura.PrenotationNotAllowedException" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/struttura/PrenotationNotAllowedException.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="386" y="1185"/>    
+  <class id="8" language="java" name="struttura.filters.PrenotationByCustomerFilter" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/filters/PrenotationByCustomerFilter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="856" y="618"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

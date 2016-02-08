@@ -8,13 +8,13 @@ import java.io.Serializable;
  * 
  * @author Maurizio
  */
-public class PrenotationNotAllowed extends RuntimeException implements Serializable {
+public class PrenotationNotAllowedException extends RuntimeException implements Serializable {
 
-	public PrenotationNotAllowed() {
+	public PrenotationNotAllowedException() {
 		super("Prenotazione non consentita!!!");
 	}
 
-	public PrenotationNotAllowed(String arg0) {
+	public PrenotationNotAllowedException(String arg0) {
 		super(arg0);
 	}
 
