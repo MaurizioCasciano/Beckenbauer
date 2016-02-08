@@ -41,10 +41,11 @@ public class SoccerFieldPanel extends JPanel implements Serializable {
 				(campo.getWidth() + 2 * distanza) / 2, campo.getHeight() + distanza);
 
 		/*
-		Line2D.Double lineaCentroOrizzontale = new Line2D.Double(campo.getX(), (campo.getHeight() + 2 * distanza) / 2,
-				campo.getWidth() + distanza, (campo.getHeight() + 2 * distanza) / 2);
-		g2.draw(lineaCentroOrizzontale);
-		*/
+		 * Line2D.Double lineaCentroOrizzontale = new
+		 * Line2D.Double(campo.getX(), (campo.getHeight() + 2 * distanza) / 2,
+		 * campo.getWidth() + distanza, (campo.getHeight() + 2 * distanza) / 2);
+		 * g2.draw(lineaCentroOrizzontale);
+		 */
 
 		double diametroCerchioCentroCampo = campo.getHeight() / 6;
 		double xCerchio = (campo.getWidth() - diametroCerchioCentroCampo + 2 * distanza) / 2;
@@ -81,27 +82,28 @@ public class SoccerFieldPanel extends JPanel implements Serializable {
 		Rectangle2D.Double smallArea2 = new Rectangle2D.Double(campo.getWidth() - larghezzaSmallArea + distanza,
 				(campo.getHeight() - altezzaSmallArea + 2 * distanza) / 2, larghezzaSmallArea, altezzaSmallArea);
 
-		double xRigore1 = larghezzaArea + distanza - larghezzaSmallArea / 2;
+		double xRigore1 = area1.getX() + area1.getWidth() - larghezzaSmallArea / 1.5
+				- diametroCerchioPiccoloCentroCampo / 2;
 		double yRigore1 = (campo.getHeight() + 2 * distanza - diametroCerchioPiccoloCentroCampo) / 2;
 		Ellipse2D.Double rigor1 = new Ellipse2D.Double(xRigore1, yRigore1, diametroCerchioPiccoloCentroCampo,
 				diametroCerchioPiccoloCentroCampo);
 
-		double xRigore2 = area2.getX() + larghezzaSmallArea / 2;
+		double xRigore2 = area2.getX() + larghezzaSmallArea / 1.5 - diametroCerchioPiccoloCentroCampo / 2;
 		double yRigore2 = yRigore1;
 		Ellipse2D.Double rigore2 = new Ellipse2D.Double(xRigore2, yRigore2, diametroCerchioPiccoloCentroCampo,
 				diametroCerchioPiccoloCentroCampo);
 
 		double lunetta1Width = smallArea1.getWidth();
-		double lunetta1Height = smallArea1.getHeight() - smallArea1.getHeight()/3;
+		double lunetta1Height = smallArea1.getHeight() - smallArea1.getHeight() / 3;
 		double xLunetta1 = area1.getWidth() + distanza - lunetta1Width / 2;
 		double yLunetta1 = smallArea1.getY() + smallArea1.getHeight() / 6;
 
 		Arc2D.Double lunetta1 = new Arc2D.Double(xLunetta1, yLunetta1, lunetta1Width, lunetta1Height, -90, 180,
 				Arc2D.OPEN);
-		
-		
-		double xLunetta2 = campo.getWidth() + distanza - area2.getWidth() - lunetta1Width/2;
-		Arc2D.Double lunetta2 = new Arc2D.Double(xLunetta2, yLunetta1, lunetta1Width, lunetta1Height, 90, 180, Arc2D.OPEN);
+
+		double xLunetta2 = campo.getWidth() + distanza - area2.getWidth() - lunetta1Width / 2;
+		Arc2D.Double lunetta2 = new Arc2D.Double(xLunetta2, yLunetta1, lunetta1Width, lunetta1Height, 90, 180,
+				Arc2D.OPEN);
 
 		g2.draw(campo);
 		g2.draw(lineaCentroCampo);

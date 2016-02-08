@@ -92,6 +92,7 @@ public class Window extends JFrame implements Serializable {
 
 	public Window(String nomeStruttura) {
 		super(nomeStruttura);
+		this.setIconImage(Assets.getFrameBallIcon());
 		this.setSize(Window.WIDTH, Window.HEIGHT);
 		this.setMinimumSize(new Dimension(Window.WIDTH, Window.HEIGHT));
 
@@ -1264,7 +1265,7 @@ public class Window extends JFrame implements Serializable {
 						if (viewIndex != -1) {
 							Partita partita = partitaTable.getSelectedPartita();
 							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiScontiPerPartita(partita);
-								
+
 							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
 						}
