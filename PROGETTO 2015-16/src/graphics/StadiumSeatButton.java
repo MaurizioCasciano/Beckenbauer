@@ -15,7 +15,7 @@ import struttura.AlreadyExistsObjectException;
 import struttura.Partita;
 import struttura.Posto;
 import struttura.PostoIndisponibileException;
-import struttura.PrenotationNotAllowed;
+import struttura.PrenotationNotAllowedException;
 import struttura.Prenotazione;
 import struttura.SeatStatus;
 import struttura.Settore;
@@ -105,7 +105,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 						}
 
 						if (strutturaSportiva.verificaAcquisto(cliente, partita)) {
-							throw new PrenotationNotAllowed();
+							throw new PrenotationNotAllowedException();
 						}
 
 						/*
@@ -128,7 +128,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 					} catch (PostoIndisponibileException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getClass().getSimpleName(),
 								JOptionPane.ERROR_MESSAGE);
-					} catch (PrenotationNotAllowed e3) {
+					} catch (PrenotationNotAllowedException e3) {
 						JOptionPane.showMessageDialog(null, e3.getMessage(), e3.getClass().getSimpleName(),
 								JOptionPane.ERROR_MESSAGE);
 					}
