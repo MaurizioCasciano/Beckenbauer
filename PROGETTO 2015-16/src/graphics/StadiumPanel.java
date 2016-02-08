@@ -26,6 +26,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+
 import struttura.Partita;
 import struttura.Settore;
 import struttura.Squadra;
@@ -164,9 +166,101 @@ public class StadiumPanel extends JPanel implements Serializable {
 
 				settoreButton.addActionListener(new ActionListener() {
 
+					private int clickCount = 0;
+
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						settoreStadioPanel.showNextCard();
+
+						clickCount++;
+
+						System.out.println("CELLA_PANEL: " + cellaPanel);
+						System.out.println("CELLA_PANEL_X: " + cellaPanel.getX());
+						System.out.println("CELLA_PANEL_Y: " + cellaPanel.getY());
+
+						JViewport viewPort = null;
+						Rectangle view = null;
+
+						float zoomFactor = clickCount % 2 == 0 ? -1.0f : 0;
+
+						if (StadiumPanel.this.getParent() != null
+								&& StadiumPanel.this.getParent() instanceof JViewport) {
+							viewPort = (JViewport) StadiumPanel.this.getParent();
+
+							view = viewPort.getViewRect();
+
+							/*
+							 * Il fattore di zoom viene calcolato come il minimo
+							 * tra il numero di volte che la larghezza del
+							 * settore (in cellaPanel) e' contenuta nella
+							 * larghezza della parte visiva dello scrollPane, e
+							 * il numero di volte che l'altezza del settore e'
+							 * contenuta nell'altezza della parte visiva.
+							 */
+							zoomFactor += (float) Math.min(view.getWidth() / cellaPanel.getWidth(),
+									view.getHeight() / cellaPanel.getHeight());
+
+							System.out.println("ZOOM_FACTOR: " + zoomFactor);
+
+							StadiumPanel.this.setPreferredSize(
+									new Dimension((int) (getWidth() * zoomFactor), (int) (getHeight() * zoomFactor)));
+
+							// OK
+							System.out.println("X: " + (-northPanel.getX() - cellaPanel.getX()));
+							System.out.println("Y: " + (-northPanel.getY() - cellaPanel.getY()));
+
+							int newX = (int) (-(northPanel.getX() + cellaPanel.getX()) * zoomFactor);
+							int newY = (int) (-(northPanel.getY() + cellaPanel.getY()) * zoomFactor);
+
+							setLocation(newX, newY);
+
+							System.out.println("VIEW_WIDTH: " + view.getWidth());
+							System.out.println("VIEW_HEIGHT: " + view.getHeight());
+						}
+					}
+				});
+
+				settoreButton.addMouseListener(new MouseAdapter() {
+
+					private int clickCount = 0;
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 2) {
+							this.clickCount++;
+							float zoomFactor = clickCount % 2 == 0 ? -1.0f : 0;
+
+							JViewport viewPort = null;
+							Rectangle view = null;
+
+							if (StadiumPanel.this.getParent() != null
+									&& StadiumPanel.this.getParent() instanceof JViewport) {
+								viewPort = (JViewport) StadiumPanel.this.getParent();
+
+								view = viewPort.getViewRect();
+
+								zoomFactor += (float) Math.min(view.getWidth() / cellaPanel.getWidth(),
+										view.getHeight() / cellaPanel.getHeight());
+
+								System.out.println("ZOOM_FACTOR: " + zoomFactor);
+
+								StadiumPanel.this.setPreferredSize(new Dimension((int) (getWidth() * zoomFactor),
+										(int) (getHeight() * zoomFactor)));
+
+								// OK
+								System.out.println("X: " + (-northPanel.getX() - cellaPanel.getX()));
+								System.out.println("Y: " + (-northPanel.getY() - cellaPanel.getY()));
+
+								int newX = (int) (-(northPanel.getX() + cellaPanel.getX()) * zoomFactor);
+								int newY = (int) (-(northPanel.getY() + cellaPanel.getY()) * zoomFactor);
+
+								setLocation(newX, newY);
+
+								System.out.println("VIEW_WIDTH: " + view.getWidth());
+								System.out.println("VIEW_HEIGHT: " + view.getHeight());
+							}
+
+						}
 					}
 				});
 
@@ -358,19 +452,26 @@ public class StadiumPanel extends JPanel implements Serializable {
 	 * @param component
 	 *            Il componente a cui si vuole aggiornare la dimensione
 	 *            preferita.
-	 * @param preciseWheelRotation
+	 * @param wheelRotation
 	 *            Le rotazioni della rotellina del mouse.
 	 * @param mousePosition
 	 *            La posizione del mouse quando ï¿½ stato generato il
 	 *            MouseWheelEvent.
 	 */
-	protected void updatePreferredSize(JComponent component, double preciseWheelRotation, Point mousePosition) {
+	protected void updatePreferredSize(JComponent component, int wheelRotation, Point mousePosition) {
 
 		/*
 		 * Il fattore di zoom.
+		 * 
+		 * NB: wheelRotation assume valori negativi muovendo la rotellina del
+		 * mouse in avanti.
 		 */
-		double zoomFactor = preciseWheelRotation * 1.08;
-		zoomFactor = (preciseWheelRotation > 0) ? 1 / zoomFactor : -zoomFactor;
+		float zoomFactor = (float) (wheelRotation * 1.08F);
+		// System.out.println("WheelRotation: " + wheelRotation);
+		// System.out.println("ZoomFactor: " + zoomFactor);
+		zoomFactor = (wheelRotation > 0) ? 1 / zoomFactor : -zoomFactor;
+
+		// System.out.println("FinalZoomFactor: " + zoomFactor);
 
 		/*
 		 * La nuova larghezza viene calcolata moltiplicando quella attuale per
@@ -389,29 +490,29 @@ public class StadiumPanel extends JPanel implements Serializable {
 		component.setPreferredSize(new Dimension(newWidth, newHeight));
 
 		/*
-		 * Calcola la posizione del mouse in seguito allo zoom (moltiplica la
-		 * vecchia posizione per lo zoomFactor).
+		 * Calcola dove si troverà il punto attualmente sotto il mouse in
+		 * seguito allo zoom.
 		 */
-		double mouseX_AfterZoom = mousePosition.x * zoomFactor;
-		double mouseY_AfterZoom = mousePosition.y * zoomFactor;
+		float mouseX_AfterZoom = mousePosition.x * zoomFactor;
+		float mouseY_AfterZoom = mousePosition.y * zoomFactor;
 
 		/*
 		 * Calcola lo spostamento del mouse in seguito allo zoom.
 		 */
-		double offsetX = mouseX_AfterZoom - mousePosition.x;
-		double offsetY = mouseY_AfterZoom - mousePosition.y;
+		float offsetX = mouseX_AfterZoom - mousePosition.x;
+		float offsetY = mouseY_AfterZoom - mousePosition.y;
 
 		/**
-		 * Calcola le nuove coordinate del componente affinchï¿½ il mouse rimanga
-		 * sulla stessa posizione anche dopo lo zoom.
+		 * Calcola le nuove coordinate del componente affinchï¿½ il mouse
+		 * rimanga sulla stessa posizione anche dopo lo zoom.
 		 */
 		Point oldComponentLocation = component.getLocation();
 
-		int newMouseX = (int) (oldComponentLocation.x - offsetX);
+		int newComponentX = (int) (oldComponentLocation.x - offsetX);
 
-		int newMouseY = (int) (oldComponentLocation.y - offsetY);
+		int newComponentY = (int) (oldComponentLocation.y - offsetY);
 
-		Point newComponentLocation = new Point(newMouseX, newMouseY);
+		Point newComponentLocation = new Point(newComponentX, newComponentY);
 
 		component.setLocation(newComponentLocation);
 		component.revalidate();
@@ -486,25 +587,27 @@ public class StadiumPanel extends JPanel implements Serializable {
 					 * trascinando il mouse, a partire dal punto in cui ha avuto
 					 * inizio il trascinamento.
 					 */
-					int deltaX = this.origin.x - e.getX();
+					int distanzaX = this.origin.x - e.getX();
 
 					/*
 					 * Calcola la distanza percorsa sulla asse delle ordinate
 					 * trascinando il mouse, a partire dal punto in cui ha avuto
 					 * inizio il trascinamento.
 					 */
-					int deltaY = this.origin.y - e.getY();
+					int distanzaY = this.origin.y - e.getY();
 
 					/*
 					 * La parte attualmente visibile.
 					 */
 					Rectangle view = viewPort.getViewRect();
+					// System.out.println("View: " + view);
 
 					/*
 					 * Trasla la parte visibile in base alla distanza percorsa
 					 * trascinando il mouse.
 					 */
-					view.translate(deltaX, deltaY);
+					view.translate(distanzaX, distanzaY);
+					// System.out.println("View translated: " + view);
 
 					/*
 					 * Imposta la nuova parte visibile al rettangolo traslato.
@@ -531,7 +634,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 		 */
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
-			updatePreferredSize(StadiumPanel.this, e.getPreciseWheelRotation(), e.getPoint());
+			updatePreferredSize(StadiumPanel.this, e.getWheelRotation(), e.getPoint());
 		}
 	}
 
@@ -568,6 +671,9 @@ public class StadiumPanel extends JPanel implements Serializable {
 
 		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""),
 				new Cliente("", "", "", "P@ssw0rd"), p, StadiumMode.ACQUISTO));
+
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		long end = System.currentTimeMillis();
 
