@@ -177,7 +177,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 						JViewport viewPort = null;
 						Rectangle view = null;
 
-						float zoomFactor = /*clickCount % 2 == 0 ? -1.0f : */0;
+						float zoomFactor = clickCount % 2 == 0 ? -1.0f : 0;
 
 						if (StadiumPanel.this.getParent() != null
 								&& StadiumPanel.this.getParent() instanceof JViewport) {
@@ -185,7 +185,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 
 							view = viewPort.getVisibleRect();
 
-							//System.out.println("VIEW: " + view);
+							System.out.println("VIEW: " + view);
 
 							/*
 							 * Il fattore di zoom viene calcolato come il minimo
@@ -199,13 +199,18 @@ public class StadiumPanel extends JPanel implements Serializable {
 									view.getHeight() / (cellaPanel.getHeight()));
 
 							zoomFactor -= 7;
-							//System.out.println("ZOOM_FACTOR: " + zoomFactor);
+							System.out.println("ZOOM_FACTOR: " + zoomFactor);
 
 							int northPanelX = northPanel.getX();
 							int northPanelY = northPanel.getY();
 
 							int northPanelXAfterZoom = (int) Math.ceil(northPanelX * zoomFactor);
 							int northPanelYAfterZoom = (int) Math.ceil(northPanelY * zoomFactor);
+
+							// int northPanelOffsetX = northPanelXAfterZoom -
+							// northPanelX;
+							// int northPanelOffsetY = northPanelYAfterZoom -
+							// northPanelY;
 
 							int cellaPanelX = cellaPanel.getX();
 							int cellaPanelY = cellaPanel.getY();
@@ -214,42 +219,66 @@ public class StadiumPanel extends JPanel implements Serializable {
 							int cellaPanelXAfterZoom = (int) Math.ceil(cellaPanelX * zoomFactor);
 							int cellaPanelYAfterZoom = (int) Math.ceil(cellaPanelY * zoomFactor);
 
+							// int cellaPanelOffsetX = cellaPanelXAfterZoom -
+							// cellaPanelX;
+							// int cellaPanelOffsetY = cellaPanelYAfterZoom -
+							// cellaPanelY;
+
 							StadiumPanel.this.setPreferredSize(new Dimension((int) Math.ceil(getWidth() * zoomFactor),
 									(int) Math.ceil(getHeight() * zoomFactor)));
+
+							// OK
+							// System.out.println("X: " + (-northPanel.getX() -
+							// cellaPanel.getX()));
+							// System.out.println("Y: " + (-northPanel.getY() -
+							// cellaPanel.getY()));
+
+							// int newX = (int) (StadiumPanel.this.getX()
+							// - (northPanel.getX() + cellaPanel.getX()) *
+							// zoomFactor);
+
+							// int newY = (int) (StadiumPanel.this.getY()
+							// - (northPanel.getY() + cellaPanel.getY()) *
+							// zoomFactor);
 
 							int newX = (int) ((getX() - (northPanelXAfterZoom + cellaPanelXAfterZoom))
 									+ (view.getWidth() - cellaPanelWidth) / 6);
 							
+							System.out.println("VIEW_CENTER_X: " + view.getCenterX());
+							System.out.println("VIEW_CENTER_Y: " + view.getCenterY());
+
 							int newY = (int) ((getY() - (northPanelYAfterZoom + cellaPanelYAfterZoom))
-							+ (view.getHeight() - cellaPanel.getHeight()) / 10);
+							+ (view.getHeight() - cellaPanel.getHeight()) / 8);
 
-							//System.out.println("\nBEFORE:");
+							System.out.println("\nBEFORE:");
 
-							//System.out.println("StadiumPanel_x: " + StadiumPanel.this.getX());
-							//System.out.println("StadiumPanel_y: " + StadiumPanel.this.getY());
+							System.out.println("StadiumPanel_x: " + StadiumPanel.this.getX());
+							System.out.println("StadiumPanel_y: " + StadiumPanel.this.getY());
 
-							//System.out.println("NorthPanel_x: " + northPanel.getX());
-							//System.out.println("NorthPanel_y: " + northPanel.getY());
+							System.out.println("NorthPanel_x: " + northPanel.getX());
+							System.out.println("NorthPanel_y: " + northPanel.getY());
 
-							//System.out.println("CellaPanel_x: " + cellaPanel.getX());
-							//System.out.println("CellaPanel_y: " + cellaPanel.getY());
-							//System.out.println("Cella_panel_width: " + cellaPanel.getWidth());
-							//System.out.println("Cella_panel_height: " + cellaPanel.getHeight());
+							System.out.println("CellaPanel_x: " + cellaPanel.getX());
+							System.out.println("CellaPanel_y: " + cellaPanel.getY());
+							System.out.println("Cella_panel_width: " + cellaPanel.getWidth());
+							System.out.println("Cella_panel_height: " + cellaPanel.getHeight());
+
+							// setLocation(newX, newY);
 
 							setLocation(newX, newY);
 
-							//System.out.println("\nAFTER:");
+							System.out.println("\nAFTER:");
 
-							//System.out.println("StadiumPanel_x: " + StadiumPanel.this.getX());
-							//System.out.println("StadiumPanel_y: " + StadiumPanel.this.getY());
+							System.out.println("StadiumPanel_x: " + StadiumPanel.this.getX());
+							System.out.println("StadiumPanel_y: " + StadiumPanel.this.getY());
 
-							//System.out.println("NorthPanel_x: " + northPanel.getX());
-							//System.out.println("NorthPanel_y: " + northPanel.getY());
+							System.out.println("NorthPanel_x: " + northPanel.getX());
+							System.out.println("NorthPanel_y: " + northPanel.getY());
 
-							//System.out.println("CellaPanel_x: " + cellaPanel.getX());
-							//System.out.println("CellaPanel_y: " + cellaPanel.getY());
-							//System.out.println("Cella_panel_width: " + cellaPanel.getWidth());
-							//System.out.println("Cella_panel_height: " + cellaPanel.getHeight());
+							System.out.println("CellaPanel_x: " + cellaPanel.getX());
+							System.out.println("CellaPanel_y: " + cellaPanel.getY());
+							System.out.println("Cella_panel_width: " + cellaPanel.getWidth());
+							System.out.println("Cella_panel_height: " + cellaPanel.getHeight());
 
 							// System.out.println("VIEW_WIDTH: " +
 							// view.getWidth());
