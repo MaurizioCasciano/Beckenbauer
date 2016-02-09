@@ -101,36 +101,34 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 	 * @author Maurizio
 	 */
 	private class TabCloseUI extends MouseAdapter {
-		private ClosableTabbedPane tabbedPane;
-		private int closeX = 0, closeY = 0, mouseEventX = 0, mouseEventY = 0;
-		private int selectedTab;
-		private static final int CLOSE_X_RECT_WIDTH = 8, CLOSE_X_RECT_HEIGHT = 8;
-		private Rectangle closeX_Rectangle = new Rectangle(0, 0, CLOSE_X_RECT_WIDTH, CLOSE_X_RECT_HEIGHT);
 
-		public TabCloseUI(ClosableTabbedPane pane) {
-			this.tabbedPane = pane;
+		public TabCloseUI(ClosableTabbedPane tabbedPane) {
+			this.tabbedPane = tabbedPane;
 			this.tabbedPane.addMouseMotionListener(this);
 			this.tabbedPane.addMouseListener(this);
 		}
 
-		public void mouseClicked(MouseEvent me) {
-			if (this.isCloseXRectUnderMouse(me.getX(), me.getY())) {
-				boolean isToCloseTab = isToCloseTab(selectedTab);
-				if (isToCloseTab && selectedTab > -1) {
-					this.tabbedPane.removeTabAt(selectedTab);
-				}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (this.isCloseXRectUnderMouse(e.getX(), e.getY())) {
 				this.selectedTab = this.tabbedPane.getSelectedIndex();
 				this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				boolean isToCloseTab = isToCloseTab(this.selectedTab);
+
+				if (isToCloseTab && this.selectedTab != -1) {
+					this.tabbedPane.removeTabAt(this.selectedTab);
+				}
 			}
 		}
 
-		public void mouseMoved(MouseEvent me) {
+		@Override
+		public void mouseMoved(MouseEvent e) {
 			/*
 			 * Mantiene aggiornata la posizione corrente del mouse.
 			 */
-			this.mouseEventX = me.getX();
-			this.mouseEventY = me.getY();
-			if (isMouseOverTab(mouseEventX, mouseEventY)) {
+			this.currentMouseX = e.getX();
+			this.currentMouseY = e.getY();
+			if (isMouseOverTab(currentMouseX, currentMouseY)) {
 				this.controlCursor();
 				this.tabbedPane.repaint();
 			}
@@ -143,14 +141,14 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		 */
 		private void controlCursor() {
 			if (this.tabbedPane.getTabCount() > 0) {
-				if (this.isCloseXRectUnderMouse(mouseEventX, mouseEventY)) {
+				if (this.isCloseXRectUnderMouse(currentMouseX, currentMouseY)) {
 					this.tabbedPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
-					if (selectedTab > -1) {
+					if (selectedTab != -1) {
 						this.tabbedPane.setToolTipTextAt(selectedTab, "Close " + tabbedPane.getTabTitleAt(selectedTab));
 					}
 				} else {
 					this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					if (selectedTab > -1) {
+					if (selectedTab != -1) {
 						this.tabbedPane.setToolTipTextAt(selectedTab, tabbedPane.getTabTitleAt(selectedTab));
 					}
 				}
@@ -161,18 +159,43 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		 * Controlla se il mouse si trova al di sopra del rettangolo che
 		 * delimita la X di chiusura.
 		 * 
-		 * @param x
+		 * @param mouseX
 		 *            La x della posizione dl mouse.
-		 * @param y
+		 * @param mouseY
 		 *            La y della posizione del mosue.
 		 * @returnb true se il mouse si trova al di sopra della X di chiusura,
 		 *          false altrimenti.
 		 * @author Maurizio
 		 */
-		private boolean isCloseXRectUnderMouse(int x, int y) {
-			this.closeX_Rectangle.x = closeX;
-			this.closeX_Rectangle.y = closeY;
-			return closeX_Rectangle.contains(x, y);
+		private boolean isCloseXRectUnderMouse(int mouseX, int mouseY) {
+			/*
+			 * Aggiorna le coordinate della X di chiusura.
+			 */
+			this.closeX_Rectangle.x = this.xClose_X;
+			this.closeX_Rectangle.y = this.xClose_Y;
+			return closeX_Rectangle.contains(mouseX, mouseY);
+		}
+
+		/**
+		 * Controlla se il mouse si trova al di sopra della Close_X.
+		 * 
+		 * @param xClose_X
+		 *            La x della posizione del rettangolo che delimita la X di
+		 *            chiusura.
+		 * @param xClose_Y
+		 *            La y della posizion del rettangolo che delimita la X di
+		 *            chiusura.
+		 * @return true se il mouse si trova al di sopra della Close_X, false
+		 *         altrimenti.
+		 * @author Maurizio
+		 */
+		private boolean isCloseX_UnderMouse(int xClose_X, int xClose_Y) {
+			if (Math.abs(xClose_X - currentMouseX) < CLOSE_X_RECT_WIDTH
+					&& Math.abs(xClose_Y - currentMouseY) < CLOSE_X_RECT_HEIGHT) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		/**
@@ -206,8 +229,8 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 			/*
 			 * Disegna la X sulla Tab con il mouse sopra.
 			 */
-			if (isMouseOverTab(mouseEventX, mouseEventY)) {
-				drawCloseX(g, closeX, closeY);
+			if (isMouseOverTab(currentMouseX, currentMouseY)) {
+				drawCloseX(g, xClose_X, xClose_Y);
 			}
 		}
 
@@ -216,18 +239,19 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		 * 
 		 * @param g
 		 *            Il contesto grafico in cui disegnare.
-		 * @param x
+		 * @param xClose_X
 		 *            La x del vertice superiore sinistro del rettangolo che
 		 *            delimita la X di chiusura.
-		 * @param y
+		 * @param xClose_Y
 		 *            La y del vertice superiore sinistro del rettangolo che
 		 *            delimita la X di chiusura.
 		 * @author Maurizio
 		 */
-		private void drawCloseX(Graphics g, int x, int y) {
+		private void drawCloseX(Graphics g, int xClose_X, int xClose_Y) {
 			if (this.tabbedPane != null && this.tabbedPane.getTabCount() > 0) {
 				Graphics2D g2 = (Graphics2D) g;
-				this.drawColoredCloseX(g2, isCloseX_UnderMouse(x, y) ? Color.RED : Color.WHITE, x, y);
+				this.drawColoredCloseX(g2, isCloseX_UnderMouse(xClose_X, xClose_Y) ? Color.RED : Color.WHITE, xClose_X,
+						xClose_Y);
 			}
 		}
 
@@ -238,93 +262,81 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		 *            Il contesto grafico in cui disegnare.
 		 * @param color
 		 *            Il colore da utilizzare per disegnare la X di chiusura.
-		 * @param x
+		 * @param xClose_X
 		 *            La x del vertice superiore sinistro del rettangolo che
 		 *            delimita la X di chiusura.
-		 * @param y
+		 * @param xClose_Y
 		 *            La y del vertice superiore sinistro del rettangolo che
 		 *            delimita la X di chiusura.
 		 * @author Maurizio
 		 */
-		private void drawColoredCloseX(Graphics2D g2, Color color, int x, int y) {
+		private void drawColoredCloseX(Graphics2D g2, Color color, int xClose_X, int xClose_Y) {
 			g2.setStroke(new BasicStroke(3, BasicStroke.JOIN_BEVEL, BasicStroke.CAP_ROUND));
 			g2.setColor(Color.BLACK);
 
 			/*
 			 * Disegna la linea \ della X.
 			 */
-			g2.drawLine(x, y, x + CLOSE_X_RECT_WIDTH, y + CLOSE_X_RECT_HEIGHT);
+			g2.drawLine(xClose_X, xClose_Y, xClose_X + CLOSE_X_RECT_WIDTH, xClose_Y + CLOSE_X_RECT_HEIGHT);
 
 			/*
 			 * Disegna la linea / della X.
 			 */
-			g2.drawLine(x + CLOSE_X_RECT_WIDTH, y, x, y + CLOSE_X_RECT_HEIGHT);
+			g2.drawLine(xClose_X + CLOSE_X_RECT_WIDTH, xClose_Y, xClose_X, xClose_Y + CLOSE_X_RECT_HEIGHT);
 			g2.setColor(color);
 			g2.setStroke(new BasicStroke(2, BasicStroke.JOIN_BEVEL, BasicStroke.CAP_ROUND));
 
 			/*
 			 * Disegna la linea \ della X.
 			 */
-			g2.drawLine(x, y, x + CLOSE_X_RECT_WIDTH, y + CLOSE_X_RECT_HEIGHT);
+			g2.drawLine(xClose_X, xClose_Y, xClose_X + CLOSE_X_RECT_WIDTH, xClose_Y + CLOSE_X_RECT_HEIGHT);
 
 			/*
 			 * Disegna la linea / della X.
 			 */
-			g2.drawLine(x + CLOSE_X_RECT_WIDTH, y, x, y + CLOSE_X_RECT_HEIGHT);
+			g2.drawLine(xClose_X + CLOSE_X_RECT_WIDTH, xClose_Y, xClose_X, xClose_Y + CLOSE_X_RECT_HEIGHT);
 		}
 
 		/**
-		 * Controlla se il mouse si trova al di sopre del rettangolo della
-		 * Close_X.
+		 * Controlla se il mouse si trova al di sopra di una tab ed aggiorna la
+		 * tab selezionata.
 		 * 
-		 * @param x
+		 * @param currentMouseX
 		 *            La x della posizione del mouse.
-		 * @param y
-		 *            La y della posizion del mouse.
-		 * @return true se il mouse si trova al di sopra del rettangolo della
-		 *         Close_X, false altrimenti.
-		 * @author Maurizio
-		 */
-		private boolean isCloseX_UnderMouse(int x, int y) {
-			if (Math.abs(x - mouseEventX) < CLOSE_X_RECT_WIDTH && Math.abs(y - mouseEventY) < CLOSE_X_RECT_HEIGHT) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		/**
-		 * Controlla se il mouse si trova al di sopra di una tab.
-		 * 
-		 * @param x
-		 *            La x della posizione del mouse.
-		 * @param y
+		 * @param currentMouseY
 		 *            La y della posizion del mouse.
 		 * @return true se il mouse si trova al di sopra di una tab, false
 		 *         altrimenti.
 		 * @author Maurizio
 		 */
-		private boolean isMouseOverTab(int x, int y) {
+		private boolean isMouseOverTab(int currentMouseX, int currentMouseY) {
 			int tabCount = tabbedPane.getTabCount();
 			for (int j = 0; j < tabCount; j++) {
 				/*
 				 * Controlla se il mouse si trova al di sopra di una tab.
 				 */
-				if (tabbedPane.getBoundsAt(j).contains(mouseEventX, mouseEventY)) {
-					selectedTab = j;
+				if (tabbedPane.getBoundsAt(j).contains(currentMouseX, currentMouseY)) {
+					this.selectedTab = j;
 
 					/*
 					 * Aggiorna le coordinate del vertice in alto a sinistra del
 					 * rettangolo contenente la X di chiusura.
 					 */
-					closeX = tabbedPane.getBoundsAt(j).x + tabbedPane.getBoundsAt(j).width - CLOSE_X_RECT_WIDTH - 5;
-					closeY = tabbedPane.getBoundsAt(j).y + 5;
+					this.xClose_X = tabbedPane.getBoundsAt(j).x + tabbedPane.getBoundsAt(j).width - CLOSE_X_RECT_WIDTH
+							- 5;
+					this.xClose_Y = tabbedPane.getBoundsAt(j).y + 5;
 
 					return true;
 				}
 			}
 			return false;
 		}
+
+		private ClosableTabbedPane tabbedPane;
+		private int xClose_X = 0, xClose_Y = 0, currentMouseX = 0, currentMouseY = 0;
+		private int selectedTab;
+		private static final int CLOSE_X_RECT_WIDTH = 8, CLOSE_X_RECT_HEIGHT = 8;
+		private Rectangle closeX_Rectangle = new Rectangle(0, 0, CLOSE_X_RECT_WIDTH, CLOSE_X_RECT_HEIGHT);
 	}
 
 	/**

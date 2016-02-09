@@ -113,7 +113,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 			String nomeSettore = this.getNextNomeSettore();
 			// System.out.println(nomeSettore);
 
-			Settore settore = new Settore(Stadio.this, nomeSettore, this.postiPerSettore, this.filePerSettore);
+			final Settore settore = new Settore(Stadio.this, nomeSettore, this.postiPerSettore, this.filePerSettore);
 
 			/*
 			 * Crea i posti per il settore.
@@ -127,7 +127,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 				/*
 				 * Crea il posto corrente.
 				 */
-				Posto posto = new Posto(this, settore, numeroFila, numeroPosto);
+				final Posto posto = new Posto(this, settore, numeroFila, numeroPosto);
 				/*
 				 * Aggiunge il posto corrente al settore corrente.
 				 */

@@ -39,7 +39,7 @@ public class Posto implements Serializable {
 	 * @param settore
 	 *            Il settore a cui appartiene questo Posto.
 	 * @param numeroFila
-	 *            Il numero della fila in cui � situato questo Posto.
+	 *            Il numero della fila in cui e' situato questo Posto.
 	 * @param numeroPosto
 	 *            Il numero di questo Posto.
 	 * @param stato

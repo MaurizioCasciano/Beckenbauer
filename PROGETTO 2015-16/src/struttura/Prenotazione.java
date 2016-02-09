@@ -53,7 +53,7 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce la {@link Partita} per cui si è prenotato un biglietto
+	 * Restituisce la {@link Partita} per cui si e' prenotato un biglietto
 	 * 
 	 * @return la Partita
 	 * @author Maurizio Casciano

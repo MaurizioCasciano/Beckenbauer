@@ -3,7 +3,6 @@ package calendar;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 /**
  * Classe per ricavare la data di inizio e la data di fine di una settimana.
@@ -49,8 +48,13 @@ public class WeekBounds implements Serializable {
 		 * Sottrae un giorno alla data passat in input, ed imposta i vari campi
 		 * dell'orario a 0. In questo modo si ottiene la data rappresentante
 		 * l'istante in cui ha inizio quel giorno.
+		 * 
+		 * Altrimenti senza sottrare 1 ai giorni, impostando ora,minuti,secondi
+		 * e millisecondi a zero, si rappresenta l'inizio del giorno successivo
+		 * alla data in questione.
 		 */
-		weekStart.add(Calendar.DAY_OF_MONTH, -1);
+		weekStart.add(Calendar.DAY_OF_MONTH, -1); // commentare questa linea per
+													// testare
 		weekStart.set(Calendar.HOUR_OF_DAY, 0);
 		weekStart.set(Calendar.MINUTE, 0);
 		weekStart.set(Calendar.SECOND, 0);
@@ -89,19 +93,10 @@ public class WeekBounds implements Serializable {
 	private static final long serialVersionUID = -3430620484153690897L;
 
 	public static void main(String[] args) {
-		GregorianCalendar date = new GregorianCalendar();
-		date.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+		// DOMENICA 14 FEBBRAIO
+		GregorianCalendar date = new GregorianCalendar(2016, Calendar.FEBRUARY, 14);
 
-		date.set(Calendar.MONTH, Calendar.JANUARY);
-		date.set(Calendar.DAY_OF_MONTH, 17);
-		date.set(Calendar.YEAR, 2016);
-
-		date.set(Calendar.HOUR_OF_DAY, 20);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.SECOND, 0);
-		date.set(Calendar.MILLISECOND, 0);
-
-		System.out.println(date.getTime());
+		System.out.println("DATE: " + date.getTime());
 		System.out.println("START:\n" + getWeekStart(date).getTime());
 		System.out.println("END:\n" + getWeekEnd(date).getTime());
 

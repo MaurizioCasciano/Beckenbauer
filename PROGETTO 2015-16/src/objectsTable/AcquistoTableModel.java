@@ -25,11 +25,6 @@ public class AcquistoTableModel extends RowObjectTableModel<Acquisto> implements
 	private static final String[] COLUMN_NAMES = { "Cliente", "Partita", "Data Partita", "Stadio", "Settore", "Posto",
 			"Data Acquisto", "Prezzo" };
 
-	/**
-	 * @param columnNames
-	 * @param rowClass
-	 * @author Maurizio
-	 */
 	protected AcquistoTableModel() {
 		super(COLUMN_NAMES);
 

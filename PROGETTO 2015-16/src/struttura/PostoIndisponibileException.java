@@ -3,7 +3,7 @@ package struttura;
 import java.io.Serializable;
 
 /**
- * Eccezione che notifica all'utente che il posto selezionato non è disponibile
+ * Eccezione che notifica all'utente che il posto selezionato non e' disponibile
  * 
  * @author Gaetano Antonucci
  */

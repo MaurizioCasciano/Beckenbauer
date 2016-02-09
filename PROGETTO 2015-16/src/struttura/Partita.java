@@ -34,9 +34,7 @@ public class Partita implements Serializable {
 		this.stadio = stadio;
 		this.data = data;
 
-		/********************************************/
 		/* ArrayList per salvare lo stato dei posti */
-		/********************************************/
 		this.settori = this.stadio.getCopyOfSettori();
 	}
 
@@ -193,7 +191,8 @@ public class Partita implements Serializable {
 	@Override
 	public String toString() {
 		return this.getClass().getName() + " [squadraInCasa=" + squadraInCasa + ", squadraInTrasferta="
-				+ squadraInTrasferta + ", stadio=" + stadio.getNome() + ", data=" + DATE_FORMAT.format(data.getTime()) + "]";
+				+ squadraInTrasferta + ", stadio=" + stadio.getNome() + ", data=" + DATE_FORMAT.format(data.getTime())
+				+ "]";
 	}
 
 	/**

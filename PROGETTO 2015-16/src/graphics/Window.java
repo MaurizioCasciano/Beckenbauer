@@ -1144,6 +1144,9 @@ public class Window extends JFrame implements Serializable {
 
 				this.acquista = new JMenuItem("Acquista");
 
+				/*
+				 * Disabilita gli acquisti se la partita e' gia' iniziata.
+				 */
 				if (new GregorianCalendar().after(partita.getData())) {
 					this.acquista.setEnabled(false);
 				}
