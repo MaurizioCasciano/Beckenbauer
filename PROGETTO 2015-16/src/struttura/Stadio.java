@@ -3,7 +3,8 @@ package struttura;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import graphics.DivisibleIntoSectors;
+
+import graphics.stadium.DivisibleIntoSectors;
 
 /**
  * Classe che modella uno Stadio.

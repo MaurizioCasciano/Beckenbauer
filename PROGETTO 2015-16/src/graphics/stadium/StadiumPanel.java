@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.SwingWorker;
+
 import struttura.Partita;
 import struttura.Settore;
 import struttura.Squadra;
@@ -92,6 +93,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 		this.stadiumMode = stadiumMode;
 		this.capienza = capienza;
 		this.settori = this.partita.getSettori();
+		this.myMouseAdapter = new MyMouseAdapter();
 
 		this.init();
 	}
@@ -429,6 +431,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 					 * Imposta la nuova dimensione preferita.
 					 */
 					component.setPreferredSize(d);
+					component.revalidate();
 				}
 			}
 
@@ -436,7 +439,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 			protected void done() {
 				try {
 					component.setLocation(get());
-					component.getParent().revalidate();
+					component.revalidate();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -490,6 +493,31 @@ public class StadiumPanel extends JPanel implements Serializable {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			this.origin = new Point(e.getPoint());
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (StadiumPanel.this.getParent() != null && StadiumPanel.this.getParent() instanceof JViewport) {
+				JViewport viewPort = (JViewport) StadiumPanel.this.getParent();
+
+				Rectangle view = viewPort.getViewRect();
+
+				/*
+				 * Controlla se c'e' stato lo zoom.
+				 */
+				if ((view.width < StadiumPanel.this.getWidth() || view.height < StadiumPanel.this.getHeight())
+						&& e.getClickCount() == 2) {
+
+					// System.out.println("VIEW: " + view);
+					// System.out.println("STADIUM_PANEL: " +
+					// StadiumPanel.this);
+					/*
+					 * Azzera lo zoom.
+					 */
+					StadiumPanel.this.setPreferredSize(new Dimension((int) view.getWidth(), (int) view.getHeight()));
+					StadiumPanel.this.revalidate();
+				}
+			}
 		}
 
 		/**
@@ -585,7 +613,7 @@ public class StadiumPanel extends JPanel implements Serializable {
 
 	private static final int HORIZONTAL_GAP = 5, VERTICAL_GAP = 5;
 
-	private final MouseAdapter myMouseAdapter = new MyMouseAdapter();
+	private MouseAdapter myMouseAdapter;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -599,9 +627,6 @@ public class StadiumPanel extends JPanel implements Serializable {
 
 		JScrollPane scrollPane = new JScrollPane(new StadiumPanel(new StrutturaSportiva(""),
 				new Cliente("", "", "", "P@ssw0rd"), p, StadiumMode.ACQUISTO));
-
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		long end = System.currentTimeMillis();
 

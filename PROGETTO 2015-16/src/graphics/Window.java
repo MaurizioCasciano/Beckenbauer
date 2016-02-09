@@ -56,6 +56,8 @@ import graphics.sconti.ModificaStadioFrame;
 import graphics.sconti.ScontoGiornoFrame;
 import graphics.sconti.ScontoPartitaFrame;
 import graphics.sconti.ScontoStadioFrame;
+import graphics.stadium.StadiumMode;
+import graphics.stadium.StadiumScrollPane;
 import objectsTable.AcquistoTable;
 import objectsTable.AcquistoTableModel;
 import objectsTable.PartitaTable;

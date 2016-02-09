@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 /**
  * Enum per gestire le modalità di accesso allo Stadio.

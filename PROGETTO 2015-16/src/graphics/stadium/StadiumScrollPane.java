@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 import struttura.Stadio;
 

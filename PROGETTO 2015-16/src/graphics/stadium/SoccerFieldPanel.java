@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

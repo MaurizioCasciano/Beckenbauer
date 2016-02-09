@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -14,6 +14,7 @@ import java.awt.event.ComponentListener;
 import java.io.Serializable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import struttura.Partita;
 import struttura.Posto;
 import struttura.Settore;

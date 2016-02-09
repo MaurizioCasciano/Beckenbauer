@@ -227,8 +227,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="26" language="java" name="graphics.DivisibleIntoSectors" project="PROGETTO 2015-16" 
-    file="/PROGETTO 2015-16/src/graphics/DivisibleIntoSectors.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="26" language="java" name="graphics.stadium.DivisibleIntoSectors" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/graphics/stadium/DivisibleIntoSectors.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="918" y="622"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

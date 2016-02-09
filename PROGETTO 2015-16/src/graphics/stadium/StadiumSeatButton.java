@@ -1,4 +1,4 @@
-package graphics;
+package graphics.stadium;
 
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
 import struttura.Acquisto;
 import struttura.AlreadyExistsObjectException;
 import struttura.Partita;
