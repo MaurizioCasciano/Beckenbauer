@@ -42,8 +42,8 @@ public class StadiumSeatButton extends JButton implements Serializable {
 	 * @param posto
 	 *            Il posto da rappresentare graficamente.
 	 * @param stadiumMode
-	 *            La modalit� di visualizzazione dello stadio in cui si trova il
-	 *            posto.
+	 *            La modalit� di visualizzazione dello stadio in cui si trova
+	 *            il posto.
 	 * @author Maurizio
 	 */
 	public StadiumSeatButton(StrutturaSportiva strutturaSportiva, Cliente cliente, Partita partita, Posto posto,
@@ -108,14 +108,8 @@ public class StadiumSeatButton extends JButton implements Serializable {
 							throw new PrenotationNotAllowedException();
 						}
 
-						/*
-						 * strutturaSportiva.addPrenotazione(new
-						 * Prenotazione(new GregorianCalendar(), new
-						 * Biglietto(strutturaSportiva, cliente, partita,
-						 * settore, numeroFila, numeroPosto)));
-						 */
-						strutturaSportiva.addPrenotazione(new Prenotazione(strutturaSportiva,
-								cliente, partita, settore, numeroFila, numeroPosto));
+						strutturaSportiva.addPrenotazione(new Prenotazione(strutturaSportiva, cliente, partita, settore,
+								numeroFila, numeroPosto));
 
 						posto.setStato(SeatStatus.PRENOTATO);
 						JOptionPane.showMessageDialog(null,
@@ -123,7 +117,7 @@ public class StadiumSeatButton extends JButton implements Serializable {
 								"Prenotazione effettuata.", JOptionPane.INFORMATION_MESSAGE);
 
 					} catch (AlreadyExistsObjectException e2) {
-						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione gi� presente",
+						JOptionPane.showMessageDialog(null, e2.getMessage(), "Prenotazione gia' presente",
 								JOptionPane.ERROR_MESSAGE);
 					} catch (PostoIndisponibileException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.getClass().getSimpleName(),
