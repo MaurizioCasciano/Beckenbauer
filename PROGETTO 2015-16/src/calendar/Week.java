@@ -99,15 +99,8 @@ public class Week implements Serializable {
 		return allWeeks;
 	}
 
-	// Versione modificate del toString per favorire la visualizzazione nella
-	// JComboBox.
-	@Override
 	public String toString() {
-		return DATE_FORMAT.format(start.getTime()) + " - " + DATE_FORMAT.format(end.getTime());
-	}
-
-	public String trueToString() {
-		return this.getClass().getName() + " [start=" + DATE_FORMAT.format(start.getTime()) + ", end="
+		return this.getClass().getName() + " [start=" + DATE_FORMAT.format(start.getTime()) + " - end="
 				+ DATE_FORMAT.format(end.getTime()) + "]";
 	}
 

@@ -9,6 +9,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
+
+import combo.renderers.StadioComboRenderer;
 import struttura.Stadio;
 import struttura.StrutturaSportiva;
 
@@ -48,6 +50,7 @@ public class StadioCellEditor extends AbstractCellEditor implements TableCellEdi
 		Stadio stadio = (Stadio) value;
 
 		this.stadi = new JComboBox<>(this.strutturaSportiva.getStadi().toArray(new Stadio[1]));
+		this.stadi.setRenderer(new StadioComboRenderer());
 		this.stadi.setSelectedItem(stadio);
 
 		return this.stadi;

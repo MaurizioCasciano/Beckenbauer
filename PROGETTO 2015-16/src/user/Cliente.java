@@ -8,7 +8,7 @@ import password.WeakPasswordException;
  * 
  * @author Maurizio
  */
-public class Cliente extends Utente implements Serializable {
+public class Cliente extends Utente implements Serializable, Cloneable {
 
 	/**
 	 * Crea un nuovo Cliente di un sistema informatico.

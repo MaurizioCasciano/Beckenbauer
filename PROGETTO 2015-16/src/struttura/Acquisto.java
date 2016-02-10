@@ -15,7 +15,7 @@ import user.Cliente;
  */
 public class Acquisto implements Serializable {
 	/**
-	 * Costruisce un acquisto diretto, cioè senza una prenotazione in base ai
+	 * Costruisce un acquisto diretto, cioe' senza una prenotazione in base ai
 	 * parametri impostati
 	 * 
 	 * @param c
@@ -34,13 +34,10 @@ public class Acquisto implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	public Acquisto(Cliente c, Partita partita, Settore settore, int fila, int posto, StrutturaSportiva stru) {
-		this.IDAcquisto = ++IDCounter;
-		this.dataAcquisto = new GregorianCalendar();
+		//this.IDAcquisto = ++IDCounter;
+		//this.dataAcquisto = new GregorianCalendar();
 		this.biglietto = new Biglietto(stru, c, partita, settore, fila, posto);
-
-		this.biglietto.setPrenotato(NOT_PRENOTATO);
-		this.biglietto.setPagato(IS_PAGATO);
-
+		this.biglietto.setVenduto();
 	}
 
 	/**
@@ -56,12 +53,12 @@ public class Acquisto implements Serializable {
 	 */
 	public Acquisto(Prenotazione prenotazione, StrutturaSportiva struct) {
 
-		this.IDAcquisto = ++IDCounter;
-		this.dataAcquisto = new GregorianCalendar();
+		//this.IDAcquisto = ++IDCounter;
+		//this.dataAcquisto = new GregorianCalendar();
 
 		this.biglietto = prenotazione.getBigliettoPrenotato();
 
-		this.biglietto.setPagato(IS_PAGATO);
+		this.biglietto.setVenduto();
 
 		/* Cancella la prenotazione in quanto e' stato effettuato l'acquisto */
 		struct.cancellaPrenotazioneCliente(this.biglietto.getCliente(), this.biglietto.getPartita());
@@ -138,9 +135,9 @@ public class Acquisto implements Serializable {
 	 * @return l'IDAcquisto
 	 * @author Gaetano Antonucci
 	 */
-	public int getIDAcquisto() {
+	/*public int getIDAcquisto() {
 		return IDAcquisto;
-	}
+	}*/
 
 	/**
 	 * Restituisce la data ({@link GregorianCalendar}) in cui viene effettuato
@@ -150,7 +147,7 @@ public class Acquisto implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getDataAcquisto() {
-		return this.dataAcquisto;
+		return this.biglietto.getDataBiglietto();
 	}
 
 	/**
@@ -163,34 +160,19 @@ public class Acquisto implements Serializable {
 		return this.biglietto;
 	}
 
-	/**
-	 * Restituisce le informazioni relative all'oggetto
-	 * 
-	 * @author Gaetano Antonucci
-	 */
-	/*
-	 * @Override public String toString() { int giornoAcquisto =
-	 * this.dataAcquisto.get(Calendar.DAY_OF_MONTH); int meseAcquisto =
-	 * this.dataAcquisto.get(Calendar.MONTH) + 1; int annoAcquisto =
-	 * this.dataAcquisto.get(Calendar.YEAR); return ("ID Acquisto: " +
-	 * this.IDAcquisto + " Data Acquisto: " + giornoAcquisto + "/" +
-	 * meseAcquisto + "/" + annoAcquisto + " \n" + "Biglietto: " +
-	 * this.biglietto); }
-	 */
-
 	@Override
 	public String toString() {
-		return this.getClass().getName() + " [IDAcquisto=" + IDAcquisto + ", dataAcquisto=" + dataAcquisto.getTime()
-				+ ", biglietto=" + biglietto + "]";
+		return this.getClass().getName() + /*" [IDAcquisto=" + IDAcquisto + */"[dataAcquisto=" + biglietto.getDataBiglietto().getTime()
+				+ ", biglietto=" + biglietto.getIDBiglietto() + "]";
 	}
 
 	/**
-	 * Verifica se l'oggetto corrente è uguale all'oggetto passato come
+	 * Verifica se l'oggetto corrente e' uguale all'oggetto passato come
 	 * parametro
 	 * 
 	 * @param obj
 	 *            - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
 	 *         parametro, {@code false} altrimenti
 	 */
 	@Override
@@ -214,16 +196,14 @@ public class Acquisto implements Serializable {
 		return result;
 
 	}
-
-	private int IDAcquisto;
-	private GregorianCalendar dataAcquisto;
+	
+	//private int IDAcquisto;
+	//private GregorianCalendar dataAcquisto;
 	private Biglietto biglietto;
-
-	private static final boolean NOT_PRENOTATO = false;
-	private static final boolean IS_PAGATO = true;
-
 	// Iteratore
-	private static int IDCounter = 1;
+	//private static int IDCounter = 1;
 
 	private static final long serialVersionUID = -7156904400269928829L;
+
+	
 }

@@ -3,6 +3,7 @@ package struttura.filters;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import struttura.Partita;
 import struttura.Sconto;
@@ -31,7 +32,7 @@ public class ScontoByDayOfWeekFilter implements ScontoFilter, Serializable{
 	}
 	
 	@Override
-	public boolean accept(Partita partitaDiCalcio) {
+	public boolean accept(Partita partitaDiCalcio, GregorianCalendar dataDaVerificare) {
 		DaysOfWeek giornoSettimanaSconto = this.sconto.getGiornoSettimana();
 		boolean result = false;
 		int giorno = (partitaDiCalcio.getData().get(Calendar.DAY_OF_WEEK));
@@ -39,8 +40,8 @@ public class ScontoByDayOfWeekFilter implements ScontoFilter, Serializable{
 		
 		if(giornoSettimanaSconto != null){
 			if((giornoSettimana.getValue() == this.sconto.getGiornoSettimana().getValue()) 
-					&& !(partitaDiCalcio.getData().before(sconto.getInizioValidita())) 
-					&& !(partitaDiCalcio.getData().after(sconto.getFineValidita()))){
+					&& !(dataDaVerificare.before(sconto.getInizioValidita())) 
+					&& !(dataDaVerificare.after(sconto.getFineValidita()))){
 				
 					result = true;
 			}

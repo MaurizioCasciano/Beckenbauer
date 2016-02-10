@@ -34,10 +34,8 @@ public class Partita implements Serializable {
 		this.stadio = stadio;
 		this.data = data;
 
-		/********************************************/
 		/* ArrayList per salvare lo stato dei posti */
-		/********************************************/
-		this.settori = this.stadio.getSettoriClone();
+		this.settori = this.stadio.getCopyOfSettori();
 	}
 
 	/**
@@ -52,7 +50,7 @@ public class Partita implements Serializable {
 		this.squadraInTrasferta = new Squadra("-");
 		this.stadio = new Stadio("-", Stadio.CAPIENZA_MINIMA, Stadio.PREZZO_MINIMO);
 		this.data = new GregorianCalendar();
-		this.settori = this.stadio.getSettoriClone();
+		this.settori = this.stadio.getCopyOfSettori();
 	}
 
 	/**
@@ -156,7 +154,7 @@ public class Partita implements Serializable {
 	public void setStadio(Stadio stadio) {
 		if (stadio != null) {
 			this.stadio = stadio;
-			this.settori = this.stadio.getSettoriClone();
+			this.settori = this.stadio.getCopyOfSettori();
 		}
 	}
 
@@ -193,7 +191,8 @@ public class Partita implements Serializable {
 	@Override
 	public String toString() {
 		return this.getClass().getName() + " [squadraInCasa=" + squadraInCasa + ", squadraInTrasferta="
-				+ squadraInTrasferta + ", stadio=" + stadio + ", data=" + data.getTime() + ", settori=" + settori + "]";
+				+ squadraInTrasferta + ", stadio=" + stadio.getNome() + ", data=" + DATE_FORMAT.format(data.getTime())
+				+ "]";
 	}
 
 	/**
@@ -202,7 +201,7 @@ public class Partita implements Serializable {
 	 * 
 	 * @param obj
 	 *            - l'oggetto su cui effettuare la verifica
-	 * @return {@code true} se quest'oggetto è uguale all'oggetto passato come
+	 * @return {@code true} se quest'oggetto e' uguale all'oggetto passato come
 	 *         parametro, {@code false} altrimenti
 	 * @author Gaetano Antonucci
 	 */
@@ -224,7 +223,7 @@ public class Partita implements Serializable {
 		Partita other = (Partita) obj;
 
 		if ((this.data.equals(other.data)) && (this.squadraInCasa.equals(other.squadraInCasa))
-				&& (this.squadraInTrasferta.equals(other.squadraInTrasferta))) {
+				&& (this.squadraInTrasferta.equals(other.squadraInTrasferta)) && (this.stadio.equals(other.stadio))) {
 			result = true;
 		}
 

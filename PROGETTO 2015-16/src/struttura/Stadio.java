@@ -4,7 +4,7 @@ package struttura;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import graphics.DivisibleIntoSectors;
+import graphics.stadium.DivisibleIntoSectors;
 
 /**
  * Classe che modella uno Stadio.
@@ -49,7 +49,11 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 
 		this.capienzaDesiderata = capienzaDesiderataStadio;
 		this.prezzoPerPartita = prezzoPerPartita;
-		this.init();
+		/*
+		 * Inizializza le variabili di
+		 * postiPerSettore,filePerSettore,postiPerFila e capienzaEffettiva,
+		 */
+		this.settori = this.createSettori();
 	}
 
 	/**
@@ -58,12 +62,12 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	 * 
 	 * @author Maurizio Casciano
 	 */
-	private void init() {
+	private ArrayList<Settore> createSettori() {
 
 		/*
 		 * Necessita' di re-inizializzare i due caratteri, altrimenti alla
-		 * chiamata del metodo setCapienza() che richiama init() i settori dello
-		 * stadio non partiranno da AA.
+		 * chiamata del metodo setCapienza() che richiama createSettori() i
+		 * settori dello stadio non partiranno da AA.
 		 */
 		firstChar = 'A';
 		secondChar = 'A';
@@ -96,7 +100,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		// System.out.println("PostiPerFila arrotondati = " + Math.ceil((double)
 		// this.postiPerSettore / (double) this.filePerSettore));
 
-		this.settori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
+		ArrayList<Settore> localSettori = new ArrayList<>(DivisibleIntoSectors.NUMERO_SETTORI);
 
 		/*
 		 * Crea i settori dello stadio.
@@ -109,7 +113,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 			String nomeSettore = this.getNextNomeSettore();
 			// System.out.println(nomeSettore);
 
-			Settore settore = new Settore(Stadio.this, nomeSettore, this.postiPerSettore, this.filePerSettore);
+			final Settore settore = new Settore(Stadio.this, nomeSettore, this.postiPerSettore, this.filePerSettore);
 
 			/*
 			 * Crea i posti per il settore.
@@ -123,7 +127,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 				/*
 				 * Crea il posto corrente.
 				 */
-				Posto posto = new Posto(this, settore, numeroFila, numeroPosto);
+				final Posto posto = new Posto(this, settore, numeroFila, numeroPosto);
 				/*
 				 * Aggiunge il posto corrente al settore corrente.
 				 */
@@ -133,19 +137,31 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 			/*
 			 * Aggiunge il settore corrente all'ArrayList di setttori.
 			 */
-			this.settori.add(settore);
+			localSettori.add(settore);
 		}
+		return localSettori;
 	}
 
 	/**
-	 * Restituisce una copia dei settori dello stadio.
+	 * Restituisce una copia dei settori dello stadio, in cui ogni posto ha come
+	 * stato LIBERO.
 	 * 
-	 * @return un clone dell'ArrayList dei settori dello stadio.
+	 * @return una copia dell'ArrayList dei settori dello stadio.
 	 * @author Maurizio
 	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<Settore> getSettoriClone() {
-		return (ArrayList<Settore>) this.settori.clone();
+	public ArrayList<Settore> getCopyOfSettori() {
+
+		return createSettori();
+	}
+
+	/**
+	 * Restituisce i settori dello stadio.
+	 * 
+	 * @return l'ArrayList dei settori dello stadio.
+	 * @author Maurizio
+	 */
+	public ArrayList<Settore> getSettori() {
+		return this.settori;
 	}
 
 	@Override
@@ -242,7 +258,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	 */
 	public void setCapienzaStadio(int nuovaCapienza) {
 		this.capienzaDesiderata = nuovaCapienza;
-		this.init();
+		this.createSettori();
 	}
 
 	/**
@@ -279,25 +295,12 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 		return this.getNome().compareTo(s.getNome());
 	}
 
-	/*
-	 * Versione modificata del toString per la visualizzazione nella comboBox.
-	 */
-
 	@Override
 	public String toString() {
-		return this.nome;
-	}
-
-	/**
-	 * Il to string effettivo.
-	 * 
-	 * @author Maurizio
-	 */
-	public String trueToString() {
 		return this.getClass().getName() + " [" + "nome=" + nome + ", capienzaDesiderata=" + capienzaDesiderata
 				+ ", capienzaEffettiva=" + capienzaEffettiva + ", filePerSettore=" + filePerSettore
 				+ ", postiPerSettore=" + postiPerSettore + ", postiPerFila=" + postiPerFila + ", prezzoPerPartita="
-				+ prezzoPerPartita + ", settori=" + settori + "]";
+				+ prezzoPerPartita + "]";
 	}
 
 	/**

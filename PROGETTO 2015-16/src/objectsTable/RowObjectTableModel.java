@@ -28,6 +28,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 * @param rowClass
 	 *            La classe del tipo di oggetto delle righe da inserire in
 	 *            questo modello.
+	 * @author Maurizio
 	 */
 	protected RowObjectTableModel(String[] columnNames) {
 		this(new ArrayList<T>(), columnNames);
@@ -51,6 +52,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 * @param rowClass
 	 *            La classe del tipo di oggetto delle righe da inserire in
 	 *            questo modello.
+	 * @author Maurizio
 	 */
 	protected RowObjectTableModel(ArrayList<T> modelData, String[] columnNames) {
 		setDataAndColumnNames(modelData, columnNames);
@@ -64,7 +66,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 * @param modelData
 	 *            Gli oggetti da aggiungere alla {@link JTable}.
 	 * @param columnNames
-	 *            <code>Array</code> containing the names of the new columns
+	 *            L'array contenente i nomi delle colonne della {@link JTable}.
 	 */
 	protected void setDataAndColumnNames(ArrayList<T> modelData, String[] columnNames) {
 		this.tableObjects = modelData;
@@ -98,9 +100,9 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 * 
 	 * @param column
 	 *            La colonna da interrogare.
-	 * @return the Classe della colonna interrogata.
+	 * @return la Classe della colonna interrogata.
 	 */
-
+	@Override
 	public Class<?> getColumnClass(int column) {
 
 		if (this.columnClasses != null && column < this.columnClasses.length && this.columnClasses[column] != null) {
@@ -141,6 +143,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 *
 	 * @return Il numero di colonne in questo modello.
 	 */
+	@Override
 	public int getColumnCount() {
 		return columnNames.length;
 	}
@@ -154,6 +157,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 *         Se <code>columnNames</code> non ha un valore per questo indice
 	 *         viene restituito il nome fornito dalla superclasse.
 	 */
+	@Override
 	public String getColumnName(int column) {
 		Object columnName = null;
 
@@ -169,6 +173,7 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 *
 	 * @return il numero di righe in questo TableModel.
 	 */
+	@Override
 	public int getRowCount() {
 		return tableObjects.size();
 	}
@@ -180,8 +185,9 @@ public abstract class RowObjectTableModel<T> extends AbstractTableModel implemen
 	 *            La riga il cui valore deve essere interrogato.
 	 * @param column
 	 *            La colonna il cui valore deve essere interrogato.
-	 * @return true
+	 * @return true se la cella e' editable, false altrimenti.
 	 */
+	@Override
 	public boolean isCellEditable(int row, int column) {
 		Boolean isEditable = null;
 

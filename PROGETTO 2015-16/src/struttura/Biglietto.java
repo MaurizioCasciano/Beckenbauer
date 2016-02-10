@@ -1,6 +1,8 @@
 package struttura;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
+
 import user.Cliente;
 
 /**
@@ -36,8 +38,9 @@ public class Biglietto implements Serializable {
 		this.fila = fila;
 		this.posto = new Posto(this.partita.getStadio(), settore, fila, posto);
 		this.IDBiglietto = ++IDCounter;
+		this.dataBiglietto = new GregorianCalendar();
 		this.strutturaSelezionata = stru;
-		this.prezzo = this.strutturaSelezionata.getBestAvailablePrice(this.partita);
+		this.prezzo = this.strutturaSelezionata.getBestAvailablePrice(this.partita, this.dataBiglietto);
 	}
 
 	/**
@@ -94,7 +97,7 @@ public class Biglietto implements Serializable {
 	/**
 	 * Restituisce il prezzo del biglietto
 	 * 
-	 * @return the prezzo il prezzo del biglietto.
+	 * @return il prezzo del biglietto.
 	 * @author Gaetano Antonucci
 	 */
 	public double getPrezzo() {
@@ -103,24 +106,16 @@ public class Biglietto implements Serializable {
 
 	/**
 	 * Imposta il {@link Posto} come prenotatato
-	 * 
-	 * @param prenotato
-	 *            true se prenotato, false altrimenti.
-	 * @author Maurizio Casciano
 	 */
-	public void setPrenotato(boolean prenotato) {
-		this.posto.setPrenotato(prenotato);
+	public void setPrenotato() {
+		this.posto.setStato(SeatStatus.PRENOTATO);
 	}
 
 	/**
 	 * Imposta il {@link Posto} come venduto, quindi pagato
-	 * 
-	 * @param pagato
-	 *            true se pagato, false altrimenti.
-	 * @author Maurizio Casciano
 	 */
-	public void setPagato(boolean pagato) {
-		this.posto.setVenduto(pagato);
+	public void setVenduto() {
+		this.posto.setStato(SeatStatus.VENDUTO);
 	}
 
 	/**
@@ -131,6 +126,19 @@ public class Biglietto implements Serializable {
 	 */
 	public Posto getPosto() {
 		return this.posto;
+	}
+
+	/**
+	 * Imposta la data del Biglietto.
+	 * Metodo usato principalmente nelle classi di test.
+	 * 
+	 * Dopo aver impostato la data, il prezzo del biglietto viene ricalcolato.
+	 * 
+	 * @param dataBiglietto the dataBiglietto to set
+	 */
+	public void setDataBiglietto(GregorianCalendar dataBiglietto) {
+		this.dataBiglietto = dataBiglietto;
+		this.prezzo = this.strutturaSelezionata.getBestAvailablePrice(this.partita, this.dataBiglietto);
 	}
 
 	/**
@@ -177,7 +185,12 @@ public class Biglietto implements Serializable {
 		return result;
 	}
 
+	public GregorianCalendar getDataBiglietto() {
+		return dataBiglietto;
+	}
+	
 	private int IDBiglietto;
+	private GregorianCalendar dataBiglietto;
 	private Cliente cliente;
 	private Partita partita;
 	private Settore settore;
@@ -192,4 +205,6 @@ public class Biglietto implements Serializable {
 	private static int IDCounter = 0;
 
 	private static final long serialVersionUID = -6677866736549225712L;
+
+
 }

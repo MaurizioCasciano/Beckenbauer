@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Arrays;
-
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -246,8 +245,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 		this.registerButton = new JButton(Assets.getRegisterIcon());
 		this.registerButton.setToolTipText("Sign-Up");
 
-		JPanel panel = this;
-
 		JTextField registerNameTextField = this.registerNameTextField,
 				registerSurnameTextField = this.registerSurnameTextField,
 				registerUsernameTextField = this.registerUsernameTextField;
@@ -276,7 +273,8 @@ public class IdentificationPanel extends JPanel implements Serializable {
 						strutturaSportiva.addUtente(cliente);
 						myWindow.storeStrutturaSportiva();
 
-						JOptionPane.showMessageDialog(null, "Registration Successfully");
+						JOptionPane.showMessageDialog(myWindow, "Registrazione effettuata con successo.",
+								"Registrazione Effettuata", JOptionPane.INFORMATION_MESSAGE);
 						myWindow.setUtente(cliente);
 						setLoginFields();
 						resetRegistrationFields();
@@ -291,11 +289,11 @@ public class IdentificationPanel extends JPanel implements Serializable {
 						passwordRequirements.append("non sia inferiore ad 8 caratteri.");
 						passwordRequirements.setEditable(false);
 
-						JOptionPane.showMessageDialog(null, passwordRequirements, e1.getMessage(),
+						JOptionPane.showMessageDialog(IdentificationPanel.this, passwordRequirements, e1.getMessage(),
 								JOptionPane.ERROR_MESSAGE);
 					} catch (AlreadyRegisteredUserException e1) {
-						JOptionPane.showMessageDialog(null, "Username already exists. TRY AGAIN.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(IdentificationPanel.this, "Username gia' presente. RIPROVARE.",
+								"Username gia' presente", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 
@@ -303,10 +301,10 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 					if (!(Arrays.equals(registerPasswordField.getPassword(),
 							registerPasswordConfirmField.getPassword()))) {
-						JOptionPane.showMessageDialog(null, "Le password non coincidono", "Different Passwords",
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(IdentificationPanel.this, "Le password non coincidono",
+								"Different Passwords", JOptionPane.ERROR_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(panel, "Fill in all fields.");
+						JOptionPane.showMessageDialog(IdentificationPanel.this, "Fill in all fields.");
 					}
 				}
 			}
@@ -392,7 +390,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			boolean loginIsAllFilledIn = (loginUserNameTextField.getText().length() > 0)
-					&& (loginPasswordField.getPassword().length >= Password.MINIMUM_LENGTH);
+					&& (loginPasswordField.getPassword().length >0);
 
 			if (loginIsAllFilledIn) {
 
@@ -404,16 +402,17 @@ public class IdentificationPanel extends JPanel implements Serializable {
 						myWindow.setUtente(utente);
 						resetRegistrationFields();
 					} else {
-						JOptionPane.showMessageDialog(null, "Password errata. Riprovare.", "Password mismatch.",
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(IdentificationPanel.this, "Password errata. Riprovare.",
+								"Password mismatch.", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (UserNotFoundException e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage(), "Utente non trovato",
+					JOptionPane.showMessageDialog(IdentificationPanel.this, e1.getMessage(), "Utente non trovato",
 							JOptionPane.INFORMATION_MESSAGE);
-					e1.printStackTrace();
+					// e1.printStackTrace();
 				}
 			} else if (!loginIsAllFilledIn) {
-				JOptionPane.showMessageDialog(null, "Completare tutti i campi.", "", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(IdentificationPanel.this, "Completare tutti i campi.", "",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 

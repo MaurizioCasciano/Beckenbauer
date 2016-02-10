@@ -1,7 +1,7 @@
 package struttura;
 
 import java.io.Serializable;
-import java.text.DateFormat;
+//import java.text.DateFormat;
 import java.util.GregorianCalendar;
 
 import user.Cliente;
@@ -17,9 +17,6 @@ public class Prenotazione implements Serializable {
 	/**
 	 * Costruisce un oggetto prenotazione in base ai parametri impostati
 	 * 
-	 * @param dataPrenotazione
-	 *            - la data ({@link GregorianCalendar}) in cui viene effetuata
-	 *            la prenotazione
 	 * @param stru
 	 *            - la {@link StrutturaSportiva} sulla quale si sta operando
 	 * @param cliente
@@ -36,24 +33,10 @@ public class Prenotazione implements Serializable {
 	 * 
 	 * @author Gaetano Antonucci
 	 */
-	public Prenotazione(GregorianCalendar dataPrenotazione, StrutturaSportiva stru, Cliente cliente, Partita partita,
-			Settore settore, int fila, int posto) {
-		this.IDPrenotazione = ++IDCounter;
-		this.dataPrenotazione = dataPrenotazione;
-		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
+	public Prenotazione(StrutturaSportiva stru, Cliente cliente, Partita partita, Settore settore, int fila,
+			int posto) {
 		this.bigliettoPrenotato = new Biglietto(stru, cliente, partita, settore, fila, posto);
-
-		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO); // da modificare
-	}
-
-	// DA ELIMINARE IN QUANTO NON USATO (?)
-	public Prenotazione(GregorianCalendar dataPrenotazione, Biglietto bigliettoPrenotato) {
-		this.IDPrenotazione = ++IDCounter;
-		this.dataPrenotazione = dataPrenotazione;
-		this.dataPrenotazioneString = DateFormat.getDateInstance(DateFormat.LONG).format(dataPrenotazione.getTime());
-		this.bigliettoPrenotato = bigliettoPrenotato;
-
-		this.bigliettoPrenotato.setPrenotato(IS_PRENOTATO);
+		this.bigliettoPrenotato.setPrenotato();
 	}
 
 	/**
@@ -67,7 +50,7 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce la {@link Partita} per cui si è prenotato un biglietto
+	 * Restituisce la {@link Partita} per cui si e' prenotato un biglietto
 	 * 
 	 * @return la Partita
 	 * @author Maurizio Casciano
@@ -118,16 +101,6 @@ public class Prenotazione implements Serializable {
 	}
 
 	/**
-	 * Restituisce il codice identificativo (ID) della prenotazione
-	 * 
-	 * @return l'IDPrenotazione
-	 * @author Gaetano Antonucci
-	 */
-	public int getIDPrenotazione() {
-		return IDPrenotazione;
-	}
-
-	/**
 	 * Restituisce la data ({@link GregorianCalendar}) in cui e' stata
 	 * effettuata la prenotazione.
 	 * 
@@ -136,18 +109,7 @@ public class Prenotazione implements Serializable {
 	 * @author Gaetano Antonucci
 	 */
 	public GregorianCalendar getDataPrenotazione() {
-		return dataPrenotazione;
-	}
-
-	/**
-	 * Restituisce la data in cui e' stata effettuata la prenotazione come
-	 * {@link String} formattata.
-	 * 
-	 * @return dataPrenotazioneString la data della prenotazione.
-	 * @author Gaetano Antonucci
-	 */
-	public String getDataPrenotazioneString() {
-		return dataPrenotazioneString;
+		return this.bigliettoPrenotato.getDataBiglietto();
 	}
 
 	/**
@@ -200,22 +162,12 @@ public class Prenotazione implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return ("IDPrenotazione: " + this.IDPrenotazione + " Data Prenotazione: " + this.dataPrenotazioneString
-				+ "\n IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
+		return ("IDBiblietto: " + this.bigliettoPrenotato.getIDBiglietto() + " Cliente: "
 				+ this.bigliettoPrenotato.getCliente().getCognome() + " "
 				+ this.bigliettoPrenotato.getCliente().getNome());
 	}
 
-	private int IDPrenotazione;
-	private GregorianCalendar dataPrenotazione;
-	private String dataPrenotazioneString;
 	private Biglietto bigliettoPrenotato;
-
-	private static final boolean IS_PRENOTATO = true;
-
-	// Iteratore
-	private static int IDCounter = 0;
-
 	private static final long serialVersionUID = -5821307391776070857L;
 
 }

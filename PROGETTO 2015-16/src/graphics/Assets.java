@@ -92,7 +92,15 @@ public class Assets implements Serializable {
 		return Assets.registerIcon;
 	}
 
+	public static BufferedImage getFrameBallIcon() {
+		if (Assets.ballIcon == null) {
+			Assets.ballIcon = ImageLoader.loadImage("pyramid_ball.png");
+		}
+
+		return Assets.ballIcon;
+	}
+
 	private static final long serialVersionUID = -6046582922518387221L;
-	public static BufferedImage greenField, cubeWallpaper, loginBackground, cubes;
+	public static BufferedImage greenField, cubeWallpaper, loginBackground, cubes, ballIcon;
 	public static ImageIcon managerIcon, customerIcon, login, registerIcon;
 }

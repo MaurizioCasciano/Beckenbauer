@@ -47,6 +47,8 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.table.TableRowSorter;
 import calendar.Week;
+import combo.renderers.StadioComboRenderer;
+import combo.renderers.WeekComboRenderer;
 import graphics.incasso.VisualizzaIncassoFrame;
 import graphics.login.IdentificationPanel;
 import graphics.sconti.AggiungiStadioFrame;
@@ -54,6 +56,8 @@ import graphics.sconti.ModificaStadioFrame;
 import graphics.sconti.ScontoGiornoFrame;
 import graphics.sconti.ScontoPartitaFrame;
 import graphics.sconti.ScontoStadioFrame;
+import graphics.stadium.StadiumMode;
+import graphics.stadium.StadiumScrollPane;
 import objectsTable.AcquistoTable;
 import objectsTable.AcquistoTableModel;
 import objectsTable.PartitaTable;
@@ -88,8 +92,17 @@ import user.Utente;
  */
 public class Window extends JFrame implements Serializable {
 
+	/**
+	 * Crea un nuovo frame per la gestione di una {@link StrutturaSportiva} e lo
+	 * rende visibile.
+	 * 
+	 * @param nomeStruttura
+	 *            il nome della StrutturaSportiva.
+	 * @author Maurizio
+	 */
 	public Window(String nomeStruttura) {
 		super(nomeStruttura);
+		this.setIconImage(Assets.getFrameBallIcon());
 		this.setSize(Window.WIDTH, Window.HEIGHT);
 		this.setMinimumSize(new Dimension(Window.WIDTH, Window.HEIGHT));
 
@@ -331,6 +344,7 @@ public class Window extends JFrame implements Serializable {
 				ArrayList<Week> nextYearWeeks = Week.getNextYearWeeks();
 
 				JComboBox<Week> weeks = new JComboBox<Week>(nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
+				weeks.setRenderer(new WeekComboRenderer());
 
 				JButton filtraButton = new JButton("Filtra");
 
@@ -380,6 +394,7 @@ public class Window extends JFrame implements Serializable {
 				ArrayList<Stadio> stadi = Window.this.strutturaSportiva.getStadi();
 
 				JComboBox<Stadio> stadiums = new JComboBox<Stadio>(stadi.toArray(new Stadio[stadi.size()]));
+				stadiums.setRenderer(new StadioComboRenderer());
 
 				JButton filtraButton = new JButton("Filtra");
 
@@ -1061,7 +1076,7 @@ public class Window extends JFrame implements Serializable {
 				protected void done() {
 					try {
 						if (get() == true) {
-							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 							System.out.println("DONE");
 							System.exit(0);
 						}
@@ -1137,6 +1152,9 @@ public class Window extends JFrame implements Serializable {
 
 				this.acquista = new JMenuItem("Acquista");
 
+				/*
+				 * Disabilita gli acquisti se la partita e' gia' iniziata.
+				 */
 				if (new GregorianCalendar().after(partita.getData())) {
 					this.acquista.setEnabled(false);
 				}
@@ -1259,7 +1277,7 @@ public class Window extends JFrame implements Serializable {
 
 						if (viewIndex != -1) {
 							Partita partita = partitaTable.getSelectedPartita();
-							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiPerPartita(partita);
+							Window.this.strutturaSportiva.cancellaPrenotazioniAcquistiScontiPerPartita(partita);
 
 							int modelIndex = partitaTable.convertRowIndexToModel(viewIndex);
 							((PartitaTableModel) partitaTable.getModel()).removePartita(modelIndex);
@@ -1377,22 +1395,24 @@ public class Window extends JFrame implements Serializable {
 				@Override
 				protected void done() {
 					try {
-						if (get() == true) {
-							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-							/*
-							 * Rimuove la JMenuBar.
-							 */
-							Window.this.setJMenuBar(null);
-							/*
-							 * Rimuove tutti i componenti presenti.
-							 */
-							Window.this.mainPanel.removeAll();
-							/*
-							 * Aggiunge nuovamente l'IdentificationPanel.
-							 */
-							Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+						try {
+							if (get() == true) {
+								/*
+								 * Rimuove la JMenuBar.
+								 */
+								Window.this.setJMenuBar(null);
+								/*
+								 * Rimuove tutti i componenti presenti.
+								 */
+								Window.this.mainPanel.removeAll();
+								/*
+								 * Aggiunge nuovamente l'IdentificationPanel.
+								 */
+								Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+								Window.this.revalidate();
+							}
+						} finally {
 							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-							Window.this.revalidate();
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();

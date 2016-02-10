@@ -3,7 +3,7 @@ package struttura;
 import java.io.Serializable;
 
 /**
- * Questa eccezione segnala all'utente che l'oggetto che si cerca di creare è gia' esistente
+ * Questa eccezione segnala all'utente che l'oggetto che si cerca di creare e' gia' esistente
  * 
  * @author Gaetano Antonucci
  *
@@ -22,7 +22,7 @@ public class AlreadyExistsObjectException extends RuntimeException implements Se
 	/**
 	 * Costruttore con messaggio da impostare
 	 * 
-	 * @param msg - il messaggio che esplicita il tipo di oggetto sul quale è stata lanciata l'eccezione
+	 * @param msg - il messaggio che esplicita il tipo di oggetto sul quale e' stata lanciata l'eccezione
 	 * @author Gaetano Antonucci
 	 */
 	public AlreadyExistsObjectException(String msg){
