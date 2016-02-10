@@ -92,6 +92,14 @@ import user.Utente;
  */
 public class Window extends JFrame implements Serializable {
 
+	/**
+	 * Crea un nuovo frame per la gestione di una {@link StrutturaSportiva} e lo
+	 * rende visibile.
+	 * 
+	 * @param nomeStruttura
+	 *            il nome della StrutturaSportiva.
+	 * @author Maurizio
+	 */
 	public Window(String nomeStruttura) {
 		super(nomeStruttura);
 		this.setIconImage(Assets.getFrameBallIcon());

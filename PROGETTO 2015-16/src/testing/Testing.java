@@ -26,7 +26,7 @@ public class Testing {
 		 * 
 		 * An initial thread schedules the GUI creation task by invoking
 		 * javax.swing.SwingUtilities.invokeLater or
-		 * javax.swing.SwingUtilities.invokeAndWait . Both of these methods take
+		 * javax.swing.SwingUtilities.invokeAndWait. Both of these methods take
 		 * a single argument: the Runnable that defines the new task. Their only
 		 * difference is indicated by their names: invokeLater simply schedules
 		 * the task and returns; invokeAndWait waits for the task to finish
