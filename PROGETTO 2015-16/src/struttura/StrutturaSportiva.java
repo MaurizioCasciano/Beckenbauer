@@ -301,7 +301,7 @@ public class StrutturaSportiva implements Serializable {
 	 * @param c
 	 *            Il cliente che ha prenotato
 	 * @param part
-	 *            La partita per cui è stata fatta una prenotazione
+	 *            La partita per cui e' stata fatta una prenotazione
 	 * @author Gaetano Antonucci
 	 */
 	public void cancellaPrenotazioneCliente(Cliente c, Partita part) {
@@ -448,19 +448,19 @@ public class StrutturaSportiva implements Serializable {
 		if (partita != null) {
 			prenotazioniDaCancellare = this.getPrenotazioniFiltrate(new PrenotationByMatchFilter(partita));
 			acquistiDaCancellare = this.getAcquistiFiltrati(new PurchaseByMatchFilter(partita));
-			
-			// Cancella gli sconti attivi sulla partita 
-			for(int i = this.sconti.size() - 1; i >= 0; i--){
-				if(this.sconti.get(i).getPartita().equals(partita)){
+
+			// Cancella gli sconti attivi sulla partita
+			for (int i = this.sconti.size() - 1; i >= 0; i--) {
+				if (this.sconti.get(i).getPartita().equals(partita)) {
 					this.sconti.remove(i);
 				}
 			}
-			
+
 			// Cancella le prenotazioni sulla partita
 			for (Prenotazione pren : prenotazioniDaCancellare) {
 				this.cancellaPrenotazione(pren);
 			}
-			
+
 			// Cancella gli acquisti sulla partita
 			for (Acquisto acq : acquistiDaCancellare) {
 				this.cancellaAcquisto(acq);
@@ -489,7 +489,6 @@ public class StrutturaSportiva implements Serializable {
 		double dataAttualeOre = (((dataAttualeMillis / 1000) / 60) / 60);
 		double dataPartitaOre = (((dataPartitaMillis / 1000) / 60) / 60);
 
-		// uguale (=) eliminato per evitare di sforare con la scadenza.
 		if (dataAttualeOre < (dataPartitaOre - ORE_SCADENZA_PRENOTAZIONE)) {
 			result = true;
 		}
@@ -498,7 +497,7 @@ public class StrutturaSportiva implements Serializable {
 	}
 
 	/**
-	 * Cancella tutte le prenotazioni che non sono piu valide
+	 * Cancella tutte le prenotazioni che non sono piu valide.
 	 * 
 	 * @author Gaetano Antonucci
 	 */
@@ -541,7 +540,7 @@ public class StrutturaSportiva implements Serializable {
 	 * in input.
 	 * 
 	 * @param perIncasso
-	 *            L'ArrayList in input, può essere this.acquisti, allora sarà
+	 *            L'ArrayList in input, puo' essere this.acquisti, allora sara'�
 	 *            il totale complessivo, oppure un ArrayList ottenuto dai metodi
 	 *            di filtro precedenti.
 	 * @return {@code double} con l'incasso totale.
@@ -561,9 +560,12 @@ public class StrutturaSportiva implements Serializable {
 
 		double prezzoDiPartenza = partita.getStadio().getPrezzoPerPartita();
 
-		ArrayList<Sconto> perPartita = this.getScontiApplicabili(new ScontoByMatchFilter(this.getSconti()), partita, dataBiglietto);
-		ArrayList<Sconto> perStadio = this.getScontiApplicabili(new ScontoByStadiumFilter(this.getSconti()), partita, dataBiglietto);
-		ArrayList<Sconto> perGiorno = this.getScontiApplicabili(new ScontoByDayOfWeekFilter(this.getSconti()), partita, dataBiglietto);
+		ArrayList<Sconto> perPartita = this.getScontiApplicabili(new ScontoByMatchFilter(this.getSconti()), partita,
+				dataBiglietto);
+		ArrayList<Sconto> perStadio = this.getScontiApplicabili(new ScontoByStadiumFilter(this.getSconti()), partita,
+				dataBiglietto);
+		ArrayList<Sconto> perGiorno = this.getScontiApplicabili(new ScontoByDayOfWeekFilter(this.getSconti()), partita,
+				dataBiglietto);
 
 		double maxScontoPartita = 0.00;
 		double maxScontoStadio = 0.00;
@@ -591,10 +593,12 @@ public class StrutturaSportiva implements Serializable {
 		Arrays.sort(scontiMassimi);
 		double maxSconto = scontiMassimi[scontiMassimi.length - 1];
 
-		 /*System.out.println("Verifica Sconto su Biglietto");
-		 System.out.println("maxScontoPartita " + maxScontoPartita);
-		 System.out.println("maxScontoStadio " + maxScontoStadio);
-		 System.out.println("maxScontoGiorno " + maxScontoGiorno); */
+		/*
+		 * System.out.println("Verifica Sconto su Biglietto");
+		 * System.out.println("maxScontoPartita " + maxScontoPartita);
+		 * System.out.println("maxScontoStadio " + maxScontoStadio);
+		 * System.out.println("maxScontoGiorno " + maxScontoGiorno);
+		 */
 
 		double prezzoFinale = prezzoDiPartenza - (prezzoDiPartenza * maxSconto);
 

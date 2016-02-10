@@ -111,12 +111,12 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (this.isCloseXRectUnderMouse(e.getX(), e.getY())) {
-				this.selectedTab = this.tabbedPane.getSelectedIndex();
+				this.selectedTabIndex = this.tabbedPane.getSelectedIndex();
 				this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				boolean isToCloseTab = isToCloseTab(this.selectedTab);
+				boolean isToCloseTab = isToCloseTab(this.selectedTabIndex);
 
-				if (isToCloseTab && this.selectedTab != -1) {
-					this.tabbedPane.removeTabAt(this.selectedTab);
+				if (isToCloseTab && this.selectedTabIndex != -1) {
+					this.tabbedPane.removeTabAt(this.selectedTabIndex);
 				}
 			}
 		}
@@ -143,13 +143,14 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 			if (this.tabbedPane.getTabCount() > 0) {
 				if (this.isCloseXRectUnderMouse(currentMouseX, currentMouseY)) {
 					this.tabbedPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
-					if (selectedTab != -1) {
-						this.tabbedPane.setToolTipTextAt(selectedTab, "Close " + tabbedPane.getTabTitleAt(selectedTab));
+					if (selectedTabIndex != -1) {
+						this.tabbedPane.setToolTipTextAt(selectedTabIndex,
+								"Close " + tabbedPane.getTabTitleAt(selectedTabIndex));
 					}
 				} else {
 					this.tabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					if (selectedTab != -1) {
-						this.tabbedPane.setToolTipTextAt(selectedTab, tabbedPane.getTabTitleAt(selectedTab));
+					if (selectedTabIndex != -1) {
+						this.tabbedPane.setToolTipTextAt(selectedTabIndex, tabbedPane.getTabTitleAt(selectedTabIndex));
 					}
 				}
 			}
@@ -190,6 +191,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		 * @author Maurizio
 		 */
 		private boolean isCloseX_UnderMouse(int xClose_X, int xClose_Y) {
+
 			if (Math.abs(xClose_X - currentMouseX) < CLOSE_X_RECT_WIDTH
 					&& Math.abs(xClose_Y - currentMouseY) < CLOSE_X_RECT_HEIGHT) {
 				return true;
@@ -219,9 +221,10 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 					 * sinistra del rettangolo contenente la X di chiusura da
 					 * disegnare.
 					 */
-					int x = tabbedPane.getBoundsAt(j).x + tabbedPane.getBoundsAt(j).width - CLOSE_X_RECT_WIDTH - 5;
-					int y = tabbedPane.getBoundsAt(j).y + 5;
-					drawCloseX(g, x, y);
+					int xCloseToDraw_X = tabbedPane.getBoundsAt(j).x + tabbedPane.getBoundsAt(j).width
+							- CLOSE_X_RECT_WIDTH - 5;
+					int xCloseToDraw_Y = tabbedPane.getBoundsAt(j).y + 5;
+					drawCloseX(g, xCloseToDraw_X, xCloseToDraw_Y);
 					break;
 				}
 			}
@@ -250,6 +253,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 		private void drawCloseX(Graphics g, int xClose_X, int xClose_Y) {
 			if (this.tabbedPane != null && this.tabbedPane.getTabCount() > 0) {
 				Graphics2D g2 = (Graphics2D) g;
+
 				this.drawColoredCloseX(g2, isCloseX_UnderMouse(xClose_X, xClose_Y) ? Color.RED : Color.WHITE, xClose_X,
 						xClose_Y);
 			}
@@ -316,7 +320,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 				 * Controlla se il mouse si trova al di sopra di una tab.
 				 */
 				if (tabbedPane.getBoundsAt(j).contains(currentMouseX, currentMouseY)) {
-					this.selectedTab = j;
+					this.selectedTabIndex = j;
 
 					/*
 					 * Aggiorna le coordinate del vertice in alto a sinistra del
@@ -334,7 +338,7 @@ public class ClosableTabbedPane extends JTabbedPane implements Serializable {
 
 		private ClosableTabbedPane tabbedPane;
 		private int xClose_X = 0, xClose_Y = 0, currentMouseX = 0, currentMouseY = 0;
-		private int selectedTab;
+		private int selectedTabIndex;
 		private static final int CLOSE_X_RECT_WIDTH = 8, CLOSE_X_RECT_HEIGHT = 8;
 		private Rectangle closeX_Rectangle = new Rectangle(0, 0, CLOSE_X_RECT_WIDTH, CLOSE_X_RECT_HEIGHT);
 	}

@@ -1068,7 +1068,7 @@ public class Window extends JFrame implements Serializable {
 				protected void done() {
 					try {
 						if (get() == true) {
-							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 							System.out.println("DONE");
 							System.exit(0);
 						}
@@ -1387,22 +1387,24 @@ public class Window extends JFrame implements Serializable {
 				@Override
 				protected void done() {
 					try {
-						if (get() == true) {
-							Window.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-							/*
-							 * Rimuove la JMenuBar.
-							 */
-							Window.this.setJMenuBar(null);
-							/*
-							 * Rimuove tutti i componenti presenti.
-							 */
-							Window.this.mainPanel.removeAll();
-							/*
-							 * Aggiunge nuovamente l'IdentificationPanel.
-							 */
-							Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+						try {
+							if (get() == true) {
+								/*
+								 * Rimuove la JMenuBar.
+								 */
+								Window.this.setJMenuBar(null);
+								/*
+								 * Rimuove tutti i componenti presenti.
+								 */
+								Window.this.mainPanel.removeAll();
+								/*
+								 * Aggiunge nuovamente l'IdentificationPanel.
+								 */
+								Window.this.mainPanel.add(Window.this.identificationPanel, BorderLayout.EAST);
+								Window.this.revalidate();
+							}
+						} finally {
 							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-							Window.this.revalidate();
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
