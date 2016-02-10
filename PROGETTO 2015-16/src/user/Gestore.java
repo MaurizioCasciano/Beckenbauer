@@ -9,7 +9,7 @@ import password.WeakPasswordException;
  * 
  * @author Maurizio
  */
-public class Gestore extends Utente implements Serializable {
+public class Gestore extends Utente implements Serializable, Cloneable {
 
 	/**
 	 * Crea un nuovo Gestore di un sistema informatico.

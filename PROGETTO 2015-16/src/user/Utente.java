@@ -88,13 +88,13 @@ public abstract class Utente implements Serializable, Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [nome = " + nome + ", cognome = " + cognome + ", username = "
+		return this.getClass().getName() + " [nome = " + nome + ", cognome = " + cognome + ", username = "
 				+ username + "]";
 	}
 
 	/**
 	 * Controlla se l'oggetto passato in input è uguale a questo Utente. Due
-	 * Utenti sono uguali se e solo se hanno la stessa username.
+	 * Utenti sono uguali se e solo se hanno lo stessa username.
 	 * 
 	 * @param obj
 	 *            L'oggetto da confrontare con questo Utente.
@@ -116,6 +116,22 @@ public abstract class Utente implements Serializable, Cloneable {
 		} else if (!username.equalsIgnoreCase(other.username))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Object clone() {
+		try {
+			Utente clone = (Utente) super.clone();
+			/*
+			 * non c'e' bisogno di clonare gli altri campi perchè oggetti
+			 * immutabili o tipi primitivi
+			 */
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			// never happens, cloneable implemented.
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	private static final long serialVersionUID = -5901640760099125643L;
