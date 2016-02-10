@@ -17,9 +17,6 @@ public class Prenotazione implements Serializable {
 	/**
 	 * Costruisce un oggetto prenotazione in base ai parametri impostati
 	 * 
-	 * @param dataPrenotazione
-	 *            - la data ({@link GregorianCalendar}) in cui viene effetuata
-	 *            la prenotazione
 	 * @param stru
 	 *            - la {@link StrutturaSportiva} sulla quale si sta operando
 	 * @param cliente

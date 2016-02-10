@@ -249,6 +249,8 @@ public class StrutturaSportiva implements Serializable {
 	 * @param part
 	 *            La {@link Partita} sulla quale si vuole verificare ci siano
 	 *            sconti
+	 * @param dataVer
+	 *            La data su cui si vogliono filtrare gli sconti.
 	 * @return ArrayList con gli sconti applicabili alla partita
 	 * @author Gaetano Antonucci
 	 */
