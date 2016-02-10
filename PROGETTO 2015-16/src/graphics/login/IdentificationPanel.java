@@ -255,7 +255,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 								String.valueOf(registerPasswordField.getPassword()));
 
 						strutturaSportiva.addUtente(cliente);
-						myWindow.storeStrutturaSportiva();
 
 						JOptionPane.showMessageDialog(myWindow, "Registrazione effettuata con successo.",
 								"Registrazione Effettuata", JOptionPane.INFORMATION_MESSAGE);
