@@ -128,7 +128,7 @@ public class Window extends JFrame implements Serializable {
 			}
 		}
 
-		this.identificationPanel = new IdentificationPanel(Window.this, Assets.getCubes(), this.strutturaSportiva);
+		this.identificationPanel = new IdentificationPanel(Window.this, Assets.getCubes());
 		this.mainPanel.add(this.identificationPanel, BorderLayout.EAST);
 
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -159,7 +159,7 @@ public class Window extends JFrame implements Serializable {
 
 			try {
 				/*
-				 * Se i costruttori lanciano un'eccezione, il blocco finally NON
+				 * Se i costruttori lanciano un'eccezione, il try-finally NON
 				 * sarà eseguito.
 				 */
 				FileInputStream fileInputStrem = new FileInputStream(DB_File);
@@ -194,7 +194,7 @@ public class Window extends JFrame implements Serializable {
 				e.printStackTrace();
 				System.exit(-3);
 			}
-		} else if (!DB_File.exists()) {
+		} else {// FILE DOES NOT EXIST
 			/*
 			 * Nel caso in cui il file non esiste viene creata una nuova istanza
 			 * di StrutturaSportiva.
@@ -315,7 +315,6 @@ public class Window extends JFrame implements Serializable {
 					new PartitePopupMenu().show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
-
 		});
 
 		this.partitaTableScrollPane = new JScrollPane(partitaTable);
@@ -324,16 +323,16 @@ public class Window extends JFrame implements Serializable {
 		this.partitePanel = new JPanel(new BorderLayout());
 		this.partitePanel.add(this.partitaTableScrollPane);
 
-		JPanel filterPanel = new JPanel();
+		final JPanel filterPanel = new JPanel();
 
 		/*
 		 * RadioButtons per selezionare il tipo di filtro.
 		 */
-		JRadioButton weekFilterRadioButton = new JRadioButton("Settimana");
-		JRadioButton stadiumFilterRadioButton = new JRadioButton("Stadio");
-		JRadioButton notYetStartedRadioButton = new JRadioButton("Da giocarsi");
+		final JRadioButton weekFilterRadioButton = new JRadioButton("Settimana");
+		final JRadioButton stadiumFilterRadioButton = new JRadioButton("Stadio");
+		final JRadioButton notYetStartedRadioButton = new JRadioButton("Da giocarsi");
 
-		JPanel comboBoxButtonsPanel = new JPanel();
+		final JPanel comboBoxButtonsPanel = new JPanel();
 
 		weekFilterRadioButton.addActionListener(new ActionListener() {
 
@@ -341,12 +340,12 @@ public class Window extends JFrame implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				comboBoxButtonsPanel.removeAll();
 
-				ArrayList<Week> nextYearWeeks = Week.getNextYearWeeks();
+				final ArrayList<Week> nextYearWeeks = Week.getNextYearWeeks();
 
-				JComboBox<Week> weeks = new JComboBox<Week>(nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
+				final JComboBox<Week> weeks = new JComboBox<Week>(nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
 				weeks.setRenderer(new WeekComboRenderer());
 
-				JButton filtraButton = new JButton("Filtra");
+				final JButton filtraButton = new JButton("Filtra");
 
 				filtraButton.addActionListener(new ActionListener() {
 
@@ -1075,7 +1074,7 @@ public class Window extends JFrame implements Serializable {
 				@Override
 				protected void done() {
 					try {
-						if (get() == true) {
+						if (get()) {
 							Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 							System.out.println("DONE");
 							System.exit(0);
