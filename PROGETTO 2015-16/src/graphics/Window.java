@@ -22,6 +22,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -105,6 +106,13 @@ public class Window extends JFrame implements Serializable {
 		this.setIconImage(Assets.getFrameBallIcon());
 		this.setSize(Window.WIDTH, Window.HEIGHT);
 		this.setMinimumSize(new Dimension(Window.WIDTH, Window.HEIGHT));
+		this.stadiComparator = new Comparator<Stadio>() {
+
+			@Override
+			public int compare(Stadio s1, Stadio s2) {
+				return s1.getNome().compareTo(s2.getNome());
+			}
+		};
 
 		this.mainPanel = new BackgroundImagePanel(Assets.getGreenField());
 		this.mainPanel.setLayout(new BorderLayout());
@@ -342,7 +350,8 @@ public class Window extends JFrame implements Serializable {
 
 				final ArrayList<Week> nextYearWeeks = Week.getNextYearWeeks();
 
-				final JComboBox<Week> weeks = new JComboBox<Week>(nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
+				final JComboBox<Week> weeks = new JComboBox<Week>(
+						nextYearWeeks.toArray(new Week[nextYearWeeks.size()]));
 				weeks.setRenderer(new WeekComboRenderer());
 
 				final JButton filtraButton = new JButton("Filtra");
@@ -391,6 +400,7 @@ public class Window extends JFrame implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				comboBoxButtonsPanel.removeAll();
 				ArrayList<Stadio> stadi = Window.this.strutturaSportiva.getStadi();
+				stadi.sort(Window.this.stadiComparator);
 
 				JComboBox<Stadio> stadiums = new JComboBox<Stadio>(stadi.toArray(new Stadio[stadi.size()]));
 				stadiums.setRenderer(new StadioComboRenderer());
@@ -810,6 +820,7 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Stadio> stadi = strutturaSportiva.getStadi();
+				stadi.sort(Window.this.stadiComparator);
 
 				try {
 					ModificaStadioFrame modificaStadioFrame = new ModificaStadioFrame(stadi);
@@ -848,6 +859,7 @@ public class Window extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Stadio> stadi = strutturaSportiva.getStadi();
+				stadi.sort(Window.this.stadiComparator);
 
 				try {
 					ScontoStadioFrame scontoStadioFrame = new ScontoStadioFrame(strutturaSportiva, stadi);
@@ -1432,6 +1444,7 @@ public class Window extends JFrame implements Serializable {
 	private IdentificationPanel identificationPanel;
 	private Utente utente;
 	private Mode mode;
+	private Comparator<Stadio> stadiComparator;
 	private PrenotazioneTable prenotazioniTable;
 	private AcquistoTable acquistiTabel;
 	private PartitaTable partitaTable;

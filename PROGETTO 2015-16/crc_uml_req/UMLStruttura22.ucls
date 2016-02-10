@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" automaticImage="PNG" always-add-relationships="false" 
+  generalizations="false" realizations="false" associations="false" dependencies="false" nesting-relationships="false" 
+  router="FAN">  
+  <class id="1" language="java" name="struttura.Prenotazione" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/Prenotazione.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="207" y="208"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="struttura.Biglietto" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/Biglietto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="585" y="263"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="struttura.Acquisto" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/Acquisto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="959" y="202"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="struttura.PrenotationNotAllowedException" project="PROGETTO 2015-16" 
+    file="/PROGETTO 2015-16/src/struttura/PrenotationNotAllowedException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="178" y="512"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="false"/>
+</class-diagram>

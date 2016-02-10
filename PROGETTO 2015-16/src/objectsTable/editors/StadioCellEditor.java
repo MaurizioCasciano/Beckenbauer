@@ -3,6 +3,8 @@ package objectsTable.editors;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComboBox;
@@ -26,6 +28,14 @@ public class StadioCellEditor extends AbstractCellEditor implements TableCellEdi
 	public StadioCellEditor(StrutturaSportiva strutturaSportiva) {
 		super();
 		this.strutturaSportiva = strutturaSportiva;
+		ArrayList<Stadio> stadi = this.strutturaSportiva.getStadi();
+		stadi.sort(new Comparator<Stadio>() {
+
+			@Override
+			public int compare(Stadio s1, Stadio s2) {
+				return s1.getNome().compareTo(s2.getNome());
+			}
+		});
 		this.stadi = new JComboBox<>(this.strutturaSportiva.getStadi().toArray(new Stadio[1]));
 	}
 
