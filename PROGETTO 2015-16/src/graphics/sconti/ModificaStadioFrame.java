@@ -99,7 +99,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 					System.out.println(e.getStateChange() == ItemEvent.SELECTED);
 					Stadio stadio = (Stadio) stadiCombo.getSelectedItem();
 
-					capienzaSpinner.setValue(stadio.getCapienzaEffettiva());
+					capienzaSpinner.setValue(stadio.getCapienzaDesiderataStadio());
 					prezzoSpinner.setValue(stadio.getPrezzoPerPartita());
 
 				}
@@ -121,7 +121,7 @@ public class ModificaStadioFrame extends JFrame implements Serializable {
 	private void initCapienzaPanel() {
 		this.capienzaLabel = new JLabel("Capienza: ");
 		this.capienzaSpinner = new JSpinner(
-				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaEffettiva(),
+				new SpinnerNumberModel(((Stadio) stadiCombo.getSelectedItem()).getCapienzaDesiderataStadio(),
 						Stadio.CAPIENZA_MINIMA, Stadio.CAPIENZA_MASSIMA, 500));
 		JSpinner.NumberEditor editor = (NumberEditor) capienzaSpinner.getEditor();
 		editor.getTextField().setEditable(false);

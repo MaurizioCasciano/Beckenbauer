@@ -20,6 +20,9 @@ public class ShowHidePasswordListener extends MouseAdapter implements Serializab
 	public void mouseReleased(MouseEvent e) {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			if (e.getSource() instanceof JPasswordField) {
+				/*
+				 * Reimposta l'echoChar della JPasswordFiel a quello di default.
+				 */
 				((JPasswordField) e.getSource()).setEchoChar(this.defaultEchoChar);
 			}
 		}
@@ -29,7 +32,14 @@ public class ShowHidePasswordListener extends MouseAdapter implements Serializab
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			if (e.getSource() instanceof JPasswordField) {
+				/*
+				 * Aggiorna il carattere echoChar di default.
+				 */
 				this.defaultEchoChar = ((JPasswordField) e.getSource()).getEchoChar();
+				/*
+				 * Imposta l'echoChar a (char)0, ossia il carattere che permette
+				 * di visualizzare in chiaro la password inserita.
+				 */
 				((JPasswordField) e.getSource()).setEchoChar((char) 0);
 			}
 		}

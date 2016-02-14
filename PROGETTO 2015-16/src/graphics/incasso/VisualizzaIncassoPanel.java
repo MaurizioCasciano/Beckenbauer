@@ -10,6 +10,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -122,6 +125,15 @@ public class VisualizzaIncassoPanel extends JPanel implements Serializable {
 	 * Crea la ComboBox che conterra' gli Stadi
 	 */
 	private void createComboStadi() {
+		ArrayList<Stadio> stadi = this.struct.getStadi();
+		stadi.sort(new Comparator<Stadio>() {
+
+			@Override
+			public int compare(Stadio s1, Stadio s2) {
+				return s1.getNome().compareTo(s2.getNome());
+			}
+		});
+
 		this.comboStadi = new JComboBox<Stadio>(
 				this.struct.getStadi().toArray(new Stadio[this.struct.getStadi().size()]));
 		this.comboStadi.setRenderer(new StadioComboRenderer());

@@ -45,14 +45,14 @@ import user.Utente;
  */
 public class IdentificationPanel extends JPanel implements Serializable {
 
-	public IdentificationPanel(Window myWindow, BufferedImage bufferedImage, StrutturaSportiva strutturaSportiva) {
+	public IdentificationPanel(Window myWindow, BufferedImage bufferedImage) {
 		super();
 		this.myBackGroundImage = bufferedImage;
 		this.setLayout(new BorderLayout());
 		this.initializeIdentificationBox();
 		this.add(identificationBox, BorderLayout.CENTER);
-		this.strutturaSportiva = strutturaSportiva;
 		this.myWindow = myWindow;
+		this.strutturaSportiva = this.myWindow.getStrutturaSportiva();
 	}
 
 	@Override
@@ -99,27 +99,17 @@ public class IdentificationPanel extends JPanel implements Serializable {
 	}
 
 	/**
-	 * Initializes the LoginModeComboBox.
-	 */
-	private void initializeLoginModeComboBox() {
-		// this.loginModeComboBox = new JComboBox<>(MODALITA);
-		// this.loginModeComboBox.setSelectedIndex(-1);
-	}
-
-	/**
 	 * Initializes the LoginComponentsPanel.
 	 */
 	private void initializeLoginComponentsPanel() {
 		this.initializeLoginButton();
 		this.initializeLoginPasswordField();
 		this.initializeLoginUserNameTextField();
-		this.initializeLoginModeComboBox();
 
 		this.loginComponentsPanel = new BackgroundImagePanel(Assets.getLoginBackground());
 		this.loginComponentsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.loginComponentsPanel.add(loginUserNameTextField);
 		this.loginComponentsPanel.add(loginPasswordField);
-		// this.loginComponentsPanel.add(loginModeComboBox);
 		this.loginComponentsPanel.add(loginButton);
 		this.loginComponentsPanel.setBorder(
 				new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.BLUE, Color.GRAY), "Existing User",
@@ -169,8 +159,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 	private void initializeRegisterPasswordField() {
 		this.registerPasswordField = new JPasswordField();
-		// this.registerPasswordField.setEchoChar((char) 0);
-		// this.registerPasswordField.setForeground(Color.BLACK);
 		this.registerPasswordField
 				.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
 
@@ -179,10 +167,10 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				if (!Password.check(String.valueOf(registerPasswordField.getPassword()))) {
-					registerPasswordField.setForeground(Color.RED);
-				} else {
+				if (Password.check(String.valueOf(registerPasswordField.getPassword()))) {
 					registerPasswordField.setForeground(Color.GREEN);
+				} else {
+					registerPasswordField.setForeground(Color.RED);
 				}
 			}
 
@@ -197,6 +185,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				// DO-NOTHING
 			}
 		});
 	}
@@ -217,11 +206,12 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				if (!Password.check(String.valueOf(registerPasswordConfirmField.getPassword())) || !Arrays
+				if (Password.check(String.valueOf(registerPasswordConfirmField.getPassword())) && Arrays
 						.equals(registerPasswordField.getPassword(), registerPasswordConfirmField.getPassword())) {
-					registerPasswordConfirmField.setForeground(Color.RED);
-				} else {
+
 					registerPasswordConfirmField.setForeground(Color.GREEN);
+				} else {
+					registerPasswordConfirmField.setForeground(Color.RED);
 				}
 			}
 
@@ -237,6 +227,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				// DO-NOTHING
 			}
 		});
 	}
@@ -244,13 +235,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 	private void initializeRegisterButton() {
 		this.registerButton = new JButton(Assets.getRegisterIcon());
 		this.registerButton.setToolTipText("Sign-Up");
-
-		JTextField registerNameTextField = this.registerNameTextField,
-				registerSurnameTextField = this.registerSurnameTextField,
-				registerUsernameTextField = this.registerUsernameTextField;
-
-		JPasswordField registerPasswordField = this.registerPasswordField,
-				registerPasswordConfirmField = this.registerPasswordConfirmField;
 
 		this.registerButton.addActionListener(new ActionListener() {
 			@Override
@@ -271,7 +255,6 @@ public class IdentificationPanel extends JPanel implements Serializable {
 								String.valueOf(registerPasswordField.getPassword()));
 
 						strutturaSportiva.addUtente(cliente);
-						myWindow.storeStrutturaSportiva();
 
 						JOptionPane.showMessageDialog(myWindow, "Registrazione effettuata con successo.",
 								"Registrazione Effettuata", JOptionPane.INFORMATION_MESSAGE);
@@ -297,14 +280,15 @@ public class IdentificationPanel extends JPanel implements Serializable {
 						e1.printStackTrace();
 					}
 
-				} else {
+				} else {//IS NOT ALL FILLED IN
 
-					if (!(Arrays.equals(registerPasswordField.getPassword(),
-							registerPasswordConfirmField.getPassword()))) {
+					if (Arrays.equals(registerPasswordField.getPassword(),
+							registerPasswordConfirmField.getPassword())) {
+						JOptionPane.showMessageDialog(IdentificationPanel.this, "Completare tutti i campi.");
+
+					} else {
 						JOptionPane.showMessageDialog(IdentificationPanel.this, "Le password non coincidono",
 								"Different Passwords", JOptionPane.ERROR_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(IdentificationPanel.this, "Fill in all fields.");
 					}
 				}
 			}
@@ -390,7 +374,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			boolean loginIsAllFilledIn = (loginUserNameTextField.getText().length() > 0)
-					&& (loginPasswordField.getPassword().length >0);
+					&& (loginPasswordField.getPassword().length > 0);
 
 			if (loginIsAllFilledIn) {
 
@@ -398,7 +382,7 @@ public class IdentificationPanel extends JPanel implements Serializable {
 				try {
 					utente = strutturaSportiva.getUtente(loginUserNameTextField.getText());
 
-					if (utente != null && utente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
+					if (utente.matchPassword(String.valueOf(loginPasswordField.getPassword()))) {
 						myWindow.setUtente(utente);
 						resetRegistrationFields();
 					} else {

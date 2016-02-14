@@ -5,15 +5,15 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Password implements Serializable{
+public class Password implements Serializable {
 
 	/**
 	 * Controlla che la password passata in input rispecchi i requisiti minimi
 	 * di sicurezza. I requisiti minimi di sicurezza impongono che una password
 	 * sicura sia composta da almeno un carattere numerico, un carattere
-	 * maiuscolo, un carattere minuscolo ed un carattere speciale {@literal (&@#$%?£€^+=)}.
-	 * E' inoltra necessario che la lunghezza della password non sia inferiore
-	 * ad 8 caratteri.
+	 * maiuscolo, un carattere minuscolo ed un carattere speciale
+	 * {@literal (&@#$%?£€^+=)}. E' inoltra necessario che la lunghezza della
+	 * password non sia inferiore ad 8 caratteri.
 	 * 
 	 * @param password
 	 *            La password da controllare.
@@ -26,57 +26,57 @@ public class Password implements Serializable{
 		return myMatcher.find();
 	}
 
-	/*
-	 * ^ # Indicates the start-of-the-string.
-	 */
-
-	/*
-	 * (?=.*[0-9]) # a digit must occur at least once
-	 */
-
-	/*
-	 * (?=.*[a-z]) # a lower case letter must occur at least once
-	 */
-
-	/*
-	 * (?=.*[A-Z])# an upper case letter must occur at least once
-	 */
-
-	/*
-	 * (?=.*[@#$%^&+=]) # a special character must occur at least once
-	 */
-
-	/*
-	 * (?=\S+$) # no whitespace allowed in the entire string
-	 */
-
-	/*
-	 * .{8,} # anything, at least eight places though $ # end-of-string
-	 */
-
-	/*
-	 * Lookahead and lookbehind, collectively called "lookaround", are
-	 * zero-length assertions just like the start and end of line, and start and
-	 * end of word anchors explained earlier in this tutorial. The difference is
-	 * that lookaround actually matches characters, but then gives up the match,
-	 * returning only the result: match or no match. That is why they are called
-	 * "assertions". They do not consume characters in the string, but only
-	 * assert whether a match is possible or not.
+	/**
+	 * {@code ^} Beginning. Indica l'inizio della Stringa.<br>
+	 * <br>
 	 * 
-	 * Positive lookahead works just the same. q(?=u) matches a q that is
-	 * followed by a u, without making the u part of the match. The positive
-	 * lookahead construct is a pair of parentheses, with the opening
-	 * parenthesis followed by a question mark and an equals sign.
+	 * {@code (?=regex)} Positive lookahead. Abbina un gruppo con l'espressione
+	 * principale, senza includerlo nel risultato.<br>
+	 * <br>
 	 * 
+	 * {@code .} Dot. Abbina qualsiasi carattere, eccetto il carattere di new
+	 * line.<br>
+	 * <br>
 	 * 
-	 * Lookaround | Name | What it Does (?=foo) | Lookahead | Asserts that what
-	 * immediately follows the current position in the string is foo.
+	 * {@code *} Star. Abbina 0 o piu' occorrenze del simbolo precedente.<br>
+	 * <br>
+	 * 
+	 * {@code [0-9]} Character set. Abbina qualsiasi carattere presente
+	 * nell'insieme. Abbina un carattere compreso tra "0" a "9".<br>
+	 * <br>
+	 * 
+	 * {@code [a-z]} Character set. Abbina qualsiasi carattere presente
+	 * nell'insieme. Abbina un carattere compreso tra "a" e "z".<br>
+	 * <br>
+	 * 
+	 * {@code [A-Z]} Character set. Abbina qualsiasi carattere presente
+	 * nell'insieme. Abbina un carattere compreso tra "A" e "Z".<br>
+	 * <br>
+	 * 
+	 * {@code [@#$%?£€^&+=]} Character set. Abbina qualsiasi carattere presente
+	 * nell'insieme. Abbina un carattere tra quelli presenti nell'insieme<br>
+	 * <br>
+	 * 
+	 * {@code (\S)} Not whitespace. Abbina qualsiasi carattere che non sia uno
+	 * spazio (spazio, tab, new line).<br>
+	 * <br>
+	 * 
+	 * {@code +} Plus. Abbina 1 o piu' occorrenze del simbolo precedente.<br>
+	 * <br>
+	 * 
+	 * <code> {8,}</code> Quantifier. Abbina 8 o piu' occorrenze del simbolo
+	 * precedente.<br>
+	 * <br>
+	 * 
+	 * {@code $} End. Indica la fine della stringa.<br>
+	 * <br>
+	 * 
+	 * @author Maurizio
 	 */
-
-	private static final long serialVersionUID = -1936279973334043609L;
-	private static final String MY_REGULAR_EXPRESSION = "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%?£€^&+=])(?=\\S+$).{8,})$";
+	private static final String MY_REGULAR_EXPRESSION = "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%?£€^&+=])(?=^\\S+$).{8,})$";
 	private static final Pattern MY_PATTERN = Pattern.compile(MY_REGULAR_EXPRESSION);
 	public static final int MINIMUM_LENGTH = 8;
+	private static final long serialVersionUID = -1936279973334043609L;
 
 	public static void main(String[] args) {
 

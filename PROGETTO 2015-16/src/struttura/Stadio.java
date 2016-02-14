@@ -336,7 +336,7 @@ public class Stadio implements Serializable, DivisibleIntoSectors, Comparable<St
 	private int postiPerFila;
 	private double prezzoPerPartita;
 	private ArrayList<Settore> settori;
-	public static final int CAPIENZA_MINIMA = 20000, CAPIENZA_MASSIMA = 200000;
+	public static final int CAPIENZA_MINIMA = 10000, CAPIENZA_MASSIMA = 200000;
 	public static final double PREZZO_MINIMO = 5.0, PREZZO_MASSIMO = 500.0;
 
 	public static void main(String[] args) {
